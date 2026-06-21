@@ -1,107 +1,107 @@
 {
   "capability_map.yaml": {
-    "sha256": "c4b4c87ab33e20c416bfc7661c33999921bf578190945fab891604e1cf326a39"
+    "sha256": "0a7df09af0da62c072a7c24261b677fbeaf5463415a839e2542781dcb62ac9f9"
   },
   "dataflow_catalog.yaml": {
-    "sha256": "06ee9947bd74c6192baa2fc31c08b19d4a58c76b9d97f96e14a3ef463cdc3578"
+    "sha256": "8dfaff60b814fde22e00a676984b96a8402c69c1275e95333e18ee6cf4e38026"
   },
   "dataset_catalog.yaml": {
-    "sha256": "d68f38f98e554eee697123fc06abae35684fbd36599d8f396c06a940a7908c9c"
+    "sha256": "a1db94d9a9917552f089b111dc0e1258dfd7c502b62f0cf0b0b0e94e096c14e3"
   },
   "field_dictionary.yaml": {
-    "sha256": "9952ed09d7523f1bf59a716d9a710202bb96201493fa1743f45687a6b01c3dba"
+    "sha256": "026bec944543bc71ecbd96ba9a8f59124f57518796f709bcf86b0b358d81fd0a"
   },
   "fields/1_Invoice_v2.md": {
-    "sha256": "6a73b35b8e9bb7e188f300a3cc8890eb56502f912c4ac7055206356cb252cfe7"
+    "sha256": "54e21e673f8eb00696d573b7ec4543447e651507bc7b3f022c77e4ef5aa90899"
   },
   "fields/AOP_LINE_CF.md": {
-    "sha256": "de408630e2db819f312894ba01129c714ea6cfdf245f7bf7c29806ab0fb042c5"
+    "sha256": "3bc1e9aacb1350ed4fc87db7f27f83371634fea6ae0042504d0453e0a2012f8a"
   },
   "fields/DW_CREDIT_MEMO.md": {
-    "sha256": "367435828af4e253c01f90f31fe458dd768bda8085dc5a958d10651e5154718b"
+    "sha256": "105bb5046404ca7b0ec2149cc655e2a4f738af7923a801d95beedba0d35ec4b7"
   },
   "fields/DW_X_SALE_HISTORY_Dataset.md": {
-    "sha256": "2cc4cf3e05ab7ca75614b7a6d7914670188963eb0c5901732c723051cdcad89c"
+    "sha256": "fa56f1592d9e80ee5cdddee49140c3f3bb1d3213c2d01c2a93adc13e61556ee6"
   },
   "fields/Daily_Nganh_Report.md": {
-    "sha256": "017087df1441d30410ca434cb4738a151add16565ffc46a46028fd9000fcabb4"
+    "sha256": "c926b75aacfd375d5233f15200c8ee37317dcadcbe65e0fe1a5f34c16db56339"
   },
   "fields/Daily_TD_Report.md": {
-    "sha256": "882da9b2a34c17ce65a6054ba555424d52118dee3f33d594fcb8d47859ee48a8"
+    "sha256": "90a40b619e7d66dabf69a51704a8188450ffe8b6656e98c3d173e983a707a9a1"
   },
   "fields/Gi_v_n_m_c_ti_u.md": {
-    "sha256": "e3ebc2777dc6c94805b8ebdfcdf43806bfbdb74db25d6d72e30789943081d6cf"
+    "sha256": "afed04f242a59eba6822263fa978770b828d2e860d08aa82b94d77e40406560d"
   },
   "fields/Gi_v_n_t_n_kho.md": {
-    "sha256": "5303c8864f02a50da7950f569c1d21ed20aa8be985f0f44675d436e1ca353b39"
+    "sha256": "0d691349ca7f5a0f3c7c60ab04d6604c56f5cee73efab203bc4de008f2618b43"
   },
   "fields/KGR_AOP_Dataset.md": {
-    "sha256": "40c58ff1376410239ff9e54fd9cc5903e5715f011c8e8155c5a4d2877ae4eefd"
+    "sha256": "f20923e0db643d6fb2fc0ec42a1f0ce6821c85873432894a20e9e43b0418b02d"
   },
   "fields/KGR_CKKM_TT.md": {
-    "sha256": "d1f958dac3ccb393a451abe31f28dc5839dbc716ad2171b3c1d75cdf1305fc0d"
+    "sha256": "cfc4912a0c8e5afe850e04aec3270d5d63f30831301bd3ec4c43d908d742f6ae"
   },
   "fields/KGR_DS_SFC_vs_Actual_v2.md": {
-    "sha256": "159aaf60710ffa6a05bacbfe1ccc074c94ecc83eb6b6520b97fab9d82bdf183d"
+    "sha256": "33c050ac0dcf5c751f22760aa7fc16c151e67f288f907f8d8496b272758e4921"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v1.md": {
-    "sha256": "14b49b562ddf26ea31a8501cb67d3bb803f70a088374a966059be2c8d3ea56bd"
+    "sha256": "6ac015e7030720330130a95bc8972920ec0f75eb6cf3a837d6231d547772253d"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v2.md": {
-    "sha256": "9e60504ed0cd543830c00f6becaffc7e51f950c7d58ca5930684413cff701e08"
+    "sha256": "024395f33e8a4c31715061b43eb999c1473e9ebeb9e2f191f89271f4f4886c69"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v3.md": {
-    "sha256": "f096990a9c318136cd9940894277f62d72846da1950280eaeca232d836e04ae3"
+    "sha256": "e456c1232283d00c71b5bfbda4ef34bdc6d31c6e295e248e8cfde73af0b80654"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v4_Chuoi.md": {
-    "sha256": "16a77396fffb8a7da458e883355d7da5e232a602cf17b1cad31969bfca08c2de"
+    "sha256": "daaf8156cb829d7b4ef7fe448315174d5677517aa4cf8e27aa02401119cf6431"
   },
   "fields/KGR_DTF_CALC_INVOICE_MEMO.md": {
-    "sha256": "623a60ba1eaa5d19f61c05687fa46103f2425bd7ef10091b28c1756792e7befb"
+    "sha256": "7b571b317eb37ff4dfdf995440d92a66db9350ea9c036e72ab6f41f46b90bad3"
   },
   "fields/KGR_DTF_CALC_MIS.md": {
-    "sha256": "19a4c57e8b198a022bb0a8d3b9eb96f35c08db34a793bf51a9c3f2e3f476db3f"
+    "sha256": "7577cdfdef4ef1a25ca0d42cdd0e131a2ab421220ea29d9f47850a3be20218c4"
   },
   "fields/KGR_Invoice_Line_Header_Pro.md": {
-    "sha256": "6ac279b68867973f17e76f4cf140e308d8ff0b6b121615787a3dfd8498f33337"
+    "sha256": "02ac2c9cded06cdebf8b49798a80fde635ac5d46d26ab44b476ba16f00c4bf42"
   },
   "fields/KGR_SFC_Dataset_c_AI.md": {
-    "sha256": "24531c0d5d00614b677dfd9b827fa27dcc299a34813248fbc51728b476933743"
+    "sha256": "400fb0380fc4ef9d6ce27821e6d92c7ec1d8e7ce3d42c05897a068b7a1f87a22"
   },
   "fields/KGR_T_l_chi_ph_L_ng.md": {
-    "sha256": "6b774421bd31344a3e34f6e86a0e5a9723520ceda554f62502f467de43d8e317"
+    "sha256": "1122d81351072a7e95924f2a4a071674fd400369e47e6d84e4541b961b264b40"
   },
   "fields/Nganh_Report_Long.md": {
-    "sha256": "33ed169c21201ba2367aff9bc4ebdf2f18a72f1e1b732e6993f962df882434f0"
+    "sha256": "c29252eda0e3e5a745d1f2a43e4ab3794bc409f6042a4cade41ab3d869ba1aa3"
   },
   "fields/Nganh_Report_Long_TD.md": {
-    "sha256": "6de30fc079d533c334dedd09e02c035a55df5533bd7ad83f3cb2810e3b7be1db"
+    "sha256": "36f12c907a58fe3eb6f06fab698a48267e89969f5153686d5211b52f9c9bef95"
   },
   "fields/SALE_HIST_w_INVC.md": {
-    "sha256": "0eab5b17064ae8a938983bf4da91222def93c9799d605ac1f3f544b4c651142a"
+    "sha256": "a4f47f3f12ac39dd0fec93e940989e1dd2b33bb7cf094c7184f2565fe9b3929e"
   },
   "fields/SPmoi_ng_v3.md": {
-    "sha256": "8bd5d5049910822882407c45efac30692cc44294df35eedbab6b096e86fc041a"
+    "sha256": "ae4d9f954fd2ac57725b453a87bb00f56d1132197c249a64e0ffda7a3ec4a636"
   },
   "fields/TD_Metrics_Wide.md": {
-    "sha256": "248eb352ab6f6defb631806dcd706a5ba0bcdf1420f3082c836e92e31b36f238"
+    "sha256": "1b289c3b89dfef83a2eecd375b052f115ec2f0cee11d01f712baee7f3e623f90"
   },
   "fields/TD_Report_Long.md": {
-    "sha256": "afd7f6ed2b91cc6ec4a30291a2297f028e8ded2ef065c01e880daaf304ca0ee4"
+    "sha256": "87cbbcf9e9f226eff01334a09838eba2e4acee75dcb966046c2567ccfe91b611"
   },
   "fields/TD_Report_PNL_Bridge.md": {
-    "sha256": "e6cababc0fe4578e7950ea603026549ab620bb51347a5330f549e94102f236b9"
+    "sha256": "72d725e324a88bc32012882741604cd4a2ca69d5577f90e92dcc9268778f7850"
   },
   "fields/TD_Report_PNL_Bridge_Nganh.md": {
-    "sha256": "0274098d4ec6672ad171cf92b62205e7568408dab764792d22566415ff3a5aca"
+    "sha256": "0e501be5c922cf0d0f06aef555cd17777a425bc563e32cd553a7d2df577207c6"
   },
   "lineage_graph.yaml": {
-    "sha256": "ca50864d239f945964d1208fce0b4d8fa9a96c21dd9b8284b6037f4fe7ddd291"
+    "sha256": "1e760b211f418a6284e478a714cee40f8b438f2c97c766eccd743fee2a13ee17"
   },
   "physical_table_catalog.yaml": {
-    "sha256": "7fbbc95f0848a30dc553f729f997ef26ef3cfddb5f6ad7fe2479a77cfd90a64d"
+    "sha256": "7137f48b928ccacd906960aee7a83ccbd2140723e166ac66707242ca387700c4"
   },
   "workbook_catalog.yaml": {
-    "sha256": "0cfbc38acffdc18f319d826a4f531f410cd468b74b8b121038a23aca674cbe08"
+    "sha256": "9b491bb1fc8d4a97854e5d3e8c870ffaf40a254fa2b039dd4ce32ca3dcc8fb96"
   }
 }
