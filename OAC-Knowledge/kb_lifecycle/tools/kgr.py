@@ -12,6 +12,9 @@ Usage:
 import sys, os, json
 from pathlib import Path
 
+try: sys.stdout.reconfigure(encoding="utf-8")   # an toàn console cp1252 (Windows)
+except Exception: pass
+
 HERE = Path(__file__).resolve()
 sys.path.insert(0, str(HERE.parent))
 import kgr_runtime as RT   # noqa: E402

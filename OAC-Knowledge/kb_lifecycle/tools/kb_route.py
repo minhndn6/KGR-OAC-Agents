@@ -12,6 +12,9 @@ Exit: 0 ok · 3 type lạ (KHÔNG misroute âm thầm) · 2 sai cú pháp.
 """
 import sys, json, argparse
 
+try: sys.stdout.reconfigure(encoding="utf-8")   # an toàn console cp1252 (Windows)
+except Exception: pass
+
 _VAL_STRUCT = ["validate_kb.py", "raw/qa_full.py"]
 
 def _gen(target, forbidden, gate, note):
