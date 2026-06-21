@@ -23,6 +23,7 @@
 
 ## 4. An toàn
 - OAC/NSAW: **CHỈ ĐỌC** (không sửa/xóa). Một tài khoản OAC dùng chung → KHÔNG tự re-login loạn (rủi ro khóa ORA-28000).
+- ⛔ **CẤM dùng MCP `nsaw-oac-poc`** (mọi `mcp__nsaw-oac-poc__*`) — deprecated, owner cấm. Đọc OAC live → dùng **`oac-native`** (`oracle_analytics-execute_logical_sql` / `-discover_data` / `-describe_data`).
 - Browser: mỗi actor một profile riêng; KHÔNG kill Chrome toàn cục.
 - Số liệu: KHÔNG lưu số tuyệt đối vào KB (lấy live khi cần). Trên workbook production: ADD-only.
 
