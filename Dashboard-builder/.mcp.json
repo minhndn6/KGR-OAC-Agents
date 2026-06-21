@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "chrome-dashboard": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard"
+      ]
+    }
+  }
+}

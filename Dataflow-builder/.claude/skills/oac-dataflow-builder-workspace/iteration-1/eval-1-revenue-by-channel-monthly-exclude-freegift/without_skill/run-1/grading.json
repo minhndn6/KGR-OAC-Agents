@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-1-without_skill",
+  "expectations": [
+    {
+      "text": "Nguồn = DTF_CALC_INVOICE_MEMO_#",
+      "passed": true,
+      "evidence": "§2.1: MEMO# nguồn duy nhất, có XSA id, loại các alternative có lý do"
+    },
+    {
+      "text": "Loại free gift qua CUSTCOL_SCV_LINE_ISFREEGIFT + check giá trị cột",
+      "passed": true,
+      "evidence": "D5: loại flag='T', giữ F/NULL; phát hiện sâu: chưa từng quan sát thấy 'T' (CHECK-C + hỏi finance định nghĩa hàng tặng nếu không có 'T')"
+    },
+    {
+      "text": "Filter đúng 3 kỳ Mar/Apr/May 2026 (39/40/42)",
+      "passed": true,
+      "evidence": "D4: IN-list PERIODNAME; chủ động không hardcode số kỳ vì thấy ghi chép Mar=39 vs 40 mâu thuẫn (CHECK-D map lại)"
+    },
+    {
+      "text": "SUM doanh thu ex-VAT group by Nhóm Kênh + tháng, chọn đúng cột doanh thu",
+      "passed": true,
+      "evidence": "D2 + §2.2: 'Doanh thu thực tế' = ex-VAT (dẫn DATA_JOIN_DESIGN.md, ratio 1.075 vs 'Doanh số'); CHECK-H xác nhận lại"
+    },
+    {
+      "text": "Nêu readability MEMO# intermittent + validate-first executePreview",
+      "passed": true,
+      "evidence": "§2.5: ORA-00942 intermittent → validate-first; ORA-28000 không chặn DataFlow Run"
+    },
+    {
+      "text": "Output _vN + verify đối chiếu BC01/NSAW",
+      "passed": true,
+      "evidence": "KGR_DF_DT_NhomKenh_Thang_v1; §7 acceptance + cross-check NSAW get_pl_by_dimension p40-42 với caveat lệch ~2.5% scope"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "'DRAFT chờ duyệt — CHƯA build' + 5 câu hỏi finance §9"
+    }
+  ],
+  "notes": "7/7. Baseline rất mạnh (189K tokens, 17 phút — gấp ~2.2x with-skill): tự đào ERROR_LOG/INVENTORY/SFC_HANDOFF, phát hiện bằng chứng MÂU THUẪN về Nhóm Kênh (Mar có giá trị, May NULL) sâu hơn cả with-skill, kèm template JS executePreview chạy được. Trade-off: tốn gấp đôi token/thời gian cho cùng đầu ra.",
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

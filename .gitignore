@@ -1,0 +1,44 @@
+# ─────────────────────────────────────────────────────────────
+# SECRETS — TUYỆT ĐỐI KHÔNG commit
+# ─────────────────────────────────────────────────────────────
+.secrets/
+**/.secrets/
+*.env
+*.env.*
+tokens.json
+**/tokens.json
+
+# Local config workspace-ROOT (có thể chứa token/MCP creds).
+# CHỈ root /.claude/ — KHÔNG đụng .claude/skills của builder (đó là sản phẩm!).
+/.claude/
+
+# ─────────────────────────────────────────────────────────────
+# Runtime & durable state (giữ NGOÀI repo theo quy ước hygiene)
+# ─────────────────────────────────────────────────────────────
+_orchestration/
+_work/
+**/_work/
+**/blackboards/
+
+# ─────────────────────────────────────────────────────────────
+# Scratch / handoff (sub-.gitignore cũng phủ; nhắc lại cho chắc)
+# ─────────────────────────────────────────────────────────────
+_PNL_*
+_DB01_*
+_build_heatmap*
+_combochip*
+*.network-response
+_resp_*
+_snap_*
+
+# ─────────────────────────────────────────────────────────────
+# Python caches
+# ─────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+
+# OS cruft
+Thumbs.db
+.DS_Store
+desktop.ini

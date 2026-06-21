@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "purpose": "State object DUY NHẤT do orchestrator sở hữu. Thay cho handoff .md rời (_PNL_HANDOFF...). Mọi sub-agent đọc/cập nhật qua đây.",
+    "rule": "period bơm 1 chỗ; số tuyệt đối KHÔNG lưu ở đây (lấy live); chỉ lưu trạng thái/quyết định/con-trỏ."
+  },
+  "fields": {
+    "request": "string — yêu cầu gốc của user/orchestrator",
+    "period": "string — kỳ DUY NHẤT do orchestrator set (vd 'POSTINGPERIOD=42 / T5-2026'); mọi agent dùng cái này, KHÔNG hardcode",
+    "as_of_date": "string|null — mốc lũy kế nếu báo cáo daily/cumulative (vd 2026-05-31)",
+    "active_workbook": "string|null — workbook đang được EDIT (writer giữ)",
+    "write_lock_holder": "string|null — agent đang giữ write-lock cho active_workbook (xem lock.py)",
+    "blueprint": "object|null — từ designer (viz/KPI/layout)",
+    "source_blueprint": "object|null — từ kgr-oac-lineage (bảng nguồn, join key, filter bắt buộc, grain đích)",
+    "built_datasets": "array — [{name, grain, producer_flow, run_status}] do dataflow-builder bổ sung",
+    "verdicts": {
+      "plan_review": "PASS|REWORK|null",
+      "crosscheck": "PASS|FAIL|null (số khớp nguồn?)",
+      "clevel": "SHIP|SHIP_WITH_BUGS|REWORK|null (gate độc lập, không tự cấp)"
+    },
+    "kb_freshness": {
+      "oac_knowledge_extracted": "string — ngày trích KB cấu trúc (vd 2026-06-20)",
+      "nsaw_date": "string — ~2026-05 (stale flag)",
+      "stale_warning": "bool — true nếu phát hiện dataflow đổi sau ngày trích (freshness probe)"
+    },
+    "phase": "string — designer|lineage|dataflow|dashboard|verify|done",
+    "status": "string — active|needs_resume|failed|blocked|done (vòng đời run; recover set needs_resume)",
+    "steps": "object — {<name>: {state: pending|running|ok|fail|skipped|interrupted, attempts:int, last_error:str|null}} theo dõi từng bước để retry/resume (xem agent_contracts failure_policy)",
+    "updated_at": "string|null — mốc ghi gần nhất (blackboard tự set mỗi _write)",
+    "open_questions": "array — chặn tự động (vd producer sống chưa chốt, governance chưa ký, failure escalate)",
+    "log": "array — [{ts, agent, action, summary}] audit trail"
+  }
+}

@@ -1,0 +1,510 @@
+# KGR_DS_SFC_vs_MEMO_v1
+
+- **type**: dataflow_output
+- **grain**: group: Tên Ngành, Nhóm SP  (heuristic: GroupBy gần Output nhất — verify qua dataflow_catalog steps)
+- **producer_flow**: KGR_DF_SFC_vs_MEMO_v1
+- **used_by_workbooks**: ['(KGR) DB01.Revenue_v1.1']
+- **physical_tables**: []
+
+## Cột
+### %GP Ròng Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L', 'DW_NS_X_TRADE_PROMOTION_LINE.CKKM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### %LN Gộp Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CKKM Maximum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CKKM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CKKM Per Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_TRADE_PROMOTION_LINE.CKKM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CKKM_PER Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CP CKKM Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_TRADE_PROMOTION_LINE.CKKM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CSEG_SCV_CHAIN Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CSEG_SCV_CHAIN']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CSEG_SCV_MODEL Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CSEG_SCV_MODEL']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CSEG_SCV_NHOMXANHDO Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CSEG_SCV_NHOMXANHDO']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CSEG_SCV_PRODCATG Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CSEG_SCV_PRODCATG']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CSEG_SCV_PRODGROUP Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.CSEG_SCV_PRODGROUP']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### CUSTOMER Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.CUSTOMER', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CUSTOMER']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T1 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T10 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T11 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T12 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T2 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T3 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T4 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T5 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T6 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T7 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T8 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS T9 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS Xanh Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### DS Đỏ Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh số lũy kế Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No', 'DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh số quy đổi Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh số thực tế Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh số thực tế Sum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh thu (-VAT) Maximum Maximum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.Doanh thu (-VAT)']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh thu SP mới Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP.Quy hoạch SP']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh thu ngành khác Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh thu thực tế Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Doanh thu thực tế_total Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### GP ròng Maximum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.GP ròng']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Giá Vốn Maximum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.Giá Vốn']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Giá Vốn Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID CLASS Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID CLASS Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID Chuỗi Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_CAM_CUSTOMEREXTENSION.CSEG_SCV_CHAIN']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID Kênh Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CSEG_SCV_SC', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CSEG_SCV_SC']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID MODEL Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_CAM_ITEMEXTENSION.CSEG_SCV_MODEL']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID NHOMXANHDO Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CSEG_SCV_NHOMXANHDO', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CSEG_SCV_NHOMXANHDO']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID Nhóm kênh Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_LIST_SALE_CHANEL_NS.ID Nhóm kênh']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ITEM_D.ID']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ID XD Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ITEM Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.ITEM', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### ITEM Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.ITEM', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEM']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### LINE ID Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.ID', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ID']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### LN Gộp Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### LN Gộp Sum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Lãi Gộp Maximum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.Lãi Gộp']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Month_No Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.Month_No']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Nhóm SP
+- formula: `← (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm SP`
+- physical_roots: ['DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP.Nhóm SP']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Nhóm SP_1
+- formula: `{"k": "unknown", "col": "Nhóm SP_1"}`
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### POSTINGPERIOD Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_F.POSTINGPERIOD', 'DW_NS_CUSTOMER_INVOICE_LINES_F.POSTINGPERIOD']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### POSTINGPERIOD Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.ID']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### POSTINGPERIOD_1 Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### QUANTITY Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+- shown_as: ['SL Thực tế (Actual Qty) @(KGR) DB01.Revenue_v1.1']
+
+### QUANTITY Sum Sum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Quantity Maximum Maximum Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_X_SFC_LINES_CF.Quantity']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### SUBSIDIARY Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.SUBSIDIARY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.SUBSIDIARY']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### T1_GVMT Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### T2_GVTK Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### T3_FB50 Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### TRANSACTION Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.TRANSACTION', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TRANSACTION']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Tên Ngành
+- formula: `← (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành`
+- physical_roots: ['DW_NS_CLASSIFICATION_D.Tên ngành']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Tên Ngành_1
+- formula: `{"k": "unknown", "col": "Tên Ngành_1"}`
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Tỷ trọng SP mới Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP.Quy hoạch SP']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### Unit Cost Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### a25_CP dự phòng (trả hàng, thanh lý, hủy...) Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']
+
+### a6_CP nhân viên KD Sum
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_BANG_CP_LUONG.CUSTRECORD_SCV_TY_LE_PER_LUONG']
+- filters: ['"PERIODNAME" IN(\'May 2026\')', '"POSTINGPERIOD" between 42 and 42.99']
+- joins: ['fullouterjoin: Tên Ngành = Tên Ngành, Nhóm SP = Nhóm SP']

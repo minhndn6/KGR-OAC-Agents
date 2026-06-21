@@ -1,0 +1,12 @@
+{
+  "eval_id": 2, "config": "without_skill",
+  "expectations": [
+    {"text": "Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap", "passed": true, "evidence": "Cleveland & McGill; fix horizontal bar sort desc hoặc treemap"},
+    {"text": "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý", "passed": true, "evidence": "Scale 2 trục độc lập → correlation ảo (Tufte); fix tách viz / scatter + r²"},
+    {"text": "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ", "passed": true, "evidence": "Few 5-6; 'cần cắt và nhóm lại' (tiêu chí cắt theo quyết định nêu mờ hơn nhưng có)"},
+    {"text": "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N", "passed": true, "evidence": "'wall of color' 96 đoạn; fix gom 3-4 nhóm hoặc small multiples/line đa đường"},
+    {"text": "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading", "passed": true, "evidence": "Chênh 18% trông như 4× → phân bổ ngân sách sai; fix baseline 0 + delta label"},
+    {"text": "Bắt lỗi title tên cột → insight-title EN", "passed": true, "evidence": "Knaflic — title = câu khẳng định insight dẫn action, có ví dụ"},
+    {"text": "Fix nêu bằng viz OAC có thật (map §4)", "passed": false, "evidence": "Fix generic (scatter + r², line đa đường, small multiples) — KHÔNG map sang cơ chế OAC (Trellis shelf, Top Bottom N, My Calculations, Reference Line, KPI Tile Plugin)"}
+  ]
+}

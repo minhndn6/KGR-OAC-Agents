@@ -1,0 +1,2904 @@
+_meta:
+  purpose: '4 workbook KGR: canvas -> viz (loại chart) -> measure/dim -> dataset.column nguồn. + datasource đính kèm (used/unused).'
+  extracted_live: '2026-06-20'
+workbooks:
+  (KGR) DB01.Revenue_v1.1:
+    slug: DB01_Revenue_v1_1
+    n_datasources: 20
+    n_datasources_used: 10
+    datasources:
+    - name: (KGR) AOP Dataset
+      owner: viethl@bizin.vn
+      used: false
+    - name: DW_X_SALE_HISTORY_Dataset
+      owner: minhndn@bizin.vn
+      used: true
+    - name: 1. Invoice_v2
+      owner: anhdk@bizin.vn
+      used: false
+    - name: (KGR) DTF_CALC_INVOICE_MEMO_#
+      owner: anhdk@bizin.vn
+      used: true
+    - name: (KGR) DW_NS_CUSTOMER_D
+      owner: minhndn@bizin.vn
+      used: true
+    - name: (KGR) DTF_DAILY_TAP_DOAN
+      owner: anhdk@bizin.vn
+      used: false
+    - name: Daily_TD_Report
+      owner: minhndn@bizin.vn
+      used: false
+    - name: Daily_Nganh_Report
+      owner: minhndn@bizin.vn
+      used: true
+    - name: (KGR) SFC Dataset (có AI)
+      owner: viethl@bizin.vn
+      used: false
+    - name: (KGR) DTF_DAILY_KENH_CHUOI
+      owner: minhndn@bizin.vn
+      used: false
+    - name: AOP LINE CF
+      owner: anhdk@bizin.vn
+      used: false
+    - name: KGR_DS_SFC_vs_Actual_v2
+      owner: f35ec90d-f3a2-4cc5-9e2d-004c6b7b7128
+      used: true
+    - name: (KGR) DTF_CALC_SFC Thực tế
+      owner: anhdk@bizin.vn
+      used: false
+    - name: KGR_DS_SFC_vs_MEMO_v1
+      owner: d3bb54a8-91ee-43a1-b4bd-1c83e8057d57
+      used: true
+    - name: KGR_DS_SFC_vs_MEMO_v2
+      owner: minhndn@bizin.vn
+      used: true
+    - name: KGR_DS_SFC_vs_MEMO_v3
+      owner: minhndn@bizin.vn
+      used: true
+    - name: KGR_DS_SFC_Plan_by_Kenh
+      owner: minhndn@bizin.vn
+      used: false
+    - name: KGR_DS_SFC_vs_MEMO_v4_Chuoi
+      owner: minhndn@bizin.vn
+      used: true
+    - name: SALE HIST w INVC
+      owner: a56aa060-d690-462c-84b2-d03b279cbab9
+      used: true
+    - name: (KGR) DTF_ACTUAL_AOP_EXPENSE
+      owner: d216fd48-fd32-42d9-ab97-fc2e2e9b4614
+      used: false
+    n_canvases: 6
+    canvases:
+    - canvas: Overview
+      view: canvas!1
+      n_viz: 8
+      vizzes:
+      - view: view!1
+        chart_type: oracle.bi.tech.ngperformancetile
+        title: Revenue & Profit Overview
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: DoanhthuSPmi
+          column_id: DoanhthuSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+        - field: Green/Red
+          column_id: Green
+          expression: CASE WHEN round((XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"*100)/XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế",0) > 100 THEN 100 ELSE round((XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"*100)/XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh
+            số thực tế",0) END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.DS Xanh
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: /
+          column_id: column
+          expression: round(100-(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"*100)/XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế",0)
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.DS Xanh
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: TRANDATE
+          column_id: TRANDATE
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!2
+        chart_type: oracle.bi.tech.chart.gridheatmap
+        title: '%GP Heatmap by Class × Channel'
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+      - view: view!4
+        chart_type: oracle.bi.tech.chart.horizontalstackbar
+        title: Revenue by Chain × Channel
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: TnChui
+          column_id: TnChui
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Chuỗi
+        - field: QuyhochSP
+          column_id: QuyhochSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Quy hoạch SP"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Quy hoạch SP
+      - view: view!15
+        chart_type: oracle.bi.tech.chart.line
+        title: Revenue Seasonal YoY — Jan–Dec (2024 · 2025 · 2026)
+        fields:
+        - field: REVENUE
+          column_id: REVENUE
+          expression: XSA('a56aa060-d690-462c-84b2-d03b279cbab9'.'SALE HIST w INVC')."Columns"."REVENUE"
+          sources:
+          - SALE HIST w INVC.REVENUE
+        - field: TRANSACTION_DATE_22
+          column_id: TRANSACTION_DATE_22
+          expression: ExtractYear(XSA('a56aa060-d690-462c-84b2-d03b279cbab9'.'SALE HIST w INVC')."Columns"."TRANSACTION_DATE")
+          sources:
+          - SALE HIST w INVC.TRANSACTION_DATE
+        - field: TRANSACTION_DATE_24
+          column_id: TRANSACTION_DATE_24
+          expression: ExtractMonthOfYear(XSA('a56aa060-d690-462c-84b2-d03b279cbab9'.'SALE HIST w INVC')."Columns"."TRANSACTION_DATE")
+          sources:
+          - SALE HIST w INVC.TRANSACTION_DATE
+      - view: view!16
+        chart_type: oracle.bi.tech.chart.treemap
+        title: Revenue by Class — size = Revenue, color = GP%
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!17
+        chart_type: oracle.bi.tech.table
+        title: Class Detail — Revenue · GP · GP % · Green % · New-Product Rev
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Gross Profit
+          column_id: GrossProfit
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.LN Gộp
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Green/Red
+          column_id: Green
+          expression: CASE WHEN round((XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"*100)/XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế",0) > 100 THEN 100 ELSE round((XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"*100)/XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh
+            số thực tế",0) END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.DS Xanh
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: New-Product Revenue
+          column_id: NewProductRevenue
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+      - view: view!91
+        chart_type: oracle.bi.tech.chart.comboMultiLayerChart
+        title: Revenue by Class — Actual vs AOP (May 2026)
+        fields:
+        - field: Actual_AmountSum_64
+          column_id: Actual_AmountSum_64
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."Actual_Amount Sum"
+          sources:
+          - Daily_Nganh_Report.Actual_Amount Sum
+        - field: TenNganh
+          column_id: TenNganh
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TenNganh"
+          sources:
+          - Daily_Nganh_Report.TenNganh
+        - field: AOP_AmountSum_52
+          column_id: AOP_AmountSum_52
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."AOP_Amount Sum"
+          sources:
+          - Daily_Nganh_Report.AOP_Amount Sum
+      - view: view!97
+        chart_type: oracle.bi.tech.map
+        title: Revenue by Province
+        fields:
+        - field: geo_ten_tinh_10
+          column_id: geo_ten_tinh_10
+          expression: XSA('minhndn@bizin.vn'.'(KGR) DW_NS_CUSTOMER_D')."oac_vn63_geo_bridge_with_ten_moi (1)"."geo_ten_tinh"
+          sources:
+          - (KGR) DW_NS_CUSTOMER_D.geo_ten_tinh
+        - field: geo_ten_moi
+          column_id: geo_ten_moi
+          expression: XSA('minhndn@bizin.vn'.'(KGR) DW_NS_CUSTOMER_D')."oac_vn63_geo_bridge_with_ten_moi (1)"."geo_ten_moi"
+          sources:
+          - (KGR) DW_NS_CUSTOMER_D.geo_ten_moi
+        - field: AVG Doanh số thực tế
+          column_id: Doanhsthct_4
+          expression: /* AVG */ XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế" /* AVG
+            */
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+    - canvas: PRODUCTION LINE & MODEL
+      view: canvas!2
+      n_viz: 8
+      vizzes:
+      - view: view!10
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: <p>Top 10 Revenue - Product Line-up</p>
+        fields:
+        - field: Modelname
+          column_id: Modelname
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Model name
+        - field: QuyhochSP
+          column_id: QuyhochSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Quy hoạch SP"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Quy hoạch SP
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!27
+        chart_type: oracle.bi.tech.table
+        title: Product Group Detail
+        fields:
+        - field: NhmSP
+          column_id: NhmSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm SP"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm SP
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+      - view: view!32
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: <p>Top 10 Revenue - Green/Red</p>
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Modelname
+          column_id: Modelname
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Model name
+        - field: Nhmxanh
+          column_id: Nhmxanh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm xanh đỏ"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm xanh đỏ
+      - view: view!33
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: TRANDATE_25
+          column_id: TRANDATE_25
+          expression: ExtractDay(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!34
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: TRANDATE
+          column_id: TRANDATE
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!36
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: DoanhthuSPmi
+          column_id: DoanhthuSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+        - field: TRANDATE_1
+          column_id: TRANDATE_1
+          expression: ExtractDayOfMonth(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!89
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: Class — Revenue · Green % · New-Product
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: New-Product Revenue
+          column_id: NewProductRevenue
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+      - view: view!120
+        chart_type: oracle.bi.tech.chart.combo
+        title: <p>SFC — SL Plan vs Actual theo Nhóm SP Top 10 (T5/2026)</p>
+        fields:
+        - field: SL_Thuc_Te_1
+          column_id: SL_Thuc_Te_1
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v3')."Columns"."SL_Thuc_Te"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v3.SL_Thuc_Te
+        - field: SL_Ke_Hoach_2
+          column_id: SL_Ke_Hoach_2
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v3')."Columns"."SL_Ke_Hoach"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v3.SL_Ke_Hoach
+        - field: NhmSPgp
+          column_id: NhmSPgp
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v3')."Columns"."Nhóm SP gộp"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v3.Nhóm SP gộp
+    - canvas: CHAIN
+      view: canvas!3
+      n_viz: 5
+      vizzes:
+      - view: view!29
+        chart_type: oracle.bi.tech.ngperformancetile
+        title: Gross Profit, Revenue, GP %, New-Product %
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Doanhsquyi
+          column_id: Doanhsquyi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số quy đổi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số quy đổi
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: New-Product %
+          column_id: NewProduct
+          expression: SUM(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới") / SUM(XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu thực tế")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu thực tế
+      - view: view!45
+        chart_type: oracle.bi.tech.chart.gridheatmap
+        title: Chain × Industry Revenue
+        fields:
+        - field: TnChui
+          column_id: TnChui
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Chuỗi
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+      - view: view!53
+        chart_type: oracle.bi.tech.chart.treemap
+        title: Revenue by Chain (color = GP%)
+        fields:
+        - field: TnChui
+          column_id: TnChui
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Chuỗi
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!54
+        chart_type: oracle.bi.tech.chart.horizontalstackbar100
+        title: '<p><span style="color: hsl(0 , 2% , 13%)">Green</span>/Red Proportion by Chain</p>'
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: TnChui
+          column_id: TnChui
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Chuỗi
+        - field: Nhmxanh
+          column_id: Nhmxanh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm xanh đỏ"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm xanh đỏ
+      - view: view!121
+        chart_type: oracle.bi.tech.chart.combo
+        title: <p>SFC — SL Plan vs Actual theo Chuỗi (T5/2026) · excl. Khác</p>
+        fields:
+        - field: SL_Thuc_Te_4
+          column_id: SL_Thuc_Te_4
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v4_Chuoi')."Columns"."SL_Thuc_Te"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v4_Chuoi.SL_Thuc_Te
+        - field: SL_Ke_Hoach_5
+          column_id: SL_Ke_Hoach_5
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v4_Chuoi')."Columns"."SL_Ke_Hoach"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v4_Chuoi.SL_Ke_Hoach
+        - field: Chuigp
+          column_id: Chuigp
+          expression: XSA('minhndn@bizin.vn'.'KGR_DS_SFC_vs_MEMO_v4_Chuoi')."Columns"."Chuỗi gộp"
+          sources:
+          - KGR_DS_SFC_vs_MEMO_v4_Chuoi.Chuỗi gộp
+    - canvas: CHANNEL
+      view: canvas!5
+      n_viz: 6
+      vizzes:
+      - view: view!38
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: <p>Revenue by Channel — Absolute (May 2026, M VND)</p>
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+      - view: view!40
+        chart_type: oracle.bi.tech.chart.gridheatmap
+        title: Revenue Heatmap — Class × Channel Group
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+      - view: view!41
+        chart_type: oracle.bi.tech.chart.line
+        title: Revenue by Day & Channel
+        fields:
+        - field: TRANDATE
+          column_id: TRANDATE
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!48
+        chart_type: oracle.bi.tech.chart.horizontalstackbar100
+        title: <p>Channel Mix — Green vs Red % (May 2026)</p>
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+        - field: Nhmxanh
+          column_id: Nhmxanh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm xanh đỏ"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm xanh đỏ
+      - view: view!51
+        chart_type: oracle.bi.tech.chart.treemap
+        title: Revenue by Channel (color = GP%)
+        fields:
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!52
+        chart_type: oracle.bi.tech.table
+        title: Channel Detail
+        fields:
+        - field: TnKnh
+          column_id: TnKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Kênh
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: TtrngSPmi
+          column_id: TtrngSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+    - canvas: BRANCH
+      view: canvas!4
+      n_viz: 7
+      vizzes:
+      - view: view!14
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Doanhsquyi
+          column_id: Doanhsquyi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số quy đổi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số quy đổi
+        - field: New-Product %
+          column_id: NewProduct
+          expression: SUM(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới") / SUM(XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu thực tế")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu thực tế
+        - field: TtrngSPmi
+          column_id: TtrngSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
+        - field: TRANDATE_4
+          column_id: TRANDATE_4
+          expression: ExtractWeek(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!23
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: Revenue by Unit
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+      - view: view!24
+        chart_type: oracle.bi.tech.chart.line
+        title: Revenue by Day & Unit
+        fields:
+        - field: TRANDATE
+          column_id: TRANDATE
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+      - view: view!28
+        chart_type: oracle.bi.tech.chart.treemap
+        title: Revenue by Unit (color = GP%)
+        fields:
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+      - view: view!49
+        chart_type: oracle.bi.tech.chart.gridheatmap
+        title: Unit × Industry Revenue
+        fields:
+        - field: TnKnh
+          column_id: TnKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Kênh
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+      - view: view!55
+        chart_type: oracle.bi.tech.table
+        title: Unit Detail
+        fields:
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Doanhsquyi
+          column_id: Doanhsquyi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số quy đổi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số quy đổi
+        - field: DSXanh
+          column_id: DSXanh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."DS Xanh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.DS Xanh
+        - field: TtrngSPmi
+          column_id: TtrngSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%GP Ròng
+        - field: LNGp_38
+          column_id: LNGp_38
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%LN Gộp
+      - view: view!56
+        chart_type: oracle.bi.tech.chart.horizontalstackbar100
+        title: Revenue by Unit & Industry
+        fields:
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Subsidiary Code
+          column_id: SubsidiaryCode
+          expression: CASE WHEN UPPER(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Đơn vị") LIKE '%HCM%'
+            THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Đơn vị
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+    - canvas: ASM
+      view: canvas!6
+      n_viz: 9
+      vizzes:
+      - view: view!61
+        chart_type: oracle.bi.tech.chart.horizontalbar
+        title: Revenue Concentration by ASM
+        fields:
+        - field: ASM_NAME
+          column_id: ASM_NAME
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: QUANTITY
+          column_id: QUANTITY
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."QUANTITY"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.QUANTITY
+        - field: NET_AMOUNT
+          column_id: NET_AMOUNT
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+      - view: view!65
+        chart_type: oracle.bi.tech.table
+        title: ASM Performance Scorecard
+        fields:
+        - field: ASM_NAME
+          column_id: ASM_NAME
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: NET_AMOUNT
+          column_id: NET_AMOUNT
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+        - field: QUANTITY
+          column_id: QUANTITY
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."QUANTITY"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.QUANTITY
+      - view: view!79
+        chart_type: oracle.bi.tech.chart.line
+        title: Top 5 ASM — Monthly Revenue Trend
+        fields:
+        - field: TRANSACTION_DATE_1
+          column_id: TRANSACTION_DATE_1
+          expression: ExtractMonth(XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."TRANSACTION_DATE")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.TRANSACTION_DATE
+        - field: ASM_NAME
+          column_id: ASM_NAME
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: NET_AMOUNT
+          column_id: NET_AMOUNT
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+      - view: view!81
+        chart_type: oracle.bi.tech.chart.scatter
+        title: 'ASM: Revenue vs GP% (bubble = customers)'
+        fields:
+        - field: QUANTITY
+          column_id: QUANTITY
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."QUANTITY"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.QUANTITY
+        - field: NET_AMOUNT
+          column_id: NET_AMOUNT
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+        - field: ASM_NAME
+          column_id: ASM_NAME
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: Total Customers
+          column_id: TotalCustomers
+          expression: COUNT(DISTINCT XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."CUSTOMER_NAME")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.CUSTOMER_NAME
+      - view: view!82
+        chart_type: oracle.bi.tech.chart.gridheatmap
+        title: 🏢 ASM × Subsidiary Footprint — color intensity = revenue, gaps = no coverage
+        fields:
+        - field: ASM_NAME
+          column_id: ASM_NAME
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: NET_AMOUNT
+          column_id: NET_AMOUNT
+          expression: XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT"
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+        - field: Subsidiary Code 1
+          column_id: SubsidiaryCode1
+          expression: CASE WHEN UPPER(XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."SUBSIDIARY_NAME")
+            LIKE '%HCM%' THEN 'HCM' ELSE 'VU1' END
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.SUBSIDIARY_NAME
+      - view: view!83
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: Total ASMs
+          column_id: TotalASMs
+          expression: COUNT(DISTINCT XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+      - view: view!84
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: Avg Revenue per ASM (M)
+          column_id: AvgRevenueperASMM
+          expression: (SUM(XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."NET_AMOUNT") / COUNT(DISTINCT
+            XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."ASM_NAME")) / 1000000
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.NET_AMOUNT
+          - DW_X_SALE_HISTORY_Dataset.ASM_NAME
+        - field: TRANSACTION_DATE_1
+          column_id: TRANSACTION_DATE_1
+          expression: ExtractMonth(XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."TRANSACTION_DATE")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.TRANSACTION_DATE
+      - view: view!87
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: Total Customers
+          column_id: TotalCustomers
+          expression: COUNT(DISTINCT XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."CUSTOMER_NAME")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.CUSTOMER_NAME
+        - field: TRANSACTION_DATE_1
+          column_id: TRANSACTION_DATE_1
+          expression: ExtractMonth(XSA('minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset')."DW_X_SALE_HISTORY"."TRANSACTION_DATE")
+          sources:
+          - DW_X_SALE_HISTORY_Dataset.TRANSACTION_DATE
+      - view: view!88
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: DoanhthuSPmi
+          column_id: DoanhthuSPmi
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu SP mới
+        - field: TRANDATE_4
+          column_id: TRANDATE_4
+          expression: ExtractWeek(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE")
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+  (KGR) DB02.Expense_v1.1:
+    slug: DB02_Expense_v1_1
+    n_datasources: 11
+    n_datasources_used: 7
+    datasources:
+    - name: (KGR) AOP Dataset
+      owner: viethl@bizin.vn
+      used: false
+    - name: DW_X_SALE_HISTORY_Dataset
+      owner: minhndn@bizin.vn
+      used: true
+    - name: 1. Invoice_v2
+      owner: anhdk@bizin.vn
+      used: false
+    - name: (KGR) DTF_CALC_INVOICE_MEMO_#
+      owner: anhdk@bizin.vn
+      used: true
+    - name: (KGR) DW_NS_CUSTOMER_D
+      owner: minhndn@bizin.vn
+      used: false
+    - name: TD_Report_Long
+      owner: minhndn@bizin.vn
+      used: true
+    - name: TD_Report_PNL_v1
+      owner: 27f10916-90ed-4030-b67a-282718dfef83
+      used: false
+    - name: TD_Report_PNL_Bridge
+      owner: minhndn@bizin.vn
+      used: true
+    - name: TD_Report_PNL_Bridge_Nganh
+      owner: minhndn@bizin.vn
+      used: true
+    - name: Nganh_Report_Long_#
+      owner: minhndn@bizin.vn
+      used: true
+    - name: Nganh_Report_Long_TD
+      owner: minhndn@bizin.vn
+      used: true
+    n_canvases: 2
+    canvases:
+    - canvas: Overview
+      view: canvas!1
+      n_viz: 6
+      vizzes:
+      - view: view!1
+        chart_type: oracle.bi.tech.ngperformancetile
+        title:
+        fields:
+        - field: GiVn
+          column_id: GiVn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Giá Vốn"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Giá Vốn
+        - field: Doanhthuthct
+          column_id: Doanhthuthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu thực tế
+        - field: LNGp
+          column_id: LNGp
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.LN Gộp
+        - field: CPCKKM
+          column_id: CPCKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+      - view: view!7
+        chart_type: oracle.bi.tech.table
+        title: 'Sector P&L Scorecard: Flag Sectors Below Margin Target'
+        fields:
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Ngành
+        - field: LNGp_1
+          column_id: LNGp_1
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."%LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.%LN Gộp
+        - field: Doanhthuthct
+          column_id: Doanhthuthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh thu thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh thu thực tế
+        - field: GiVn
+          column_id: GiVn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Giá Vốn"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Giá Vốn
+        - field: LNGp
+          column_id: LNGp
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.LN Gộp
+        - field: CPCKKM
+          column_id: CPCKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+      - view: view!28
+        chart_type: oracle.bi.tech.chart.range
+        title: <p>P&amp;L Bridge — Revenue to Pre-Tax Profit (Group, May 2026)</p>
+        fields:
+        - field: cum_before
+          column_id: cum_before
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge')."Columns"."cum_before"
+          sources:
+          - TD_Report_PNL_Bridge.cum_before
+        - field: cum_after
+          column_id: cum_after
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge')."Columns"."cum_after"
+          sources:
+          - TD_Report_PNL_Bridge.cum_after
+        - field: Bridge_Label
+          column_id: Bridge_Label
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge')."Columns"."Bridge_Label"
+          sources:
+          - TD_Report_PNL_Bridge.Bridge_Label
+        - field: Bridge_Order
+          column_id: Bridge_Order
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge')."Columns"."Bridge_Order"
+          sources:
+          - TD_Report_PNL_Bridge.Bridge_Order
+      - view: view!29
+        chart_type: oracle.bi.tech.chart.combo
+        title: <p>Plan (AOP) vs Actual at Profit Milestones (May 2026)</p>
+        fields:
+        - field: Actual_Amount
+          column_id: Actual_Amount
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount"
+          sources:
+          - TD_Report_Long.Actual_Amount
+        - field: AOP_Amount_1
+          column_id: AOP_Amount_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."AOP_Amount_1"
+          sources:
+          - TD_Report_Long.AOP_Amount_1
+        - field: Metric_Name
+          column_id: Metric_Name
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name"
+          sources:
+          - TD_Report_Long.Metric_Name
+      - view: view!30
+        chart_type: oracle.bi.tech.pivot
+        title: <p>P&amp;L — Plan Variance by Sector (May 2026)</p>
+        fields:
+        - field: Thiếu/Vượt KH
+          column_id: ng_absvar
+          expression: (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")-SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"))
+          sources:
+          - Nganh_Report_Long_#.Actual_Amount
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: Tốt/Xấu hơn KH
+          column_id: ng_favvar
+          expression: (MAX(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name" LIKE 'CP%' OR XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Giá
+            vốn' THEN -1 ELSE 1 END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"))*(CASE WHEN
+            ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")-SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"))/ABS(SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")))>1 THEN 1 WHEN ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")-SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"))/ABS(SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")))<-1 THEN -1 ELSE ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")-SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"))/ABS(SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"))) END)
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.Actual_Amount
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: Chỉ tiêu
+          column_id: ng_Metric
+          expression: CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Doanh số (+VAT)' THEN
+            '01. Doanh số (+VAT)' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Doanh thu' THEN
+            '02. Doanh thu' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Giá vốn' THEN '03.
+            Giá vốn' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi nhuận gộp' THEN '04.
+            Lợi nhuận gộp' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP chiết khấu khuyến
+            mại' THEN '05. CP chiết khấu khuyến mại' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            nhân viên KD' THEN '06. CP nhân viên KD' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            roadshow hội nghị' THEN '07. CP roadshow hội nghị' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            công tác tiếp khách KD' THEN '08. CP công tác tiếp khách KD' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận gộp Kinh doanh' THEN '09. Lợi nhuận gộp Kinh doanh' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            xúc tiến bán hàng' THEN '10. CP xúc tiến bán hàng' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận xúc tiến bán hàng' THEN '11. Lợi nhuận xúc tiến bán hàng' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            nhân viên BO' THEN '12. CP nhân viên BO' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận nhân viên' THEN '13. Lợi nhuận nhân viên' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            quản lý vận hành' THEN '14. CP quản lý vận hành' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            vận chuyển' THEN '15. CP vận chuyển' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            bảo hành' THEN '16. CP bảo hành' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            tài chính' THEN '17. CP tài chính' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            khác' THEN '18. CP khác' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Thu nhập
+            khác' THEN '19. Thu nhập khác' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận quản lý vận hành' THEN '20. Lợi nhuận quản lý vận hành' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            dự phòng hoạt động năm trước' THEN '21. CP dự phòng hoạt động năm trước' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='CP
+            dự phòng tồn kho thanh lý' THEN '22. CP dự phòng tồn kho thanh lý' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận trước thuế' THEN '23. Lợi nhuận trước thuế' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Lợi
+            nhuận sau thuế' THEN '24. Lợi nhuận sau thuế' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"='Tỷ
+            lệ Xanh/Đỏ' THEN '25. Tỷ lệ Xanh/Đỏ' ELSE XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"
+            END
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+        - field: Ngành
+          column_id: ng_Nganh
+          expression: CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"=1 THEN '1. Water Care'
+            WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"=2 THEN '2. Home Care' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"=3 THEN '3. Cold & Hygen Care' WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"=4
+            THEN '4. Sanitary Care' ELSE '5. Khác' END
+          sources:
+          - Nganh_Report_Long_#.ID CLASS
+      - view: view!31
+        chart_type: oracle.bi.tech.chart.treemap
+        title: <p>Operating Cost Structure — Treemap (May 2026)</p>
+        fields:
+        - field: CP_value
+          column_id: CP_value
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount"
+          sources:
+          - TD_Report_Long.Actual_Amount
+        - field: Metric_Name
+          column_id: Metric_Name
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name"
+          sources:
+          - TD_Report_Long.Metric_Name
+    - canvas: Waterfall by CLASS
+      view: canvas!6
+      n_viz: 4
+      vizzes:
+      - view: view!11
+        chart_type: oracle.bi.tech.chart.range
+        title: <p>P&amp;L Bridge — Water Care (May 2026)</p>
+        fields:
+        - field: cum_before_2
+          column_id: cum_before_2
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_before"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_before
+        - field: cum_after_3
+          column_id: cum_after_3
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_after"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_after
+        - field: Bridge_Label_1
+          column_id: Bridge_Label_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Label"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Label
+        - field: Bridge_Order_5
+          column_id: Bridge_Order_5
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Order"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Order
+      - view: view!23
+        chart_type: oracle.bi.tech.chart.range
+        title: <p>P&amp;L Bridge — Home Care (May 2026)</p>
+        fields:
+        - field: cum_before_2
+          column_id: cum_before_2
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_before"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_before
+        - field: cum_after_3
+          column_id: cum_after_3
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_after"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_after
+        - field: Bridge_Label_1
+          column_id: Bridge_Label_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Label"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Label
+        - field: Bridge_Order_5
+          column_id: Bridge_Order_5
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Order"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Order
+      - view: view!24
+        chart_type: oracle.bi.tech.chart.range
+        title: <p>P&amp;L Bridge — Cold & Hygen Care (May 2026)</p>
+        fields:
+        - field: cum_before_2
+          column_id: cum_before_2
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_before"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_before
+        - field: cum_after_3
+          column_id: cum_after_3
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_after"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_after
+        - field: Bridge_Label_1
+          column_id: Bridge_Label_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Label"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Label
+        - field: Bridge_Order_5
+          column_id: Bridge_Order_5
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Order"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Order
+      - view: view!25
+        chart_type: oracle.bi.tech.chart.range
+        title: <p>P&amp;L Bridge — Sanitary Care (May 2026)</p>
+        fields:
+        - field: cum_before_2
+          column_id: cum_before_2
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_before"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_before
+        - field: cum_after_3
+          column_id: cum_after_3
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."cum_after"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.cum_after
+        - field: Bridge_Label_1
+          column_id: Bridge_Label_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Label"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Label
+        - field: Bridge_Order_5
+          column_id: Bridge_Order_5
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_PNL_Bridge_Nganh')."Columns"."Bridge_Order"
+          sources:
+          - TD_Report_PNL_Bridge_Nganh.Bridge_Order
+  (KGR) BRD.BC01_Daily_Summary:
+    slug: BC01_Daily_Summary
+    n_datasources: 8
+    n_datasources_used: 6
+    datasources:
+    - name: AOP LINE CF
+      owner: anhdk@bizin.vn
+      used: true
+    - name: (KGR) DTF_CALC_INVOICE_MEMO_#
+      owner: anhdk@bizin.vn
+      used: true
+    - name: (KGR) DTF_DAILY_KENH_CHUOI
+      owner: minhndn@bizin.vn
+      used: false
+    - name: TD_Report_Long
+      owner: minhndn@bizin.vn
+      used: true
+    - name: TD_Metrics_Wide
+      owner: minhndn@bizin.vn
+      used: false
+    - name: Nganh_Report_Long_#
+      owner: minhndn@bizin.vn
+      used: true
+    - name: Daily_Nganh_Report
+      owner: minhndn@bizin.vn
+      used: true
+    - name: Daily_TD_Report
+      owner: minhndn@bizin.vn
+      used: true
+    n_canvases: 3
+    canvases:
+    - canvas: BC01_Hàng ngày
+      view: canvas!1
+      n_viz: 5
+      vizzes:
+      - view: view!2
+        chart_type: oracle.bi.tech.table
+        title: DAILY_CHUỖI
+        fields:
+        - field: TnChui_75
+          column_id: TnChui_75
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Chuỗi
+        - field: CUSTCOL_SCV_AOP_CKKM
+          column_id: CUSTCOL_SCV_AOP_CKKM
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CKKM"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CKKM
+        - field: CUSTCOL_SCV_AOP_LOI_NHUAN
+          column_id: CUSTCOL_SCV_AOP_LOI_NHUAN
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LOI_NHUAN"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LOI_NHUAN
+        - field: CUSTCOL_SCV_AOP_LN_GIAO
+          column_id: CUSTCOL_SCV_AOP_LN_GIAO
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LN_GIAO"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LN_GIAO
+        - field: CUSTCOL_SCV_AOP_DOANH_SO
+          column_id: CUSTCOL_SCV_AOP_DOANH_SO
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_DOANH_SO"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_DOANH_SO
+        - field: CUSTCOL_SCV_AOP_CP_CKKM
+          column_id: CUSTCOL_SCV_AOP_CP_CKKM
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CP_CKKM"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CP_CKKM
+        - field: Tỷ lệ X/D
+          column_id: TlXD
+          expression: |-
+            CONCAT(
+            CAST(@calculation("IntergerXanh") AS CHAR),
+            CONCAT(
+            '/',
+            CAST(@calculation("Interger") AS CHAR)
+            )
+            )
+        - field: TtrngSPmi_34
+          column_id: TtrngSPmi_34
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
+        - field: Doanhsthct_7
+          column_id: Doanhsthct_7
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: CPCKKM_21
+          column_id: CPCKKM_21
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+        - field: Doanh số còn phải thực hiện
+          column_id: DoanhsAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_DOANH_SO" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_DOANH_SO
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Lợi nhuận còn phải thực hiện
+          column_id: LinhunAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LN_GIAO" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."LN Gộp"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LN_GIAO
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.LN Gộp
+        - field: CKKM còn được sử dụng
+          column_id: CKKMAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CP_CKKM" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CP_CKKM
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+      - view: view!8
+        chart_type: oracle.bi.tech.table
+        title: DAILY_KÊNH
+        fields:
+        - field: NhmKnh
+          column_id: NhmKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Nhóm Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Nhóm Kênh
+        - field: TnKnh
+          column_id: TnKnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tên Kênh
+        - field: AVG CUSTCOL_SCV_AOP_CKKM
+          column_id: CUSTCOL_SCV_AOP_CKKM_3
+          expression: /* AVG */ XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CKKM" /* AVG */
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CKKM
+        - field: CUSTCOL_SCV_AOP_LOI_NHUAN
+          column_id: CUSTCOL_SCV_AOP_LOI_NHUAN
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LOI_NHUAN"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LOI_NHUAN
+        - field: CUSTCOL_SCV_AOP_LN_GIAO
+          column_id: CUSTCOL_SCV_AOP_LN_GIAO
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LN_GIAO"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LN_GIAO
+        - field: CUSTCOL_SCV_AOP_DOANH_SO
+          column_id: CUSTCOL_SCV_AOP_DOANH_SO
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_DOANH_SO"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_DOANH_SO
+        - field: CUSTCOL_SCV_AOP_CP_CKKM
+          column_id: CUSTCOL_SCV_AOP_CP_CKKM
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CP_CKKM"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CP_CKKM
+        - field: Tỷ lệ X/D
+          column_id: TlXD
+          expression: |-
+            CONCAT(
+            CAST(@calculation("IntergerXanh") AS CHAR),
+            CONCAT(
+            '/',
+            CAST(@calculation("Interger") AS CHAR)
+            )
+            )
+        - field: TtrngSPmi_34
+          column_id: TtrngSPmi_34
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
+        - field: Doanhsthct_7
+          column_id: Doanhsthct_7
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: CPCKKM_21
+          column_id: CPCKKM_21
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+        - field: Doanh số còn phải thực hiện
+          column_id: DoanhsAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_DOANH_SO" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_DOANH_SO
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: Lợi nhuận còn phải thực hiện
+          column_id: LinhunAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_LN_GIAO" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."LN Gộp"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_LN_GIAO
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.LN Gộp
+        - field: CKKM còn được sử dụng
+          column_id: CKKMAOPTT
+          expression: XSA('anhdk@bizin.vn'.'AOP LINE CF')."DW_NS_X_AOP_LINE_CF"."CUSTCOL_SCV_AOP_CP_CKKM" - XSA('anhdk@bizin.vn'.'(KGR)
+            DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
+          sources:
+          - AOP LINE CF.CUSTCOL_SCV_AOP_CP_CKKM
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.CP CKKM
+      - view: view!15
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title:
+        fields:
+        - field: PERIODNAME
+          column_id: PERIODNAME
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."PERIODNAME"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.PERIODNAME
+        - field: TRANDATE_7
+          column_id: TRANDATE_7
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."TRANDATE"
+          sources:
+          - (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE
+      - view: view!26
+        chart_type: oracle.bi.tech.table
+        title: DAILY_TẬP ĐOÀN
+        fields:
+        - field: PhanTram_CKKM_AOP_1
+          column_id: PhanTram_CKKM_AOP_1
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."PhanTram_CKKM_AOP"
+          sources:
+          - Daily_TD_Report.PhanTram_CKKM_AOP
+        - field: PhanTram_LoiNhuan_AOP_2
+          column_id: PhanTram_LoiNhuan_AOP_2
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."PhanTram_LoiNhuan_AOP"
+          sources:
+          - Daily_TD_Report.PhanTram_LoiNhuan_AOP
+        - field: LNGiao
+          column_id: LNGiao
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."LNGiao"
+          sources:
+          - Daily_TD_Report.LNGiao
+        - field: CKKM_AOP
+          column_id: CKKM_AOP
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."CKKM_AOP"
+          sources:
+          - Daily_TD_Report.CKKM_AOP
+        - field: DS_AOP
+          column_id: DS_AOP
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."DS_AOP"
+          sources:
+          - Daily_TD_Report.DS_AOP
+        - field: DS_TT
+          column_id: DS_TT
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."DS_TT"
+          sources:
+          - Daily_TD_Report.DS_TT
+        - field: CKKM_TT
+          column_id: CKKM_TT
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."CKKM_TT"
+          sources:
+          - Daily_TD_Report.CKKM_TT
+        - field: LNST
+          column_id: LNST
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."LNST"
+          sources:
+          - Daily_TD_Report.LNST
+        - field: DS_ConPhaiThucHien
+          column_id: DS_ConPhaiThucHien
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."DS_ConPhaiThucHien"
+          sources:
+          - Daily_TD_Report.DS_ConPhaiThucHien
+        - field: LN_ConPhaiThucHien_8
+          column_id: LN_ConPhaiThucHien_8
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."LN_ConPhaiThucHien"
+          sources:
+          - Daily_TD_Report.LN_ConPhaiThucHien
+        - field: CKKM_ConDuocSuDung
+          column_id: CKKM_ConDuocSuDung
+          expression: XSA('minhndn@bizin.vn'.'Daily_TD_Report')."Columns"."CKKM_ConDuocSuDung"
+          sources:
+          - Daily_TD_Report.CKKM_ConDuocSuDung
+      - view: view!27
+        chart_type: oracle.bi.tech.table
+        title: DAILY_NGÀNH_HÀNG
+        fields:
+        - field: TenNganh
+          column_id: TenNganh
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TenNganh"
+          sources:
+          - Daily_Nganh_Report.TenNganh
+        - field: AVG PhanTram_CKKM_AOP
+          column_id: PhanTram_CKKM_AOP_58
+          expression: /* AVG */ XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."PhanTram_CKKM_AOP" /* AVG */
+          sources:
+          - Daily_Nganh_Report.PhanTram_CKKM_AOP
+        - field: PhanTram_LoiNhuan_AOP
+          column_id: PhanTram_LoiNhuan_AOP
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."PhanTram_LoiNhuan_AOP"
+          sources:
+          - Daily_Nganh_Report.PhanTram_LoiNhuan_AOP
+        - field: LNGiao_41
+          column_id: LNGiao_41
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."LNGiao"
+          sources:
+          - Daily_Nganh_Report.LNGiao
+        - field: CKKM_AOP_49
+          column_id: CKKM_AOP_49
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."CKKM_AOP"
+          sources:
+          - Daily_Nganh_Report.CKKM_AOP
+        - field: DS_AOP_57
+          column_id: DS_AOP_57
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."DS_AOP"
+          sources:
+          - Daily_Nganh_Report.DS_AOP
+        - field: Tỷ lệ X/Đ
+          column_id: TlX
+          expression: |-
+            CONCAT(
+            CAST(
+            CAST(
+            ROUND(
+            (XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TyLeXD"
+            / (1 + XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TyLeXD"))
+            * 100
+            ,0)
+            AS INTEGER
+            )
+            AS CHAR
+            ),
+            CONCAT(
+            '/',
+            CAST(
+            CAST(
+            ROUND(
+            (1 / (1 + XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TyLeXD"))
+            * 100
+            ,0)
+            AS INTEGER
+            )
+            AS CHAR
+            )
+            )
+            )
+          sources:
+          - Daily_Nganh_Report.TyLeXD
+        - field: TyTrong_SP_Moi
+          column_id: TyTrong_SP_Moi
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."TyTrong_SP_Moi"
+          sources:
+          - Daily_Nganh_Report.TyTrong_SP_Moi
+        - field: DS_TT_7
+          column_id: DS_TT_7
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."DS_TT"
+          sources:
+          - Daily_Nganh_Report.DS_TT
+        - field: LNST_3
+          column_id: LNST_3
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."LNST"
+          sources:
+          - Daily_Nganh_Report.LNST
+        - field: DS_ConPhaiThucHien_4
+          column_id: DS_ConPhaiThucHien_4
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."DS_ConPhaiThucHien"
+          sources:
+          - Daily_Nganh_Report.DS_ConPhaiThucHien
+        - field: LN_ConPhaiThucHien
+          column_id: LN_ConPhaiThucHien
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."LN_ConPhaiThucHien"
+          sources:
+          - Daily_Nganh_Report.LN_ConPhaiThucHien
+        - field: CKKM_ConDuocSuDung_5
+          column_id: CKKM_ConDuocSuDung_5
+          expression: XSA('minhndn@bizin.vn'.'Daily_Nganh_Report')."Columns"."CKKM_ConDuocSuDung"
+          sources:
+          - Daily_Nganh_Report.CKKM_ConDuocSuDung
+    - canvas: BC01_Summary_TĐ
+      view: canvas!2
+      n_viz: 2
+      vizzes:
+      - view: view!9
+        chart_type: oracle.bi.tech.pivot
+        title: SUMMARY TẬP ĐOÀN
+        fields:
+        - field: "\uFEFFSort_Order"
+          column_id: Sort_Order_2
+          expression: "OVERRIDEAGGR(XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\".\"\uFEFFSort_Order\")"
+          sources:
+          - "TD_Report_Long.\uFEFFSort_Order"
+        - field: Metric_Name
+          column_id: Metric_Name
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name"
+          sources:
+          - TD_Report_Long.Metric_Name
+        - field: AOP_Amount_1
+          column_id: AOP_Amount_1
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."AOP_Amount_1"
+          sources:
+          - TD_Report_Long.AOP_Amount_1
+        - field: AOP_Per
+          column_id: AOP_Per
+          expression: XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."AOP_Per"
+          sources:
+          - TD_Report_Long.AOP_Per
+        - field: LuyKe_GiaTri
+          column_id: LuyKe_GiaTri
+          expression: |2-
+
+            CASE WHEN MAX(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")) / ((SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name") END
+          sources:
+          - TD_Report_Long.Metric_Code
+          - TD_Report_Long.Metric_Name
+          - TD_Report_Long.Actual_Amount
+        - field: LuyKe_PerDS
+          column_id: LuyKe_PerDS
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")
+            IN (1, 2,24) THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")
+            / NULLIF(MAX(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."DT_grain" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name"),
+            0)) end
+          sources:
+          - TD_Report_Long.Metric_Code
+          - TD_Report_Long.Metric_Name
+          - TD_Report_Long.Actual_Amount
+          - TD_Report_Long.DT_grain
+        - field: Thieu_GiaTri
+          column_id: Thieu_GiaTri
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")
+            = 24 THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."AOP_Amount_1" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name")
+            - SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."Metric_Name"))
+            END
+          sources:
+          - TD_Report_Long.Metric_Code
+          - TD_Report_Long.Metric_Name
+          - TD_Report_Long.AOP_Amount_1
+          - TD_Report_Long.Actual_Amount
+        - field: Thieu_PerDS
+          column_id: Thieu_PerDS
+          expression: "CASE WHEN MAX(XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\".\"Metric_Code\" BY XSA('minhndn@bizin.vn'.'TD_Report_Long').\"\
+            Columns\".\"Metric_Name\") IN (1, 2,24) THEN NULL ELSE \n (SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\"\
+            .\"AOP_Amount_1\" BY XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\".\"Metric_Name\") - SUM(XSA('minhndn@bizin.vn'.'TD_Report_Long').\"\
+            Columns\".\"Actual_Amount\" BY XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\".\"Metric_Name\")) / NULLIF(MAX(@calculation(\"\
+            myCalc\") BY XSA('minhndn@bizin.vn'.'TD_Report_Long').\"Columns\".\"Metric_Name\"), 0) end"
+          sources:
+          - TD_Report_Long.Metric_Code
+          - TD_Report_Long.Metric_Name
+          - TD_Report_Long.AOP_Amount_1
+          - TD_Report_Long.Actual_Amount
+      - view: view!19
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title: AsOfDate (Day)
+        fields:
+        - field: AsOfDate_1
+          column_id: AsOfDate_1
+          expression: ExtractDay(XSA('minhndn@bizin.vn'.'TD_Report_Long')."Columns"."AsOfDate")
+          sources:
+          - TD_Report_Long.AsOfDate
+    - canvas: BC01_Summary_Ngành
+      view: canvas!3
+      n_viz: 5
+      vizzes:
+      - view: view!20
+        chart_type: oracle.bi.tech.pivot
+        title: HOME CARE
+        fields:
+        - field: AOP_GiaTri_Nganh
+          column_id: AOP_GiaTri
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: AOP_PerDS_Nganh
+          column_id: AOP_PerDS
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(MAX(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: LuyKe_GiaTri_Nganh
+          column_id: Actual_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: LuyKe_PerDS_Nganh
+          column_id: Actual_Amount_4
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_GiaTri_Nganh
+          column_id: AOP_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) end
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_PerDS_Nganh
+          column_id: AOP_Amount_5
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code"
+            = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: "\uFEFFSort_Order"
+          column_id: Sort_Order_1
+          expression: "OVERRIDEAGGR(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#').\"Columns\".\"\uFEFFSort_Order\")"
+          sources:
+          - "Nganh_Report_Long_#.\uFEFFSort_Order"
+        - field: Metric_Name_6
+          column_id: Metric_Name_6
+          expression: XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+      - view: view!21
+        chart_type: oracle.bi.tech.pivot
+        title: WATER CARE
+        fields:
+        - field: AOP_GiaTri_Nganh
+          column_id: AOP_GiaTri
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: AOP_PerDS_Nganh
+          column_id: AOP_PerDS
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(MAX(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: LuyKe_GiaTri_Nganh
+          column_id: Actual_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: LuyKe_PerDS_Nganh
+          column_id: Actual_Amount_4
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_GiaTri_Nganh
+          column_id: AOP_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) end
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_PerDS_Nganh
+          column_id: AOP_Amount_5
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code"
+            = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: "\uFEFFSort_Order"
+          column_id: Sort_Order_1
+          expression: "OVERRIDEAGGR(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#').\"Columns\".\"\uFEFFSort_Order\")"
+          sources:
+          - "Nganh_Report_Long_#.\uFEFFSort_Order"
+        - field: Metric_Name_6
+          column_id: Metric_Name_6
+          expression: XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+      - view: view!22
+        chart_type: oracle.bi.tech.pivot
+        title: SANITARY CARE
+        fields:
+        - field: AOP_GiaTri_Nganh
+          column_id: AOP_GiaTri
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: AOP_PerDS_Nganh
+          column_id: AOP_PerDS
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(MAX(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: LuyKe_GiaTri_Nganh
+          column_id: Actual_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: LuyKe_PerDS_Nganh
+          column_id: Actual_Amount_4
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_GiaTri_Nganh
+          column_id: AOP_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) end
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_PerDS_Nganh
+          column_id: AOP_Amount_5
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code"
+            = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: "\uFEFFSort_Order"
+          column_id: Sort_Order_1
+          expression: "OVERRIDEAGGR(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#').\"Columns\".\"\uFEFFSort_Order\")"
+          sources:
+          - "Nganh_Report_Long_#.\uFEFFSort_Order"
+        - field: Metric_Name_6
+          column_id: Metric_Name_6
+          expression: XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+      - view: view!23
+        chart_type: oracle.bi.tech.pivot
+        title: SANITARY CARE
+        fields:
+        - field: AOP_GiaTri_Nganh
+          column_id: AOP_GiaTri
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: AOP_PerDS_Nganh
+          column_id: AOP_PerDS
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(MAX(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+        - field: LuyKe_GiaTri_Nganh
+          column_id: Actual_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS")) / ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) + 1) * 100 ELSE SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: LuyKe_PerDS_Nganh
+          column_id: Actual_Amount_4
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_GiaTri_Nganh
+          column_id: AOP_Amount
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") = 24 THEN NULL ELSE (SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) end
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: Thieu_PerDS_Nganh
+          column_id: AOP_Amount_5
+          expression: CASE WHEN MAX(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS") IN (1, 2,24) THEN NULL ELSE ((SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount"
+            BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name", XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount" BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name",
+            XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS")) / NULLIF(SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code"
+            = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AOP_Amount" END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID
+            CLASS") - SUM(CASE WHEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Code" = 2 THEN XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Actual_Amount"
+            END BY XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."ID CLASS"), 0)) END
+          sources:
+          - Nganh_Report_Long_#.Metric_Code
+          - Nganh_Report_Long_#.Metric_Name
+          - Nganh_Report_Long_#.ID CLASS
+          - Nganh_Report_Long_#.AOP_Amount
+          - Nganh_Report_Long_#.Actual_Amount
+        - field: "\uFEFFSort_Order"
+          column_id: Sort_Order_1
+          expression: "OVERRIDEAGGR(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#').\"Columns\".\"\uFEFFSort_Order\")"
+          sources:
+          - "Nganh_Report_Long_#.\uFEFFSort_Order"
+        - field: Metric_Name_6
+          column_id: Metric_Name_6
+          expression: XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."Metric_Name"
+          sources:
+          - Nganh_Report_Long_#.Metric_Name
+      - view: view!24
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title: AsOfDate (Day)
+        fields:
+        - field: AsOfDate_7
+          column_id: AsOfDate_7
+          expression: ExtractDay(XSA('minhndn@bizin.vn'.'Nganh_Report_Long_#')."Columns"."AsOfDate")
+          sources:
+          - Nganh_Report_Long_#.AsOfDate
+  (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS:
+    slug: BC03_04_05_SFC_MIS
+    n_datasources: 2
+    n_datasources_used: 2
+    datasources:
+    - name: (KGR) SFC Dataset (có AI)
+      owner: viethl@bizin.vn
+      used: true
+    - name: (KGR) DTF_CALC_MIS
+      owner: anhdk@bizin.vn
+      used: true
+    n_canvases: 3
+    canvases:
+    - canvas: SFC Ước Tính
+      view: canvas!3
+      n_viz: 3
+      vizzes:
+      - view: view!31
+        chart_type: oracle.bi.tech.textbox
+        title:
+        fields: []
+      - view: view!32
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title:
+        fields:
+        - field: TRANDATE
+          column_id: TRANDATE
+          expression: ExtractDay(XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_TRANSACTION_HEADERS_1"."TRANDATE")
+          sources:
+          - (KGR) SFC Dataset (có AI).TRANDATE
+        - field: TRANDATE_4
+          column_id: TRANDATE_4
+          expression: ExtractMonth(XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_TRANSACTION_HEADERS_1"."TRANDATE")
+          sources:
+          - (KGR) SFC Dataset (có AI).TRANDATE
+        - field: TRANID_4
+          column_id: TRANID_4
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_TRANSACTION_HEADERS_1"."TRANID"
+          sources:
+          - (KGR) SFC Dataset (có AI).TRANID
+        - field: NAME
+          column_id: NAME
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_CLASSIFICATION_D"."NAME"
+          sources:
+          - (KGR) SFC Dataset (có AI).NAME
+        - field: Knh
+          column_id: Knh
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SALE_CHANNEL"."Kênh"
+          sources:
+          - (KGR) SFC Dataset (có AI).Kênh
+        - field: Model
+          column_id: Model
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL"."Model"
+          sources:
+          - (KGR) SFC Dataset (có AI).Model
+      - view: view!157
+        chart_type: oracle.bi.tech.table
+        title: TRANID, UPCCODE, DISPLAYNAME, Model, NAME, Kênh, Nhóm sản phẩm, Tên Đơn vị, Mã Đơn vị, Công ty Khách Hàng,
+          Chuỗi, Hàng Bán, Nhóm xanh đỏ, SX/OEM, Phân loại, Giá SFC (+VAT) , Quantity, Unit Cost, Giá Vốn, DS SFC, Doanh thu
+          (-VAT), Lãi Gộp, CKKM, CP CKKM, GP ròng, LN Gộp, DS W1, DS W2, DS W3, DS W4, DS W5, SL W1, SL W2, SL W3, SL W4,
+          SL W5, VAT
+        fields:
+        - field: TRANID_4
+          column_id: TRANID_4
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_TRANSACTION_HEADERS_1"."TRANID"
+          sources:
+          - (KGR) SFC Dataset (có AI).TRANID
+        - field: UPCCODE_13
+          column_id: UPCCODE_13
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_ITEM_D"."UPCCODE"
+          sources:
+          - (KGR) SFC Dataset (có AI).UPCCODE
+        - field: DISPLAYNAME
+          column_id: DISPLAYNAME
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_ITEM_D"."DISPLAYNAME"
+          sources:
+          - (KGR) SFC Dataset (có AI).DISPLAYNAME
+        - field: Model
+          column_id: Model
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL"."Model"
+          sources:
+          - (KGR) SFC Dataset (có AI).Model
+        - field: NAME
+          column_id: NAME
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_CLASSIFICATION_D"."NAME"
+          sources:
+          - (KGR) SFC Dataset (có AI).NAME
+        - field: Knh
+          column_id: Knh
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SALE_CHANNEL"."Kênh"
+          sources:
+          - (KGR) SFC Dataset (có AI).Kênh
+        - field: Nhmsnphm
+          column_id: Nhmsnphm
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP"."Nhóm
+            sản phẩm"
+          sources:
+          - (KGR) SFC Dataset (có AI).Nhóm sản phẩm
+        - field: Tnnv_28
+          column_id: Tnnv_28
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_SUBSIDIARY_D"."Tên Đơn vị"
+          sources:
+          - (KGR) SFC Dataset (có AI).Tên Đơn vị
+        - field: Mnv_47
+          column_id: Mnv_47
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_SUBSIDIARY_D"."Mã Đơn vị"
+          sources:
+          - (KGR) SFC Dataset (có AI).Mã Đơn vị
+        - field: CngtyKhchHng
+          column_id: CngtyKhchHng
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_CUSTOMER_D"."Công ty Khách Hàng"
+          sources:
+          - (KGR) SFC Dataset (có AI).Công ty Khách Hàng
+        - field: Chui
+          column_id: Chui
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN"."Chuỗi"
+          sources:
+          - (KGR) SFC Dataset (có AI).Chuỗi
+        - field: HngBn
+          column_id: HngBn
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY"."Hàng
+            Bán"
+          sources:
+          - (KGR) SFC Dataset (có AI).Hàng Bán
+        - field: Nhmxanh
+          column_id: Nhmxanh
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO"."Nhóm
+            xanh đỏ"
+          sources:
+          - (KGR) SFC Dataset (có AI).Nhóm xanh đỏ
+        - field: SXOEM
+          column_id: SXOEM
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE"."SX/OEM"
+          sources:
+          - (KGR) SFC Dataset (có AI).SX/OEM
+        - field: NAME_5
+          column_id: NAME_5
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP"."Phân loại"
+          sources:
+          - (KGR) SFC Dataset (có AI).Phân loại
+        - field: 'Giá SFC (+VAT) '
+          column_id: GiVAT1
+          expression: '@calculation("DSSFC")/XSA(''viethl@bizin.vn''.''(KGR) SFC Dataset (có AI)'')."DW_NS_X_SFC_LINES_CF"."Quantity"'
+          sources:
+          - (KGR) SFC Dataset (có AI).Quantity
+        - field: CUSTCOL_SCV_QUANTITY_SFC
+          column_id: CUSTCOL_SCV_QUANTITY_SFC
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Quantity"
+          sources:
+          - (KGR) SFC Dataset (có AI).Quantity
+        - field: UnitCost_12
+          column_id: UnitCost_12
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Unit Cost"
+          sources:
+          - (KGR) SFC Dataset (có AI).Unit Cost
+        - field: Givn_15
+          column_id: Givn_15
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Giá Vốn"
+          sources:
+          - (KGR) SFC Dataset (có AI).Giá Vốn
+        - field: DS SFC
+          column_id: DSSFC
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W1"+XSA('viethl@bizin.vn'.'(KGR)
+            SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W2"+XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS
+            W3"+XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W4"+XSA('viethl@bizin.vn'.'(KGR)
+            SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W5"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W1
+          - (KGR) SFC Dataset (có AI).DS W2
+          - (KGR) SFC Dataset (có AI).DS W3
+          - (KGR) SFC Dataset (có AI).DS W4
+          - (KGR) SFC Dataset (có AI).DS W5
+        - field: DoanhthuSFC
+          column_id: DoanhthuSFC
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Doanh thu (-VAT)"
+          sources:
+          - (KGR) SFC Dataset (có AI).Doanh thu (-VAT)
+        - field: LiGp
+          column_id: LiGp
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Lãi Gộp"
+          sources:
+          - (KGR) SFC Dataset (có AI).Lãi Gộp
+        - field: CKKM_39
+          column_id: CKKM_39
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."CKKM"
+          sources:
+          - (KGR) SFC Dataset (có AI).CKKM
+        - field: CPKM
+          column_id: CPKM
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."CP CKKM"
+          sources:
+          - (KGR) SFC Dataset (có AI).CP CKKM
+        - field: GPRng
+          column_id: GPRng
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."GP ròng"
+          sources:
+          - (KGR) SFC Dataset (có AI).GP ròng
+        - field: LNGp
+          column_id: LNGp
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."LN Gộp"
+          sources:
+          - (KGR) SFC Dataset (có AI).LN Gộp
+        - field: DSW1
+          column_id: DSW1
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W1"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W1
+        - field: DSW2
+          column_id: DSW2
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W2"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W2
+        - field: DSW3
+          column_id: DSW3
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W3"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W3
+        - field: DSW4
+          column_id: DSW4
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W4"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W4
+        - field: DSW5
+          column_id: DSW5
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."DS W5"
+          sources:
+          - (KGR) SFC Dataset (có AI).DS W5
+        - field: SLW1
+          column_id: SLW1
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."SL W1"
+          sources:
+          - (KGR) SFC Dataset (có AI).SL W1
+        - field: SLW2
+          column_id: SLW2
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."SL W2"
+          sources:
+          - (KGR) SFC Dataset (có AI).SL W2
+        - field: SLW3
+          column_id: SLW3
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."SL W3"
+          sources:
+          - (KGR) SFC Dataset (có AI).SL W3
+        - field: SLW4
+          column_id: SLW4
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."SL W4"
+          sources:
+          - (KGR) SFC Dataset (có AI).SL W4
+        - field: SLW5
+          column_id: SLW5
+          expression: XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."SL W5"
+          sources:
+          - (KGR) SFC Dataset (có AI).SL W5
+        - field: VAT
+          column_id: VAT_2
+          expression: (@calculation("DSSFC")/XSA('viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)')."DW_NS_X_SFC_LINES_CF"."Doanh
+            thu (-VAT)") - 1
+          sources:
+          - (KGR) SFC Dataset (có AI).Doanh thu (-VAT)
+    - canvas: SFC Thực Tế
+      view: canvas!4
+      n_viz: 3
+      vizzes:
+      - view: view!132
+        chart_type: oracle.bi.tech.textbox
+        title:
+        fields: []
+      - view: view!158
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title:
+        fields:
+        - field: TransactionID
+          column_id: TransactionID
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Transaction ID"
+          sources:
+          - (KGR) DTF_CALC_MIS.Transaction ID
+        - field: Modelname_71
+          column_id: Modelname_71
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Model name
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Ngành
+        - field: TnKnh_53
+          column_id: TnKnh_53
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Kênh
+        - field: TnChui_9
+          column_id: TnChui_9
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Chuỗi
+      - view: view!159
+        chart_type: oracle.bi.tech.table
+        title: Item Name, Model name, Tên Ngành, Nhóm SP, Tên Kênh, Tên Khách Hàng, Tên Chuỗi, Nhóm xanh đỏ, Đơn Giá (-VAT),
+          Đơn giá (+VAT), QUANTITY, Doanh số thực tế, Doanh thu thực tế, Unit Cost, Giá Vốn, LN Gộp, %LN Gộp, CKKM, CP CKKM,
+          %GP Ròng, TAX RATE, TAX AMT
+        fields:
+        - field: Mhng
+          column_id: Mhng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã hàng"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã hàng
+        - field: ItemName
+          column_id: ItemName
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Item Name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Item Name
+        - field: Modelname_71
+          column_id: Modelname_71
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Model name
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Ngành
+        - field: NhmSP_65
+          column_id: NhmSP_65
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Nhóm SP"
+          sources:
+          - (KGR) DTF_CALC_MIS.Nhóm SP
+        - field: Tnnv_41
+          column_id: Tnnv_41
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Đơn vị"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Đơn vị
+        - field: TnKnh_53
+          column_id: TnKnh_53
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Kênh
+        - field: TnKhchHng
+          column_id: TnKhchHng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Khách Hàng"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Khách Hàng
+        - field: TnChui_9
+          column_id: TnChui_9
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Chuỗi
+        - field: SalesCategory
+          column_id: SalesCategory
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Sales Category"
+          sources:
+          - (KGR) DTF_CALC_MIS.Sales Category
+        - field: Nhmxanh_59
+          column_id: Nhmxanh_59
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Nhóm xanh đỏ"
+          sources:
+          - (KGR) DTF_CALC_MIS.Nhóm xanh đỏ
+        - field: QuyhochSP
+          column_id: QuyhochSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Quy hoạch SP"
+          sources:
+          - (KGR) DTF_CALC_MIS.Quy hoạch SP
+        - field: PhnnhmSP
+          column_id: PhnnhmSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Phân nhóm SP"
+          sources:
+          - (KGR) DTF_CALC_MIS.Phân nhóm SP
+        - field: ĐƠN GIÁ (-VAT)
+          column_id: NGIVAT
+          expression: -XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Đơn Giá (-VAT)"
+          sources:
+          - (KGR) DTF_CALC_MIS.Đơn Giá (-VAT)
+        - field: ĐƠN GIÁ (+VAT)
+          column_id: NGIVAT_3
+          expression: -XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Đơn giá (+VAT)"
+          sources:
+          - (KGR) DTF_CALC_MIS.Đơn giá (+VAT)
+        - field: SỐ LƯỢNG
+          column_id: SLNG
+          expression: -XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."QUANTITY"
+          sources:
+          - (KGR) DTF_CALC_MIS.QUANTITY
+        - field: Doanhsthct
+          column_id: Doanhsthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Doanh số thực tế"
+          sources:
+          - (KGR) DTF_CALC_MIS.Doanh số thực tế
+        - field: Doanhthuthct
+          column_id: Doanhthuthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Doanh thu thực tế"
+          sources:
+          - (KGR) DTF_CALC_MIS.Doanh thu thực tế
+        - field: UnitCost
+          column_id: UnitCost
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Unit Cost"
+          sources:
+          - (KGR) DTF_CALC_MIS.Unit Cost
+        - field: GiVn_8
+          column_id: GiVn_8
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Giá Vốn"
+          sources:
+          - (KGR) DTF_CALC_MIS.Giá Vốn
+        - field: LNGp_12
+          column_id: LNGp_12
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_MIS.LN Gộp
+        - field: LNGp_16
+          column_id: LNGp_16
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."%LN Gộp"
+          sources:
+          - (KGR) DTF_CALC_MIS.%LN Gộp
+        - field: CKKM
+          column_id: CKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."CKKM"
+          sources:
+          - (KGR) DTF_CALC_MIS.CKKM
+        - field: CPCKKM_20
+          column_id: CPCKKM_20
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."CP CKKM"
+          sources:
+          - (KGR) DTF_CALC_MIS.CP CKKM
+        - field: GPRng_24
+          column_id: GPRng_24
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."%GP Ròng"
+          sources:
+          - (KGR) DTF_CALC_MIS.%GP Ròng
+        - field: TAXRATE
+          column_id: TAXRATE
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."TAX RATE"
+          sources:
+          - (KGR) DTF_CALC_MIS.TAX RATE
+        - field: GIÁ VAT
+          column_id: GIVAT
+          expression: -XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."TAX AMT"
+          sources:
+          - (KGR) DTF_CALC_MIS.TAX AMT
+    - canvas: MIS
+      view: canvas!12
+      n_viz: 3
+      vizzes:
+      - view: view!110
+        chart_type: oracle.bi.tech.canvasfilterviz.listbox
+        title:
+        fields:
+        - field: TransactionType
+          column_id: TransactionType
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Transaction Type"
+          sources:
+          - (KGR) DTF_CALC_MIS.Transaction Type
+        - field: PERIODNAME_35
+          column_id: PERIODNAME_35
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."PERIODNAME"
+          sources:
+          - (KGR) DTF_CALC_MIS.PERIODNAME
+        - field: NgyCT
+          column_id: NgyCT
+          expression: ExtractDay(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Ngày CT")
+          sources:
+          - (KGR) DTF_CALC_MIS.Ngày CT
+        - field: TransactionID
+          column_id: TransactionID
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Transaction ID"
+          sources:
+          - (KGR) DTF_CALC_MIS.Transaction ID
+        - field: SCTFAST
+          column_id: SCTFAST
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Số CT FAST"
+          sources:
+          - (KGR) DTF_CALC_MIS.Số CT FAST
+        - field: Mhng
+          column_id: Mhng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã hàng"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã hàng
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Ngành
+        - field: TnChui_9
+          column_id: TnChui_9
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Chuỗi
+        - field: TnKnh_53
+          column_id: TnKnh_53
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Kênh
+        - field: Modelname_71
+          column_id: Modelname_71
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Model name
+      - view: view!111
+        chart_type: oracle.bi.tech.textbox
+        title:
+        fields: []
+      - view: view!136
+        chart_type: oracle.bi.tech.table
+        title: Transaction Type, Ngày CT (Day), Số CT, Mã NVBH, Giá bán TB, SL xuất bán, Doanh thu xuất bán, Thuế, Giá trả
+          lại TB, SL trả lại, Doanh thu trả lại, Thuế trả lại, Chiết khấu trả lại, Chiết khấu, Thực bán
+        fields:
+        - field: TransactionType
+          column_id: TransactionType
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Transaction Type"
+          sources:
+          - (KGR) DTF_CALC_MIS.Transaction Type
+        - field: NgyCT
+          column_id: NgyCT
+          expression: ExtractDay(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Ngày CT")
+          sources:
+          - (KGR) DTF_CALC_MIS.Ngày CT
+        - field: SCTFAST
+          column_id: SCTFAST
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Số CT FAST"
+          sources:
+          - (KGR) DTF_CALC_MIS.Số CT FAST
+        - field: MNVBH_29
+          column_id: MNVBH_29
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã NVBH"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã NVBH
+        - field: Dingii
+          column_id: Dingii
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Diễn giải"
+          sources:
+          - (KGR) DTF_CALC_MIS.Diễn giải
+        - field: TKing
+          column_id: TKing
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."TK đối ứng"
+          sources:
+          - (KGR) DTF_CALC_MIS.TK đối ứng
+        - field: Tnnv_41
+          column_id: Tnnv_41
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Đơn vị"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Đơn vị
+        - field: MKH_47
+          column_id: MKH_47
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã KH"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã KH
+        - field: TnKhchHng
+          column_id: TnKhchHng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Khách Hàng"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Khách Hàng
+        - field: TnKnh_53
+          column_id: TnKnh_53
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Kênh"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Kênh
+        - field: TnChui_9
+          column_id: TnChui_9
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Chuỗi"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Chuỗi
+        - field: Vvic
+          column_id: Vvic
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Vụ việc"
+          sources:
+          - (KGR) DTF_CALC_MIS.Vụ việc
+        - field: TnNgnh
+          column_id: TnNgnh
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên Ngành"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên Ngành
+        - field: Nhmxanh_59
+          column_id: Nhmxanh_59
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Nhóm xanh đỏ"
+          sources:
+          - (KGR) DTF_CALC_MIS.Nhóm xanh đỏ
+        - field: NhmSP_65
+          column_id: NhmSP_65
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Nhóm SP"
+          sources:
+          - (KGR) DTF_CALC_MIS.Nhóm SP
+        - field: achKH
+          column_id: achKH
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Địa chỉ KH"
+          sources:
+          - (KGR) DTF_CALC_MIS.Địa chỉ KH
+        - field: Mhng
+          column_id: Mhng
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã hàng"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã hàng
+        - field: Modelname_71
+          column_id: Modelname_71
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Model name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Model name
+        - field: ItemName
+          column_id: ItemName
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Item Name"
+          sources:
+          - (KGR) DTF_CALC_MIS.Item Name
+        - field: vt
+          column_id: vt
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Đvt"
+          sources:
+          - (KGR) DTF_CALC_MIS.Đvt
+        - field: Tnkho
+          column_id: Tnkho
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên kho"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên kho
+        - field: MCKKM
+          column_id: MCKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Mã CKKM"
+          sources:
+          - (KGR) DTF_CALC_MIS.Mã CKKM
+        - field: TnCKKM
+          column_id: TnCKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tên CKKM"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tên CKKM
+        - field: SLxutbn
+          column_id: SLxutbn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."SL xuất bán"
+          sources:
+          - (KGR) DTF_CALC_MIS.SL xuất bán
+        - field: Ngybtu
+          column_id: Ngybtu
+          expression: ExtractDay(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Ngày bắt đầu")
+          sources:
+          - (KGR) DTF_CALC_MIS.Ngày bắt đầu
+        - field: Ngyktthc
+          column_id: Ngyktthc
+          expression: ExtractDay(XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Ngày kết thúc")
+          sources:
+          - (KGR) DTF_CALC_MIS.Ngày kết thúc
+        - field: GibnTB
+          column_id: GibnTB
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Giá bán TB"
+          sources:
+          - (KGR) DTF_CALC_MIS.Giá bán TB
+        - field: Doanhthuxutbn
+          column_id: Doanhthuxutbn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Doanh thu xuất bán"
+          sources:
+          - (KGR) DTF_CALC_MIS.Doanh thu xuất bán
+        - field: Thu
+          column_id: Thu
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Thuế"
+          sources:
+          - (KGR) DTF_CALC_MIS.Thuế
+        - field: SLtrli
+          column_id: SLtrli
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."SL trả lại"
+          sources:
+          - (KGR) DTF_CALC_MIS.SL trả lại
+        - field: GitrliTB
+          column_id: GitrliTB
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Giá trả lại TB"
+          sources:
+          - (KGR) DTF_CALC_MIS.Giá trả lại TB
+        - field: Doanhthutrli
+          column_id: Doanhthutrli
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Doanh thu trả lại"
+          sources:
+          - (KGR) DTF_CALC_MIS.Doanh thu trả lại
+        - field: Thutrli
+          column_id: Thutrli
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Thuế trả lại"
+          sources:
+          - (KGR) DTF_CALC_MIS.Thuế trả lại
+        - field: Chitkhutrli
+          column_id: Chitkhutrli
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Chiết khấu trả lại"
+          sources:
+          - (KGR) DTF_CALC_MIS.Chiết khấu trả lại
+        - field: Chitkhu
+          column_id: Chitkhu
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Chiết khấu"
+          sources:
+          - (KGR) DTF_CALC_MIS.Chiết khấu
+        - field: CKKM
+          column_id: CKKM
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."CKKM"
+          sources:
+          - (KGR) DTF_CALC_MIS.CKKM
+        - field: Thcbn
+          column_id: Thcbn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Thực bán"
+          sources:
+          - (KGR) DTF_CALC_MIS.Thực bán
+        - field: Tinvn
+          column_id: Tinvn
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tiền vốn"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tiền vốn
+        - field: T1_GVMT
+          column_id: T1_GVMT
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."T1_GVMT"
+          sources:
+          - (KGR) DTF_CALC_MIS.T1_GVMT
+        - field: T2_GVTK
+          column_id: T2_GVTK
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."T2_GVTK"
+          sources:
+          - (KGR) DTF_CALC_MIS.T2_GVTK
+        - field: T3_FB50
+          column_id: T3_FB50
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."T3_FB50"
+          sources:
+          - (KGR) DTF_CALC_MIS.T3_FB50
+        - field: UnitCost
+          column_id: UnitCost
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Unit Cost"
+          sources:
+          - (KGR) DTF_CALC_MIS.Unit Cost
+        - field: Tinvntl
+          column_id: Tinvntl
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tiền vốn tl"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tiền vốn tl
+        - field: Tinvnthct
+          column_id: Tinvnthct
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Tiền vốn thực tế"
+          sources:
+          - (KGR) DTF_CALC_MIS.Tiền vốn thực tế
+        - field: Li
+          column_id: Li
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Lãi"
+          sources:
+          - (KGR) DTF_CALC_MIS.Lãi
+        - field: TBDT_82
+          column_id: TBDT_82
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."%TB/DT"
+          sources:
+          - (KGR) DTF_CALC_MIS.%TB/DT
+        - field: GVDT_83
+          column_id: GVDT_83
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."%GV/DT"
+          sources:
+          - (KGR) DTF_CALC_MIS.%GV/DT
+        - field: QuyhochSP
+          column_id: QuyhochSP
+          expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_MIS')."Columns"."Quy hoạch SP"
+          sources:
+          - (KGR) DTF_CALC_MIS.Quy hoạch SP

@@ -1,0 +1,17 @@
+_oac_extract/
+_archived/
+.secrets/
+__pycache__/
+*.pyc
+*.png
+*.network-response
+_snap_*.txt
+_resp_*
+_*.json
+_work/
+
+# scratch/handoff (untracked 2026-06-21; vẫn trên đĩa) — scoped, KHÔNG đụng OAC-Knowledge/fields/_*.md
+_PNL_*
+_DB01_*
+_build_heatmap*
+_combochip*

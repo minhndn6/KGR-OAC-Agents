@@ -1,0 +1,903 @@
+_meta:
+  purpose: 'Tra nhanh: metric/dimension nào lấy được ở dataset nào, grain nào. Dùng khi builder hỏi ''cần X theo Y lấy đâu''.'
+  extracted_live: '2026-06-20'
+  note: 'NO số. Authoritative khi trùng: OAC>NSAW; BC(báo cáo)>DB(dashboard).'
+by_dimension:
+  asm:
+  - DW_X_SALE_HISTORY_Dataset
+  chuoi (chain):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  don_vi (subsidiary):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - DW_X_SALE_HISTORY_Dataset
+  - SALE HIST w INVC
+  kenh (channel/SC):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  khach (customer):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - DW_X_SALE_HISTORY_Dataset
+  - SALE HIST w INVC
+  metric_code (P&L chỉ tiêu):
+  - Daily_Nganh_Report
+  - Nganh_Report_Long_#
+  - Nganh_Report_Long_TD
+  - TD_Report_Long
+  model:
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+  - SALE HIST w INVC
+  nganh (class):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - Daily_Nganh_Report
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - KGR_DS_SFC_vs_MEMO_v2
+  - KGR_DS_SFC_vs_MEMO_v3
+  - Nganh_Report_Long_#
+  - Nganh_Report_Long_TD
+  - SPmoi_ng_v3
+  - TD_Report_PNL_Bridge_Nganh
+  nhom_sp (product group):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - KGR_DS_SFC_vs_MEMO_v3
+  thoi_gian (time):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - DW_X_SALE_HISTORY_Dataset
+  - Daily_Nganh_Report
+  - Daily_TD_Report
+  - Nganh_Report_Long_#
+  - Nganh_Report_Long_TD
+  - SALE HIST w INVC
+  - SPmoi_ng_v3
+  - TD_Metrics_Wide
+  - TD_Report_Long
+  - TD_Report_PNL_Bridge
+  - TD_Report_PNL_Bridge_Nganh
+  tinh (province):
+  - (KGR) DTF_CALC_MIS
+  xanh_do:
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+by_metric:
+  aop (kế hoạch):
+  - AOP LINE CF
+  - Daily_Nganh_Report
+  - Daily_TD_Report
+  - KGR_DS_SFC_vs_MEMO_v2
+  - KGR_DS_SFC_vs_MEMO_v3
+  - KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  - Nganh_Report_Long_#
+  - Nganh_Report_Long_TD
+  - TD_Metrics_Wide
+  - TD_Report_Long
+  - TD_Report_PNL_Bridge
+  - TD_Report_PNL_Bridge_Nganh
+  ckkm (chiết khấu KM):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - AOP LINE CF
+  - Daily_Nganh_Report
+  - Daily_TD_Report
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - TD_Metrics_Wide
+  cogs (giá vốn):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - TD_Metrics_Wide
+  gross_profit (LN gộp):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  profit (lợi nhuận):
+  - Daily_Nganh_Report
+  - Daily_TD_Report
+  quantity (sản lượng):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - DW_X_SALE_HISTORY_Dataset
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - KGR_DS_SFC_vs_MEMO_v2
+  - KGR_DS_SFC_vs_MEMO_v3
+  - KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  revenue (doanh thu/doanh số):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - (KGR) SFC Dataset (có AI)
+  - DW_X_SALE_HISTORY_Dataset
+  - Daily_Nganh_Report
+  - Daily_TD_Report
+  - KGR_DS_SFC_vs_Actual_v2
+  - KGR_DS_SFC_vs_MEMO_v1
+  - KGR_DS_SFC_vs_MEMO_v2
+  - KGR_DS_SFC_vs_MEMO_v3
+  - KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  - SALE HIST w INVC
+  - SPmoi_ng_v3
+  - TD_Metrics_Wide
+  sfc (ước tính):
+  - KGR_DS_SFC_vs_MEMO_v2
+  - KGR_DS_SFC_vs_MEMO_v3
+  - KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  sp_moi (sản phẩm mới):
+  - (KGR) DTF_CALC_INVOICE_MEMO_#
+  - (KGR) DTF_CALC_MIS
+  - Daily_TD_Report
+  - KGR_DS_SFC_vs_MEMO_v1
+  - SPmoi_ng_v3
+datasets:
+  (KGR) DTF_CALC_INVOICE_MEMO_#:
+    type: dataflow_output
+    grain: Grain dến invoice line id
+    dimensions:
+    - ACCTTYPE
+    - CUSTBODY_SCV_TRANS_SCT_FAST
+    - CUSTCOL_SCV_LINE_ISFREEGIFT
+    - CUSTOMER
+    - DS T1
+    - DS T10
+    - DS T11
+    - DS T12
+    - DS T2
+    - DS T3
+    - DS T4
+    - DS T5
+    - DS T6
+    - DS T7
+    - DS T8
+    - DS T9
+    - DS Xanh
+    - DS Đỏ
+    - ID CLASS
+    - ID Chuỗi
+    - ID Kênh
+    - ID MODEL
+    - ID NHOMXANHDO
+    - ID Nhóm kênh
+    - ID XD
+    - ITEM
+    - Item Name
+    - LINE ID
+    - Model name
+    - Month_No
+    - Nhóm Kênh
+    - Nhóm SP
+    - Nhóm xanh đỏ
+    - PARENT_NAME
+    - PERIODNAME
+    - Quy hoạch SP
+    - SUBSIDIARY
+    - TRANDATE
+    - TRANSACTION
+    - TYPE
+    - Tên Chuỗi
+    - Tên Kênh
+    - Tên Ngành
+    - Tên Đơn vị
+    - Vụ việc
+    measures:
+    - '%GP Ròng'
+    - '%LN Gộp'
+    - CKKM Per
+    - CP CKKM
+    - Doanh số lũy kế
+    - Doanh số quy đổi
+    - Doanh số thực tế
+    - Doanh thu SP mới
+    - Doanh thu ngành khác
+    - Doanh thu thực tế
+    - Giá Vốn
+    - LN Gộp
+    - POSTINGPERIOD
+    - QUANTITY
+    - T1_GVMT
+    - T2_GVTK
+    - T3_FB50
+    - Tỷ trọng SP mới
+    - Unit Cost
+    - 'a25_CP dự phòng (trả hàng, thanh lý, hủy...) '
+    - a6_CP nhân viên KD
+    produced_by: (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB01.Revenue_v1.1
+    - (KGR) DB02.Expense_v1.1
+  (KGR) DTF_CALC_MIS:
+    type: dataflow_output
+    grain: Grain dến invoice line id
+    dimensions:
+    - ACCTTYPE
+    - Chiết khấu
+    - Chiết khấu trả lại
+    - DS Xanh
+    - DS Đỏ
+    - Diễn giải
+    - Giá bán TB
+    - Giá trả lại TB
+    - ID Kênh
+    - ID XD
+    - ITEM
+    - Item Name
+    - KH ký gửi
+    - LINE ID
+    - Là hàng tặng
+    - Model name
+    - Month_No
+    - Mã KH
+    - Mã NVBH
+    - Mã hàng
+    - Mã tỉnh
+    - Ngày CT
+    - Ngày bắt đầu
+    - Ngày kết thúc
+    - Nhóm Kênh
+    - Nhóm SP
+    - Nhóm xanh đỏ
+    - PERIODNAME
+    - Phân nhóm SP
+    - Quy hoạch SP
+    - SL trả lại
+    - SL xuất bán
+    - Sales Category
+    - TK đối ứng
+    - TYPE
+    - Thuế
+    - Thuế trả lại
+    - Thực bán
+    - Tiền vốn
+    - Tiền vốn thực tế
+    - Tiền vốn tl
+    - Transaction ID
+    - Transaction Type
+    - Tên Chuỗi
+    - Tên Khách Hàng
+    - Tên Kênh
+    - Tên Ngành
+    - Tên kho
+    - Tên Đơn vị
+    - Vụ việc
+    - Đvt
+    - Đơn Giá (-VAT)
+    - Đơn giá (+VAT)
+    - Đơn vị
+    - Địa chỉ
+    - Địa chỉ KH
+    measures:
+    - '%GP Ròng'
+    - '%GV/DT'
+    - '%LN Gộp'
+    - '%TB/DT'
+    - CKKM
+    - CP CKKM
+    - DISCOUNT AMOUNT 01
+    - Doanh số thực tế
+    - Doanh thu SP mới
+    - Doanh thu thực tế
+    - Doanh thu trả lại
+    - Doanh thu xuất bán
+    - Giá Vốn
+    - LN Gộp
+    - Lãi
+    - Mã CKKM
+    - POSTINGPERIOD
+    - QUANTITY
+    - Số CT FAST
+    - T1_GVMT
+    - T2_GVTK
+    - T3_FB50
+    - TAX AMT
+    - TAX RATE
+    - Tên CKKM
+    - Tỷ trọng SP mới
+    - Unit Cost
+    produced_by: (KGR) 5. DTF_CALC_MIS
+    used_by_workbooks:
+    - (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS
+  Daily_Nganh_Report:
+    type: dataflow_output
+    grain: 'group: PERIODNAME, CLASS'
+    dimensions:
+    - AsOfDate
+    - AsOfDate_1
+    - CLASS
+    - DS_ConPhaiThucHien
+    - DT_SPmoi_ng
+    - DT_ng
+    - ID CLASS
+    - IDCLASS
+    - LN_ConPhaiThucHien
+    - Metric_Code
+    - Metric_Name
+    - PERIODNAME
+    - PERIODNAME_1
+    - PERIODNAME_2
+    - TenNganh
+    - TyTrong_SP_Moi
+    - TyTrong_SP_Moi_dyn
+    - a10_ng
+    - a1_ng
+    - a3_ng
+    - a5_ng
+    - "\uFEFFSort_Order"
+    measures:
+    - AOP_Amount Sum
+    - Actual_Amount Sum
+    - CKKM_AOP
+    - CKKM_ConDuocSuDung
+    - CKKM_TT
+    - CUSTCOL_SCV_AOP_CKKM Average
+    - CUSTCOL_SCV_AOP_CP_CKKM Sum
+    - CUSTCOL_SCV_AOP_DOANH_SO Sum
+    - CUSTCOL_SCV_AOP_LN_GIAO Sum
+    - CUSTCOL_SCV_AOP_LOI_NHUAN Sum
+    - DS Xanh Sum_ng
+    - DS Đỏ Sum_ng
+    - DS_AOP
+    - DS_TT
+    - DT_grain Sum
+    - LNGiao
+    - LNGop
+    - LNST
+    - NETAMOUNT Sum
+    - PhanTram_CKKM_AOP
+    - PhanTram_LoiNhuan_AOP
+    - TyLeXD
+    - a19_Doanh thu ngành khác_ng
+    produced_by: KGR_DF_Daily_Nganh_Report_m
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB01.Revenue_v1.1
+  Daily_TD_Report:
+    type: dataflow_output
+    grain: 'group: PERIODNAME, AsOfDate'
+    dimensions:
+    - AsOfDate
+    - AsOfDate_1
+    - DS_ConPhaiThucHien
+    - LN_ConPhaiThucHien
+    - PERIODNAME
+    - PERIODNAME_1
+    - PERIODNAME_2
+    measures:
+    - AOP_Amount Sum
+    - AOP_Amount_1 Sum
+    - AOP_Amount_2 Sum
+    - AOP_Per Sum
+    - AOP_Per_24 Sum
+    - Actual_Amount Sum
+    - CKKM_AOP
+    - CKKM_ConDuocSuDung
+    - CKKM_TT
+    - CUSTCOL_SCV_AOP_CKKM Average
+    - CUSTCOL_SCV_AOP_CP_CKKM Sum
+    - CUSTCOL_SCV_AOP_DOANH_SO Sum
+    - CUSTCOL_SCV_AOP_LN_GIAO Sum
+    - CUSTCOL_SCV_AOP_LOI_NHUAN Average
+    - Chỉ tiêu (AOP) Sum
+    - DS Xanh Sum_ng Sum
+    - DS Đỏ Sum_ng Sum
+    - DS_AOP
+    - DS_TT
+    - DT_SPmoi_ng Sum
+    - DT_grain Sum
+    - DT_ng Sum
+    - ID CLASS Maximum
+    - LNGiao
+    - LNST
+    - Metric_Code Maximum
+    - PhanTram_CKKM_AOP
+    - PhanTram_LoiNhuan_AOP
+    - TyLeXD
+    - a10_ng Sum
+    - a19_Doanh thu ngành khác_ng Sum
+    - a1_ng Sum
+    - a3_ng Sum
+    - a5_ng Sum
+    - "\uFEFFSort_Order Sum"
+    produced_by: KGR_DF_Daily_TD_Report
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+  KGR_DS_SFC_vs_Actual_v2:
+    type: dataflow_output
+    grain: 'group: POSTINGPERIOD, ID, CSEG_SCV_PRODCATG, CSEG_SCV_PRODGROUP, CSEG_SCV_MODEL, CSEG_SCV_CHAIN, CSEG_SCV_NHOMXANHDO'
+    dimensions:
+    - CSEG_SCV_CHAIN
+    - CSEG_SCV_MODEL
+    - CSEG_SCV_NHOMXANHDO
+    - CSEG_SCV_PRODCATG
+    - CSEG_SCV_PRODGROUP
+    - ID
+    - ID CLASS
+    - ITEM
+    - Model name
+    - Nhóm SP
+    - Tên Ngành
+    measures:
+    - CKKM Maximum
+    - Doanh số thực tế Sum
+    - Doanh thu (-VAT) Maximum
+    - GP ròng Maximum
+    - Giá Vốn Maximum
+    - LN Gộp Sum
+    - Lãi Gộp Maximum
+    - POSTINGPERIOD
+    - POSTINGPERIOD_1
+    - QUANTITY Sum
+    - Quantity Maximum
+    produced_by: KGR_DF_SFC_vs_Actual_v2
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  KGR_DS_SFC_vs_MEMO_v1:
+    type: dataflow_output
+    grain: 'group: Tên Ngành, Nhóm SP'
+    dimensions:
+    - Nhóm SP
+    - Nhóm SP_1
+    - Tên Ngành
+    - Tên Ngành_1
+    measures:
+    - '%GP Ròng Sum'
+    - '%LN Gộp Sum'
+    - CKKM Maximum Sum Sum
+    - CKKM Per Sum
+    - CKKM_PER Sum
+    - CP CKKM Sum
+    - CSEG_SCV_CHAIN Sum Sum
+    - CSEG_SCV_MODEL Sum Sum
+    - CSEG_SCV_NHOMXANHDO Sum Sum
+    - CSEG_SCV_PRODCATG Sum Sum
+    - CSEG_SCV_PRODGROUP Sum Sum
+    - CUSTOMER Sum
+    - DS T1 Sum
+    - DS T10 Sum
+    - DS T11 Sum
+    - DS T12 Sum
+    - DS T2 Sum
+    - DS T3 Sum
+    - DS T4 Sum
+    - DS T5 Sum
+    - DS T6 Sum
+    - DS T7 Sum
+    - DS T8 Sum
+    - DS T9 Sum
+    - DS Xanh Sum
+    - DS Đỏ Sum
+    - Doanh số lũy kế Sum
+    - Doanh số quy đổi Sum
+    - Doanh số thực tế Sum
+    - Doanh số thực tế Sum Sum Sum
+    - Doanh thu (-VAT) Maximum Maximum Sum
+    - Doanh thu SP mới Sum
+    - Doanh thu ngành khác Sum
+    - Doanh thu thực tế Sum
+    - Doanh thu thực tế_total Sum
+    - GP ròng Maximum Sum Sum
+    - Giá Vốn Maximum Sum Sum
+    - Giá Vốn Sum
+    - ID CLASS Sum
+    - ID CLASS Sum Sum
+    - ID Chuỗi Sum
+    - ID Kênh Sum
+    - ID MODEL Sum
+    - ID NHOMXANHDO Sum
+    - ID Nhóm kênh Sum
+    - ID Sum Sum
+    - ID XD Sum
+    - ITEM Sum
+    - ITEM Sum Sum
+    - LINE ID Sum
+    - LN Gộp Sum
+    - LN Gộp Sum Sum Sum
+    - Lãi Gộp Maximum Sum Sum
+    - Month_No Sum
+    - POSTINGPERIOD Sum
+    - POSTINGPERIOD Sum Sum
+    - POSTINGPERIOD_1 Sum Sum
+    - QUANTITY Sum
+    - QUANTITY Sum Sum Sum
+    - Quantity Maximum Maximum Sum
+    - SUBSIDIARY Sum
+    - T1_GVMT Sum
+    - T2_GVTK Sum
+    - T3_FB50 Sum
+    - TRANSACTION Sum
+    - Tỷ trọng SP mới Sum
+    - Unit Cost Sum
+    - a25_CP dự phòng (trả hàng, thanh lý, hủy...) Sum
+    - a6_CP nhân viên KD Sum
+    produced_by: KGR_DF_SFC_vs_MEMO_v1
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  KGR_DS_SFC_vs_MEMO_v2:
+    type: dataflow_output
+    grain: 'group: Tên Ngành'
+    dimensions:
+    - Ngành hàng
+    - Tên Ngành
+    measures:
+    - DT_Ke_Hoach
+    - Doanh thu thực tế Sum
+    - QUANTITY Sum
+    - SL W1
+    - SL W2
+    - SL W3
+    - SL W4
+    - SL W5
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    produced_by: KGR_DF_SFC_vs_MEMO_v2
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  KGR_DS_SFC_vs_MEMO_v3:
+    type: dataflow_output
+    grain: 'group: Tên Ngành, Nhóm SP'
+    dimensions:
+    - Ngành gộp
+    - Ngành hàng
+    - Nhóm SP
+    - Nhóm SP gộp
+    - Nhóm sản phẩm
+    - Tên Ngành
+    measures:
+    - DT_Ke_Hoach
+    - Doanh thu thực tế Sum
+    - QUANTITY Sum
+    - SL W1
+    - SL W2
+    - SL W3
+    - SL W4
+    - SL W5
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    produced_by: KGR_DF_SFC_vs_MEMO_v3
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  KGR_DS_SFC_vs_MEMO_v4_Chuoi:
+    type: dataflow_output
+    grain: 'group: Tên Chuỗi'
+    dimensions:
+    - Chuỗi
+    - Chuỗi gộp
+    - Tên Chuỗi
+    measures:
+    - DT_Ke_Hoach
+    - Doanh thu thực tế Sum
+    - QUANTITY Sum
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    produced_by: KGR_DF_SFC_vs_MEMO_v4_Chuoi
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  Nganh_Report_Long_#:
+    type: dataflow_output
+    grain: 'group: PERIODNAME, CLASS'
+    dimensions:
+    - AsOfDate
+    - DT_grain
+    - ID CLASS
+    - Metric_Code
+    - Metric_Name
+    - PERIODNAME
+    - Type
+    - "\uFEFFSort_Order"
+    measures:
+    - AOP_Amount
+    - Actual_Amount
+    produced_by: KGR_DF_Nganh_Metrics_v3
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB02.Expense_v1.1
+  Nganh_Report_Long_TD:
+    type: dataflow_output
+    grain: 'group: Metric_Name, AsOfDate'
+    dimensions:
+    - AsOfDate
+    - ID CLASS
+    - Metric_Name
+    measures:
+    - AOP_Amount
+    - Actual_Amount
+    produced_by: DF_Nganh_Report_Long_TD
+    used_by_workbooks:
+    - (KGR) DB02.Expense_v1.1
+  SALE HIST w INVC:
+    type: dataflow_output
+    grain: 'group: TRANDATE, SUBSIDIARY, Model name, ID CLASS, CUSTOMER, PERIODNAME, POSTINGPERIOD'
+    dimensions:
+    - BUSINESS_LINE_ID
+    - CUSTOMER_ID
+    - MODEL
+    - SUBSIDIARY
+    - TRANSACTION_DATE
+    measures:
+    - REVENUE
+    produced_by: Union SALE HIST w INVC
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+  SPmoi_ng_v3:
+    type: dataflow_output
+    grain: 'group: PERIODNAME, AsOfDate, ID CLASS'
+    dimensions:
+    - AsOfDate
+    - ID CLASS
+    - PERIODNAME
+    measures:
+    - DS Xanh Sum_ng
+    - DS Đỏ Sum_ng
+    - DT_SPmoi_ng
+    - DT_ng
+    - a10_ng
+    - a19_Doanh thu ngành khác_ng
+    - a1_ng
+    - a3_ng
+    - a5_ng
+    produced_by: KGR_DF_Nganh_Metrics_v3
+    used_by_workbooks:
+  TD_Metrics_Wide:
+    type: dataflow_output
+    grain: 'group: PERIODNAME'
+    dimensions:
+    - AsOfDate
+    - PERIODNAME
+    - PERIODNAME_1
+    - So_Ngay
+    - a10
+    - a11
+    - a12
+    - a13
+    - a14
+    - a15
+    - a16
+    - a17
+    - a18
+    - a20
+    - a21
+    - a22
+    - a23
+    - a24
+    - a4
+    - a6
+    - a7
+    - a8
+    - a9
+    - adp
+    measures:
+    - AOP_AMT_A10
+    - AOP_AMT_A12
+    - AOP_AMT_A18
+    - AOP_AMT_A19
+    - AOP_PER_A15
+    - AOP_PER_A16
+    - AOP_PER_A17
+    - AOP_PER_A6
+    - AOP_PER_A7
+    - AOP_PER_A8
+    - DS Xanh Sum
+    - DS Đỏ Sum
+    - DT_TĐ
+    - a10_CP_Xuc_tien_ban_hang_max
+    - a19_Doanh thu ngành khác
+    - a1_Doanh số thực tế Sum
+    - a3_Giá Vốn
+    - a5_CP CKKM
+    produced_by: KGR_DF_TD_Metrics_bk
+    used_by_workbooks:
+  TD_Report_Long:
+    type: dataflow_output
+    grain: 'group: PERIODNAME'
+    dimensions:
+    - AsOfDate
+    - DT_grain
+    - Metric_Code
+    - Metric_Name
+    - PERIODNAME
+    - PERIODNAME_1
+    - Type
+    - "\uFEFFSort_Order"
+    measures:
+    - AOP_Amount
+    - AOP_Amount_1
+    - AOP_Amount_2
+    - AOP_Per
+    - AOP_Per_24
+    - Actual_Amount
+    - Chỉ tiêu (AOP)
+    produced_by: KGR_DF_TD_Metrics_bk
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB02.Expense_v1.1
+  TD_Report_PNL_Bridge:
+    type: dataflow_output
+    grain: 'group: AsOfDate'
+    dimensions:
+    - AsOfDate
+    - Bridge_Label
+    - Bridge_Order
+    - Direction
+    - Magnitude
+    - Step_Value
+    - cum_after
+    - cum_before
+    measures:
+    - AOP_LNTT
+    produced_by: DF_TD_Report_PNL_Bridge
+    used_by_workbooks:
+    - (KGR) DB02.Expense_v1.1
+  TD_Report_PNL_Bridge_Nganh:
+    type: dataflow_output
+    grain: 'group: AsOfDate, ID CLASS'
+    dimensions:
+    - AsOfDate
+    - Bridge_Label
+    - Bridge_Order
+    - Direction
+    - ID CLASS
+    - Magnitude
+    - Step_Value
+    - Tên Ngành
+    - cum_after
+    - cum_before
+    measures:
+    - AOP_LNTT
+    produced_by: DF_TD_Report_PNL_Bridge_Nganh
+    used_by_workbooks:
+    - (KGR) DB02.Expense_v1.1
+  (KGR) AOP Dataset:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  (KGR) CKKM TT:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  (KGR) Invoice_Line+Header+Pro:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  (KGR) SFC Dataset (có AI):
+    type: db_dataset
+    grain: dim/lookup
+    dimensions:
+    - Chuỗi
+    - Công ty Khách Hàng
+    - DISPLAYNAME
+    - DS W1
+    - DS W2
+    - DS W3
+    - DS W4
+    - DS W5
+    - Hàng Bán
+    - Kênh
+    - Model
+    - Mã Đơn vị
+    - NAME
+    - Nhóm sản phẩm
+    - Nhóm xanh đỏ
+    - Phân loại
+    - SL W1
+    - SL W2
+    - SL W3
+    - SL W4
+    - SL W5
+    - SX/OEM
+    - TRANDATE
+    - TRANID
+    - Tên Đơn vị
+    - UPCCODE
+    - Unit Cost
+    - VAT
+    measures:
+    - CKKM
+    - CP CKKM
+    - Doanh thu (-VAT)
+    - GP ròng
+    - Giá Vốn
+    - LN Gộp
+    - Lãi Gộp
+    - Quantity
+    produced_by:
+    used_by_workbooks:
+    - (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS
+  (KGR) Tỉ lệ chi phí Lương:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  1. Invoice_v2:
+    type: db_dataset
+    grain: line-level
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  AOP LINE CF:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures:
+    - CUSTCOL_SCV_AOP_CKKM
+    - CUSTCOL_SCV_AOP_CP_CKKM
+    - CUSTCOL_SCV_AOP_DOANH_SO
+    - CUSTCOL_SCV_AOP_LN_GIAO
+    - CUSTCOL_SCV_AOP_LOI_NHUAN
+    produced_by:
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+  DW_CREDIT_MEMO:
+    type: db_dataset
+    grain: line-level
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  DW_X_SALE_HISTORY_Dataset:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions:
+    - ASM_ID
+    - ASM_NAME
+    - CUSTOMER_ID
+    - CUSTOMER_NAME
+    - SUBSIDIARY_NAME
+    - TRANSACTION_DATE
+    measures:
+    - NET_AMOUNT
+    - QUANTITY
+    produced_by:
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    - (KGR) DB02.Expense_v1.1
+  Giá vốn mục tiêu:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
+  Giá vốn tồn kho:
+    type: db_dataset
+    grain: dim/lookup
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:

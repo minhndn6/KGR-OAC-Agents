@@ -1,0 +1,17 @@
+# Pin line endings cho determinism (INV-3): hash/diff guard ổn định đa máy.
+* text=auto eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.json text eol=lf
+*.txt  text eol=lf
+*.jsonl text eol=lf
+# Binaries: không chuyển đổi EOL
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.pdf  binary
+*.xlsx binary
+*.pyc  binary

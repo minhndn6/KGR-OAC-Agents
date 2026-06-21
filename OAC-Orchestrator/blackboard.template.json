@@ -1,0 +1,18 @@
+{
+  "request": "",
+  "period": "POSTINGPERIOD=42 / T5-2026",
+  "as_of_date": null,
+  "active_workbook": null,
+  "write_lock_holder": null,
+  "blueprint": null,
+  "source_blueprint": null,
+  "built_datasets": [],
+  "verdicts": { "plan_review": null, "crosscheck": null, "clevel": null },
+  "kb_freshness": { "oac_knowledge_extracted": "2026-06-20", "nsaw_date": "2026-05", "stale_warning": false },
+  "phase": "designer",
+  "status": "active",
+  "steps": {},
+  "updated_at": null,
+  "open_questions": [],
+  "log": []
+}

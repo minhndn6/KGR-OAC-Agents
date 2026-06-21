@@ -1,0 +1,57 @@
+{
+  "run_id": "eval-0-without_skill",
+  "expectations": [
+    {
+      "text": "Plan source đúng: DW_SFC cho kế hoạch và (KGR) DTF_CALC_INVOICE_MEMO_# cho thực tế",
+      "passed": true,
+      "evidence": "§3.1 DW_SFC plan, §3.2 MEMO# actual — đầy đủ owner/cột"
+    },
+    {
+      "text": "Plan qty tính bằng SUM các cột tuần SL W1..W5",
+      "passed": true,
+      "evidence": "R2 + [P4]: SL_Ke_Hoach = SL W1+...+W5; ghi rõ DW_SFC không có qty tháng"
+    },
+    {
+      "text": "Filter single-period May 2026 trước aggregate/join",
+      "passed": true,
+      "evidence": "R4 + [P2]/[A2]: PERIODNAME IN ('May 2026') 'chốt chặn fan-out, TRƯỚC GroupBy'"
+    },
+    {
+      "text": "Full outer join theo tên chuỗi",
+      "passed": true,
+      "evidence": "[J1] Join FULL OUTER (All+All), Chuỗi = Tên Chuỗi"
+    },
+    {
+      "text": "Actual = -SUM(QUANTITY), không ABS",
+      "passed": true,
+      "evidence": "R3: SL_Thuc_Te = 0 − SUM(QUANTITY), 'đã net credit memo, không dùng ABS'"
+    },
+    {
+      "text": "Verify plan có 445,043 và 713,262",
+      "passed": true,
+      "evidence": "Acceptance: tổng plan 445.043 / actual 713.262 + bảng per-chuỗi đầy đủ (DMX 72.230/157.407...)"
+    },
+    {
+      "text": "Cảnh báo bucket 'ngoài chuỗi' ~76%",
+      "passed": true,
+      "evidence": "Bảng mục 2: Khác (ngoài chuỗi) ~77% plan / ~76% actual, 'thường loại khỏi viz'"
+    },
+    {
+      "text": "Output _vN, ADD-only",
+      "passed": true,
+      "evidence": "Khuyến nghị REUSE v4_Chuoi (không build trùng); Phương án B tên mới KGR_DS_SFC_Chuoi_T5_v1; không xóa artifact"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "'BẢN KẾ HOẠCH CHỜ DUYỆT — chưa thao tác gì trên OAC' + mục 8 câu hỏi chờ user"
+    }
+  ],
+  "notes": "9/9. LƯU Ý ANALYST: baseline KHÔNG có skill nhưng đã tự tìm thấy OAC_DATAFLOW_MASTERY.md + các file bằng chứng (v4_chuoi_validate.json...) trong cwd → nội dung ngang ngửa with-skill, thậm chí trích được số per-chuỗi từ file evidence. Giá trị phân biệt của skill nằm ở PROCESS (template, plan-reviewer có hồ sơ issue/fix, BLIND verifier, kb-update) chứ không phải facts.",
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  }
+}

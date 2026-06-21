@@ -1,0 +1,17 @@
+{
+  "_note": "Scoped deny cho cleanliness-test (D11/INV-4). KHÔNG blanket _*.md — giữ file curated như fields/_INDEX.md, fields/_FLAGSHIP_*.md, fields/_EXAMPLES_extra.md. Match cả full relpath lẫn basename (fnmatch). pyc/__pycache__ xử lý riêng. Driven cả check_clean lẫn gợi ý .gitignore.",
+  "deny_glob": [
+    "_PNL_*",
+    "_DB01_*",
+    "_build_heatmap*",
+    "_combochip*",
+    "*.network-response",
+    "_resp_*",
+    "_snap_*",
+    "*.lock",
+    "blackboards/*",
+    "*/blackboards/*"
+  ],
+  "deny_pyc": true,
+  "allow_examples": ["fields/_INDEX.md", "fields/_FLAGSHIP_Revenue.md", "fields/_EXAMPLES_extra.md"]
+}

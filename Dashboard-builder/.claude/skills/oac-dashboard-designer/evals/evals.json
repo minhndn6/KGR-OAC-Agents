@@ -1,0 +1,26 @@
+{
+  "skill_name": "oac-dashboard-designer",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "advise-executive-dashboard-from-data",
+      "prompt": "Tôi có 2 nguồn dữ liệu: (1) hóa đơn bán hàng theo dòng (mỗi dòng = 1 line hóa đơn: ngành, nhóm SP, chuỗi, số lượng, doanh thu, GP%, %GP ròng, cờ hàng tặng, kỳ) và (2) kế hoạch sản lượng + doanh thu theo ngành/kênh/chuỗi theo tuần. CEO và CFO xem mỗi sáng thứ Hai khoảng 10 phút. Hãy tư vấn: dashboard nên show gì? Lưu ý: môi trường KHÔNG có browser/NSAW — phần profile dữ liệu ghi thành các check sẽ chạy, dùng knowledge có sẵn.",
+      "expected_output": "Đi đủ framework §2: chốt audience=executive (10 phút thứ Hai → loại Executive §1), suy ra các quyết định (đạt kế hoạch? can thiệp đâu? biên có ổn? rủi ro tập trung?), mỗi canvas 1 câu hỏi điều hành. Đề xuất KPI + ≥2 chỉ số PHÁI SINH chủ động (achievement %, bridge bào mòn biên gross→khuyến mãi→net, concentration top chuỗi, mix shift...) kèm quyết định phục vụ + route (My Calculations vs dataflow). Chart map đúng §4 (plan-vs-actual→Combo 1 viz; bridge→Waterfall; cơ cấu+biên→Treemap; KPI→Tile; bảng chi tiết cuối). Layout §5 (BANs trên, ≤6 KPI, đa dạng viz). Có caveat grain (kiểm actual có grain kênh không trước khi hứa cắt theo kênh). Xuất BLUEPRINT đúng template + dừng ở gate duyệt.",
+      "assertions": ["Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần", "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ", "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)", "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng", "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên", "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz", "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)", "Có số expected/nguồn verify cho metric chính", "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt"]
+    },
+    {
+      "id": 1,
+      "eval_name": "operational-vs-executive-distinction",
+      "prompt": "Team sales ops cần theo dõi HẰNG NGÀY: đơn hôm nay theo kênh, đơn bị hủy, chuỗi nào đang hụt nhịp so với run-rate tháng. Tư vấn dashboard cho họ. Lưu ý: KHÔNG có browser — profile ghi thành checks sẽ chạy, dùng knowledge có sẵn.",
+      "expected_output": "Nhận diện đúng loại OPERATIONAL (§1) — khác executive: nhịp ngày, ngưỡng cảnh báo, status màu, latest-period, danh sách cần can thiệp; mật độ viz cao hơn executive một chút nhưng vẫn mỗi canvas 1 câu hỏi. Đề xuất run-rate vs target (chỉ số phái sinh §3) + cờ chuỗi hụt nhịp (conditional format/threshold), bảng ưu tiên hành động. Chart: line/bar latest, bảng + conditional formatting, KPI tile có so-với-target (KPI Tile Plugin/Gauge), KHÔNG waterfall/treemap trang trí. Blueprint + gate.",
+      "assertions": ["Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)", "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh", "Có cơ chế cảnh báo: conditional formatting/threshold/status màu", "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)", "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày", "Blueprint + dừng ở gate duyệt"]
+    },
+    {
+      "id": 2,
+      "eval_name": "critique-bad-dashboard-design",
+      "prompt": "Đồng nghiệp tôi thiết kế 1 canvas executive như sau, hãy review giúp: (1) Pie chart 12 nhóm sản phẩm theo doanh thu; (2) Chart 2 trục Y: doanh thu (cột) và số đơn hàng (đường) chung 1 viz để 'thấy tương quan'; (3) 9 KPI tile xếp 2 hàng; (4) Stacked bar 8 lớp chuỗi theo 12 tháng; (5) bar chart doanh thu các vùng, trục Y bắt đầu từ 300 tỷ cho 'nhìn rõ chênh lệch'; (6) title các viz là tên cột kiểu 'Doanh thu by Nhóm SP'. KHÔNG có browser — review dựa knowledge.",
+      "expected_output": "Bắt đủ 6 lỗi theo §4/§5: (1) pie 12 nhóm > 6 → Bar/Treemap; (2) dual-axis ám thị tương quan giả → thận trọng/tách hoặc scatter nếu thật sự cần tương quan; (3) 9 KPI > 6 → cắt còn ≤6 theo quyết định phục vụ; (4) stacked 8 lớp khó so lớp giữa → Trellis (small multiples OAC) hoặc top-N + Khác; (5) bar baseline ≠ 0 = misleading → về 0 (hoặc đổi sang dot/line nếu dao động là trọng tâm); (6) title tên cột → title nói insight/câu hỏi (EN), số sống trong viz. Mỗi lỗi kèm fix cụ thể bằng viz OAC. Đề xuất bố cục lại theo Z-pattern/BANs.",
+      "assertions": ["Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap", "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý", "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ", "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N", "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading", "Bắt lỗi title tên cột → insight-title EN", "Fix nêu bằng viz OAC có thật (map §4)"]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+_meta:
+  purpose: >-
+    Ontology nghiệp vụ grounded-in-OAC: mỗi khái niệm (metric/dimension) → định nghĩa, NGUỒN authoritative (theo
+    precedence), tham chiếu công thức trong field_dictionary, biến thể, độ tin. KHÔNG lưu số.
+  extracted_live: "2026-06-20"
+  precedence: "OAC live > NSAW_Claude. Trong OAC: báo cáo BC01/BC03-04-05 > dashboard DB01/DB02."
+  confidence_legend:
+    formula: "trích trực tiếp từ OAC (chắc chắn)"
+    label_meaning: "suy luận nghiệp vụ từ tên+công thức+mã AOP (cao/vừa/cần-owner)"
+  CRITICAL_INSIGHT: >-
+    P&L của KGR: từ a4 (LN gộp) trở XUỐNG, phần lớn dòng CHI PHÍ là ƯỚC TÍNH theo AOP, KHÔNG phải chi phí thực:
+    a6/a7/a8/a15/a16/a17 = (%AOP) × Doanh thu; a10/a12/a18 = (AOP_AMT) × So_Ngay/30; a21 (thuế) = a20 × 0.21 cứng.
+    Chỉ a1/a2 (doanh thu), a3 (giá vốn), a5 (CKKM thực) là từ giao dịch thực. Khi tư vấn 'lợi nhuận', PHẢI nói rõ điều này.
+  MANDATORY_DISCLOSURE: >-
+    BẮT BUỘC kèm khi trả lời bất kỳ chỉ tiêu lợi nhuận a9 trở xuống: "⚠️ Chi phí dưới lợi nhuận gộp là ƯỚC TÍNH
+    theo AOP (không phải chi phí thực); a10 (247.258.890,47) và thuế (0,21) là số cứng — xem governance_register.md."
+  governance_register: "Rủi ro chính trực tài chính (GR1–GR7) → governance_register.md (cần owner ký)."
+
+pnl_waterfall_codes:   # grounded từ TD_Metrics_Wide (producer KGR_DF_TD_Metrics_bk). authoritative cho P&L: báo cáo (BC01) qua TD_Report_Long.
+  a1:
+    label: "Doanh số thực tế"
+    formula: 'sum("Doanh số thực tế") = Doanh thu thực tế − TAX AMT + Thuế ngành khác'
+    source: "(KGR) DTF_CALC_INVOICE_MEMO_# → TD_Metrics_Wide"
+    basis: actual_transaction
+    confidence: {formula: chắc, meaning: cao}
+  a2:
+    label: "Doanh thu thực tế (DT_TĐ)"
+    formula: 'UNION(INVOICE_LINES_F.BASE_REVENUE, CREDIT_LINES_F.BASE_REVENUE) − Doanh thu ngành khác; filter ISPOSTING=T, ACCTTYPE IN(Income,OthCurrLiab), subsidiary whitelist, Vụ việc≠HTL'
+    source: "(KGR) DTF_CALC_INVOICE_MEMO_#"
+    basis: actual_transaction
+    note: "⚠ OAC dùng BASE_REVENUE (KHÁC NSAW_Claude BASE_CR−DB). Theo OAC."
+    confidence: {formula: chắc, meaning: cao}
+  a3: {label: "Giá vốn (COGS)", formula: 'sum("Giá Vốn") = CASE 3-tier GVMT→GVTK→fallback; free-gift/Discount=0', source: "(KGR) DTF_CALC_INVOICE_MEMO_#", basis: actual_estimate_cost, confidence: {formula: chắc, meaning: cao}}
+  a4: {label: "Lợi nhuận gộp", formula: '"DT_TĐ" − "a3_Giá Vốn"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+  a5: {label: "Chi phí CKKM (chiết khấu khuyến mãi)", formula: 'sum("a5_CP CKKM") từ TRADE_PROMOTION_LINE.CKKM', basis: actual_transaction, confidence: {formula: chắc, meaning: cao}}
+  a6: {label: "CP nhân viên bán hàng (ước tính)", formula: '"AOP_PER_A6" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a7: {label: "CP roadshow/hội nghị (ước tính)", formula: '"AOP_PER_A7" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a8: {label: "CP công tác (ước tính)", formula: '"AOP_PER_A8" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a9:
+    label: "Lợi nhuận gộp KINH DOANH (mô hình AOP — a6/a7/a8 ước tính, KHÔNG phải CP thực)"
+    disclosure_required: true
+    formula: '"a4" − "a5_CP CKKM" − "a6" − "a7" − "a8"'
+    meaning: "LN gộp trừ CKKM + 3 nhóm chi phí bán hàng ước tính (NV bán hàng, roadshow, công tác)."
+    basis: derived_mixed
+    authoritative_source: "TD_Report_Long (Metric a9) — workbook BÁO CÁO BC01"
+    confidence: {formula: chắc, meaning: cao}
+  a10: {label: "CP xúc tiến bán hàng (ước tính, pro-rata ngày)", formula: '"So_Ngay" × "AOP_AMT_A10" / 30', basis: aop_estimate, governance: "AOP_AMT_A10 = SỐ CỨNG 247258890.47 trong dataflow → cần nguồn động", confidence: {formula: chắc, meaning: vừa}}
+  a11: {label: "LN sau xúc tiến", formula: '"a9" − "a10"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+  a12: {label: "CP nhân viên back-office (ước tính)", formula: '"So_Ngay" × "AOP_AMT_A12" / 30', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a13: {label: "LN sau CP nhân sự", formula: '"a11" − "a12"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+  a14: {label: "Tổng CP vận hành khác", formula: '"a15"+"a16"+"a17"+"adp"+"a18"', basis: derived, confidence: {formula: chắc, meaning: vừa}}
+  a15: {label: "CP vận chuyển (ước tính)", formula: '"AOP_PER_A15" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a16: {label: "CP bảo hành (ước tính)", formula: '"AOP_PER_A16" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a17: {label: "CP tài chính (ước tính)", formula: '"AOP_PER_A17" × "DT_TĐ"', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a18: {label: "CP khác (ước tính, pro-rata ngày)", formula: '"So_Ngay" × "AOP_AMT_A18" / 30', basis: aop_estimate, confidence: {formula: chắc, meaning: vừa}}
+  a19: {label: "Doanh thu ngành khác", formula: 'sum khi ID CLASS=5 (Khác)', basis: actual_transaction, confidence: {formula: chắc, meaning: cao}}
+  a20: {label: "Lợi nhuận hoạt động trước thuế (mô hình AOP — phần lớn CP là ước tính)", disclosure_required: true, formula: '"a13" − "a14" + "a19_Doanh thu ngành khác"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+  a21: {label: "Thuế TNDN (ước tính)", formula: '"a20" × 0.21', basis: hardcoded_rate, governance: "thuế suất 0.21 CỨNG trong dataflow", confidence: {formula: chắc, meaning: cao}}
+  a22_a23: {label: "Lợi nhuận sau thuế", formula: '"a20" − "a21"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+  a24: {label: "Tỷ lệ Xanh/Đỏ", formula: 'CASE WHEN "DS Đỏ Sum"=0 THEN NULL ELSE "DS Xanh Sum"/"DS Đỏ Sum"', basis: derived, confidence: {formula: chắc, meaning: cao}}
+
+core_metrics:
+  revenue:
+    aliases: ["Doanh thu thực tế","DT_TĐ","a2"]
+    authoritative_source: "(KGR) DTF_CALC_INVOICE_MEMO_# (line grain); cho P&L tập đoàn → TD_Report_Long (BC01)"
+    definition: "Doanh thu thuần từ invoice + credit-memo line, ACCTTYPE Income, đã loại nội bộ/HTL."
+    variants: ["DW_X_SALE_HISTORY_Dataset.NET_AMOUNT (lịch sử/ASM, grain khác)","SALE HIST w INVC.REVENUE (union lịch sử+invoice)"]
+    confidence: cao
+  doanh_so:
+    aliases: ["Doanh số thực tế","a1"]
+    definition: "Doanh thu + thuế ngành khác − TAX AMT (gần doanh số gồm VAT)."
+    authoritative_source: "(KGR) DTF_CALC_INVOICE_MEMO_#"
+    confidence: cao
+  cogs:
+    aliases: ["Giá vốn","Giá Vốn","a3","GVMT/GVTK"]
+    definition: "Giá vốn 3 tầng: GVMT (mục tiêu, GIA_VON_MUC_TIEU_CT) → GVTK (tồn kho, GIA_VON_TON_KHO) → fallback; hàng tặng/Discount=0."
+    authoritative_source: "(KGR) DTF_CALC_INVOICE_MEMO_#"
+    confidence: cao
+  gross_profit_pct:
+    aliases: ["%GP Ròng","%LN Gộp","GP %"]
+    definition: "LN gộp / Doanh thu (xem field_dictionary cột %GP Ròng, %LN Gộp)."
+    confidence: cao
+  ckkm:
+    aliases: ["CKKM","CP CKKM","a5","chiết khấu khuyến mãi"]
+    definition: "Chi phí chiết khấu/khuyến mãi thương mại, từ TRADE_PROMOTION_HEADER/LINE qua dataset (KGR) CKKM TT."
+    authoritative_source: "(KGR) DTF_CALC_INVOICE_MEMO_# (a5)"
+    confidence: cao
+  san_pham_moi:
+    aliases: ["Doanh thu SP mới","Tỷ trọng SP mới","New-Product"]
+    definition: "Doanh thu/tỷ trọng sản phẩm mới (theo Quy hoạch SP)."
+    confidence: vừa
+  xanh_do:
+    aliases: ["Nhóm xanh đỏ","DS Xanh","DS Đỏ","Green/Red"]
+    definition: "Phân loại SP Xanh (ưu tiên)/Đỏ theo CSEG_SCV_NHOMXANHDO (date-range hiệu lực). Luôn 1 trong 2."
+    authoritative_source: "(KGR) DTF_CALC_INVOICE_MEMO_#"
+    confidence: cao
+  aop_plan:
+    aliases: ["AOP","kế hoạch","AOP_Amount","Per DS (AOP)"]
+    definition: "Kế hoạch năm (Annual Operating Plan). LOAI_BAO_CAO=1 → doanh số kế hoạch; =2 → % theo chỉ tiêu. Nguồn AOP_LINE_CF/AOP_HEADER."
+    authoritative_source: "(KGR) AOP Dataset → DTF_GRAIN_ACTUAL_AOP / TD_Metrics; AOP LINE CF (daily)"
+    confidence: cao
+  sfc_forecast:
+    aliases: ["SFC","ước tính","SL_Ke_Hoach vs SL_Thuc_Te"]
+    definition: "Sales Forecast: ước tính vs thực tế sản lượng/doanh số."
+    authoritative_source: "(KGR) DTF_CALC_MIS + (KGR) SFC Dataset (có AI) — báo cáo BC03-04-05 (authoritative); DB01 dùng KGR_DS_SFC_vs_MEMO_v1..v4 (dashboard, ưu tiên thấp hơn, mỗi bản 1 grain)"
+    confidence: vừa
+    variants: ["v1: theo item","v2: SL plan vs actual","v3: nhóm SP gộp","v4_Chuoi: theo Chuỗi"]
+
+dimensions:
+  chuoi_chain: {sources_via: capability_map.by_dimension, root_tables: ["DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN"], note: "Chuỗi bán hàng. Chain gap lịch sử — verify coverage."}
+  kenh_sc: {root_tables: ["DW_NS_X_SALE_CHANNEL","DW_NS_X_LIST_SALE_CHANEL_NS"], note: "Kênh/Sales Channel; SC ID=14 = nội bộ (loại khỏi actual)."}
+  nganh_class: {root_tables: ["DW_NS_CLASSIFICATION_D","DW_NS_*.CLASS"], note: "Ngành hàng 1-5 (1 Water,2 Home,3 Cold&Hygiene,4 Sanitary,5 Khác). Ưu tiên CLASS chuẩn NS."}
+  model: {root_tables: ["DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL"]}
+  nhom_sp_prodgroup: {root_tables: ["DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP"]}
+  asm: {note: "ASM (quản lý khu vực bán) — chủ yếu từ DW_X_SALE_HISTORY_Dataset.ASM_NAME"}
+  don_vi_subsidiary: {root_tables: ["DW_NS_SUBSIDIARY_D"], note: "Đơn vị/pháp nhân; whitelist 'Tên Đơn vị' trong filter revenue."}
+  tinh_province: {root_tables: ["DW_NS_CUSTOMER_D + file oac_vn63_geo_bridge_with_ten_moi"], note: "Tỉnh/thành; có bridge 63→34 tỉnh mới."}
+  khach_customer:
+    root_tables: ["DW_NS_CUSTOMER_D","DW_NS_X_CAM_CUSTOMEREXTENSION","DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION"]
+    keys: ["CUSTOMER (FK ở line)","COMPANYNAME"]
+    note: "Khách hàng. Cờ ký gửi (ký-gửi / hàng gửi bán / consignment): CUSTENTITY_SCV_KH_KY_GUI — đang dùng trong filter revenue (loại/giữ tùy logic; xác nhận với owner). Phân tích top-customer/concentration chủ yếu từ DW_X_SALE_HISTORY_Dataset (có CUSTOMER_NAME/ID) hoặc hub line-grain."
+    confidence: vừa
+  thoi_gian_time:
+    root_tables: ["DW_NS_ACCOUNTINGPERIOD_D","DW_APPS_DAY_D"]
+    note: >-
+      3 khái niệm thời gian KHÁC nhau: (1) "kỳ"=POSTINGPERIOD (mã tháng kế toán, vd 42=T5/2026);
+      (2) TRANDATE = ngày giao dịch (TIMESTAMP — dùng range < date+1, đừng TRUNC); (3) AsOfDate = MỐC cắt LŨY KẾ
+      cho báo cáo daily/cumulative (vd 31/05 = lũy kế tới hết 31/5). Báo cáo Daily_*/PNL_Bridge snapshot theo AsOfDate.
+    confidence: cao
+
+not_yet_built_in_oac:
+  - "Giá vốn THỰC TẾ (GTTT) — OAC chỉ có ước tính 3-tier; actual cost chưa dựng dataset."
+  - "Chi phí vận hành THỰC TẾ (a6-a18) — hiện ước tính theo AOP, chưa nối chi phí thực từ GL/JOURNAL ở mức P&L."
+  - "VAT tách riêng a1 vs a2 — hiện a1 suy từ a2 ± thuế, chưa có nguồn VAT line độc lập đầy đủ."

@@ -1,0 +1,11 @@
+{
+  "eval_id": 1, "config": "with_skill",
+  "expectations": [
+    {"text": "Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)", "passed": true, "evidence": "Bối cảnh ghi 'Loại: OPERATIONAL' + mục riêng 'Khác executive thế nào' + bảng so sánh 3 loại cuối blueprint"},
+    {"text": "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh", "passed": true, "evidence": "BAN Run-rate EOM forecast + MTD Pace % với công thức actual/(target×ngày qua/tổng ngày)"},
+    {"text": "Có cơ chế cảnh báo: conditional formatting/threshold/status màu", "passed": true, "evidence": "Ngưỡng màu mọi BAN (cam >5%/đỏ >10% hủy; pace xanh ≥100/đỏ <85) + CF bảng; ngưỡng configurable, ghi rõ cần ops chốt"},
+    {"text": "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)", "passed": true, "evidence": "Canvas 3 HBar pace sort hụt-nhất-lên-đầu = danh sách ưu tiên + Table Gap/Pace; Canvas 2 'bảng hành động' đơn hủy sort giá trị"},
+    {"text": "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày", "passed": true, "evidence": "Mỗi viz có note hành động (ưu tiên gọi, leo thang, điều tra); không waterfall/treemap trang trí; heatmap chuỗi×tuần phục vụ phân biệt structural vs event để can thiệp đúng"},
+    {"text": "Blueprint + dừng ở gate duyệt", "passed": true, "evidence": "Đủ 7 mục template + 'Duyệt blueprint này chứ?'"}
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "skill_name": "oac-dashboard-builder",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "sfc-plan-vs-actual-combo-by-industry",
+      "prompt": "Tôi cần 1 biểu đồ trên dashboard DB01 so sánh kế hoạch SFC vs sản lượng thực tế theo TỪNG NGÀNH (Water/Home/Cold) cho tháng 5/2026 — nhìn vào là thấy ngay ngành nào vượt/thiếu kế hoạch. Hãy phân tích, chọn loại biểu đồ và lập kế hoạch cho tôi duyệt. Lưu ý: môi trường hiện tại KHÔNG có browser — không thao tác OAC thật; phần trinh sát ghi thành các check sẽ chạy, dùng knowledge có sẵn điền dataset/cột/màu/số expected.",
+      "expected_output": "Plan đầy đủ theo template: chọn 1 viz COMBO duy nhất (KHÔNG 2 chart riêng) với Category(X)=Tên Ngành, Values(Y)=SL_Thuc_Te[Bar xanh #44BA46] + SL_Ke_Hoach[Line xám #636466]; dataset KGR_DS_SFC_vs_MEMO_v2; canvas mới trống; title English Custom; number format units DP0 (KHÔNG abbreviate M vì là sản lượng); note VN; verify plan có số golden plan 445,043 / actual 713,262 / ~160%; ADD-only; có mục plan-reviewer; dừng ở gate duyệt.",
+      "assertions": ["Chọn COMBO 1 viz 2 measure (không phải 2 chart riêng plan/actual)", "Shelf: Category X=Tên Ngành, Values Y = SL_Thuc_Te (Bar) + SL_Ke_Hoach (Line)", "Màu actual #44BA46 (xanh) / plan #636466 (xám), KHÔNG cam", "Dataset KGR_DS_SFC_vs_MEMO_v2", "Number format = units DP0, KHÔNG abbreviate M (sản lượng không phải VND)", "Title English Custom + verify persist; note tiếng Việt", "Verify plan có 445,043 và 713,262 (~160%)", "Canvas mới trống cho viz mới, ADD-only", "Dừng ở gate duyệt"]
+    },
+    {
+      "id": 1,
+      "eval_name": "diagnose-broken-plan-vs-actual-and-formatting",
+      "prompt": "Một viz combo plan-vs-actual (sản lượng SFC) trên workbook đang hiển thị sai: Actual ~2,44 triệu (đúng phải ~713K), Plan ~40K (đúng ~445K), Achievement 61% (đúng ~160%) — và mâu thuẫn với một viz SFC khác trên cùng workbook đang đúng. Ngoài ra vài bảng còn hiện VND thô (223,667,701,132) và %GP Ròng hiện 0.27 thay vì 27%, một số title còn tiếng Việt/Auto, plan line màu cam. Hãy chẩn đoán nguyên nhân và lập kế hoạch sửa cho tôi duyệt. Lưu ý: KHÔNG có browser — chẩn đoán dựa knowledge, phần check thực tế ghi thành danh sách sẽ chạy.",
+      "expected_output": "Chẩn đoán đúng theo 5 bậc §13b: actual nổ = fan-out đa kỳ (SUM nhiều kỳ thay vì single-period) + có thể inner-join; plan quá nhỏ = aggregate MAX/AVG thay vì SUM → untrustworthy, mâu thuẫn viz đúng kia; Achievement = hệ quả tử/mẫu. Cách sửa ADD-only: dựng viz/canvas MỚI combo trên dataset đã pre-join single-period (plan=SUM cột tuần, actual=−SUM(QUANTITY)), để/ẩn viz cũ, KHÔNG sửa in-place. Format: VND thô → Number M DP0 Abbreviate; %GP 0.27 → Percent DP0 (=27%); title Auto/VN → Custom English (MCP-click dropdown thật → Custom → RTE real keyboard → verify persist); plan cam #F16522 → xám #636466 qua Manage Color Assignments (bấm OK mỗi series). Verify số qua executeOrPoll/NSAW, persist projects/json, clevel gate, dừng ở gate.",
+      "assertions": ["Chẩn đoán actual nổ = fan-out đa kỳ (thiếu filter single-period)", "Chẩn đoán plan quá nhỏ = aggregate sai (MAX/AVG thay vì SUM); mâu thuẫn viz đúng kia", "VND thô → Number Format M DP0 Abbreviate; %GP 0.27 → Percent DP0 = 27%", "Title Auto/VN → Custom English qua MCP-click dropdown thật + RTE real keyboard + verify persist", "Plan cam → xám #636466 qua Manage Color Assignments (bấm OK mỗi series)", "ADD-only (dựng viz/canvas mới, không phá viz đúng), verify số + persist projects/json", "Dừng ở gate duyệt"]
+    },
+    {
+      "id": 2,
+      "eval_name": "design-margin-waterfall-clevel",
+      "prompt": "Watch-item số 1 của ban lãnh đạo là áp lực biên: lãi gộp ~38.7% nhưng lãi ròng chỉ ~27% vì khuyến mãi (CKKM ~13.5%) ăn 1/3 lãi gộp. Tôi muốn 1 biểu đồ cho C-level thấy rõ khuyến mãi bào mòn biên ở đâu. Hãy chọn loại biểu đồ phù hợp và lập kế hoạch cho tôi duyệt. KHÔNG có browser — dùng knowledge, check thực tế ghi thành danh sách.",
+      "expected_output": "Chọn WATERFALL (cầu nối Lãi gộp → −CKKM → Lãi ròng), tách theo Ngành/Kênh; màu gộp xám, CKKM cam #F16522 (chi phí/giảm), ròng xanh #44BA46; dataset DTF_CALC_INVOICE_MEMO_# (Gross Profit, CKKM, %GP Ròng); canvas mới trống; title English; number format M cho tiền / Percent cho %; note VN giải thích watch-item; verify đối chiếu NSAW (%GP Ròng net ~25-27%, CKKM ~13.5%); statistical honesty (baseline 0, không double-count GP); plan-reviewer + clevel gate; dừng ở gate.",
+      "assertions": ["Chọn Waterfall (gross → −CKKM → net), không phải bar/pie thường", "Màu CKKM cam #F16522 (cost/giảm), ròng xanh #44BA46, gộp xám", "Dataset DTF_CALC_INVOICE_MEMO_# với Gross Profit/CKKM/%GP Ròng", "Number format: M cho tiền, Percent DP0 cho tỷ lệ", "Verify đối chiếu NSAW %GP Ròng ~25-27% + CKKM ~13.5%, statistical honesty (baseline 0)", "Title English + note VN, canvas mới trống, ADD-only", "Có plan-reviewer + clevel gate, dừng ở gate duyệt"]
+    }
+  ]
+}

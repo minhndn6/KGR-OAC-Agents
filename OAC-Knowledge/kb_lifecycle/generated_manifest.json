@@ -1,0 +1,107 @@
+{
+  "capability_map.yaml": {
+    "sha256": "c4b4c87ab33e20c416bfc7661c33999921bf578190945fab891604e1cf326a39"
+  },
+  "dataflow_catalog.yaml": {
+    "sha256": "06ee9947bd74c6192baa2fc31c08b19d4a58c76b9d97f96e14a3ef463cdc3578"
+  },
+  "dataset_catalog.yaml": {
+    "sha256": "d68f38f98e554eee697123fc06abae35684fbd36599d8f396c06a940a7908c9c"
+  },
+  "field_dictionary.yaml": {
+    "sha256": "9952ed09d7523f1bf59a716d9a710202bb96201493fa1743f45687a6b01c3dba"
+  },
+  "fields/1_Invoice_v2.md": {
+    "sha256": "6a73b35b8e9bb7e188f300a3cc8890eb56502f912c4ac7055206356cb252cfe7"
+  },
+  "fields/AOP_LINE_CF.md": {
+    "sha256": "de408630e2db819f312894ba01129c714ea6cfdf245f7bf7c29806ab0fb042c5"
+  },
+  "fields/DW_CREDIT_MEMO.md": {
+    "sha256": "367435828af4e253c01f90f31fe458dd768bda8085dc5a958d10651e5154718b"
+  },
+  "fields/DW_X_SALE_HISTORY_Dataset.md": {
+    "sha256": "2cc4cf3e05ab7ca75614b7a6d7914670188963eb0c5901732c723051cdcad89c"
+  },
+  "fields/Daily_Nganh_Report.md": {
+    "sha256": "017087df1441d30410ca434cb4738a151add16565ffc46a46028fd9000fcabb4"
+  },
+  "fields/Daily_TD_Report.md": {
+    "sha256": "882da9b2a34c17ce65a6054ba555424d52118dee3f33d594fcb8d47859ee48a8"
+  },
+  "fields/Gi_v_n_m_c_ti_u.md": {
+    "sha256": "e3ebc2777dc6c94805b8ebdfcdf43806bfbdb74db25d6d72e30789943081d6cf"
+  },
+  "fields/Gi_v_n_t_n_kho.md": {
+    "sha256": "5303c8864f02a50da7950f569c1d21ed20aa8be985f0f44675d436e1ca353b39"
+  },
+  "fields/KGR_AOP_Dataset.md": {
+    "sha256": "40c58ff1376410239ff9e54fd9cc5903e5715f011c8e8155c5a4d2877ae4eefd"
+  },
+  "fields/KGR_CKKM_TT.md": {
+    "sha256": "d1f958dac3ccb393a451abe31f28dc5839dbc716ad2171b3c1d75cdf1305fc0d"
+  },
+  "fields/KGR_DS_SFC_vs_Actual_v2.md": {
+    "sha256": "159aaf60710ffa6a05bacbfe1ccc074c94ecc83eb6b6520b97fab9d82bdf183d"
+  },
+  "fields/KGR_DS_SFC_vs_MEMO_v1.md": {
+    "sha256": "14b49b562ddf26ea31a8501cb67d3bb803f70a088374a966059be2c8d3ea56bd"
+  },
+  "fields/KGR_DS_SFC_vs_MEMO_v2.md": {
+    "sha256": "9e60504ed0cd543830c00f6becaffc7e51f950c7d58ca5930684413cff701e08"
+  },
+  "fields/KGR_DS_SFC_vs_MEMO_v3.md": {
+    "sha256": "f096990a9c318136cd9940894277f62d72846da1950280eaeca232d836e04ae3"
+  },
+  "fields/KGR_DS_SFC_vs_MEMO_v4_Chuoi.md": {
+    "sha256": "16a77396fffb8a7da458e883355d7da5e232a602cf17b1cad31969bfca08c2de"
+  },
+  "fields/KGR_DTF_CALC_INVOICE_MEMO.md": {
+    "sha256": "623a60ba1eaa5d19f61c05687fa46103f2425bd7ef10091b28c1756792e7befb"
+  },
+  "fields/KGR_DTF_CALC_MIS.md": {
+    "sha256": "19a4c57e8b198a022bb0a8d3b9eb96f35c08db34a793bf51a9c3f2e3f476db3f"
+  },
+  "fields/KGR_Invoice_Line_Header_Pro.md": {
+    "sha256": "6ac279b68867973f17e76f4cf140e308d8ff0b6b121615787a3dfd8498f33337"
+  },
+  "fields/KGR_SFC_Dataset_c_AI.md": {
+    "sha256": "24531c0d5d00614b677dfd9b827fa27dcc299a34813248fbc51728b476933743"
+  },
+  "fields/KGR_T_l_chi_ph_L_ng.md": {
+    "sha256": "6b774421bd31344a3e34f6e86a0e5a9723520ceda554f62502f467de43d8e317"
+  },
+  "fields/Nganh_Report_Long.md": {
+    "sha256": "33ed169c21201ba2367aff9bc4ebdf2f18a72f1e1b732e6993f962df882434f0"
+  },
+  "fields/Nganh_Report_Long_TD.md": {
+    "sha256": "6de30fc079d533c334dedd09e02c035a55df5533bd7ad83f3cb2810e3b7be1db"
+  },
+  "fields/SALE_HIST_w_INVC.md": {
+    "sha256": "0eab5b17064ae8a938983bf4da91222def93c9799d605ac1f3f544b4c651142a"
+  },
+  "fields/SPmoi_ng_v3.md": {
+    "sha256": "8bd5d5049910822882407c45efac30692cc44294df35eedbab6b096e86fc041a"
+  },
+  "fields/TD_Metrics_Wide.md": {
+    "sha256": "248eb352ab6f6defb631806dcd706a5ba0bcdf1420f3082c836e92e31b36f238"
+  },
+  "fields/TD_Report_Long.md": {
+    "sha256": "afd7f6ed2b91cc6ec4a30291a2297f028e8ded2ef065c01e880daaf304ca0ee4"
+  },
+  "fields/TD_Report_PNL_Bridge.md": {
+    "sha256": "e6cababc0fe4578e7950ea603026549ab620bb51347a5330f549e94102f236b9"
+  },
+  "fields/TD_Report_PNL_Bridge_Nganh.md": {
+    "sha256": "0274098d4ec6672ad171cf92b62205e7568408dab764792d22566415ff3a5aca"
+  },
+  "lineage_graph.yaml": {
+    "sha256": "ca50864d239f945964d1208fce0b4d8fa9a96c21dd9b8284b6037f4fe7ddd291"
+  },
+  "physical_table_catalog.yaml": {
+    "sha256": "7fbbc95f0848a30dc553f729f997ef26ef3cfddb5f6ad7fe2479a77cfd90a64d"
+  },
+  "workbook_catalog.yaml": {
+    "sha256": "0cfbc38acffdc18f319d826a4f531f410cd468b74b8b121038a23aca674cbe08"
+  }
+}

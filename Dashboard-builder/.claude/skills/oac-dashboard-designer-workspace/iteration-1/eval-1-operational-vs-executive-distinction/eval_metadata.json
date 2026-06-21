@@ -1,0 +1,13 @@
+﻿{
+    "eval_id":  1,
+    "eval_name":  "operational-vs-executive-distinction",
+    "prompt":  "Team sales ops cần theo dõi HẰNG NGÀY: đơn hôm nay theo kênh, đơn bị hủy, chuỗi nào đang hụt nhịp so với run-rate tháng. Tư vấn dashboard cho họ. Lưu ý: KHÔNG có browser — profile ghi thành checks sẽ chạy, dùng knowledge có sẵn.",
+    "assertions":  [
+                       "Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)",
+                       "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh",
+                       "Có cơ chế cảnh báo: conditional formatting/threshold/status màu",
+                       "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)",
+                       "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày",
+                       "Blueprint + dừng ở gate duyệt"
+                   ]
+}

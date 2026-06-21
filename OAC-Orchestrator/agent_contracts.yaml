@@ -1,0 +1,118 @@
+_meta:
+  purpose: "Contract máy-đọc cho orchestrator route 3 sub-agent KGR OAC. Mỗi agent: owns/must_not/inputs/outputs/calls/exclusive_resource/gate."
+  created: "2026-06-20"
+  model: "3 AGENT = 3 project. designer = PHA trong dashboard-builder (không phải agent riêng). nsaw = backend sau OAC-knowledge (không phải peer)."
+  note: "Outputs nên JSON để orchestrator tiêu thụ. Số tuyệt đối KHÔNG nằm trong output (lấy live riêng)."
+
+agents:
+
+  # 1) OAC-knowledge — cái 'não' (read-only)
+  kgr-oac-lineage:
+    project: OAC-Knowledge
+    role: "Consultant data: lineage/dictionary + tư vấn nguồn + impact + lấy số live (read-only)."
+    owns: ["tri thức cấu trúc OAC (workbook/dataset/dataflow/physical)", "tư vấn lấy/dựng data từ đâu", "impact analysis"]
+    must_not: ["sửa OAC/KB-số", "khẳng định số từ trí nhớ (phải query live)"]
+    inputs: {question_type: "source|trace|impact|live_number", "metric?": str, "dimension?": str, "grain?": str, "field?": str}
+    outputs: "JSON theo consultation_playbook (source/trace/impact); số live kèm 'tính đến thời điểm query'"
+    backends: ["nsaw-knowledge (NSAW_Claude — ngữ nghĩa bảng vật lý, CÓ THỂ STALE, OAC thắng)"]
+    exclusive_resource: "chrome-lineage/profile-lineage (ĐỀ XUẤT — chưa tạo; tạm chung profile-dashboard là RỦI RO khi song song)"
+    gate: none
+    status: "ĐÃ có contract: skill/.../references/consultation_playbook.md"
+
+  # 2) dataflow-builder — chuẩn bị dữ liệu
+  oac-dataflow-builder:
+    project: Dataflow-builder
+    role: "Dựng/sửa dataset & dataflow, Run, cross-check số."
+    owns: ["dataset/dataflow (Add Data/Join/Aggregate/AddColumns/Save/Run)"]
+    must_not: ["sửa viz/workbook", "đụng dataflow của session khác"]
+    inputs: {source_blueprint: "từ kgr-oac-lineage (bảng nguồn, join key, filter bắt buộc, grain đích)", task: str}
+    outputs: {output_dataset: str, grain: str, run_status: "ok|fail", crosscheck: {pass: bool}, reload_hint: str}
+    calls: ["kgr-oac-lineage (xin nguồn/khuyến nghị)"]
+    exclusive_resource: "chrome-dataflow/profile-dataflow"
+    gate: "cross-check số PASS trước khi báo done"
+    after_success: "yêu cầu kgr-oac-lineage cập nhật catalog (dataset/dataflow mới) — tránh KB drift"
+
+  # 3) dashboard-builder — gồm PHA design + PHA build viz/workbook
+  oac-dashboard-builder:
+    project: Dashboard-builder
+    role: "Thiết kế (pha design) + dựng/sửa viz trên workbook OAC, format/màu/note, verify số, save ADD-only."
+    owns: ["dashboard end-to-end: blueprint (pha design) + viz/canvas/title/format/màu/filter/note/save workbook (ADD-only production)"]
+    phases:
+      design: {skill: oac-dashboard-designer, owns: ["blueprint: viz nào/KPI nào/thông điệp/bố cục"], output: blueprint, gate: "user duyệt blueprint trước khi build"}
+      build:  {skill: oac-dashboard-builder, owns: ["viz/canvas/title/format/màu/filter/note/save (ADD-only production)"]}
+    must_not: ["tạo/sửa dataset/dataflow (→ dataflow-builder)", "đụng workbook session khác", "khẳng định số từ trí nhớ"]
+    inputs: {workbook_path: str, period: "từ orchestrator/blackboard", task: str}
+    outputs: {"blueprint?": obj, saved_canvas_refs: [], verification_table: "executeOrPoll vs source", clevel_verdict: "SHIP|SHIP_WITH_BUGS|REWORK"}
+    calls: ["kgr-oac-lineage (data sourcing)", "oac-dataflow-builder (khi cần dataset mới)"]
+    exclusive_resource: "chrome-dashboard/profile-dashboard"
+    gate: "clevel verdict KHÔNG tự cấp (gate độc lập); + AOP-estimate disclosure BẮT BUỘC khi hiển thị lợi nhuận a9↓"
+
+backends:
+  nsaw-knowledge:
+    project: NSAW_Claude
+    role: "Bedrock ngữ nghĩa bảng vật lý NSAW (read-only, CÓ THỂ STALE ~2026-05). Truy qua OAC-knowledge handoff / MCP nsaw-analytics."
+    rule: "precedence: OAC live > NSAW. KHÔNG đứng ngang 3 agent — là nguồn sau OAC-knowledge."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# failure_policy — máy-đọc: orchestrator dùng để phân loại lỗi, retry, xử lý
+# partial-failure giữa chuỗi, idempotency, và compensation. Mục tiêu: "mượt mà,
+# không lỗi lầm" = lỗi được PHÂN LOẠI + XỬ LÝ tường minh, không bao giờ âm thầm.
+# Trạng thái từng bước ghi ở blackboard.steps (xem scripts/blackboard.py step/fail/recover).
+# ─────────────────────────────────────────────────────────────────────────────
+failure_policy:
+  principle: "Fail loud, fail safe, resume clean. Mọi lỗi → blackboard.step <name> fail '<reason>' + log; KHÔNG nuốt lỗi, KHÔNG báo done khi chưa xanh."
+
+  classes:
+    transient:                       # tự khỏi → RETRY có chặn
+      examples: ["HTTP 429/500/502/503", "executeOrPoll timeout", "network reset", "OAC refresh đang chạy"]
+      action: retry
+    auth:                            # NGUY HIỂM: lockout tài khoản
+      examples: ["401/403 session hết hạn", "ORA-28000 account locked", "CSRF/_abck token cũ"]
+      action: orchestrator_reauth    # CHỈ orchestrator re-auth; sub-agent TUYỆT ĐỐI không tự retry-login (đã gây ORA-28000)
+      note: "xem concurrency_model §Login/session — orchestrator là chủ DUY NHẤT của re-auth + health-check."
+    browser:                         # đụng profile / kẹt cửa sổ
+      examples: ["browser already running", "profile lock", "page crashed"]
+      action: recover_per_profile    # gỡ THEO PROFILE của mình (OAC_*_MASTERY §1) — ⛔ KHÔNG kill chrome toàn cục
+    known_rest:                      # lỗi REST đã biết → đi đường vòng đã verify
+      examples: ["POST dataset/datasets/metadata → 500"]
+      action: fallback
+      fallback: "InputDataset.columns (refs \"TABLE\".\"col\") + executePreview flowSQL"
+    write_conflict:                  # last-writer-wins ÂM THẦM (success:true mà mất bản)
+      examples: ["2 writer cùng workbook/dataflow", "overwrite:true song song"]
+      action: require_lock           # acquire lock.py theo artifact TRƯỚC mọi write; fail acquire → chờ/để O2-người
+    validation:                      # số/kết quả sai → KHÔNG ship
+      examples: ["crosscheck FAIL", "verify viz != nguồn", "clevel REWORK"]
+      action: stop_branch            # terminal cho nhánh build đó → REWORK, KHÔNG đi tiếp sang bước sau
+    governance:                      # chặn theo chính sách
+      examples: ["AOP-estimate chưa disclosure", "GR1-GR7 chưa ký", "producer sống chưa chốt"]
+      action: escalate               # → blackboard.open_questions + dừng; cần owner/user
+    terminal:                        # không thuộc nhóm trên / hết retry
+      action: escalate
+
+  retry:                             # CHỈ áp cho class=transient (và known_rest sau khi đã thử fallback)
+    max_attempts: 3                  # đếm ở blackboard.steps.<name>.attempts (step running → +1)
+    backoff: "1s, 4s, 10s (xấp xỉ; không cần chính xác)"
+    never_retry: ["auth (→ orchestrator_reauth, bounded)", "validation", "governance", "write_conflict (→ lock trước)"]
+    on_exhausted: "step <name> fail + escalate (open_questions) — KHÔNG vòng lặp vô hạn (đã từng 529 Overloaded ×2)."
+
+  partial_failure:                   # lỗi GIỮA chuỗi designer→lineage→dataflow→dashboard
+    rule: "Bước sau KHÔNG chạy nếu bước trước chưa 'ok'. Lỗi 1 bước → đánh dấu step fail, GIỮ NGUYÊN kết quả các bước đã ok (resume được), không rollback mù."
+    examples:
+      - "dataflow run_status=fail → KHÔNG sang dashboard build; blueprint+source_blueprint vẫn giữ để resume."
+      - "crosscheck FAIL → dừng nhánh, viz CHƯA save; báo REWORK."
+      - "dashboard save fail giữa nhiều canvas → các canvas đã save vẫn còn (ADD-only); ghi saved_canvas_refs để lần sau không add trùng."
+
+  idempotency:                       # chạy lại an toàn (resume sau crash/lỗi)
+    dashboard_build: "ADD-only — trước khi add canvas, đối chiếu blackboard.saved_canvas_refs để KHÔNG tạo trùng."
+    dataflow_run:    "output overwrite → chạy lại = cùng kết quả (idempotent theo output dataset)."
+    workbook_save:   "overwrite:true theo artifact + dưới lock → idempotent cho 1 writer; nhiều writer = write_conflict (cấm)."
+    blackboard:      "set/step ghi atomic (os.replace) + .bak last-known-good → crash khi ghi không hỏng state."
+
+  compensation:                      # OAC KHÔNG có transaction/rollback
+    rule: "KHÔNG tự undo/xóa để 'dọn' sau lỗi (ADD-only; auto-delete có thể xóa nhầm việc người dùng). Thay vào đó: GHI trạng thái partial vào blackboard + surface cho owner."
+    on_irreversible: "nếu một write đã thành công nhưng nhánh sau fail → KHÔNG xóa write đó; báo open_questions để người quyết."
+
+  recovery:                          # sau crash/compact/mất phiên
+    detect: "blackboard.py recover <id> — phục hồi main từ .bak nếu hỏng, dọn .tmp interrupted, đánh dấu step 'running' lúc crash → 'interrupted' (resumable), liệt kê open_questions + write_lock_holder cần verify."
+    resume: "đọc steps: bỏ qua 'ok', chạy lại 'interrupted'/'fail'/'pending' theo thứ tự chuỗi; verify lock.py status trước khi tiếp tục write."
+    stale_lock: "lock.py tự steal lock quá TTL (1800s); orchestrator xác nhận holder không còn sống trước khi steal."

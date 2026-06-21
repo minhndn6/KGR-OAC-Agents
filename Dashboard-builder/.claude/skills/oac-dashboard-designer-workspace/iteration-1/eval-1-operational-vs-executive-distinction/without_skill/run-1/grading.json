@@ -1,0 +1,11 @@
+{
+  "eval_id": 1, "config": "without_skill",
+  "expectations": [
+    {"text": "Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)", "passed": false, "evidence": "Thiết kế đúng tinh thần ops (intraday, cảnh báo) nhưng KHÔNG nêu phân biệt loại dashboard / vì sao khác executive"},
+    {"text": "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh", "passed": true, "evidence": "Công thức Pace % chi tiết + EOM forecast = actual ÷ pace%"},
+    {"text": "Có cơ chế cảnh báo: conditional formatting/threshold/status màu", "passed": true, "evidence": "3 ngưỡng pace 90/80 + banner đỏ hủy >3% + cảnh báo kênh tăng >20%"},
+    {"text": "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)", "passed": true, "evidence": "Pace bar sort thấp→cao + 2 bảng drill chuỗi hụt/vượt; bar lý do hủy phân công SC/Sales/CS"},
+    {"text": "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày", "passed": true, "evidence": "Các viz đều action-oriented (phát hiện chậm nhịp trước 12h, phân công theo lý do hủy)"},
+    {"text": "Blueprint + dừng ở gate duyệt", "passed": false, "evidence": "Có chờ duyệt nhưng không có cấu trúc Blueprint: thiếu bảng metric định nghĩa/số expected/route hiện thực trên OAC (calc vs dataflow)"}
+  ]
+}

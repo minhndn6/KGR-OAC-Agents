@@ -1,0 +1,37 @@
+# Phân loại file tri thức (D1/D3/INV-2). Nguồn chân lý cho kb_kinds/kb_route/guard.
+# GENERATED = sinh ra từ raw/ pipeline (ĐỪNG sửa tay; sửa nguồn rồi rebuild).
+# CURATED   = người viết (sửa trực tiếp + validate).
+# LOG       = append-only (learn.py; pending.md regenerate).
+# Thứ tự match trong kb_kinds.classify: LOG → CURATED (gồm fields/_*.md) → GENERATED → UNKNOWN.
+# Coverage được cưỡng chế: test_guard FAIL nếu có file tri thức UNKNOWN (thêm vào đây hoặc gắn banner).
+
+generated_globs:
+  - "*_catalog.yaml"          # dataset/dataflow/workbook/physical_table
+  - "field_dictionary.yaml"
+  - "lineage_graph.yaml"
+  - "capability_map.yaml"
+  - "fields/*.md"             # dossier sinh bởi capability_build (trừ _*.md curated)
+
+generated_exclude:
+  - "fields/_*.md"            # _INDEX, _FLAGSHIP_*, _EXAMPLES_extra = hand-written
+
+curated:
+  - "business_glossary.yaml"
+  - "archive_recommendations.md"
+  - "HOW_TO_TRACE_A_FIELD.md"
+  - "CONFLICTS_AND_OPEN_QUESTIONS.md"
+  - "governance_register.md"
+  - "live_query_recipes.md"
+  - "KNOWLEDGE_INDEX.md"
+  - "LEARNING.md"
+  - "source_selection_playbook.md"
+  - "OWNER_TODO.md"
+  - "QUICK_REFERENCE.md"
+  - "CHANGELOG.md"
+  - "QA_USECASES_REPORT.md"
+  - "IMPROVEMENTS.md"
+  - "QA_REPORT.md"
+  - "fields/_*.md"
+
+log_globs:
+  - "learnings/*"

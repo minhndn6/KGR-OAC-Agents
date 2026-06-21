@@ -1,0 +1,14 @@
+# regenerable provenance dumps (keep build .py tracked)
+raw/*.json
+raw/projects/
+raw/digest/
+raw/*.network-response
+# secrets & scratch
+.secrets/
+_work/
+*.png
+*.log
+
+# python caches
+__pycache__/
+*.pyc

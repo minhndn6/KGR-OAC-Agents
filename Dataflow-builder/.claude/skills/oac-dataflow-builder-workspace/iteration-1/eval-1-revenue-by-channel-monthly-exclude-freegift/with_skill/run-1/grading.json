@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-1-with_skill",
+  "expectations": [
+    {
+      "text": "Nguồn = DTF_CALC_INVOICE_MEMO_#",
+      "passed": true,
+      "evidence": "Bảng nguồn §3: MEMO# là nguồn chính, đầy đủ datasetId XSA"
+    },
+    {
+      "text": "Loại free gift qua CUSTCOL_SCV_LINE_ISFREEGIFT + check giá trị cột",
+      "passed": true,
+      "evidence": "Node 3: IFNULL(flag,'F') <> 'T' NULL-safe + CHECK C2 chốt distinct values trước khi tin literal"
+    },
+    {
+      "text": "Filter đúng 3 kỳ Mar/Apr/May 2026 (39/40/42)",
+      "passed": true,
+      "evidence": "IN-list PERIODNAME 3 kỳ; map 39/40/42; cảnh báo kỳ 41 lọt nếu dùng range"
+    },
+    {
+      "text": "SUM doanh thu ex-VAT group by Nhóm Kênh + tháng, chọn đúng cột doanh thu",
+      "passed": true,
+      "evidence": "Node 4 Aggregate đúng grain; C3 phân biệt 'Doanh thu thực tế' vs 'Doanh số thực tế' bằng ratio VAT + cross BC01"
+    },
+    {
+      "text": "Nêu readability MEMO# intermittent + validate-first executePreview",
+      "passed": true,
+      "evidence": "C5 chạy đầu tiên: validate-first; ORA-00942 transient; ORA-28000 không chặn Run"
+    },
+    {
+      "text": "Output _vN + verify đối chiếu BC01/NSAW",
+      "passed": true,
+      "evidence": "KGR_DF/DS_REV_NhomKenh_Thang_v1; bảng Verify đối chiếu NSAW (get_pl_report/execute_dynamic_query) + BC01 + sanity bậc độ lớn"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "'CHỜ USER DUYỆT (Phase 3 gate — chưa build)' + câu hỏi duyệt cuối plan"
+    }
+  ],
+  "notes": "7/7. Vượt yêu cầu: bắt được xung đột knowledge 'Nhóm Kênh NULL trong MEMO#' (§14) → decision tree A/B/C với C1 làm gate cứng thay vì build mù; plan-reviewer ghi hồ sơ 1 BLOCKER + 3 MAJOR đã sửa.",
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

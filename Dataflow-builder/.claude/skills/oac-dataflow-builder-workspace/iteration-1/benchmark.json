@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "skill_name": "oac-dataflow-builder",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-06-10T18:03:49Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Plan source \u0111\u00fang: DW_SFC cho k\u1ebf ho\u1ea1ch v\u00e0 (KGR) DTF_CALC_INVOICE_MEMO_# cho th\u1ef1c t\u1ebf",
+          "passed": true,
+          "evidence": "B\u1ea3ng ngu\u1ed3n: DW_SFC vai tr\u00f2 Plan, DTF_CALC_INVOICE_MEMO_# vai tr\u00f2 Actual, k\u00e8m owner + datasetType \u0111\u00fang"
+        },
+        {
+          "text": "Plan qty t\u00ednh b\u1eb1ng SUM c\u00e1c c\u1ed9t tu\u1ea7n SL W1..W5",
+          "passed": true,
+          "evidence": "Node 4: SL_Ke_Hoach = \"SL W1\"+...+\"SL W5\"; ghi r\u00f5 'Plan KH\u00d4NG c\u00f3 c\u1ed9t QTY th\u00e1ng \u2014 monthly = SUM(SL W1..W5)'"
+        },
+        {
+          "text": "Filter single-period May 2026 tr\u01b0\u1edbc aggregate/join",
+          "passed": true,
+          "evidence": "Node 2 & 6: PERIODNAME IN ('May 2026') v\u1edbi ch\u00fa th\u00edch 'single-period TR\u01af\u1edaC aggregate/join \u0111\u1ec3 tri\u1ec7t fan-out'"
+        },
+        {
+          "text": "Full outer join theo t\u00ean chu\u1ed7i",
+          "passed": true,
+          "evidence": "Node 9: Full outer (All+All), Chuoi_KH = Chuoi_TT (t\u00ean chu\u1ed7i \u0111\u00e3 coalesce 2 ngu\u1ed3n)"
+        },
+        {
+          "text": "Actual = -SUM(QUANTITY), kh\u00f4ng ABS",
+          "passed": true,
+          "evidence": "Node 8: SL_Thuc_Te = 0 - \"QUANTITY Sum\" \u2014 'net credit \u2014 KH\u00d4NG ABS'"
+        },
+        {
+          "text": "Verify plan c\u00f3 445,043 v\u00e0 713,262",
+          "passed": true,
+          "evidence": "B\u1ea3ng Verify: t\u1ed5ng SL_Ke_Hoach 445,043; t\u1ed5ng SL_Thuc_Te 713,262 + per-ng\u00e0nh breakdown"
+        },
+        {
+          "text": "C\u1ea3nh b\u00e1o bucket 'ngo\u00e0i chu\u1ed7i' ~76%",
+          "passed": true,
+          "evidence": "'c\u1ea3 2 ph\u00eda c\u00f3 bucket ngo\u00e0i chu\u1ed7i ~76% t\u1ed5ng'; d\u00f2ng (Ngo\u00e0i chu\u1ed7i) gi\u1eef \u0111\u1ec3 \u0111\u1ed1i so\u00e1t, lo\u1ea1i kh\u1ecfi viz"
+        },
+        {
+          "text": "Output _vN, ADD-only",
+          "passed": true,
+          "evidence": "KGR_DF/DS_SFC_vs_MEMO_v5_Chuoi; r\u1ee7i ro #4: ph\u00e1t hi\u1ec7n v4_Chuoi \u0111\u00e3 t\u1ed3n t\u1ea1i \u2192 verify-reuse tr\u01b0\u1edbc, 'ADD-only, kh\u00f4ng s\u1eeda/x\u00f3a v4'"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "Header '\u26d4 CH\u1edc USER DUY\u1ec6T (Phase 3 gate) \u2014 ch\u01b0a build' + Ph\u1ee5 l\u1ee5c B c\u00e2u h\u1ecfi duy\u1ec7t; kh\u00f4ng nh\u1eadn \u0111\u00e3 thao t\u00e1c OAC"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Ngu\u1ed3n = DTF_CALC_INVOICE_MEMO_#",
+          "passed": true,
+          "evidence": "B\u1ea3ng ngu\u1ed3n \u00a73: MEMO# l\u00e0 ngu\u1ed3n ch\u00ednh, \u0111\u1ea7y \u0111\u1ee7 datasetId XSA"
+        },
+        {
+          "text": "Lo\u1ea1i free gift qua CUSTCOL_SCV_LINE_ISFREEGIFT + check gi\u00e1 tr\u1ecb c\u1ed9t",
+          "passed": true,
+          "evidence": "Node 3: IFNULL(flag,'F') <> 'T' NULL-safe + CHECK C2 ch\u1ed1t distinct values tr\u01b0\u1edbc khi tin literal"
+        },
+        {
+          "text": "Filter \u0111\u00fang 3 k\u1ef3 Mar/Apr/May 2026 (39/40/42)",
+          "passed": true,
+          "evidence": "IN-list PERIODNAME 3 k\u1ef3; map 39/40/42; c\u1ea3nh b\u00e1o k\u1ef3 41 l\u1ecdt n\u1ebfu d\u00f9ng range"
+        },
+        {
+          "text": "SUM doanh thu ex-VAT group by Nh\u00f3m K\u00eanh + th\u00e1ng, ch\u1ecdn \u0111\u00fang c\u1ed9t doanh thu",
+          "passed": true,
+          "evidence": "Node 4 Aggregate \u0111\u00fang grain; C3 ph\u00e2n bi\u1ec7t 'Doanh thu th\u1ef1c t\u1ebf' vs 'Doanh s\u1ed1 th\u1ef1c t\u1ebf' b\u1eb1ng ratio VAT + cross BC01"
+        },
+        {
+          "text": "N\u00eau readability MEMO# intermittent + validate-first executePreview",
+          "passed": true,
+          "evidence": "C5 ch\u1ea1y \u0111\u1ea7u ti\u00ean: validate-first; ORA-00942 transient; ORA-28000 kh\u00f4ng ch\u1eb7n Run"
+        },
+        {
+          "text": "Output _vN + verify \u0111\u1ed1i chi\u1ebfu BC01/NSAW",
+          "passed": true,
+          "evidence": "KGR_DF/DS_REV_NhomKenh_Thang_v1; b\u1ea3ng Verify \u0111\u1ed1i chi\u1ebfu NSAW (get_pl_report/execute_dynamic_query) + BC01 + sanity b\u1eadc \u0111\u1ed9 l\u1edbn"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "'CH\u1edc USER DUY\u1ec6T (Phase 3 gate \u2014 ch\u01b0a build)' + c\u00e2u h\u1ecfi duy\u1ec7t cu\u1ed1i plan"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Ch\u1ea9n \u0111o\u00e1n actual 2.44M = fan-out \u0111a k\u1ef3 + inner join",
+          "passed": true,
+          "evidence": "RC1: join item-level \u0111a k\u1ef3 (41\u219261) kh\u00f4ng filter single-period \u2192 nh\u00e2n b\u1ea3n d\u00f2ng actual, fan-out ~4.17x l\u1ecbch s\u1eed"
+        },
+        {
+          "text": "Ch\u1ea9n \u0111o\u00e1n plan 40K = MAX thay v\u00ec SUM",
+          "passed": true,
+          "evidence": "RC2: inner join r\u1edbt SKU planned-unsold (m\u1ea5t 91%) + viz \u0111\u1eb7t aggregation MAX \u2192 s\u1eadp v\u1ec1 40K; tr\u00edch \u0111\u00fang knowledge \u00a715"
+        },
+        {
+          "text": "Plan thay th\u1ebf theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer",
+          "passed": true,
+          "evidence": "C1 b\u1ea3ng 11 node \u0111\u00fang recipe v2 t\u1eebng b\u01b0\u1edbc; nguy\u00ean t\u1eafc 'Filter 1 k\u1ef3 \u2192 Aggregate t\u1eebng nh\u00e1nh \u2192 m\u1edbi Join'"
+        },
+        {
+          "text": "ADD-only, t\u00ean m\u1edbi _vN",
+          "passed": true,
+          "evidence": "Output KGR_DS_SFC_vs_Actual_v3; 'ADD-only: kh\u00f4ng \u0111\u1ee5ng KGR_DS_SFC_vs_Actual_v2 c\u0169'"
+        },
+        {
+          "text": "Verify 445,043 / 713,262",
+          "passed": true,
+          "evidence": "B\u1ea3ng Verify m\u1ee5c D: 445,043 (per-ng\u00e0nh) + 713,262 (per-ng\u00e0nh) + fan-out row-count check"
+        },
+        {
+          "text": "C\u00f3 danh s\u00e1ch checks th\u1ef1c t\u1ebf",
+          "passed": true,
+          "evidence": "M\u1ee5c E: 8 checks (GET def DS_v2, audit Canvas 14, validate-first MEMO#, DW_SFC, NSAW blind...)"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "'\u26d4 \u0110I\u1ec2M D\u1eeaNG (Phase 3 gate)' + 3 quy\u1ebft \u0111\u1ecbnh ch\u1edd user (A/B, grain, scope)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Plan source \u0111\u00fang: DW_SFC cho k\u1ebf ho\u1ea1ch v\u00e0 (KGR) DTF_CALC_INVOICE_MEMO_# cho th\u1ef1c t\u1ebf",
+          "passed": true,
+          "evidence": "\u00a73.1 DW_SFC plan, \u00a73.2 MEMO# actual \u2014 \u0111\u1ea7y \u0111\u1ee7 owner/c\u1ed9t"
+        },
+        {
+          "text": "Plan qty t\u00ednh b\u1eb1ng SUM c\u00e1c c\u1ed9t tu\u1ea7n SL W1..W5",
+          "passed": true,
+          "evidence": "R2 + [P4]: SL_Ke_Hoach = SL W1+...+W5; ghi r\u00f5 DW_SFC kh\u00f4ng c\u00f3 qty th\u00e1ng"
+        },
+        {
+          "text": "Filter single-period May 2026 tr\u01b0\u1edbc aggregate/join",
+          "passed": true,
+          "evidence": "R4 + [P2]/[A2]: PERIODNAME IN ('May 2026') 'ch\u1ed1t ch\u1eb7n fan-out, TR\u01af\u1edaC GroupBy'"
+        },
+        {
+          "text": "Full outer join theo t\u00ean chu\u1ed7i",
+          "passed": true,
+          "evidence": "[J1] Join FULL OUTER (All+All), Chu\u1ed7i = T\u00ean Chu\u1ed7i"
+        },
+        {
+          "text": "Actual = -SUM(QUANTITY), kh\u00f4ng ABS",
+          "passed": true,
+          "evidence": "R3: SL_Thuc_Te = 0 \u2212 SUM(QUANTITY), '\u0111\u00e3 net credit memo, kh\u00f4ng d\u00f9ng ABS'"
+        },
+        {
+          "text": "Verify plan c\u00f3 445,043 v\u00e0 713,262",
+          "passed": true,
+          "evidence": "Acceptance: t\u1ed5ng plan 445.043 / actual 713.262 + b\u1ea3ng per-chu\u1ed7i \u0111\u1ea7y \u0111\u1ee7 (DMX 72.230/157.407...)"
+        },
+        {
+          "text": "C\u1ea3nh b\u00e1o bucket 'ngo\u00e0i chu\u1ed7i' ~76%",
+          "passed": true,
+          "evidence": "B\u1ea3ng m\u1ee5c 2: Kh\u00e1c (ngo\u00e0i chu\u1ed7i) ~77% plan / ~76% actual, 'th\u01b0\u1eddng lo\u1ea1i kh\u1ecfi viz'"
+        },
+        {
+          "text": "Output _vN, ADD-only",
+          "passed": true,
+          "evidence": "Khuy\u1ebfn ngh\u1ecb REUSE v4_Chuoi (kh\u00f4ng build tr\u00f9ng); Ph\u01b0\u01a1ng \u00e1n B t\u00ean m\u1edbi KGR_DS_SFC_Chuoi_T5_v1; kh\u00f4ng x\u00f3a artifact"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "'B\u1ea2N K\u1ebe HO\u1ea0CH CH\u1edc DUY\u1ec6T \u2014 ch\u01b0a thao t\u00e1c g\u00ec tr\u00ean OAC' + m\u1ee5c 8 c\u00e2u h\u1ecfi ch\u1edd user"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Ngu\u1ed3n = DTF_CALC_INVOICE_MEMO_#",
+          "passed": true,
+          "evidence": "\u00a72.1: MEMO# ngu\u1ed3n duy nh\u1ea5t, c\u00f3 XSA id, lo\u1ea1i c\u00e1c alternative c\u00f3 l\u00fd do"
+        },
+        {
+          "text": "Lo\u1ea1i free gift qua CUSTCOL_SCV_LINE_ISFREEGIFT + check gi\u00e1 tr\u1ecb c\u1ed9t",
+          "passed": true,
+          "evidence": "D5: lo\u1ea1i flag='T', gi\u1eef F/NULL; ph\u00e1t hi\u1ec7n s\u00e2u: ch\u01b0a t\u1eebng quan s\u00e1t th\u1ea5y 'T' (CHECK-C + h\u1ecfi finance \u0111\u1ecbnh ngh\u0129a h\u00e0ng t\u1eb7ng n\u1ebfu kh\u00f4ng c\u00f3 'T')"
+        },
+        {
+          "text": "Filter \u0111\u00fang 3 k\u1ef3 Mar/Apr/May 2026 (39/40/42)",
+          "passed": true,
+          "evidence": "D4: IN-list PERIODNAME; ch\u1ee7 \u0111\u1ed9ng kh\u00f4ng hardcode s\u1ed1 k\u1ef3 v\u00ec th\u1ea5y ghi ch\u00e9p Mar=39 vs 40 m\u00e2u thu\u1eabn (CHECK-D map l\u1ea1i)"
+        },
+        {
+          "text": "SUM doanh thu ex-VAT group by Nh\u00f3m K\u00eanh + th\u00e1ng, ch\u1ecdn \u0111\u00fang c\u1ed9t doanh thu",
+          "passed": true,
+          "evidence": "D2 + \u00a72.2: 'Doanh thu th\u1ef1c t\u1ebf' = ex-VAT (d\u1eabn DATA_JOIN_DESIGN.md, ratio 1.075 vs 'Doanh s\u1ed1'); CHECK-H x\u00e1c nh\u1eadn l\u1ea1i"
+        },
+        {
+          "text": "N\u00eau readability MEMO# intermittent + validate-first executePreview",
+          "passed": true,
+          "evidence": "\u00a72.5: ORA-00942 intermittent \u2192 validate-first; ORA-28000 kh\u00f4ng ch\u1eb7n DataFlow Run"
+        },
+        {
+          "text": "Output _vN + verify \u0111\u1ed1i chi\u1ebfu BC01/NSAW",
+          "passed": true,
+          "evidence": "KGR_DF_DT_NhomKenh_Thang_v1; \u00a77 acceptance + cross-check NSAW get_pl_by_dimension p40-42 v\u1edbi caveat l\u1ec7ch ~2.5% scope"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "'DRAFT ch\u1edd duy\u1ec7t \u2014 CH\u01afA build' + 5 c\u00e2u h\u1ecfi finance \u00a79"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Ch\u1ea9n \u0111o\u00e1n actual 2.44M = fan-out \u0111a k\u1ef3 + inner join",
+          "passed": true,
+          "evidence": "\u00a72.1 fan-out join grain d\u00f2ng (\u00d72.6-4.2 kh\u00f4ng \u0111\u1ed3ng \u0111\u1ec1u) + \u00a72.2 nhi\u1ec5m \u0111a k\u1ef3 41\u219261; th\u00eam chi ti\u1ebft filter viz POSTINGPERIOD \u2265 42"
+        },
+        {
+          "text": "Ch\u1ea9n \u0111o\u00e1n plan 40K = MAX thay v\u00ec SUM",
+          "passed": true,
+          "evidence": "\u00a72.2: 'Maximum ch\u1ec9 tr\u1ea3 v\u1ec1 1 gi\u00e1 tr\u1ecb item l\u1edbn nh\u1ea5t \u2248 40K' + \u00a72.3 inner-join drop 44%"
+        },
+        {
+          "text": "Plan thay th\u1ebf theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer",
+          "passed": true,
+          "evidence": "\u00a73 nguy\u00ean t\u1eafc 5 \u0111i\u1ec3m + \u00a74B s\u01a1 \u0111\u1ed3 node \u0111\u00fang recipe; \u00a74A khuy\u1ebfn ngh\u1ecb reuse MEMO_v2 \u0111\u00e3 verify"
+        },
+        {
+          "text": "ADD-only, t\u00ean m\u1edbi _vN",
+          "passed": true,
+          "evidence": "Build m\u1edbi t\u00ean _v3; c\u00f3 \u0111\u1ec1 xu\u1ea5t 'khai t\u1eed DS_v2/deprecate rename' nh\u01b0ng \u0111\u1eb7t th\u00e0nh quy\u1ebft \u0111\u1ecbnh ch\u1edd user duy\u1ec7t ri\u00eang (Q3/Q4), kh\u00f4ng t\u1ef1 \u00fd x\u00f3a"
+        },
+        {
+          "text": "Verify 445,043 / 713,262",
+          "passed": true,
+          "evidence": "\u00a71 b\u1ea3ng tri\u1ec7u ch\u1ee9ng + \u00a78 acceptance: Plan 445.043, Actual 713.262, ~160%, tr\u00f9ng Canvas 24"
+        },
+        {
+          "text": "C\u00f3 danh s\u00e1ch checks th\u1ef1c t\u1ebf",
+          "passed": true,
+          "evidence": "\u00a76: 11 b\u01b0\u1edbc trong 3 kh\u1ed1i (x\u00e1c nh\u1eadn ch\u1ea9n \u0111o\u00e1n read-only \u2192 x\u00e1c nh\u1eadn gi\u1ea3i ph\u00e1p \u2192 thi c\u00f4ng)"
+        },
+        {
+          "text": "D\u1eebng \u1edf gate duy\u1ec7t",
+          "passed": true,
+          "evidence": "'B\u1ea2N CH\u1ea8N \u0110O\u00c1N + K\u1ebe HO\u1ea0CH TR\u00ccNH DUY\u1ec6T... ch\u01b0a thao t\u00e1c' + \u00a75 b\u1ea3ng 5 quy\u1ebft \u0111\u1ecbnh c\u1ea7n duy\u1ec7t"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

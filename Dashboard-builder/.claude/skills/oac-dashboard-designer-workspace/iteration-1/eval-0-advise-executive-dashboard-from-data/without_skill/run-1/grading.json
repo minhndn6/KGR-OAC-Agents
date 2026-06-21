@@ -1,0 +1,14 @@
+{
+  "eval_id": 0, "config": "without_skill",
+  "expectations": [
+    {"text": "Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần", "passed": true, "evidence": "Thiết kế quanh '10 phút = không thể đọc báo cáo' + 3 câu hỏi cốt lõi (không nêu typology tường minh nhưng tinh thần đúng)"},
+    {"text": "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ", "passed": false, "evidence": "Canvas tổ chức theo CHỦ ĐỀ (Ngành/Kênh/GP) chứ không theo câu hỏi điều hành; phần lớn viz không nêu quyết định nó phục vụ"},
+    {"text": "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)", "passed": false, "evidence": "Có EOM forecast + 'sản lượng thương mại' nhưng KHÔNG có route hiện thực hoá (My Calculations vs dataflow) — không biết làm bằng gì trên OAC"},
+    {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng", "passed": true, "evidence": "Trend 8 tuần: cột DT thực + đường đứt plan trong 1 viz"},
+    {"text": "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên", "passed": true, "evidence": "Waterfall GP gross→CK→tặng→ròng; heatmap ngành×chuỗi"},
+    {"text": "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz", "passed": true, "evidence": "6 KPI cards hàng đầu, layout khu vực A-D, đa dạng viz"},
+    {"text": "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)", "passed": false, "evidence": "Không kiểm grain — mặc định actual có đủ chiều Kênh/Chuỗi; không có bước profile dữ liệu trước khi hứa"},
+    {"text": "Có số expected/nguồn verify cho metric chính", "passed": false, "evidence": "Không có bảng metric định nghĩa + số expected + nguồn đối chiếu"},
+    {"text": "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt", "passed": false, "evidence": "Có chờ phê duyệt nhưng không theo cấu trúc Blueprint (thiếu bảng metric/route/DoD); còn đề xuất cả Power BI/Looker — lạc khỏi bối cảnh OAC"}
+  ]
+}

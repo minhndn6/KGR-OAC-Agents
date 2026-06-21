@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "oac-dashboard-designer", "runs": [{"id": "eval-0-advise-executive-dashboard-from-data-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "blueprint.md", "type": "text", "content": "# BLUEPRINT: Weekly Revenue & Margin Pulse \u2014 CEO/CFO Monday Dashboard\n\n## 1. B\u1ed1i c\u1ea3nh\n- **Audience:** CEO + CFO \u00b7 **Lo\u1ea1i:** Executive / Strategic \u00b7 **Nh\u1ecbp xem:** M\u1ed7i s\u00e1ng th\u1ee9 Hai, ~10 ph\u00fat \u00b7 **M\u00e0n h\u00ecnh:** Desktop (possibly present mode)\n- **Quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5 (4):** (1) \u0110\u00fang track k\u1ebf ho\u1ea1ch kh\u00f4ng \u2014 can thi\u1ec7p k\u00eanh/ng\u00e0nh n\u00e0o? (2) Bi\u00ean GP b\u1ecb b\u00e0o m\u00f2n kh\u00f4ng, \u1edf chu\u1ed7i/ng\u00e0nh n\u00e0o? (3) H\u00e0ng t\u1eb7ng \u0103n v\u00e0o doanh thu th\u1ef1c bao nhi\u00eau? (4) K\u00eanh/chu\u1ed7i n\u00e0o k\u00e9o t\u1ed5ng l\u00ean/xu\u1ed1ng \u2014 ph\u00e2n b\u1ed5 ngu\u1ed3n l\u1ef1c tu\u1ea7n t\u1edbi?\n\n## 2. D\u1eef li\u1ec7u (theo m\u00f4 t\u1ea3 \u2014 checks c\u1ea7n ch\u1ea1y)\n| Ngu\u1ed3n | Grain | Dims | Measures | Ch\u1ea5t l\u01b0\u1ee3ng (checks) |\n|---|---|---|---|---|\n| H\u0110 b\u00e1n h\u00e0ng theo d\u00f2ng | 1 d\u00f2ng = 1 line item | Ng\u00e0nh, Nh\u00f3m SP, Chu\u1ed7i, K\u1ef3, C\u1edd t\u1eb7ng | SL, DT, GP%, %GP r\u00f2ng | \u26a0\ufe0f % d\u00f2ng thi\u1ebfu Chu\u1ed7i/Ng\u00e0nh \u00b7 duplicate ID \u00b7 c\u1edd t\u1eb7ng binary? \u00b7 K\u1ef3 l\u00e0 date hay string |\n| K\u1ebf ho\u1ea1ch SL + DT | 1 d\u00f2ng = tu\u1ea7n \u00d7 Ng\u00e0nh \u00d7 K\u00eanh \u00d7 Chu\u1ed7i | Ng\u00e0nh, K\u00eanh, Chu\u1ed7i, Tu\u1ea7n | SL KH, DT KH | \u26a0\ufe0f **grain K\u00eanh c\u00f3 trong actual kh\u00f4ng** (n\u1ebfu kh\u00f4ng \u2192 plan-vs-actual theo K\u00eanh B\u1ea4T KH\u1ea2 \u2014 c\u1ea7n dataflow mapping Chu\u1ed7i\u2192K\u00eanh ho\u1eb7c b\u1ecf chi\u1ec1u K\u00eanh); plan c\u00f3 GP% kh\u00f4ng |\n\n## 3. Thi\u1ebft k\u1ebf 4 canvas (m\u1ed7i canvas 1 c\u00e2u h\u1ecfi)\n\n### Canvas 1: \"Tu\u1ea7n n\u00e0y c\u00f3 \u0111ang \u0111i \u0111\u00fang k\u1ebf ho\u1ea1ch kh\u00f4ng?\"\n- 4 BAN (KPI Tile Plugin Base/Target/Previous): Revenue vs Weekly Plan \u00b7 Volume vs Weekly Plan \u00b7 Weekly Achievement % \u00b7 YTD Achievement % \u2014 xanh #44BA46 \u0111\u1ea1t / cam #F16522 d\u01b0\u1edbi plan.\n- **Combo Bar+Line** \"Actual vs Plan \u2014 Last 8 Weeks\": Bar=DT actual (xanh), Line=DT plan (x\u00e1m #636466), Category=Tu\u1ea7n.\n- **Horizontal Bar** \"Revenue Gap by Industry \u2014 This Week\": Variance (actual\u2212plan), \u00e2m=cam d\u01b0\u01a1ng=xanh, sort theo gap.\n- B\u1ed1 c\u1ee5c: [4 BAN] / [Combo 60% | Gap bar 40%].\n\n### Canvas 2: \"Bi\u00ean l\u1ee3i nhu\u1eadn \u0111ang kh\u1ecfe kh\u00f4ng \u2014 b\u00e0o m\u00f2n \u1edf \u0111\u00e2u?\"\n- 2 BAN: Gross Margin % \u00b7 Net Margin % (kho\u1ea3ng c\u00e1ch = deduction spread).\n- **Waterfall** \"What Is Eating Into Gross Margin?\": GP% \u2192 \u2212CKKM% \u2192 \u2212CK% \u2192 Net GP% (xanh GP, cam kh\u1ea5u tr\u1eeb).\n- **Grid Heat Map** \"Margin Map: Industry \u00d7 Chain\": Y=Ng\u00e0nh, X=Chu\u1ed7i, Color=GP% (thang 1 h\u01b0\u1edbng, cap \u00b13\u03c3).\n- **Horizontal Bar + Top-Bottom N** \"Net Margin \u2014 Top & Bottom Product Groups\".\n\n### Canvas 3: \"H\u00e0ng t\u1eb7ng chi\u1ebfm bao nhi\u00eau, \u0103n v\u00e0o k\u1ebft qu\u1ea3 th\u1ef1c?\"\n- BAN: Gift Revenue Share (cam n\u1ebfu >ng\u01b0\u1ee1ng ~10%) \u00b7 Net Commercial Revenue.\n- **100% Stacked Bar** \"Gift vs Commercial Mix Trend \u2014 8 Weeks\".\n- **Treemap** \"Where Are Gift Products Concentrated?\": size=DT t\u1eb7ng, color=% t\u1eb7ng/DT ng\u00e0nh.\n- **Pivot** \"Margin: Gift vs Commercial by Industry\" + CF \u0111\u1ecf n\u1ebfu GP% t\u1eb7ng < 0.\n\n### Canvas 4: \"K\u00eanh/chu\u1ed7i n\u00e0o k\u00e9o t\u1ed5ng \u2014 ph\u00e2n b\u1ed5 ngu\u1ed3n l\u1ef1c th\u1ebf n\u00e0o?\"\n- **Combo** \"Chain Performance: Revenue & Achievement\": Bar=DT (Y1), Line=Achievement% (Y2) + ref line 100%.\n- **Stacked Bar** \"Revenue Composition by Chain\" (m\u00e0u theo Ng\u00e0nh \u2014 r\u1ee7i ro t\u1eadp trung).\n- **Scatter** \"Chain Quadrant: Achievement vs Margin\": X=Achievement%, Y=GP%, Size=DT, 4 quadrant.\n- **Table** \"Chain Detail Drill \u2014 Top 15\" + CF.\n\n## 4. Metric & \u0111\u1ecbnh ngh\u0129a (ch\u1ed1t tr\u01b0\u1edbc build) \u2014 tr\u00edch\n| Metric | C\u00f4ng th\u1ee9c | S\u1ed1 expected | Route |\n|---|---|---|---|\n| DT Actual tu\u1ea7n | \u03a3 DT theo tu\u1ea7n (ch\u1ed1t g\u1ed3m/lo\u1ea1i t\u1eb7ng) | kh\u1edbp b\u00e1o c\u00e1o tu\u1ea7n th\u1ee7 c\u00f4ng | calc |\n| Achievement % | DT actual/DT plan | t\u00ednh tay 1 ng\u00e0nh m\u1eabu | calc |\n| GP% tu\u1ea7n | \u03a3(DT\u00d7GP%)/\u03a3DT weighted | kh\u1edbp b\u00e1o c\u00e1o l\u00e3i g\u1ed9p | calc |\n| % DT h\u00e0ng t\u1eb7ng | \u03a3 DT[c\u1edd=1]/\u03a3 DT | = DT t\u1ed5ng \u2212 DT thu\u1ea7n | calc |\n\n## 5. \u2b50 Ch\u1ec9 s\u1ed1 ph\u00e1i sinh \u0110\u1ec0 XU\u1ea4T TH\u00caM (6)\n| Ch\u1ec9 s\u1ed1 | V\u00ec sao \u0111\u1eaft gi\u00e1 | Route |\n|---|---|---|\n| Run-rate EOM Forecast vs Plan | bi\u1ebft th\u00e1ng \u0111\u00f3ng \u1edf bao nhi\u00eau % plan NGAY trong tu\u1ea7n, kh\u00f4ng \u0111\u1ee3i cu\u1ed1i th\u00e1ng | calc |\n| Contribution-to-Growth theo Ng\u00e0nh | t\u1ed5ng t\u0103ng 10% do \u0111\u00e2u \u2014 ng\u00e0nh l\u1edbn che ng\u00e0nh nh\u1ecf t\u0103ng nhanh | dataflow + Waterfall |\n| ASP (gi\u00e1 b\u00e1n b\u00ecnh qu\u00e2n) | DT t\u0103ng nh\u1edd gi\u00e1 hay nh\u1edd l\u01b0\u1ee3ng | calc |\n| % DT Top-3 Chu\u1ed7i | r\u1ee7i ro t\u1eadp trung | calc + Top-N |\n| GP% Mix shift k\u1ef3 n\u00e0y vs tr\u01b0\u1edbc | GP% t\u0103ng v\u00ec mix d\u1ecbch hay th\u1eadt s\u1ef1 c\u1ea3i thi\u1ec7n gi\u00e1 | dataflow + Waterfall |\n| Gift Unit Share | t\u1eb7ng h\u00e0ng gi\u00e1 tr\u1ecb th\u1ea5p hay cao gi\u00e1 (\u0103n GP n\u1eb7ng) | calc |\n\n## 6. Caveats & open questions (6 c\u00e2u, gom 1 l\u1ea7n)\nGrain mismatch actual/plan (K\u00eanh!) \u00b7 K\u1ef3 date vs string \u00b7 DT gross vs net \u00b7 plan c\u00f3 GP%? \u00b7 ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o GP% \u00b7 workbook m\u1edbi hay DB01?\n\n## 7. Th\u1ee9 t\u1ef1 build + DoD\nCh\u1ed1t 6 c\u00e2u h\u1ecfi \u2192 Dataflow A (join actual+plan, Achievement/Variance) \u2192 Dataflow B (map Chu\u1ed7i\u2192K\u00eanh n\u1ebfu c\u1ea7n) \u2192 Canvas 1 \u2192 4 \u2192 2 \u2192 3 \u2192 filter/m\u00e0u/title/note. DoD: s\u1ed1 kh\u1edbp expected, Waterfall balance, title EN insight + note VN, m\u00e0u ng\u1eef ngh\u0129a, persist verified.\n\nDuy\u1ec7t blueprint n\u00e0y ch\u1ee9? C\u00f3 g\u00ec c\u1ea7n \u0111\u1ed5i?\n"}], "grading": {"eval_id": 0, "config": "with_skill", "expectations": [{"text": "Ch\u1ed1t lo\u1ea1i dashboard Executive t\u1eeb audience CEO/CFO 10 ph\u00fat/tu\u1ea7n", "passed": true, "evidence": "B\u1ed1i c\u1ea3nh ghi r\u00f5 'Lo\u1ea1i: Executive / Strategic', nh\u1ecbp th\u1ee9 Hai 10 ph\u00fat"}, {"text": "M\u1ed7i canvas g\u1eafn 1 c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; m\u1ed7i viz n\u00eau \u0111\u01b0\u1ee3c quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5", "passed": true, "evidence": "4 canvas m\u1ed7i c\u00e1i 1 c\u00e2u h\u1ecfi (\u0111\u00fang plan? bi\u00ean? h\u00e0ng t\u1eb7ng? ph\u00e2n b\u1ed5?); 4 quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5 li\u1ec7t k\u00ea; note VN t\u1eebng viz"}, {"text": "\u0110\u1ec1 xu\u1ea5t \u22652 ch\u1ec9 s\u1ed1 ph\u00e1i sinh ch\u1ee7 \u0111\u1ed9ng k\u00e8m route hi\u1ec7n th\u1ef1c (calc/dataflow)", "passed": true, "evidence": "6 ch\u1ec9 s\u1ed1: Run-rate EOM, Contribution-to-growth, ASP, Top-3 concentration, GP% mix shift, Gift Unit Share \u2014 m\u1ed7i c\u00e1i c\u00f3 c\u1ed9t Route calc/dataflow"}, {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), kh\u00f4ng 2 chart ri\u00eang", "passed": true, "evidence": "Canvas 1 viz: Combo Bar+Line 'Actual vs Plan \u2014 Last 8 Weeks', bar xanh #44BA46, line x\u00e1m #636466"}, {"text": "C\u00f3 Waterfall cho bridge bi\u00ean ho\u1eb7c gap, Treemap/heatmap cho c\u01a1 c\u1ea5u+bi\u00ean", "passed": true, "evidence": "Canvas 2: Waterfall 'What Is Eating Into Gross Margin?' + Grid Heat Map Industry\u00d7Chain; Canvas 3: Treemap h\u00e0ng t\u1eb7ng"}, {"text": "Layout: KPI/BANs h\u00e0ng tr\u00ean, \u22646 KPI/canvas, \u0111a d\u1ea1ng lo\u1ea1i viz", "passed": true, "evidence": "4 BAN h\u00e0ng \u0111\u1ea7u Canvas 1; m\u1ed7i canvas 4-6 viz \u0111a d\u1ea1ng (Combo/HBar/Waterfall/Heatmap/Treemap/Scatter/Pivot); s\u01a1 \u0111\u1ed3 b\u1ed1 c\u1ee5c t\u1eebng canvas"}, {"text": "C\u00f3 caveat kh\u1ea3-thi-theo-grain (ki\u1ec3m grain tr\u01b0\u1edbc khi h\u1ee9a chi\u1ec1u c\u1eaft)", "passed": true, "evidence": "C\u1ea3nh b\u00e1o r\u00f5: actual kh\u00f4ng c\u00f3 c\u1ed9t K\u00eanh \u2192 plan-vs-actual theo K\u00eanh B\u1ea4T KH\u1ea2, c\u1ea7n dataflow mapping Chu\u1ed7i\u2192K\u00eanh; open question #1"}, {"text": "C\u00f3 s\u1ed1 expected/ngu\u1ed3n verify cho metric ch\u00ednh", "passed": true, "evidence": "B\u1ea3ng metric \u00a74 c\u00f3 c\u1ed9t 'S\u1ed1 expected (verify)' \u0111\u1ed1i chi\u1ebfu b\u00e1o c\u00e1o th\u1ee7 c\u00f4ng + cross-check \u03a3 variance"}, {"text": "Xu\u1ea5t Blueprint \u0111\u00fang c\u1ea5u tr\u00fac template, d\u1eebng \u1edf gate duy\u1ec7t", "passed": true, "evidence": "\u0110\u1ee7 7 m\u1ee5c template (b\u1ed1i c\u1ea3nh/d\u1eef li\u1ec7u/canvas/metric/ph\u00e1i sinh/caveats/th\u1ee9 t\u1ef1+DoD); k\u1ebft 'Duy\u1ec7t blueprint n\u00e0y ch\u1ee9? C\u00f3 g\u00ec c\u1ea7n \u0111\u1ed5i?'"}]}}, {"id": "eval-0-advise-executive-dashboard-from-data-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "proposal.md", "type": "text", "content": "# (BASELINE \u2014 kh\u00f4ng skill) T\u01b0 v\u1ea5n CEO/CFO Monday Morning Dashboard \u2014 Kangaroo\n\nNguy\u00ean t\u1eafc: 10 ph\u00fat = 3 c\u00e2u h\u1ecfi (tu\u1ea7n r\u1ed3i t\u1ed1t/x\u1ea5u vs plan? c\u00e1i g\u00ec \u0111ang h\u1ecfng? th\u00e1ng/n\u0103m v\u1ec1 \u0111\u00edch kh\u00f4ng?). M\u1ecdi th\u1ee9 ph\u1ea3i tr\u1ea3 l\u1eddi 1 trong 3.\n\n**5 canvas:** Overview (6 KPI cards + trend 8 tu\u1ea7n + smart alerts + 2 b\u1ea3ng breakdown) \u00b7 Ng\u00e0nh h\u00e0ng (bar ngang actual vs plan sort theo h\u1ee5t, scatter growth\u00d7GP% size=SL, b\u1ea3ng h\u00e0ng t\u1eb7ng, trend GP% r\u00f2ng 13 tu\u1ea7n) \u00b7 K\u00eanh/Chu\u1ed7i (heatmap ng\u00e0nh\u00d7chu\u1ed7i %vs plan, b\u1ea3ng chu\u1ed7i + c\u1ea3nh b\u00e1o h\u1ee5t 3 tu\u1ea7n li\u00ean ti\u1ebfp) \u00b7 GP & H\u00e0ng t\u1eb7ng (waterfall GP gross\u2192CK\u2192t\u1eb7ng\u2192r\u00f2ng, bar % t\u1eb7ng vs ng\u01b0\u1ee1ng, scatter t\u1eb7ng\u00d7GP%) \u00b7 Plan vs Actual (variance waterfall 13 tu\u1ea7n, EOM forecast range, 3 gauge attainment, b\u1ea3ng top contributor).\n\n**KPI cards (6):** DT W-1 vs plan \u00b7 SL W-1 (tr\u1eeb t\u1eb7ng) \u00b7 GP% \u00b7 GP% r\u00f2ng \u00b7 DT MTD %KH th\u00e1ng \u00b7 DT YTD %AOP. M\u00e0u: xanh v\u01b0\u1ee3t/v\u00e0ng \u00b15%/\u0111\u1ecf h\u1ee5t >5%.\n\n**Trend 8 tu\u1ea7n:** c\u1ed9t DT th\u1ef1c (xanh d\u01b0\u01a1ng Kangaroo) + \u0111\u01b0\u1eddng \u0111\u1ee9t plan; tu\u1ea7n m\u1edbi nh\u1ea5t highlight.\n\n**Smart Alerts:** t\u1ed1i \u0111a 5, \u0111\u1ecf (GP%<19% ho\u1eb7c h\u1ee5t >15% 2 tu\u1ea7n li\u00ean ti\u1ebfp) \u2192 v\u00e0ng \u2192 xanh.\n\n**Quy t\u1eafc k\u1ef9 thu\u1eadt:** t\u00e1ch \"s\u1ea3n l\u01b0\u1ee3ng th\u01b0\u01a1ng m\u1ea1i\" (tr\u1eeb t\u1eb7ng) vs t\u1ed5ng xu\u1ea5t kho; k\u1ef3 m\u1eb7c \u0111\u1ecbnh W-1, h\u1ed7 tr\u1ee3 MTD/QTD/YTD; d\u1eef li\u1ec7u s\u1eb5n s\u00e0ng tr\u01b0\u1edbc 7AM th\u1ee9 Hai, thi\u1ebfu th\u00ec hi\u1ec7n \"d\u1eef li\u1ec7u t\u1edbi W-2\" thay v\u00ec s\u1ed1 0; l\u00e0m tr\u00f2n t\u1ef7 1 s\u1ed1 l\u1ebb.\n\n**KH\u00d4NG \u0111\u01b0a v\u00e0o:** chi ti\u1ebft h\u00f3a \u0111\u01a1n/SKU; YoY tr\u00ean Overview; pie chart; >3 m\u00e0u; filter ph\u1ee9c t\u1ea1p tr\u00ean Overview.\n\n**Ph\u01b0\u01a1ng \u00e1n tri\u1ec3n khai:** A=Oracle Analytics Cloud (n\u1ebfu d\u00f9ng Oracle ERP/DW) \u00b7 B=Power BI Premium \u00b7 C=Looker Studio. \n\nCh\u1edd ph\u00ea duy\u1ec7t. C\u1ea7n x\u00e1c nh\u1eadn: tool BI \u0111ang d\u00f9ng, ngu\u1ed3n d\u1eef li\u1ec7u, ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o GP%/h\u00e0ng t\u1eb7ng.\n"}], "grading": {"eval_id": 0, "config": "without_skill", "expectations": [{"text": "Ch\u1ed1t lo\u1ea1i dashboard Executive t\u1eeb audience CEO/CFO 10 ph\u00fat/tu\u1ea7n", "passed": true, "evidence": "Thi\u1ebft k\u1ebf quanh '10 ph\u00fat = kh\u00f4ng th\u1ec3 \u0111\u1ecdc b\u00e1o c\u00e1o' + 3 c\u00e2u h\u1ecfi c\u1ed1t l\u00f5i (kh\u00f4ng n\u00eau typology t\u01b0\u1eddng minh nh\u01b0ng tinh th\u1ea7n \u0111\u00fang)"}, {"text": "M\u1ed7i canvas g\u1eafn 1 c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; m\u1ed7i viz n\u00eau \u0111\u01b0\u1ee3c quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5", "passed": false, "evidence": "Canvas t\u1ed5 ch\u1ee9c theo CH\u1ee6 \u0110\u1ec0 (Ng\u00e0nh/K\u00eanh/GP) ch\u1ee9 kh\u00f4ng theo c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; ph\u1ea7n l\u1edbn viz kh\u00f4ng n\u00eau quy\u1ebft \u0111\u1ecbnh n\u00f3 ph\u1ee5c v\u1ee5"}, {"text": "\u0110\u1ec1 xu\u1ea5t \u22652 ch\u1ec9 s\u1ed1 ph\u00e1i sinh ch\u1ee7 \u0111\u1ed9ng k\u00e8m route hi\u1ec7n th\u1ef1c (calc/dataflow)", "passed": false, "evidence": "C\u00f3 EOM forecast + 's\u1ea3n l\u01b0\u1ee3ng th\u01b0\u01a1ng m\u1ea1i' nh\u01b0ng KH\u00d4NG c\u00f3 route hi\u1ec7n th\u1ef1c ho\u00e1 (My Calculations vs dataflow) \u2014 kh\u00f4ng bi\u1ebft l\u00e0m b\u1eb1ng g\u00ec tr\u00ean OAC"}, {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), kh\u00f4ng 2 chart ri\u00eang", "passed": true, "evidence": "Trend 8 tu\u1ea7n: c\u1ed9t DT th\u1ef1c + \u0111\u01b0\u1eddng \u0111\u1ee9t plan trong 1 viz"}, {"text": "C\u00f3 Waterfall cho bridge bi\u00ean ho\u1eb7c gap, Treemap/heatmap cho c\u01a1 c\u1ea5u+bi\u00ean", "passed": true, "evidence": "Waterfall GP gross\u2192CK\u2192t\u1eb7ng\u2192r\u00f2ng; heatmap ng\u00e0nh\u00d7chu\u1ed7i"}, {"text": "Layout: KPI/BANs h\u00e0ng tr\u00ean, \u22646 KPI/canvas, \u0111a d\u1ea1ng lo\u1ea1i viz", "passed": true, "evidence": "6 KPI cards h\u00e0ng \u0111\u1ea7u, layout khu v\u1ef1c A-D, \u0111a d\u1ea1ng viz"}, {"text": "C\u00f3 caveat kh\u1ea3-thi-theo-grain (ki\u1ec3m grain tr\u01b0\u1edbc khi h\u1ee9a chi\u1ec1u c\u1eaft)", "passed": false, "evidence": "Kh\u00f4ng ki\u1ec3m grain \u2014 m\u1eb7c \u0111\u1ecbnh actual c\u00f3 \u0111\u1ee7 chi\u1ec1u K\u00eanh/Chu\u1ed7i; kh\u00f4ng c\u00f3 b\u01b0\u1edbc profile d\u1eef li\u1ec7u tr\u01b0\u1edbc khi h\u1ee9a"}, {"text": "C\u00f3 s\u1ed1 expected/ngu\u1ed3n verify cho metric ch\u00ednh", "passed": false, "evidence": "Kh\u00f4ng c\u00f3 b\u1ea3ng metric \u0111\u1ecbnh ngh\u0129a + s\u1ed1 expected + ngu\u1ed3n \u0111\u1ed1i chi\u1ebfu"}, {"text": "Xu\u1ea5t Blueprint \u0111\u00fang c\u1ea5u tr\u00fac template, d\u1eebng \u1edf gate duy\u1ec7t", "passed": false, "evidence": "C\u00f3 ch\u1edd ph\u00ea duy\u1ec7t nh\u01b0ng kh\u00f4ng theo c\u1ea5u tr\u00fac Blueprint (thi\u1ebfu b\u1ea3ng metric/route/DoD); c\u00f2n \u0111\u1ec1 xu\u1ea5t c\u1ea3 Power BI/Looker \u2014 l\u1ea1c kh\u1ecfi b\u1ed1i c\u1ea3nh OAC"}]}}, {"id": "eval-1-operational-vs-executive-distinction-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "blueprint.md", "type": "text", "content": "# BLUEPRINT: Sales Ops Daily Monitor \u2014 Theo d\u00f5i \u0111\u01a1n h\u00e0ng h\u1eb1ng ng\u00e0y theo k\u00eanh & chu\u1ed7i\n\n## 1. B\u1ed1i c\u1ea3nh\n- **Audience:** Team Sales Operations \u00b7 **Lo\u1ea1i: OPERATIONAL** \u00b7 **Nh\u1ecbp:** h\u1eb1ng ng\u00e0y s\u00e1ng 8-9h + gi\u1eefa chi\u1ec1u \u00b7 Desktop.\n- **Kh\u00e1c executive:** executive xem tu\u1ea7n/th\u00e1ng h\u1ecfi \"\u0111\u1ea1t plan kh\u00f4ng?\" (BAN to, trend, \u00edt filter); operational xem NG\u00c0Y h\u1ecfi \"h\u00f4m nay l\u1ec7ch chu\u1ea9n g\u00ec c\u1ea7n can thi\u1ec7p NGAY?\" (ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o \u0111\u1ecf/cam, danh s\u00e1ch chu\u1ed7i/k\u00eanh c\u1ee5 th\u1ec3, h\u00e0nh \u0111\u1ed9ng g\u1eafn v\u00e0o viz). Nh\u1ecbp h\u00e0nh \u0111\u1ed9ng: executive ph\u00e2n b\u1ed5 th\u00e1ng/qu\u00fd, ops can thi\u1ec7p trong ng\u00e0y.\n- **4 quy\u1ebft \u0111\u1ecbnh h\u1eb1ng ng\u00e0y:** k\u00eanh ch\u1eadm run-rate \u2192 \u01b0u ti\u00ean g\u1ecdi h\u00f4m nay \u00b7 chu\u1ed7i h\u1ee5t nh\u1ecbp th\u00e1ng \u2192 leo thang/ch\u01b0\u01a1ng tr\u00ecnh b\u00f9 \u00b7 \u0111\u01a1n h\u1ee7y \u0111\u1ed9t bi\u1ebfn \u2192 \u0111i\u1ec1u tra \u00b7 t\u1ed5ng \u0111\u01a1n \u0111\u1ee7 nh\u1ecbp target th\u00e1ng \u2192 push th\u00eam?\n\n## 2. D\u1eef li\u1ec7u (theo m\u00f4 t\u1ea3 \u2014 verify khi build)\nOrder (1 d\u00f2ng=1 \u0111\u01a1n: ng\u00e0y, k\u00eanh, chu\u1ed7i, tr\u1ea1ng th\u00e1i, gi\u00e1 tr\u1ecb) \u2014 \u26a0\ufe0f check % \u0111\u01a1n ch\u01b0a g\u1eafn chu\u1ed7i, tr\u1ea1ng th\u00e1i h\u1ee7y realtime hay lag. Plan (k\u00eanh \u00d7 th\u00e1ng) \u2014 \u26a0\ufe0f check plan c\u00f3 grain chu\u1ed7i kh\u00f4ng (quy\u1ebft \u0111\u1ecbnh route Pace% chu\u1ed7i: calc vs dataflow ph\u00e2n b\u1ed5).\n\n## 3. Ba canvas (m\u1ed7i canvas 1 c\u00e2u h\u1ecfi)\n### Canvas 1: \"H\u00f4m nay \u0111ang \u1edf \u0111\u00e2u so v\u1edbi nh\u1ecbp th\u00e1ng?\"\n4 BAN: Orders Today (xanh \u2265 run-rate/cam <) \u00b7 Projected Month-End Orders (run-rate EOM) \u00b7 Cancellations Today (cam >5%/\u0111\u1ecf >10% \u2014 ng\u01b0\u1ee1ng c\u1ea7n ch\u1ed1t) \u00b7 MTD Pace % (xanh \u2265100%/\u0111\u1ecf <85%). + **Horizontal Bar + Reference Line** \"Orders by Channel vs Daily Target\" (k\u00eanh d\u01b0\u1edbi v\u1ea1ch = h\u1ee5t \u2192 \u01b0u ti\u00ean g\u1ecdi, sort theo gap) + **Line 30 ng\u00e0y** vs run-rate.\n\n### Canvas 2: \"\u0110\u01a1n h\u1ee7y \u2014 bao nhi\u00eau, k\u00eanh n\u00e0o, xu h\u01b0\u1edbng?\"\nBAN h\u1ee7y + t\u1ef7 l\u1ec7 h\u1ee7y (\u26a0\ufe0f m\u1eabu s\u1ed1 nh\u1ecf s\u00e1ng s\u1edbm \u2192 \u1ea9n tr\u01b0\u1edbc 9h) \u00b7 **Horizontal Bar** h\u1ee7y theo k\u00eanh (ph\u00e2n bi\u1ec7t tuy\u1ec7t-\u0111\u1ed1i-cao vs t\u1ef7-l\u1ec7-cao) \u00b7 **Line** trend t\u1ef7 l\u1ec7 h\u1ee7y 30 ng\u00e0y (\u0111\u1ed9t bi\u1ebfn vs leo d\u1ea7n) \u00b7 **Table h\u00e0nh \u0111\u1ed9ng** \u0111\u01a1n h\u1ee7y h\u00f4m nay sort gi\u00e1 tr\u1ecb + Use as Filter.\n\n### Canvas 3: \"Chu\u1ed7i n\u00e0o h\u1ee5t nh\u1ecbp th\u00e1ng \u2014 leo thang ngay?\"\n**Horizontal Bar + ref 100%** \"Chain MTD Pace vs Run-Rate\" (\u0111\u1ecf <85% l\u00ean \u0111\u1ea7u = danh s\u00e1ch \u01b0u ti\u00ean can thi\u1ec7p) \u00b7 **Grid Heat Map** chu\u1ed7i \u00d7 tu\u1ea7n (h\u1ee5t \u0111\u1ec1u structural vs h\u1ee5t 1 tu\u1ea7n event) \u00b7 **Stacked Bar** chu\u1ed7i \u00d7 k\u00eanh (\u0111\u1ed5i c\u01a1 c\u1ea5u k\u00eanh?) \u00b7 **Table** Target/Actual/Gap/Pace% + CF, Use as Filter sang Canvas 2.\n\n## 4. Metric (ch\u1ed1t tr\u01b0\u1edbc build): \u0110\u01a1n h\u00f4m nay (status IN Confirmed/Delivered) \u00b7 T\u1ef7 l\u1ec7 h\u1ee7y ng\u00e0y \u00b7 Run-rate EOM = (\u03a3 MTD/ng\u00e0y qua)\u00d7ng\u00e0y th\u00e1ng \u00b7 MTD Pace % = actual/(target\u00d7ng\u00e0y qua/t\u1ed5ng ng\u00e0y) \u00b7 Gap MTD. Route: calc; Pace% chu\u1ed7i c\u1ea7n dataflow n\u1ebfu plan kh\u00f4ng c\u00f3 grain chu\u1ed7i.\n\n## 5. \u2b50 Ph\u00e1i sinh \u0111\u1ec1 xu\u1ea5t th\u00eam: **Ng\u01b0\u1ee1ng \"\u0111i\u1ec3m kh\u00f4ng th\u1ec3 ph\u1ee5c h\u1ed3i\"** (h\u1ee5t kh\u00f4ng th\u1ec3 b\u00f9 d\u00f9 push max \u2192 leo thang manager) \u00b7 **Chu\u1ed7i h\u1ee5t 2 tu\u1ea7n li\u00ean ti\u1ebfp** (pattern \u2260 nhi\u1ec5u) \u00b7 T\u1ef7 l\u1ec7 h\u1ee7y theo gi\u1edd trong ng\u00e0y \u00b7 Contribution top-5 chu\u1ed7i v\u00e0o gap t\u1ed5ng.\n\n## 6. Caveats & 4 open questions: plan c\u00f3 grain chu\u1ed7i? \u00b7 \"h\u1ee7y\" t\u00ednh l\u00fac n\u00e0o (lag)? \u00b7 ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o ops hi\u1ec7n d\u00f9ng? \u00b7 c\u1ea7n mobile?\n\n## 7. Th\u1ee9 t\u1ef1: verify grain \u2192 (dataflow ph\u00e2n b\u1ed5 n\u1ebfu c\u1ea7n) \u2192 Canvas 1 \u2192 3 \u2192 2 \u2192 drill li\u00ean canvas. DoD: BAN kh\u1edbp s\u1ed1 ops, ng\u01b0\u1ee1ng m\u00e0u \u0111\u00fang + c\u1ea5u h\u00ecnh \u0111\u01b0\u1ee3c (kh\u00f4ng hardcode), title EN/note VN, persist.\n\nDuy\u1ec7t blueprint n\u00e0y ch\u1ee9?\n"}], "grading": {"eval_id": 1, "config": "with_skill", "expectations": [{"text": "Nh\u1eadn di\u1ec7n \u0111\u00fang lo\u1ea1i Operational v\u00e0 n\u00eau kh\u00e1c bi\u1ec7t v\u1edbi Executive (nh\u1ecbp, ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o, h\u00e0nh \u0111\u1ed9ng can thi\u1ec7p)", "passed": true, "evidence": "B\u1ed1i c\u1ea3nh ghi 'Lo\u1ea1i: OPERATIONAL' + m\u1ee5c ri\u00eang 'Kh\u00e1c executive th\u1ebf n\u00e0o' + b\u1ea3ng so s\u00e1nh 3 lo\u1ea1i cu\u1ed1i blueprint"}, {"text": "C\u00f3 run-rate vs target ho\u1eb7c t\u01b0\u01a1ng \u0111\u01b0\u01a1ng l\u00e0m ch\u1ec9 s\u1ed1 ph\u00e1i sinh", "passed": true, "evidence": "BAN Run-rate EOM forecast + MTD Pace % v\u1edbi c\u00f4ng th\u1ee9c actual/(target\u00d7ng\u00e0y qua/t\u1ed5ng ng\u00e0y)"}, {"text": "C\u00f3 c\u01a1 ch\u1ebf c\u1ea3nh b\u00e1o: conditional formatting/threshold/status m\u00e0u", "passed": true, "evidence": "Ng\u01b0\u1ee1ng m\u00e0u m\u1ecdi BAN (cam >5%/\u0111\u1ecf >10% h\u1ee7y; pace xanh \u2265100/\u0111\u1ecf <85) + CF b\u1ea3ng; ng\u01b0\u1ee1ng configurable, ghi r\u00f5 c\u1ea7n ops ch\u1ed1t"}, {"text": "C\u00f3 b\u1ea3ng danh s\u00e1ch \u01b0u ti\u00ean can thi\u1ec7p (drill cu\u1ed1i canvas)", "passed": true, "evidence": "Canvas 3 HBar pace sort h\u1ee5t-nh\u1ea5t-l\u00ean-\u0111\u1ea7u = danh s\u00e1ch \u01b0u ti\u00ean + Table Gap/Pace; Canvas 2 'b\u1ea3ng h\u00e0nh \u0111\u1ed9ng' \u0111\u01a1n h\u1ee7y sort gi\u00e1 tr\u1ecb"}, {"text": "Kh\u00f4ng nh\u1ed3i chart trang tr\u00ed; m\u1ed7i viz g\u1eafn h\u00e0nh \u0111\u1ed9ng trong ng\u00e0y", "passed": true, "evidence": "M\u1ed7i viz c\u00f3 note h\u00e0nh \u0111\u1ed9ng (\u01b0u ti\u00ean g\u1ecdi, leo thang, \u0111i\u1ec1u tra); kh\u00f4ng waterfall/treemap trang tr\u00ed; heatmap chu\u1ed7i\u00d7tu\u1ea7n ph\u1ee5c v\u1ee5 ph\u00e2n bi\u1ec7t structural vs event \u0111\u1ec3 can thi\u1ec7p \u0111\u00fang"}, {"text": "Blueprint + d\u1eebng \u1edf gate duy\u1ec7t", "passed": true, "evidence": "\u0110\u1ee7 7 m\u1ee5c template + 'Duy\u1ec7t blueprint n\u00e0y ch\u1ee9?'"}]}}, {"id": "eval-1-operational-vs-executive-distinction-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "proposal.md", "type": "text", "content": "# (BASELINE \u2014 kh\u00f4ng skill) T\u01b0 v\u1ea5n Sales Ops Daily Dashboard\n\n**3 canvas:** \u0110\u01a1n h\u00f4m nay (\"b\u00e1n \u0111\u01b0\u1ee3c g\u00ec, \u1edf \u0111\u00e2u?\") \u00b7 \u0110\u01a1n h\u1ee7y (\"v\u1ea5n \u0111\u1ec1 g\u00ec x\u1eed l\u00fd ngay?\") \u00b7 Run-rate chu\u1ed7i (\"chu\u1ed7i n\u00e0o l\u1ee1 th\u00e1ng n\u1ebfu kh\u00f4ng can thi\u1ec7p?\").\n\n**Canvas 1:** 4 KPI theo gi\u1edd (t\u1ed5ng \u0111\u01a1n vs h\u00f4m qua, doanh s\u1ed1, backlog intraday, h\u1ee7y vs TB 7 ng\u00e0y) \u00b7 bar ngang k\u00e9p m\u1ed7i k\u00eanh (h\u00f4m nay vs TB 7 ng\u00e0y) \u00b7 b\u1ea3ng top 5 SP b\u00e1n ch\u1ea1y \u00b7 \u0111\u01b0\u1eddng t\u00edch l\u0169y \u0111\u01a1n theo gi\u1edd (h\u00f4m nay vs h\u00f4m qua \u2014 ph\u00e1t hi\u1ec7n ch\u1eadm nh\u1ecbp tr\u01b0\u1edbc 12h).\n\n**Canvas 2:** logic c\u1ea3nh b\u00e1o (h\u1ee7y >3% banner \u0111\u1ecf; k\u00eanh h\u1ee7y t\u0103ng >20% vs TB7 cam; \"h\u1ebft h\u00e0ng\" >30% \u2192 Supply Chain) \u00b7 b\u1ea3ng h\u1ee7y theo k\u00eanh + m\u0169i t\u00ean \u00b7 bar l\u00fd do h\u1ee7y (h\u1ebft h\u00e0ng\u2192SC, gi\u00e1\u2192Sales, l\u1ed7i th\u00f4ng tin\u2192CS) \u00b7 line 14 ng\u00e0y + ng\u01b0\u1ee1ng 3% \u00b7 th\u1eddi gian h\u1ee7y TB sau \u0111\u1eb7t (l\u1ed7i h\u1ec7 th\u1ed1ng).\n\n**Canvas 3:** Pace % = actual l\u0169y k\u1ebf \u00f7 (target \u00d7 ng\u00e0y qua/t\u1ed5ng ng\u00e0y); ng\u01b0\u1ee1ng \u226590 xanh / 80-90 cam / <80 \u0111\u1ecf (h\u1ecdp ASM h\u00f4m nay) \u00b7 pace bar theo chu\u1ed7i sort th\u1ea5p\u2192cao, v\u1ea1ch 100% \u00b7 EOM forecast = actual \u00f7 pace% \u00b7 2 b\u1ea3ng drill: chu\u1ed7i h\u1ee5t (gap) + chu\u1ed7i v\u01b0\u1ee3t (h\u1ecdc playbook).\n\n**Checks d\u1eef li\u1ec7u:** \u0111\u1ed9 tr\u1ec5 c\u1eadp nh\u1eadt; cancel_reason null <5%; channel_code \u0111\u1ee7 5 k\u00eanh; store_code join \u0111\u01b0\u1ee3c target; target nh\u1eadp tr\u01b0\u1edbc ng\u00e0y 1.\n\n**Tri\u1ec3n khai 3 pha:** P1 Canvas 1+3 KPI \u00b7 P2 Canvas 2 (chu\u1ea9n h\u00f3a cancel_reason) \u00b7 P3 alert email/Zalo pace <80% l\u00fac 9h.\n\nCh\u1edd duy\u1ec7t tr\u01b0\u1edbc khi th\u1ef1c thi.\n"}], "grading": {"eval_id": 1, "config": "without_skill", "expectations": [{"text": "Nh\u1eadn di\u1ec7n \u0111\u00fang lo\u1ea1i Operational v\u00e0 n\u00eau kh\u00e1c bi\u1ec7t v\u1edbi Executive (nh\u1ecbp, ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o, h\u00e0nh \u0111\u1ed9ng can thi\u1ec7p)", "passed": false, "evidence": "Thi\u1ebft k\u1ebf \u0111\u00fang tinh th\u1ea7n ops (intraday, c\u1ea3nh b\u00e1o) nh\u01b0ng KH\u00d4NG n\u00eau ph\u00e2n bi\u1ec7t lo\u1ea1i dashboard / v\u00ec sao kh\u00e1c executive"}, {"text": "C\u00f3 run-rate vs target ho\u1eb7c t\u01b0\u01a1ng \u0111\u01b0\u01a1ng l\u00e0m ch\u1ec9 s\u1ed1 ph\u00e1i sinh", "passed": true, "evidence": "C\u00f4ng th\u1ee9c Pace % chi ti\u1ebft + EOM forecast = actual \u00f7 pace%"}, {"text": "C\u00f3 c\u01a1 ch\u1ebf c\u1ea3nh b\u00e1o: conditional formatting/threshold/status m\u00e0u", "passed": true, "evidence": "3 ng\u01b0\u1ee1ng pace 90/80 + banner \u0111\u1ecf h\u1ee7y >3% + c\u1ea3nh b\u00e1o k\u00eanh t\u0103ng >20%"}, {"text": "C\u00f3 b\u1ea3ng danh s\u00e1ch \u01b0u ti\u00ean can thi\u1ec7p (drill cu\u1ed1i canvas)", "passed": true, "evidence": "Pace bar sort th\u1ea5p\u2192cao + 2 b\u1ea3ng drill chu\u1ed7i h\u1ee5t/v\u01b0\u1ee3t; bar l\u00fd do h\u1ee7y ph\u00e2n c\u00f4ng SC/Sales/CS"}, {"text": "Kh\u00f4ng nh\u1ed3i chart trang tr\u00ed; m\u1ed7i viz g\u1eafn h\u00e0nh \u0111\u1ed9ng trong ng\u00e0y", "passed": true, "evidence": "C\u00e1c viz \u0111\u1ec1u action-oriented (ph\u00e1t hi\u1ec7n ch\u1eadm nh\u1ecbp tr\u01b0\u1edbc 12h, ph\u00e2n c\u00f4ng theo l\u00fd do h\u1ee7y)"}, {"text": "Blueprint + d\u1eebng \u1edf gate duy\u1ec7t", "passed": false, "evidence": "C\u00f3 ch\u1edd duy\u1ec7t nh\u01b0ng kh\u00f4ng c\u00f3 c\u1ea5u tr\u00fac Blueprint: thi\u1ebfu b\u1ea3ng metric \u0111\u1ecbnh ngh\u0129a/s\u1ed1 expected/route hi\u1ec7n th\u1ef1c tr\u00ean OAC (calc vs dataflow)"}]}}, {"id": "eval-2-critique-bad-dashboard-design-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "review.md", "type": "text", "content": "# REVIEW THI\u1ebeT K\u1ebe CANVAS EXECUTIVE \u2014 6 M\u1ee4C (theo DASHBOARD_DESIGN_MASTERY \u00a74/\u00a75/\u00a77)\n\n**1. Pie 12 nh\u00f3m** (\u274c \u00a74 anti-pattern): pie ch\u1ec9 khi <6 nh\u00f3m \u2014 ng\u01b0\u1eddi \u0111\u1ecdc k\u00e9m so g\u00f3c; 12 l\u00e1t = m\u1edb m\u00e0u v\u00f4 ngh\u0129a, kh\u00f4ng sort t\u1ef1 nhi\u00ean. FIX OAC: **Horizontal Bar** sort desc + **Top Bottom N** filter (Top 8-10 + \"Kh\u00e1c\"); ho\u1eb7c **Treemap** n\u1ebfu c\u1ea7n 2 chi\u1ec1u size=DT, m\u00e0u=YoY%.\n\n**2. Dual-axis \"th\u1ea5y t\u01b0\u01a1ng quan\"** (\u274c r\u1ea5t n\u1eb7ng \u2014 \u00a74/\u00a75): \u0111\u1ed5i t\u1ef7 l\u1ec7 tr\u1ee5c Y ph\u1ea3i l\u00e0m 2 \u0111\u01b0\u1eddng c\u1eaft nhau \u1edf b\u1ea5t k\u1ef3 \u0111\u00e2u \u2192 t\u01b0\u01a1ng quan \u1ea2O. T\u01b0\u01a1ng quan th\u1eadt c\u1ea7n ki\u1ec3m \u0111\u1ecbnh, kh\u00f4ng ph\u1ea3i nh\u00ecn 2 \u0111\u01b0\u1eddng. FIX OAC: (a) mu\u1ed1n 2 xu h\u01b0\u1edbng ri\u00eang \u2192 **Trellis Rows** 2 panel c\u00f9ng tr\u1ee5c th\u1eddi gian; (b) mu\u1ed1n \u0111\u00fang c\u00e2u h\u1ecfi \u2192 ch\u1ec9 s\u1ed1 ph\u00e1i sinh **Doanh thu/\u0111\u01a1n** (My Calculations) \u2192 1 Line; (c) dual-axis ch\u1ec9 h\u1ee3p l\u1ec7 cho plan-vs-actual (**Combo** bar xanh #44BA46 + line x\u00e1m #636466).\n\n**3. 9 KPI tile** (\u274c \u00a75 \u22646 KPI/Stephen Few): 9 tile = kh\u00f4ng bi\u1ebft nh\u00ecn \u0111\u00e2u, m\u1edd t\u00edn hi\u1ec7u, chi\u1ebfm h\u1ebft ch\u1ed7 primary chart. FIX: c\u1eaft c\u00f2n 4-5 KPI th\u1eadt s\u1ef1 g\u1eafn quy\u1ebft \u0111\u1ecbnh (DT MTD vs Plan%, GP%, YoY%, Achievement%); **Tile**+sparkline ho\u1eb7c **KPI Tile Plugin** (Base/Target/Previous \u2014 m\u1ed7i tile t\u1ef1 k\u1ec3 \"\u0111\u1ea1t/ch\u01b0a\"); tile th\u1eeba \u2192 canvas Operational ri\u00eang.\n\n**4. Stacked bar 8 l\u1edbp \u00d7 12 th\u00e1ng** (\u274c \u00a74): ch\u1ec9 l\u1edbp \u0111\u00e1y + t\u1ed5ng so \u0111\u01b0\u1ee3c; 6 l\u1edbp gi\u1eefa baseline tr\u00f4i n\u1ed5i \u2192 kh\u00f4ng \u0111\u1ecdc \u0111\u01b0\u1ee3c. FIX OAC (theo m\u1ee5c \u0111\u00edch): (A) xu h\u01b0\u1edbng t\u1eebng chu\u1ed7i \u2192 **Trellis Rows/Columns** (small multiples, c\u00f9ng thang); (B) t\u1ef7 tr\u1ecdng d\u1ecbch chuy\u1ec3n \u2192 **100% Stacked Area**; (C) \u0111\u00f3ng g\u00f3p t\u0103ng tr\u01b0\u1edfng \u2192 ph\u00e1i sinh **Contribution-to-growth** (\u00a73) \u2192 Bar 1 l\u1edbp \u00b1 m\u00e0u.\n\n**5. Bar tr\u1ee5c Y t\u1eeb 300 t\u1ef7** (\u274c n\u1eb7ng nh\u1ea5t \u2014 \u00a74/\u00a75 trung th\u1ef1c th\u1ed1ng k\u00ea): bar = so DI\u1ec6N T\u00cdCH; baseline 300 t\u1ef7 l\u00e0m 350 vs 700 t\u1ef7 tr\u00f4ng nh\u01b0 1:7 thay v\u00ec 1:2 \u2192 executive \u01b0\u1edbc l\u01b0\u1ee3ng sai ch\u00eanh l\u1ec7ch nhi\u1ec1u l\u1ea7n. \"Nh\u00ecn r\u00f5 ch\u00eanh l\u1ec7ch\" = sai \u0111\u1ec1: n\u1ebfu ch\u00eanh nh\u1ecf th\u00ec v\u1ebd **delta vs trung b\u00ecnh/target** (My Calculations) baseline 0, ho\u1eb7c Bar + **Reference Line** (Add Statistics) t\u1ea1i target. Bar lu\u00f4n t\u1eeb 0.\n\n**6. Title = t\u00ean c\u1ed9t** (\u274c \u00a75): \"Doanh thu by Nh\u00f3m SP\" = m\u00f4 t\u1ea3 c\u01a1 h\u1ecdc, kh\u00f4ng n\u00f3i ng\u01b0\u1eddi xem R\u00daT RA g\u00ec. FIX (Title EN insight/c\u00e2u h\u1ecfi + Note VN; s\u1ed1 s\u1ed1ng trong viz v\u00ec title OAC t\u0129nh):\n| C\u0169 | M\u1edbi |\n|---|---|\n| Doanh thu by Nh\u00f3m SP | Top Revenue Groups \u2014 Where Is Growth Coming From? |\n| Doanh thu v\u00e0 \u0110\u01a1n h\u00e0ng by Th\u00e1ng | Monthly Revenue Trend \u2014 Are We Tracking to Plan? |\n| Doanh thu by V\u00f9ng | Regional Revenue \u2014 Which Region Is Underperforming? |\n\n## \u0110\u1ec0 XU\u1ea4T B\u1ed0 C\u1ee4C L\u1ea0I (Z-pattern/BANs \u00a75)\n[4 KPI tile + sparkline] / [PRIMARY Combo actual-vs-plan 60% | Treemap nh\u00f3m SP] / [HBar delta v\u00f9ng baseline-0] / [Table CF drill cu\u1ed1i]. Trellis 8 chu\u1ed7i \u2192 canvas Analytical ri\u00eang (kh\u00f4ng \u0111\u1ec3 l\u1eabn executive).\n\n**T\u00f3m t\u1eaft:** l\u1ed7i n\u1eb7ng nh\u1ea5t = #5 (baseline \u22600) v\u00e0 #2 (t\u01b0\u01a1ng quan gi\u1ea3) \u2014 misleading tr\u1ef1c ti\u1ebfp d\u1eabn quy\u1ebft \u0111\u1ecbnh sai; #1/#4 = kh\u00f4ng \u0111\u1ecdc \u0111\u01b0\u1ee3c; #3/#6 = m\u1edd t\u00edn hi\u1ec7u/m\u1ea5t insight.\n"}], "grading": {"eval_id": 2, "config": "with_skill", "expectations": [{"text": "B\u1eaft l\u1ed7i pie 12 nh\u00f3m v\u00e0 \u0111\u1ec1 xu\u1ea5t Bar/Treemap", "passed": true, "evidence": "\u00a74 anti-pattern; fix Horizontal Bar sort desc + Top Bottom N ho\u1eb7c Treemap size+color"}, {"text": "B\u1eaft l\u1ed7i dual-axis \u00e1m th\u1ecb t\u01b0\u01a1ng quan gi\u1ea3 + h\u01b0\u1edbng x\u1eed l\u00fd", "passed": true, "evidence": "Gi\u1ea3i th\u00edch scale tr\u1ee5c Y t\u00f9y \u00fd \u2192 t\u01b0\u01a1ng quan \u1ea3o; 3 h\u01b0\u1edbng fix: Trellis Rows 2 panel / ph\u00e1i sinh Doanh thu-\u0111\u01a1n (My Calculations) / dual-axis ch\u1ec9 h\u1ee3p l\u1ec7 cho plan-vs-actual Combo"}, {"text": "B\u1eaft l\u1ed7i 9 KPI v\u01b0\u1ee3t ng\u01b0\u1ee1ng \u22646 v\u00e0 c\u1eaft theo ti\u00eau ch\u00ed quy\u1ebft-\u0111\u1ecbnh-ph\u1ee5c-v\u1ee5", "passed": true, "evidence": "Few \u22646; c\u1eaft c\u00f2n 4-5 KPI 'th\u1eadt s\u1ef1 g\u1eafn quy\u1ebft \u0111\u1ecbnh'; KPI th\u1eeba \u2192 canvas Operational ri\u00eang; g\u1ee3i \u00fd KPI Tile Plugin Base/Target/Previous"}, {"text": "B\u1eaft l\u1ed7i stacked 8 l\u1edbp \u2192 Trellis/small multiples ho\u1eb7c top-N", "passed": true, "evidence": "3 option theo m\u1ee5c \u0111\u00edch: Trellis Rows/Columns (small multiples OAC) / 100% Stacked Area / Contribution-to-growth bar"}, {"text": "B\u1eaft l\u1ed7i baseline 300 t\u1ef7 (bar ph\u1ea3i t\u1eeb 0) v\u00e0 gi\u1ea3i th\u00edch v\u00ec sao misleading", "passed": true, "evidence": "Bar = so di\u1ec7n t\u00edch; 350vs700 tr\u00f4ng nh\u01b0 1:7 thay v\u00ec 1:2; fix delta-vs-trung-b\u00ecnh baseline 0 ho\u1eb7c Reference Line t\u1ea1i target"}, {"text": "B\u1eaft l\u1ed7i title t\u00ean c\u1ed9t \u2192 insight-title EN", "passed": true, "evidence": "B\u1ea3ng before/after 3 title; n\u00eau r\u00e0ng bu\u1ed9c title OAC t\u0129nh \u2192 s\u1ed1 s\u1ed1ng trong viz, Note VN"}, {"text": "Fix n\u00eau b\u1eb1ng viz OAC c\u00f3 th\u1eadt (map \u00a74)", "passed": true, "evidence": "M\u1ecdi fix d\u00f9ng viz/c\u01a1 ch\u1ebf OAC th\u1eadt: Trellis shelf, Top Bottom N, My Calculations, Add Statistics Reference Line, KPI Tile Plugin, 100% Stacked Area"}]}}, {"id": "eval-2-critique-bad-dashboard-design-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "review.md", "type": "text", "content": "# (BASELINE \u2014 kh\u00f4ng skill) Review 6 l\u1ed7i canvas executive\n\n**1. Pie 12 nh\u00f3m (\u274c):** Cleveland & McGill (1984) \u2014 n\u00e3o \u0111\u00e1nh gi\u00e1 g\u00f3c k\u00e9m h\u01a1n chi\u1ec1u d\u00e0i bar; t\u1eeb l\u00e1t th\u1ee9 4 kh\u00f4ng x\u1ebfp h\u1ea1ng \u0111\u01b0\u1ee3c; kh\u00f4ng so \u0111\u01b0\u1ee3c v\u1edbi AOP. Fix: horizontal bar sort desc ho\u1eb7c treemap.\n\n**2. Dual-axis \"t\u01b0\u01a1ng quan\" (\u274c nghi\u00eam tr\u1ecdng nh\u1ea5t):** ki\u1ec3m so\u00e1t scale 2 tr\u1ee5c \u0111\u1ed9c l\u1eadp \u2192 giao nhau \u1edf \u0111\u00e2u t\u00f9y \u00fd \u2192 correlation \u1ea3o; CEO k\u1ebft lu\u1eadn nh\u00e2n qu\u1ea3 sai; Tufte \"chartjunk correlation\". Fix: t\u00e1ch 2 viz; mu\u1ed1n t\u01b0\u01a1ng quan th\u1eadt \u2192 scatter k\u00e8m r\u00b2.\n\n**3. 9 KPI tile (\u26a0):** Stephen Few t\u1ed1i \u0111a 5-6 KPI executive; 9 tile m\u1eaft kh\u00f4ng bi\u1ebft nh\u00ecn \u0111\u00e2u; c\u1ea7n c\u1eaft + nh\u00f3m l\u1ea1i.\n\n**4. Stacked 8 l\u1edbp (\u274c):** ch\u1ec9 \u0111\u1ecdc \u0111\u01b0\u1ee3c l\u1edbp \u0111\u00e1y + t\u1ed5ng; 8 l\u1edbp \u00d7 12 th\u00e1ng = 96 \u0111o\u1ea1n m\u00e0u \"wall of color\". Fix: gom c\u00f2n 3-4 nh\u00f3m ho\u1eb7c small multiples / line \u0111a \u0111\u01b0\u1eddng.\n\n**5. Tr\u1ee5c Y t\u1eeb 300 t\u1ef7 (\u274c misleading t\u00e0i ch\u00ednh):** ch\u00eanh 18% tr\u00f4ng nh\u01b0 4\u00d7; d\u1eabn ph\u00e2n b\u1ed5 ng\u00e2n s\u00e1ch sai. Fix: baseline 0 + delta label tr\u00ean bar.\n\n**6. Title = t\u00ean c\u1ed9t (\u274c):** data label kh\u00f4ng ph\u1ea3i insight; Knaflic (Storytelling with Data) \u2014 title executive = c\u00e2u kh\u1eb3ng \u0111\u1ecbnh insight d\u1eabn action. Vd: \"3 nh\u00f3m SP \u0111\u1ea7u chi\u1ebfm 68% doanh thu \u2014 n\u01a1i c\u1ea7n t\u1eadp trung ngu\u1ed3n l\u1ef1c.\"\n\n**Verdict: \u274c REWORK** \u2014 4 l\u1ed7i misleading (1/2/4/5) s\u1ebd d\u1eabn quy\u1ebft \u0111\u1ecbnh sai n\u1ebfu ship cho C-level.\n"}], "grading": {"eval_id": 2, "config": "without_skill", "expectations": [{"text": "B\u1eaft l\u1ed7i pie 12 nh\u00f3m v\u00e0 \u0111\u1ec1 xu\u1ea5t Bar/Treemap", "passed": true, "evidence": "Cleveland & McGill; fix horizontal bar sort desc ho\u1eb7c treemap"}, {"text": "B\u1eaft l\u1ed7i dual-axis \u00e1m th\u1ecb t\u01b0\u01a1ng quan gi\u1ea3 + h\u01b0\u1edbng x\u1eed l\u00fd", "passed": true, "evidence": "Scale 2 tr\u1ee5c \u0111\u1ed9c l\u1eadp \u2192 correlation \u1ea3o (Tufte); fix t\u00e1ch viz / scatter + r\u00b2"}, {"text": "B\u1eaft l\u1ed7i 9 KPI v\u01b0\u1ee3t ng\u01b0\u1ee1ng \u22646 v\u00e0 c\u1eaft theo ti\u00eau ch\u00ed quy\u1ebft-\u0111\u1ecbnh-ph\u1ee5c-v\u1ee5", "passed": true, "evidence": "Few 5-6; 'c\u1ea7n c\u1eaft v\u00e0 nh\u00f3m l\u1ea1i' (ti\u00eau ch\u00ed c\u1eaft theo quy\u1ebft \u0111\u1ecbnh n\u00eau m\u1edd h\u01a1n nh\u01b0ng c\u00f3)"}, {"text": "B\u1eaft l\u1ed7i stacked 8 l\u1edbp \u2192 Trellis/small multiples ho\u1eb7c top-N", "passed": true, "evidence": "'wall of color' 96 \u0111o\u1ea1n; fix gom 3-4 nh\u00f3m ho\u1eb7c small multiples/line \u0111a \u0111\u01b0\u1eddng"}, {"text": "B\u1eaft l\u1ed7i baseline 300 t\u1ef7 (bar ph\u1ea3i t\u1eeb 0) v\u00e0 gi\u1ea3i th\u00edch v\u00ec sao misleading", "passed": true, "evidence": "Ch\u00eanh 18% tr\u00f4ng nh\u01b0 4\u00d7 \u2192 ph\u00e2n b\u1ed5 ng\u00e2n s\u00e1ch sai; fix baseline 0 + delta label"}, {"text": "B\u1eaft l\u1ed7i title t\u00ean c\u1ed9t \u2192 insight-title EN", "passed": true, "evidence": "Knaflic \u2014 title = c\u00e2u kh\u1eb3ng \u0111\u1ecbnh insight d\u1eabn action, c\u00f3 v\u00ed d\u1ee5"}, {"text": "Fix n\u00eau b\u1eb1ng viz OAC c\u00f3 th\u1eadt (map \u00a74)", "passed": false, "evidence": "Fix generic (scatter + r\u00b2, line \u0111a \u0111\u01b0\u1eddng, small multiples) \u2014 KH\u00d4NG map sang c\u01a1 ch\u1ebf OAC (Trellis shelf, Top Bottom N, My Calculations, Reference Line, KPI Tile Plugin)"}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "oac-dashboard-designer", "skill_path": "C:\\Project\\Dashboard-builder\\.claude\\skills\\oac-dashboard-designer", "executor_model": "claude-sonnet-4-6", "analyzer_model": "<model-name>", "timestamp": "2026-06-11T16:55:56Z", "evals_run": [0, 1, 2], "runs_per_configuration": 1}, "runs": [{"eval_id": 0, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "time_seconds": 176.0, "tokens": 31834, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Ch\u1ed1t lo\u1ea1i dashboard Executive t\u1eeb audience CEO/CFO 10 ph\u00fat/tu\u1ea7n", "passed": true, "evidence": "B\u1ed1i c\u1ea3nh ghi r\u00f5 'Lo\u1ea1i: Executive / Strategic', nh\u1ecbp th\u1ee9 Hai 10 ph\u00fat"}, {"text": "M\u1ed7i canvas g\u1eafn 1 c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; m\u1ed7i viz n\u00eau \u0111\u01b0\u1ee3c quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5", "passed": true, "evidence": "4 canvas m\u1ed7i c\u00e1i 1 c\u00e2u h\u1ecfi (\u0111\u00fang plan? bi\u00ean? h\u00e0ng t\u1eb7ng? ph\u00e2n b\u1ed5?); 4 quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5 li\u1ec7t k\u00ea; note VN t\u1eebng viz"}, {"text": "\u0110\u1ec1 xu\u1ea5t \u22652 ch\u1ec9 s\u1ed1 ph\u00e1i sinh ch\u1ee7 \u0111\u1ed9ng k\u00e8m route hi\u1ec7n th\u1ef1c (calc/dataflow)", "passed": true, "evidence": "6 ch\u1ec9 s\u1ed1: Run-rate EOM, Contribution-to-growth, ASP, Top-3 concentration, GP% mix shift, Gift Unit Share \u2014 m\u1ed7i c\u00e1i c\u00f3 c\u1ed9t Route calc/dataflow"}, {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), kh\u00f4ng 2 chart ri\u00eang", "passed": true, "evidence": "Canvas 1 viz: Combo Bar+Line 'Actual vs Plan \u2014 Last 8 Weeks', bar xanh #44BA46, line x\u00e1m #636466"}, {"text": "C\u00f3 Waterfall cho bridge bi\u00ean ho\u1eb7c gap, Treemap/heatmap cho c\u01a1 c\u1ea5u+bi\u00ean", "passed": true, "evidence": "Canvas 2: Waterfall 'What Is Eating Into Gross Margin?' + Grid Heat Map Industry\u00d7Chain; Canvas 3: Treemap h\u00e0ng t\u1eb7ng"}, {"text": "Layout: KPI/BANs h\u00e0ng tr\u00ean, \u22646 KPI/canvas, \u0111a d\u1ea1ng lo\u1ea1i viz", "passed": true, "evidence": "4 BAN h\u00e0ng \u0111\u1ea7u Canvas 1; m\u1ed7i canvas 4-6 viz \u0111a d\u1ea1ng (Combo/HBar/Waterfall/Heatmap/Treemap/Scatter/Pivot); s\u01a1 \u0111\u1ed3 b\u1ed1 c\u1ee5c t\u1eebng canvas"}, {"text": "C\u00f3 caveat kh\u1ea3-thi-theo-grain (ki\u1ec3m grain tr\u01b0\u1edbc khi h\u1ee9a chi\u1ec1u c\u1eaft)", "passed": true, "evidence": "C\u1ea3nh b\u00e1o r\u00f5: actual kh\u00f4ng c\u00f3 c\u1ed9t K\u00eanh \u2192 plan-vs-actual theo K\u00eanh B\u1ea4T KH\u1ea2, c\u1ea7n dataflow mapping Chu\u1ed7i\u2192K\u00eanh; open question #1"}, {"text": "C\u00f3 s\u1ed1 expected/ngu\u1ed3n verify cho metric ch\u00ednh", "passed": true, "evidence": "B\u1ea3ng metric \u00a74 c\u00f3 c\u1ed9t 'S\u1ed1 expected (verify)' \u0111\u1ed1i chi\u1ebfu b\u00e1o c\u00e1o th\u1ee7 c\u00f4ng + cross-check \u03a3 variance"}, {"text": "Xu\u1ea5t Blueprint \u0111\u00fang c\u1ea5u tr\u00fac template, d\u1eebng \u1edf gate duy\u1ec7t", "passed": true, "evidence": "\u0110\u1ee7 7 m\u1ee5c template (b\u1ed1i c\u1ea3nh/d\u1eef li\u1ec7u/canvas/metric/ph\u00e1i sinh/caveats/th\u1ee9 t\u1ef1+DoD); k\u1ebft 'Duy\u1ec7t blueprint n\u00e0y ch\u1ee9? C\u00f3 g\u00ec c\u1ea7n \u0111\u1ed5i?'"}], "notes": []}, {"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 122.5, "tokens": 31447, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Nh\u1eadn di\u1ec7n \u0111\u00fang lo\u1ea1i Operational v\u00e0 n\u00eau kh\u00e1c bi\u1ec7t v\u1edbi Executive (nh\u1ecbp, ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o, h\u00e0nh \u0111\u1ed9ng can thi\u1ec7p)", "passed": true, "evidence": "B\u1ed1i c\u1ea3nh ghi 'Lo\u1ea1i: OPERATIONAL' + m\u1ee5c ri\u00eang 'Kh\u00e1c executive th\u1ebf n\u00e0o' + b\u1ea3ng so s\u00e1nh 3 lo\u1ea1i cu\u1ed1i blueprint"}, {"text": "C\u00f3 run-rate vs target ho\u1eb7c t\u01b0\u01a1ng \u0111\u01b0\u01a1ng l\u00e0m ch\u1ec9 s\u1ed1 ph\u00e1i sinh", "passed": true, "evidence": "BAN Run-rate EOM forecast + MTD Pace % v\u1edbi c\u00f4ng th\u1ee9c actual/(target\u00d7ng\u00e0y qua/t\u1ed5ng ng\u00e0y)"}, {"text": "C\u00f3 c\u01a1 ch\u1ebf c\u1ea3nh b\u00e1o: conditional formatting/threshold/status m\u00e0u", "passed": true, "evidence": "Ng\u01b0\u1ee1ng m\u00e0u m\u1ecdi BAN (cam >5%/\u0111\u1ecf >10% h\u1ee7y; pace xanh \u2265100/\u0111\u1ecf <85) + CF b\u1ea3ng; ng\u01b0\u1ee1ng configurable, ghi r\u00f5 c\u1ea7n ops ch\u1ed1t"}, {"text": "C\u00f3 b\u1ea3ng danh s\u00e1ch \u01b0u ti\u00ean can thi\u1ec7p (drill cu\u1ed1i canvas)", "passed": true, "evidence": "Canvas 3 HBar pace sort h\u1ee5t-nh\u1ea5t-l\u00ean-\u0111\u1ea7u = danh s\u00e1ch \u01b0u ti\u00ean + Table Gap/Pace; Canvas 2 'b\u1ea3ng h\u00e0nh \u0111\u1ed9ng' \u0111\u01a1n h\u1ee7y sort gi\u00e1 tr\u1ecb"}, {"text": "Kh\u00f4ng nh\u1ed3i chart trang tr\u00ed; m\u1ed7i viz g\u1eafn h\u00e0nh \u0111\u1ed9ng trong ng\u00e0y", "passed": true, "evidence": "M\u1ed7i viz c\u00f3 note h\u00e0nh \u0111\u1ed9ng (\u01b0u ti\u00ean g\u1ecdi, leo thang, \u0111i\u1ec1u tra); kh\u00f4ng waterfall/treemap trang tr\u00ed; heatmap chu\u1ed7i\u00d7tu\u1ea7n ph\u1ee5c v\u1ee5 ph\u00e2n bi\u1ec7t structural vs event \u0111\u1ec3 can thi\u1ec7p \u0111\u00fang"}, {"text": "Blueprint + d\u1eebng \u1edf gate duy\u1ec7t", "passed": true, "evidence": "\u0110\u1ee7 7 m\u1ee5c template + 'Duy\u1ec7t blueprint n\u00e0y ch\u1ee9?'"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 112.8, "tokens": 30345, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "B\u1eaft l\u1ed7i pie 12 nh\u00f3m v\u00e0 \u0111\u1ec1 xu\u1ea5t Bar/Treemap", "passed": true, "evidence": "\u00a74 anti-pattern; fix Horizontal Bar sort desc + Top Bottom N ho\u1eb7c Treemap size+color"}, {"text": "B\u1eaft l\u1ed7i dual-axis \u00e1m th\u1ecb t\u01b0\u01a1ng quan gi\u1ea3 + h\u01b0\u1edbng x\u1eed l\u00fd", "passed": true, "evidence": "Gi\u1ea3i th\u00edch scale tr\u1ee5c Y t\u00f9y \u00fd \u2192 t\u01b0\u01a1ng quan \u1ea3o; 3 h\u01b0\u1edbng fix: Trellis Rows 2 panel / ph\u00e1i sinh Doanh thu-\u0111\u01a1n (My Calculations) / dual-axis ch\u1ec9 h\u1ee3p l\u1ec7 cho plan-vs-actual Combo"}, {"text": "B\u1eaft l\u1ed7i 9 KPI v\u01b0\u1ee3t ng\u01b0\u1ee1ng \u22646 v\u00e0 c\u1eaft theo ti\u00eau ch\u00ed quy\u1ebft-\u0111\u1ecbnh-ph\u1ee5c-v\u1ee5", "passed": true, "evidence": "Few \u22646; c\u1eaft c\u00f2n 4-5 KPI 'th\u1eadt s\u1ef1 g\u1eafn quy\u1ebft \u0111\u1ecbnh'; KPI th\u1eeba \u2192 canvas Operational ri\u00eang; g\u1ee3i \u00fd KPI Tile Plugin Base/Target/Previous"}, {"text": "B\u1eaft l\u1ed7i stacked 8 l\u1edbp \u2192 Trellis/small multiples ho\u1eb7c top-N", "passed": true, "evidence": "3 option theo m\u1ee5c \u0111\u00edch: Trellis Rows/Columns (small multiples OAC) / 100% Stacked Area / Contribution-to-growth bar"}, {"text": "B\u1eaft l\u1ed7i baseline 300 t\u1ef7 (bar ph\u1ea3i t\u1eeb 0) v\u00e0 gi\u1ea3i th\u00edch v\u00ec sao misleading", "passed": true, "evidence": "Bar = so di\u1ec7n t\u00edch; 350vs700 tr\u00f4ng nh\u01b0 1:7 thay v\u00ec 1:2; fix delta-vs-trung-b\u00ecnh baseline 0 ho\u1eb7c Reference Line t\u1ea1i target"}, {"text": "B\u1eaft l\u1ed7i title t\u00ean c\u1ed9t \u2192 insight-title EN", "passed": true, "evidence": "B\u1ea3ng before/after 3 title; n\u00eau r\u00e0ng bu\u1ed9c title OAC t\u0129nh \u2192 s\u1ed1 s\u1ed1ng trong viz, Note VN"}, {"text": "Fix n\u00eau b\u1eb1ng viz OAC c\u00f3 th\u1eadt (map \u00a74)", "passed": true, "evidence": "M\u1ecdi fix d\u00f9ng viz/c\u01a1 ch\u1ebf OAC th\u1eadt: Trellis shelf, Top Bottom N, My Calculations, Add Statistics Reference Line, KPI Tile Plugin, 100% Stacked Area"}], "notes": []}, {"eval_id": 0, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.4444, "passed": 4, "failed": 5, "total": 9, "time_seconds": 205.3, "tokens": 29645, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Ch\u1ed1t lo\u1ea1i dashboard Executive t\u1eeb audience CEO/CFO 10 ph\u00fat/tu\u1ea7n", "passed": true, "evidence": "Thi\u1ebft k\u1ebf quanh '10 ph\u00fat = kh\u00f4ng th\u1ec3 \u0111\u1ecdc b\u00e1o c\u00e1o' + 3 c\u00e2u h\u1ecfi c\u1ed1t l\u00f5i (kh\u00f4ng n\u00eau typology t\u01b0\u1eddng minh nh\u01b0ng tinh th\u1ea7n \u0111\u00fang)"}, {"text": "M\u1ed7i canvas g\u1eafn 1 c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; m\u1ed7i viz n\u00eau \u0111\u01b0\u1ee3c quy\u1ebft \u0111\u1ecbnh ph\u1ee5c v\u1ee5", "passed": false, "evidence": "Canvas t\u1ed5 ch\u1ee9c theo CH\u1ee6 \u0110\u1ec0 (Ng\u00e0nh/K\u00eanh/GP) ch\u1ee9 kh\u00f4ng theo c\u00e2u h\u1ecfi \u0111i\u1ec1u h\u00e0nh; ph\u1ea7n l\u1edbn viz kh\u00f4ng n\u00eau quy\u1ebft \u0111\u1ecbnh n\u00f3 ph\u1ee5c v\u1ee5"}, {"text": "\u0110\u1ec1 xu\u1ea5t \u22652 ch\u1ec9 s\u1ed1 ph\u00e1i sinh ch\u1ee7 \u0111\u1ed9ng k\u00e8m route hi\u1ec7n th\u1ef1c (calc/dataflow)", "passed": false, "evidence": "C\u00f3 EOM forecast + 's\u1ea3n l\u01b0\u1ee3ng th\u01b0\u01a1ng m\u1ea1i' nh\u01b0ng KH\u00d4NG c\u00f3 route hi\u1ec7n th\u1ef1c ho\u00e1 (My Calculations vs dataflow) \u2014 kh\u00f4ng bi\u1ebft l\u00e0m b\u1eb1ng g\u00ec tr\u00ean OAC"}, {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), kh\u00f4ng 2 chart ri\u00eang", "passed": true, "evidence": "Trend 8 tu\u1ea7n: c\u1ed9t DT th\u1ef1c + \u0111\u01b0\u1eddng \u0111\u1ee9t plan trong 1 viz"}, {"text": "C\u00f3 Waterfall cho bridge bi\u00ean ho\u1eb7c gap, Treemap/heatmap cho c\u01a1 c\u1ea5u+bi\u00ean", "passed": true, "evidence": "Waterfall GP gross\u2192CK\u2192t\u1eb7ng\u2192r\u00f2ng; heatmap ng\u00e0nh\u00d7chu\u1ed7i"}, {"text": "Layout: KPI/BANs h\u00e0ng tr\u00ean, \u22646 KPI/canvas, \u0111a d\u1ea1ng lo\u1ea1i viz", "passed": true, "evidence": "6 KPI cards h\u00e0ng \u0111\u1ea7u, layout khu v\u1ef1c A-D, \u0111a d\u1ea1ng viz"}, {"text": "C\u00f3 caveat kh\u1ea3-thi-theo-grain (ki\u1ec3m grain tr\u01b0\u1edbc khi h\u1ee9a chi\u1ec1u c\u1eaft)", "passed": false, "evidence": "Kh\u00f4ng ki\u1ec3m grain \u2014 m\u1eb7c \u0111\u1ecbnh actual c\u00f3 \u0111\u1ee7 chi\u1ec1u K\u00eanh/Chu\u1ed7i; kh\u00f4ng c\u00f3 b\u01b0\u1edbc profile d\u1eef li\u1ec7u tr\u01b0\u1edbc khi h\u1ee9a"}, {"text": "C\u00f3 s\u1ed1 expected/ngu\u1ed3n verify cho metric ch\u00ednh", "passed": false, "evidence": "Kh\u00f4ng c\u00f3 b\u1ea3ng metric \u0111\u1ecbnh ngh\u0129a + s\u1ed1 expected + ngu\u1ed3n \u0111\u1ed1i chi\u1ebfu"}, {"text": "Xu\u1ea5t Blueprint \u0111\u00fang c\u1ea5u tr\u00fac template, d\u1eebng \u1edf gate duy\u1ec7t", "passed": false, "evidence": "C\u00f3 ch\u1edd ph\u00ea duy\u1ec7t nh\u01b0ng kh\u00f4ng theo c\u1ea5u tr\u00fac Blueprint (thi\u1ebfu b\u1ea3ng metric/route/DoD); c\u00f2n \u0111\u1ec1 xu\u1ea5t c\u1ea3 Power BI/Looker \u2014 l\u1ea1c kh\u1ecfi b\u1ed1i c\u1ea3nh OAC"}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6667, "passed": 4, "failed": 2, "total": 6, "time_seconds": 202.5, "tokens": 38077, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Nh\u1eadn di\u1ec7n \u0111\u00fang lo\u1ea1i Operational v\u00e0 n\u00eau kh\u00e1c bi\u1ec7t v\u1edbi Executive (nh\u1ecbp, ng\u01b0\u1ee1ng c\u1ea3nh b\u00e1o, h\u00e0nh \u0111\u1ed9ng can thi\u1ec7p)", "passed": false, "evidence": "Thi\u1ebft k\u1ebf \u0111\u00fang tinh th\u1ea7n ops (intraday, c\u1ea3nh b\u00e1o) nh\u01b0ng KH\u00d4NG n\u00eau ph\u00e2n bi\u1ec7t lo\u1ea1i dashboard / v\u00ec sao kh\u00e1c executive"}, {"text": "C\u00f3 run-rate vs target ho\u1eb7c t\u01b0\u01a1ng \u0111\u01b0\u01a1ng l\u00e0m ch\u1ec9 s\u1ed1 ph\u00e1i sinh", "passed": true, "evidence": "C\u00f4ng th\u1ee9c Pace % chi ti\u1ebft + EOM forecast = actual \u00f7 pace%"}, {"text": "C\u00f3 c\u01a1 ch\u1ebf c\u1ea3nh b\u00e1o: conditional formatting/threshold/status m\u00e0u", "passed": true, "evidence": "3 ng\u01b0\u1ee1ng pace 90/80 + banner \u0111\u1ecf h\u1ee7y >3% + c\u1ea3nh b\u00e1o k\u00eanh t\u0103ng >20%"}, {"text": "C\u00f3 b\u1ea3ng danh s\u00e1ch \u01b0u ti\u00ean can thi\u1ec7p (drill cu\u1ed1i canvas)", "passed": true, "evidence": "Pace bar sort th\u1ea5p\u2192cao + 2 b\u1ea3ng drill chu\u1ed7i h\u1ee5t/v\u01b0\u1ee3t; bar l\u00fd do h\u1ee7y ph\u00e2n c\u00f4ng SC/Sales/CS"}, {"text": "Kh\u00f4ng nh\u1ed3i chart trang tr\u00ed; m\u1ed7i viz g\u1eafn h\u00e0nh \u0111\u1ed9ng trong ng\u00e0y", "passed": true, "evidence": "C\u00e1c viz \u0111\u1ec1u action-oriented (ph\u00e1t hi\u1ec7n ch\u1eadm nh\u1ecbp tr\u01b0\u1edbc 12h, ph\u00e2n c\u00f4ng theo l\u00fd do h\u1ee7y)"}, {"text": "Blueprint + d\u1eebng \u1edf gate duy\u1ec7t", "passed": false, "evidence": "C\u00f3 ch\u1edd duy\u1ec7t nh\u01b0ng kh\u00f4ng c\u00f3 c\u1ea5u tr\u00fac Blueprint: thi\u1ebfu b\u1ea3ng metric \u0111\u1ecbnh ngh\u0129a/s\u1ed1 expected/route hi\u1ec7n th\u1ef1c tr\u00ean OAC (calc vs dataflow)"}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.8571, "passed": 6, "failed": 1, "total": 7, "time_seconds": 143.4, "tokens": 35277, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "B\u1eaft l\u1ed7i pie 12 nh\u00f3m v\u00e0 \u0111\u1ec1 xu\u1ea5t Bar/Treemap", "passed": true, "evidence": "Cleveland & McGill; fix horizontal bar sort desc ho\u1eb7c treemap"}, {"text": "B\u1eaft l\u1ed7i dual-axis \u00e1m th\u1ecb t\u01b0\u01a1ng quan gi\u1ea3 + h\u01b0\u1edbng x\u1eed l\u00fd", "passed": true, "evidence": "Scale 2 tr\u1ee5c \u0111\u1ed9c l\u1eadp \u2192 correlation \u1ea3o (Tufte); fix t\u00e1ch viz / scatter + r\u00b2"}, {"text": "B\u1eaft l\u1ed7i 9 KPI v\u01b0\u1ee3t ng\u01b0\u1ee1ng \u22646 v\u00e0 c\u1eaft theo ti\u00eau ch\u00ed quy\u1ebft-\u0111\u1ecbnh-ph\u1ee5c-v\u1ee5", "passed": true, "evidence": "Few 5-6; 'c\u1ea7n c\u1eaft v\u00e0 nh\u00f3m l\u1ea1i' (ti\u00eau ch\u00ed c\u1eaft theo quy\u1ebft \u0111\u1ecbnh n\u00eau m\u1edd h\u01a1n nh\u01b0ng c\u00f3)"}, {"text": "B\u1eaft l\u1ed7i stacked 8 l\u1edbp \u2192 Trellis/small multiples ho\u1eb7c top-N", "passed": true, "evidence": "'wall of color' 96 \u0111o\u1ea1n; fix gom 3-4 nh\u00f3m ho\u1eb7c small multiples/line \u0111a \u0111\u01b0\u1eddng"}, {"text": "B\u1eaft l\u1ed7i baseline 300 t\u1ef7 (bar ph\u1ea3i t\u1eeb 0) v\u00e0 gi\u1ea3i th\u00edch v\u00ec sao misleading", "passed": true, "evidence": "Ch\u00eanh 18% tr\u00f4ng nh\u01b0 4\u00d7 \u2192 ph\u00e2n b\u1ed5 ng\u00e2n s\u00e1ch sai; fix baseline 0 + delta label"}, {"text": "B\u1eaft l\u1ed7i title t\u00ean c\u1ed9t \u2192 insight-title EN", "passed": true, "evidence": "Knaflic \u2014 title = c\u00e2u kh\u1eb3ng \u0111\u1ecbnh insight d\u1eabn action, c\u00f3 v\u00ed d\u1ee5"}, {"text": "Fix n\u00eau b\u1eb1ng viz OAC c\u00f3 th\u1eadt (map \u00a74)", "passed": false, "evidence": "Fix generic (scatter + r\u00b2, line \u0111a \u0111\u01b0\u1eddng, small multiples) \u2014 KH\u00d4NG map sang c\u01a1 ch\u1ebf OAC (Trellis shelf, Top Bottom N, My Calculations, Reference Line, KPI Tile Plugin)"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "delta": {"pass_rate": "+0.00", "time_seconds": "+0.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

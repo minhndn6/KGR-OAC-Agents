@@ -1,0 +1,14 @@
+{
+  "eval_id": 0, "config": "with_skill",
+  "expectations": [
+    {"text": "Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần", "passed": true, "evidence": "Bối cảnh ghi rõ 'Loại: Executive / Strategic', nhịp thứ Hai 10 phút"},
+    {"text": "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ", "passed": true, "evidence": "4 canvas mỗi cái 1 câu hỏi (đúng plan? biên? hàng tặng? phân bổ?); 4 quyết định phục vụ liệt kê; note VN từng viz"},
+    {"text": "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)", "passed": true, "evidence": "6 chỉ số: Run-rate EOM, Contribution-to-growth, ASP, Top-3 concentration, GP% mix shift, Gift Unit Share — mỗi cái có cột Route calc/dataflow"},
+    {"text": "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng", "passed": true, "evidence": "Canvas 1 viz: Combo Bar+Line 'Actual vs Plan — Last 8 Weeks', bar xanh #44BA46, line xám #636466"},
+    {"text": "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên", "passed": true, "evidence": "Canvas 2: Waterfall 'What Is Eating Into Gross Margin?' + Grid Heat Map Industry×Chain; Canvas 3: Treemap hàng tặng"},
+    {"text": "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz", "passed": true, "evidence": "4 BAN hàng đầu Canvas 1; mỗi canvas 4-6 viz đa dạng (Combo/HBar/Waterfall/Heatmap/Treemap/Scatter/Pivot); sơ đồ bố cục từng canvas"},
+    {"text": "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)", "passed": true, "evidence": "Cảnh báo rõ: actual không có cột Kênh → plan-vs-actual theo Kênh BẤT KHẢ, cần dataflow mapping Chuỗi→Kênh; open question #1"},
+    {"text": "Có số expected/nguồn verify cho metric chính", "passed": true, "evidence": "Bảng metric §4 có cột 'Số expected (verify)' đối chiếu báo cáo thủ công + cross-check Σ variance"},
+    {"text": "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt", "passed": true, "evidence": "Đủ 7 mục template (bối cảnh/dữ liệu/canvas/metric/phái sinh/caveats/thứ tự+DoD); kết 'Duyệt blueprint này chứ? Có gì cần đổi?'"}
+  ]
+}

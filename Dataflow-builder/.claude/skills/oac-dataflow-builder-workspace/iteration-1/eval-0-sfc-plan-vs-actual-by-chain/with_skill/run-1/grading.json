@@ -1,0 +1,57 @@
+{
+  "run_id": "eval-0-with_skill",
+  "expectations": [
+    {
+      "text": "Plan source đúng: DW_SFC cho kế hoạch và (KGR) DTF_CALC_INVOICE_MEMO_# cho thực tế",
+      "passed": true,
+      "evidence": "Bảng nguồn: DW_SFC vai trò Plan, DTF_CALC_INVOICE_MEMO_# vai trò Actual, kèm owner + datasetType đúng"
+    },
+    {
+      "text": "Plan qty tính bằng SUM các cột tuần SL W1..W5",
+      "passed": true,
+      "evidence": "Node 4: SL_Ke_Hoach = \"SL W1\"+...+\"SL W5\"; ghi rõ 'Plan KHÔNG có cột QTY tháng — monthly = SUM(SL W1..W5)'"
+    },
+    {
+      "text": "Filter single-period May 2026 trước aggregate/join",
+      "passed": true,
+      "evidence": "Node 2 & 6: PERIODNAME IN ('May 2026') với chú thích 'single-period TRƯỚC aggregate/join để triệt fan-out'"
+    },
+    {
+      "text": "Full outer join theo tên chuỗi",
+      "passed": true,
+      "evidence": "Node 9: Full outer (All+All), Chuoi_KH = Chuoi_TT (tên chuỗi đã coalesce 2 nguồn)"
+    },
+    {
+      "text": "Actual = -SUM(QUANTITY), không ABS",
+      "passed": true,
+      "evidence": "Node 8: SL_Thuc_Te = 0 - \"QUANTITY Sum\" — 'net credit — KHÔNG ABS'"
+    },
+    {
+      "text": "Verify plan có 445,043 và 713,262",
+      "passed": true,
+      "evidence": "Bảng Verify: tổng SL_Ke_Hoach 445,043; tổng SL_Thuc_Te 713,262 + per-ngành breakdown"
+    },
+    {
+      "text": "Cảnh báo bucket 'ngoài chuỗi' ~76%",
+      "passed": true,
+      "evidence": "'cả 2 phía có bucket ngoài chuỗi ~76% tổng'; dòng (Ngoài chuỗi) giữ để đối soát, loại khỏi viz"
+    },
+    {
+      "text": "Output _vN, ADD-only",
+      "passed": true,
+      "evidence": "KGR_DF/DS_SFC_vs_MEMO_v5_Chuoi; rủi ro #4: phát hiện v4_Chuoi đã tồn tại → verify-reuse trước, 'ADD-only, không sửa/xóa v4'"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "Header '⛔ CHỜ USER DUYỆT (Phase 3 gate) — chưa build' + Phụ lục B câu hỏi duyệt; không nhận đã thao tác OAC"
+    }
+  ],
+  "notes": "9/9. Vượt yêu cầu: plan-reviewer tự bắt BLOCKER thật (NULL=NULL không match full outer → coalesce trước join), check normalization tên chuỗi, verify-reuse v4 tránh artifact trùng.",
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  }
+}

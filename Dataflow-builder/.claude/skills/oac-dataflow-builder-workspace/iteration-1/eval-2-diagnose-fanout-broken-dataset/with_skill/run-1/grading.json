@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-2-with_skill",
+  "expectations": [
+    {
+      "text": "Chẩn đoán actual 2.44M = fan-out đa kỳ + inner join",
+      "passed": true,
+      "evidence": "RC1: join item-level đa kỳ (41→61) không filter single-period → nhân bản dòng actual, fan-out ~4.17x lịch sử"
+    },
+    {
+      "text": "Chẩn đoán plan 40K = MAX thay vì SUM",
+      "passed": true,
+      "evidence": "RC2: inner join rớt SKU planned-unsold (mất 91%) + viz đặt aggregation MAX → sập về 40K; trích đúng knowledge §15"
+    },
+    {
+      "text": "Plan thay thế theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer",
+      "passed": true,
+      "evidence": "C1 bảng 11 node đúng recipe v2 từng bước; nguyên tắc 'Filter 1 kỳ → Aggregate từng nhánh → mới Join'"
+    },
+    {
+      "text": "ADD-only, tên mới _vN",
+      "passed": true,
+      "evidence": "Output KGR_DS_SFC_vs_Actual_v3; 'ADD-only: không đụng KGR_DS_SFC_vs_Actual_v2 cũ'"
+    },
+    {
+      "text": "Verify 445,043 / 713,262",
+      "passed": true,
+      "evidence": "Bảng Verify mục D: 445,043 (per-ngành) + 713,262 (per-ngành) + fan-out row-count check"
+    },
+    {
+      "text": "Có danh sách checks thực tế",
+      "passed": true,
+      "evidence": "Mục E: 8 checks (GET def DS_v2, audit Canvas 14, validate-first MEMO#, DW_SFC, NSAW blind...)"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "'⛔ ĐIỂM DỪNG (Phase 3 gate)' + 3 quyết định chờ user (A/B, grain, scope)"
+    }
+  ],
+  "notes": "7/7. Vượt yêu cầu: reviewer bắt MAJOR 'chỉ sửa dataflow là chưa đủ — Plan=MAX nằm Ở VIZ' (R1) và đề xuất Phương án A reuse MEMO_v2 thay vì build trùng; phân biệt rõ 713K vs 586K là item-scope.",
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

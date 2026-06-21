@@ -1,0 +1,16 @@
+{
+  "eval_id": 0,
+  "eval_name": "sfc-plan-vs-actual-by-chain",
+  "prompt": "Tôi cần 1 dataset trên OAC để vẽ chart so sánh kế hoạch SFC vs thực tế bán theo TỪNG CHUỖI (BIGC, DMX, Caophong...) cho tháng 5/2026. Mỗi dòng là 1 chuỗi, có cột số lượng kế hoạch và số lượng thực tế. Hãy phân tích và lập kế hoạch dataflow cho tôi duyệt. (Dry-run: không thao tác OAC thật)",
+  "assertions": [
+    "Plan source đúng: DW_SFC cho kế hoạch và (KGR) DTF_CALC_INVOICE_MEMO_# cho thực tế",
+    "Plan qty tính bằng SUM các cột tuần SL W1..W5 (biết DW_SFC không có cột qty tháng)",
+    "Có filter single-period (PERIODNAME='May 2026' / posting period 42) TRƯỚC aggregate/join để chống fan-out",
+    "Join full outer theo tên chuỗi (Tên Chuỗi ↔ Chuỗi)",
+    "Actual xử lý dấu đúng: -SUM(QUANTITY) hoặc 0-SUM, không dùng ABS",
+    "Verify plan có số golden 445,043 (plan) và 713,262 (actual)",
+    "Cảnh báo bucket chuỗi rỗng/'Khác (ngoài chuỗi)' chiếm ~76%",
+    "Output đặt tên hậu tố _vN và ADD-only (không ghi đè artifact có sẵn)",
+    "Dừng ở gate trình duyệt — không tự nhận đã build/run gì trên OAC"
+  ]
+}

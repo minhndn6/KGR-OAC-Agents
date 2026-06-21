@@ -1,0 +1,3 @@
+# Python deps cho scripts KB (trace_field/find_source/validate_kb/qa_tests + rebuild pipeline)
+pyyaml>=6.0
+# Chạy với PYTHONUTF8=1 PYTHONIOENCODING=utf-8 (Windows) để in tiếng Việt.

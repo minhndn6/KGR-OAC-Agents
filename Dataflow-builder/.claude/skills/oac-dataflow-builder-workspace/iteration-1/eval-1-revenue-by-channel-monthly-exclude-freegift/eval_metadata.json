@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "revenue-by-channel-monthly-exclude-freegift",
+  "prompt": "Bên finance cần 1 dataset: doanh thu thực tế (ex-VAT) theo Nhóm Kênh và theo từng tháng (Mar/Apr/May 2026), loại bỏ hàng tặng (free gift), lấy từ dữ liệu hóa đơn. Mỗi dòng = 1 nhóm kênh × 1 tháng. Phân tích và lập plan dataflow để tôi duyệt trước khi build. (Dry-run: không thao tác OAC thật)",
+  "assertions": [
+    "Dùng (KGR) DTF_CALC_INVOICE_MEMO_# làm nguồn hóa đơn",
+    "Loại free gift qua cột CUSTCOL_SCV_LINE_ISFREEGIFT (có nêu check giá trị cột trước khi tin)",
+    "Filter đúng 3 kỳ Mar/Apr/May 2026 (PERIODNAME hoặc posting period 39/40/42)",
+    "Aggregate SUM doanh thu, group by Nhóm Kênh + tháng/kỳ — và chọn đúng cột doanh thu ex-VAT từ MEMO# (Doanh thu thực tế / Doanh số thực tế, có phân biệt)",
+    "Nêu rủi ro readability MEMO# (intermittent ORA-00942) và kế hoạch validate-first qua executePreview",
+    "Output _vN + verify plan đối chiếu nguồn độc lập (BC01 / NSAW)",
+    "Dừng ở gate trình duyệt — không tự nhận đã build"
+  ]
+}

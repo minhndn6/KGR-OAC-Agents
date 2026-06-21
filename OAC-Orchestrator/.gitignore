@@ -1,0 +1,4 @@
+blackboards/
+__pycache__/
+*.pyc
+_work/

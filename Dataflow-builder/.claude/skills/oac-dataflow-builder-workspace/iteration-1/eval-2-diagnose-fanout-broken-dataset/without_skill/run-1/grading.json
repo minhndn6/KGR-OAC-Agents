@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-2-without_skill",
+  "expectations": [
+    {
+      "text": "Chẩn đoán actual 2.44M = fan-out đa kỳ + inner join",
+      "passed": true,
+      "evidence": "§2.1 fan-out join grain dòng (×2.6-4.2 không đồng đều) + §2.2 nhiễm đa kỳ 41→61; thêm chi tiết filter viz POSTINGPERIOD ≥ 42"
+    },
+    {
+      "text": "Chẩn đoán plan 40K = MAX thay vì SUM",
+      "passed": true,
+      "evidence": "§2.2: 'Maximum chỉ trả về 1 giá trị item lớn nhất ≈ 40K' + §2.3 inner-join drop 44%"
+    },
+    {
+      "text": "Plan thay thế theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer",
+      "passed": true,
+      "evidence": "§3 nguyên tắc 5 điểm + §4B sơ đồ node đúng recipe; §4A khuyến nghị reuse MEMO_v2 đã verify"
+    },
+    {
+      "text": "ADD-only, tên mới _vN",
+      "passed": true,
+      "evidence": "Build mới tên _v3; có đề xuất 'khai tử DS_v2/deprecate rename' nhưng đặt thành quyết định chờ user duyệt riêng (Q3/Q4), không tự ý xóa"
+    },
+    {
+      "text": "Verify 445,043 / 713,262",
+      "passed": true,
+      "evidence": "§1 bảng triệu chứng + §8 acceptance: Plan 445.043, Actual 713.262, ~160%, trùng Canvas 24"
+    },
+    {
+      "text": "Có danh sách checks thực tế",
+      "passed": true,
+      "evidence": "§6: 11 bước trong 3 khối (xác nhận chẩn đoán read-only → xác nhận giải pháp → thi công)"
+    },
+    {
+      "text": "Dừng ở gate duyệt",
+      "passed": true,
+      "evidence": "'BẢN CHẨN ĐOÁN + KẾ HOẠCH TRÌNH DUYỆT... chưa thao tác' + §5 bảng 5 quyết định cần duyệt"
+    }
+  ],
+  "notes": "7/7. Baseline tận dụng memory/file dự án trong cwd (trích đúng số 2,444,247, 61.11%, filter ≥42 quirk) — nội dung tương đương with-skill. Khác biệt: with-skill có hồ sơ plan-reviewer + cấu trúc template chuẩn; baseline tự do cấu trúc nhưng đề xuất vượt ADD-only (gỡ viz/deprecate) dù có gate hỏi.",
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

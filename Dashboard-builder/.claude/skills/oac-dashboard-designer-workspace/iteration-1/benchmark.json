@@ -1,0 +1,393 @@
+{
+  "metadata": {
+    "skill_name": "oac-dashboard-designer",
+    "skill_path": "C:\\Project\\Dashboard-builder\\.claude\\skills\\oac-dashboard-designer",
+    "executor_model": "claude-sonnet-4-6",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-06-11T16:55:56Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 176.0,
+        "tokens": 31834,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần",
+          "passed": true,
+          "evidence": "Bối cảnh ghi rõ 'Loại: Executive / Strategic', nhịp thứ Hai 10 phút"
+        },
+        {
+          "text": "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ",
+          "passed": true,
+          "evidence": "4 canvas mỗi cái 1 câu hỏi (đúng plan? biên? hàng tặng? phân bổ?); 4 quyết định phục vụ liệt kê; note VN từng viz"
+        },
+        {
+          "text": "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)",
+          "passed": true,
+          "evidence": "6 chỉ số: Run-rate EOM, Contribution-to-growth, ASP, Top-3 concentration, GP% mix shift, Gift Unit Share — mỗi cái có cột Route calc/dataflow"
+        },
+        {
+          "text": "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng",
+          "passed": true,
+          "evidence": "Canvas 1 viz: Combo Bar+Line 'Actual vs Plan — Last 8 Weeks', bar xanh #44BA46, line xám #636466"
+        },
+        {
+          "text": "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên",
+          "passed": true,
+          "evidence": "Canvas 2: Waterfall 'What Is Eating Into Gross Margin?' + Grid Heat Map Industry×Chain; Canvas 3: Treemap hàng tặng"
+        },
+        {
+          "text": "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz",
+          "passed": true,
+          "evidence": "4 BAN hàng đầu Canvas 1; mỗi canvas 4-6 viz đa dạng (Combo/HBar/Waterfall/Heatmap/Treemap/Scatter/Pivot); sơ đồ bố cục từng canvas"
+        },
+        {
+          "text": "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)",
+          "passed": true,
+          "evidence": "Cảnh báo rõ: actual không có cột Kênh → plan-vs-actual theo Kênh BẤT KHẢ, cần dataflow mapping Chuỗi→Kênh; open question #1"
+        },
+        {
+          "text": "Có số expected/nguồn verify cho metric chính",
+          "passed": true,
+          "evidence": "Bảng metric §4 có cột 'Số expected (verify)' đối chiếu báo cáo thủ công + cross-check Σ variance"
+        },
+        {
+          "text": "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt",
+          "passed": true,
+          "evidence": "Đủ 7 mục template (bối cảnh/dữ liệu/canvas/metric/phái sinh/caveats/thứ tự+DoD); kết 'Duyệt blueprint này chứ? Có gì cần đổi?'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 122.5,
+        "tokens": 31447,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)",
+          "passed": true,
+          "evidence": "Bối cảnh ghi 'Loại: OPERATIONAL' + mục riêng 'Khác executive thế nào' + bảng so sánh 3 loại cuối blueprint"
+        },
+        {
+          "text": "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh",
+          "passed": true,
+          "evidence": "BAN Run-rate EOM forecast + MTD Pace % với công thức actual/(target×ngày qua/tổng ngày)"
+        },
+        {
+          "text": "Có cơ chế cảnh báo: conditional formatting/threshold/status màu",
+          "passed": true,
+          "evidence": "Ngưỡng màu mọi BAN (cam >5%/đỏ >10% hủy; pace xanh ≥100/đỏ <85) + CF bảng; ngưỡng configurable, ghi rõ cần ops chốt"
+        },
+        {
+          "text": "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)",
+          "passed": true,
+          "evidence": "Canvas 3 HBar pace sort hụt-nhất-lên-đầu = danh sách ưu tiên + Table Gap/Pace; Canvas 2 'bảng hành động' đơn hủy sort giá trị"
+        },
+        {
+          "text": "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày",
+          "passed": true,
+          "evidence": "Mỗi viz có note hành động (ưu tiên gọi, leo thang, điều tra); không waterfall/treemap trang trí; heatmap chuỗi×tuần phục vụ phân biệt structural vs event để can thiệp đúng"
+        },
+        {
+          "text": "Blueprint + dừng ở gate duyệt",
+          "passed": true,
+          "evidence": "Đủ 7 mục template + 'Duyệt blueprint này chứ?'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 112.8,
+        "tokens": 30345,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap",
+          "passed": true,
+          "evidence": "§4 anti-pattern; fix Horizontal Bar sort desc + Top Bottom N hoặc Treemap size+color"
+        },
+        {
+          "text": "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý",
+          "passed": true,
+          "evidence": "Giải thích scale trục Y tùy ý → tương quan ảo; 3 hướng fix: Trellis Rows 2 panel / phái sinh Doanh thu-đơn (My Calculations) / dual-axis chỉ hợp lệ cho plan-vs-actual Combo"
+        },
+        {
+          "text": "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ",
+          "passed": true,
+          "evidence": "Few ≤6; cắt còn 4-5 KPI 'thật sự gắn quyết định'; KPI thừa → canvas Operational riêng; gợi ý KPI Tile Plugin Base/Target/Previous"
+        },
+        {
+          "text": "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N",
+          "passed": true,
+          "evidence": "3 option theo mục đích: Trellis Rows/Columns (small multiples OAC) / 100% Stacked Area / Contribution-to-growth bar"
+        },
+        {
+          "text": "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading",
+          "passed": true,
+          "evidence": "Bar = so diện tích; 350vs700 trông như 1:7 thay vì 1:2; fix delta-vs-trung-bình baseline 0 hoặc Reference Line tại target"
+        },
+        {
+          "text": "Bắt lỗi title tên cột → insight-title EN",
+          "passed": true,
+          "evidence": "Bảng before/after 3 title; nêu ràng buộc title OAC tĩnh → số sống trong viz, Note VN"
+        },
+        {
+          "text": "Fix nêu bằng viz OAC có thật (map §4)",
+          "passed": true,
+          "evidence": "Mọi fix dùng viz/cơ chế OAC thật: Trellis shelf, Top Bottom N, My Calculations, Add Statistics Reference Line, KPI Tile Plugin, 100% Stacked Area"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4444,
+        "passed": 4,
+        "failed": 5,
+        "total": 9,
+        "time_seconds": 205.3,
+        "tokens": 29645,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần",
+          "passed": true,
+          "evidence": "Thiết kế quanh '10 phút = không thể đọc báo cáo' + 3 câu hỏi cốt lõi (không nêu typology tường minh nhưng tinh thần đúng)"
+        },
+        {
+          "text": "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ",
+          "passed": false,
+          "evidence": "Canvas tổ chức theo CHỦ ĐỀ (Ngành/Kênh/GP) chứ không theo câu hỏi điều hành; phần lớn viz không nêu quyết định nó phục vụ"
+        },
+        {
+          "text": "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)",
+          "passed": false,
+          "evidence": "Có EOM forecast + 'sản lượng thương mại' nhưng KHÔNG có route hiện thực hoá (My Calculations vs dataflow) — không biết làm bằng gì trên OAC"
+        },
+        {
+          "text": "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng",
+          "passed": true,
+          "evidence": "Trend 8 tuần: cột DT thực + đường đứt plan trong 1 viz"
+        },
+        {
+          "text": "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên",
+          "passed": true,
+          "evidence": "Waterfall GP gross→CK→tặng→ròng; heatmap ngành×chuỗi"
+        },
+        {
+          "text": "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz",
+          "passed": true,
+          "evidence": "6 KPI cards hàng đầu, layout khu vực A-D, đa dạng viz"
+        },
+        {
+          "text": "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)",
+          "passed": false,
+          "evidence": "Không kiểm grain — mặc định actual có đủ chiều Kênh/Chuỗi; không có bước profile dữ liệu trước khi hứa"
+        },
+        {
+          "text": "Có số expected/nguồn verify cho metric chính",
+          "passed": false,
+          "evidence": "Không có bảng metric định nghĩa + số expected + nguồn đối chiếu"
+        },
+        {
+          "text": "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt",
+          "passed": false,
+          "evidence": "Có chờ phê duyệt nhưng không theo cấu trúc Blueprint (thiếu bảng metric/route/DoD); còn đề xuất cả Power BI/Looker — lạc khỏi bối cảnh OAC"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 4,
+        "failed": 2,
+        "total": 6,
+        "time_seconds": 202.5,
+        "tokens": 38077,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Nhận diện đúng loại Operational và nêu khác biệt với Executive (nhịp, ngưỡng cảnh báo, hành động can thiệp)",
+          "passed": false,
+          "evidence": "Thiết kế đúng tinh thần ops (intraday, cảnh báo) nhưng KHÔNG nêu phân biệt loại dashboard / vì sao khác executive"
+        },
+        {
+          "text": "Có run-rate vs target hoặc tương đương làm chỉ số phái sinh",
+          "passed": true,
+          "evidence": "Công thức Pace % chi tiết + EOM forecast = actual ÷ pace%"
+        },
+        {
+          "text": "Có cơ chế cảnh báo: conditional formatting/threshold/status màu",
+          "passed": true,
+          "evidence": "3 ngưỡng pace 90/80 + banner đỏ hủy >3% + cảnh báo kênh tăng >20%"
+        },
+        {
+          "text": "Có bảng danh sách ưu tiên can thiệp (drill cuối canvas)",
+          "passed": true,
+          "evidence": "Pace bar sort thấp→cao + 2 bảng drill chuỗi hụt/vượt; bar lý do hủy phân công SC/Sales/CS"
+        },
+        {
+          "text": "Không nhồi chart trang trí; mỗi viz gắn hành động trong ngày",
+          "passed": true,
+          "evidence": "Các viz đều action-oriented (phát hiện chậm nhịp trước 12h, phân công theo lý do hủy)"
+        },
+        {
+          "text": "Blueprint + dừng ở gate duyệt",
+          "passed": false,
+          "evidence": "Có chờ duyệt nhưng không có cấu trúc Blueprint: thiếu bảng metric định nghĩa/số expected/route hiện thực trên OAC (calc vs dataflow)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8571,
+        "passed": 6,
+        "failed": 1,
+        "total": 7,
+        "time_seconds": 143.4,
+        "tokens": 35277,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap",
+          "passed": true,
+          "evidence": "Cleveland & McGill; fix horizontal bar sort desc hoặc treemap"
+        },
+        {
+          "text": "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý",
+          "passed": true,
+          "evidence": "Scale 2 trục độc lập → correlation ảo (Tufte); fix tách viz / scatter + r²"
+        },
+        {
+          "text": "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ",
+          "passed": true,
+          "evidence": "Few 5-6; 'cần cắt và nhóm lại' (tiêu chí cắt theo quyết định nêu mờ hơn nhưng có)"
+        },
+        {
+          "text": "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N",
+          "passed": true,
+          "evidence": "'wall of color' 96 đoạn; fix gom 3-4 nhóm hoặc small multiples/line đa đường"
+        },
+        {
+          "text": "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading",
+          "passed": true,
+          "evidence": "Chênh 18% trông như 4× → phân bổ ngân sách sai; fix baseline 0 + delta label"
+        },
+        {
+          "text": "Bắt lỗi title tên cột → insight-title EN",
+          "passed": true,
+          "evidence": "Knaflic — title = câu khẳng định insight dẫn action, có ví dụ"
+        },
+        {
+          "text": "Fix nêu bằng viz OAC có thật (map §4)",
+          "passed": false,
+          "evidence": "Fix generic (scatter + r², line đa đường, small multiples) — KHÔNG map sang cơ chế OAC (Trellis shelf, Top Bottom N, My Calculations, Reference Line, KPI Tile Plugin)"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

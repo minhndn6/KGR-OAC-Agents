@@ -1,0 +1,4 @@
+kgr-oac-knowledge-v1
+# Marker: đây là KB workspace CHÍNH THỨC của KGR-OAC-Agents.
+# kb_paths.resolve_kb_root() dùng file này để phân biệt với KB lạ (vd C:\Project\OAC-Knowledge).
+# ĐỪNG xóa. ĐỪNG copy sang KB khác.

@@ -1,0 +1,14 @@
+﻿{
+    "eval_id":  2,
+    "eval_name":  "critique-bad-dashboard-design",
+    "prompt":  "Đồng nghiệp tôi thiết kế 1 canvas executive như sau, hãy review giúp: (1) Pie chart 12 nhóm sản phẩm theo doanh thu; (2) Chart 2 trục Y: doanh thu (cột) và số đơn hàng (đường) chung 1 viz để \u0027thấy tương quan\u0027; (3) 9 KPI tile xếp 2 hàng; (4) Stacked bar 8 lớp chuỗi theo 12 tháng; (5) bar chart doanh thu các vùng, trục Y bắt đầu từ 300 tỷ cho \u0027nhìn rõ chênh lệch\u0027; (6) title các viz là tên cột kiểu \u0027Doanh thu by Nhóm SP\u0027. KHÔNG có browser — review dựa knowledge.",
+    "assertions":  [
+                       "Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap",
+                       "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý",
+                       "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ",
+                       "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N",
+                       "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading",
+                       "Bắt lỗi title tên cột → insight-title EN",
+                       "Fix nêu bằng viz OAC có thật (map §4)"
+                   ]
+}

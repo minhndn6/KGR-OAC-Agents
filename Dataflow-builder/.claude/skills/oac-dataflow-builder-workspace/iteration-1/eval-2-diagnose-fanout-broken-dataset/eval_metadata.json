@@ -1,0 +1,14 @@
+{
+  "eval_id": 2,
+  "eval_name": "diagnose-fanout-broken-dataset",
+  "prompt": "Dataset KGR_DS_SFC_vs_Actual_v2 đang cho số sai trên Canvas 14: actual lên tới 2.44M (đúng phải ~713K) còn plan chỉ 40K (đúng phải ~445K). Hãy chẩn đoán nguyên nhân và lập kế hoạch dataflow thay thế cho tôi duyệt. (Dry-run: không thao tác OAC thật)",
+  "assertions": [
+    "Chẩn đoán actual 2.44M do fan-out đa kỳ của DS_v2 (multi-period + inner join, ~4.17x / ~3.4x so với 713K)",
+    "Chẩn đoán plan 40K do dùng MAX thay vì SUM ở phía plan",
+    "Plan thay thế theo recipe v2 đã verify: single-period filter trước, SUM(SL W1..W5) cho plan, -SUM(QUANTITY) cho actual, full outer join theo Ngành",
+    "ADD-only: không xóa/sửa KGR_DS_SFC_vs_Actual_v2 cũ, đặt tên mới _vN",
+    "Verify plan có số 445,043 và 713,262",
+    "Có danh sách checks thực tế sẽ chạy (executePreview đối chiếu, đếm row trước/sau join...)",
+    "Dừng ở gate trình duyệt"
+  ]
+}

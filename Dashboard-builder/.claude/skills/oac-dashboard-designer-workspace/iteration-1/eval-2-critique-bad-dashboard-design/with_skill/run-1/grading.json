@@ -1,0 +1,12 @@
+{
+  "eval_id": 2, "config": "with_skill",
+  "expectations": [
+    {"text": "Bắt lỗi pie 12 nhóm và đề xuất Bar/Treemap", "passed": true, "evidence": "§4 anti-pattern; fix Horizontal Bar sort desc + Top Bottom N hoặc Treemap size+color"},
+    {"text": "Bắt lỗi dual-axis ám thị tương quan giả + hướng xử lý", "passed": true, "evidence": "Giải thích scale trục Y tùy ý → tương quan ảo; 3 hướng fix: Trellis Rows 2 panel / phái sinh Doanh thu-đơn (My Calculations) / dual-axis chỉ hợp lệ cho plan-vs-actual Combo"},
+    {"text": "Bắt lỗi 9 KPI vượt ngưỡng ≤6 và cắt theo tiêu chí quyết-định-phục-vụ", "passed": true, "evidence": "Few ≤6; cắt còn 4-5 KPI 'thật sự gắn quyết định'; KPI thừa → canvas Operational riêng; gợi ý KPI Tile Plugin Base/Target/Previous"},
+    {"text": "Bắt lỗi stacked 8 lớp → Trellis/small multiples hoặc top-N", "passed": true, "evidence": "3 option theo mục đích: Trellis Rows/Columns (small multiples OAC) / 100% Stacked Area / Contribution-to-growth bar"},
+    {"text": "Bắt lỗi baseline 300 tỷ (bar phải từ 0) và giải thích vì sao misleading", "passed": true, "evidence": "Bar = so diện tích; 350vs700 trông như 1:7 thay vì 1:2; fix delta-vs-trung-bình baseline 0 hoặc Reference Line tại target"},
+    {"text": "Bắt lỗi title tên cột → insight-title EN", "passed": true, "evidence": "Bảng before/after 3 title; nêu ràng buộc title OAC tĩnh → số sống trong viz, Note VN"},
+    {"text": "Fix nêu bằng viz OAC có thật (map §4)", "passed": true, "evidence": "Mọi fix dùng viz/cơ chế OAC thật: Trellis shelf, Top Bottom N, My Calculations, Add Statistics Reference Line, KPI Tile Plugin, 100% Stacked Area"}
+  ]
+}

@@ -1,0 +1,16 @@
+﻿{
+    "eval_id":  0,
+    "eval_name":  "advise-executive-dashboard-from-data",
+    "prompt":  "Tôi có 2 nguồn dữ liệu: (1) hóa đơn bán hàng theo dòng (mỗi dòng = 1 line hóa đơn: ngành, nhóm SP, chuỗi, số lượng, doanh thu, GP%, %GP ròng, cờ hàng tặng, kỳ) và (2) kế hoạch sản lượng + doanh thu theo ngành/kênh/chuỗi theo tuần. CEO và CFO xem mỗi sáng thứ Hai khoảng 10 phút. Hãy tư vấn: dashboard nên show gì? Lưu ý: môi trường KHÔNG có browser/NSAW — phần profile dữ liệu ghi thành các check sẽ chạy, dùng knowledge có sẵn.",
+    "assertions":  [
+                       "Chốt loại dashboard Executive từ audience CEO/CFO 10 phút/tuần",
+                       "Mỗi canvas gắn 1 câu hỏi điều hành; mỗi viz nêu được quyết định phục vụ",
+                       "Đề xuất ≥2 chỉ số phái sinh chủ động kèm route hiện thực (calc/dataflow)",
+                       "Plan-vs-actual = 1 Combo (bar actual + line plan), không 2 chart riêng",
+                       "Có Waterfall cho bridge biên hoặc gap, Treemap/heatmap cho cơ cấu+biên",
+                       "Layout: KPI/BANs hàng trên, ≤6 KPI/canvas, đa dạng loại viz",
+                       "Có caveat khả-thi-theo-grain (kiểm grain trước khi hứa chiều cắt)",
+                       "Có số expected/nguồn verify cho metric chính",
+                       "Xuất Blueprint đúng cấu trúc template, dừng ở gate duyệt"
+                   ]
+}

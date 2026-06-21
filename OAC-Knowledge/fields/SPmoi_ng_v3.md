@@ -1,0 +1,89 @@
+# SPmoi_ng_v3
+
+- **type**: dataflow_output
+- **grain**: group: PERIODNAME, AsOfDate, ID CLASS  (heuristic: GroupBy gần Output nhất — verify qua dataflow_catalog steps)
+- **producer_flow**: KGR_DF_Nganh_Metrics_v3
+- **used_by_workbooks**: None
+- **physical_tables**: []
+
+## Cột
+### AsOfDate
+- formula: `← (KGR) DTF_CALC_INVOICE_MEMO_#.TRANDATE`
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.TRANDATE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TRANDATE']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### DS Xanh Sum_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### DS Đỏ Sum_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO.ID XD', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### DT_SPmoi_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP.Quy hoạch SP']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### DT_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### ID CLASS
+- formula: `← (KGR) DTF_CALC_INVOICE_MEMO_#.ID CLASS`
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### PERIODNAME
+- formula: `← (KGR) DTF_CALC_INVOICE_MEMO_#.PERIODNAME`
+- physical_roots: ['DW_NS_ACCOUNTINGPERIOD_D.PERIODNAME']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### a10_ng
+- formula: `max( ... )`
+- aggregation: max
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+- ⚠️ HARDCODED_CONSTANT trong dataflow — số cứng, dễ lỗi thời; nên thay bằng nguồn động (['247258890.4666666'])
+
+### a19_Doanh thu ngành khác_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### a1_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY.TAX1AMT', 'DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1.TAX1AMT']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### a3_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_CREDIT_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_CREDIT_LINES_F.TYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.ITEMTYPE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.QUANTITY', 'DW_NS_CUSTOMER_INVOICE_LINES_F.TYPE', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_LINE_ISFREEGIFT', 'DW_NS_X_GIA_VON_MUC_TIEU_CT.CUSTRECORD_SCV_GVMT_LINE_GVMT_SP', 'DW_NS_X_GIA_VON_TON_KHO.CUSTRECORD_SCV_GVTK_UNIT_COST_L']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
+
+### a5_ng
+- formula: `sum( ... )`
+- aggregation: sum
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_TRADE_PROMOTION_LINE.CKKM']
+- filters: ['"POSTINGPERIOD" between 42 and 42', '"ACCTTYPE" IN(\'Income\')']
+- joins: ['rightouterjoin: PERIODNAME = PERIODNAME, TRANDATE <= AsOfDate, ID CLASS = ID CLASS']
