@@ -1,0 +1,209 @@
+{"id": "route.kind.new_dataset", "category": "route", "action": "route", "input": {"type": "new_dataset"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.new_dataset", "category": "route", "action": "route_wv", "input": {"type": "new_dataset"}, "expected": {"nonempty": true}}
+{"id": "route.kind.new_dataflow", "category": "route", "action": "route", "input": {"type": "new_dataflow"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.new_dataflow", "category": "route", "action": "route_wv", "input": {"type": "new_dataflow"}, "expected": {"nonempty": true}}
+{"id": "route.kind.new_field", "category": "route", "action": "route", "input": {"type": "new_field"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.new_field", "category": "route", "action": "route_wv", "input": {"type": "new_field"}, "expected": {"nonempty": true}}
+{"id": "route.kind.physical_table", "category": "route", "action": "route", "input": {"type": "physical_table"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.physical_table", "category": "route", "action": "route_wv", "input": {"type": "physical_table"}, "expected": {"nonempty": true}}
+{"id": "route.kind.fact", "category": "route", "action": "route", "input": {"type": "fact"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.fact", "category": "route", "action": "route_wv", "input": {"type": "fact"}, "expected": {"nonempty": true}}
+{"id": "route.kind.formula_correction", "category": "route", "action": "route", "input": {"type": "formula_correction"}, "expected": {"kind": "GENERATED"}}
+{"id": "route.wv.formula_correction", "category": "route", "action": "route_wv", "input": {"type": "formula_correction"}, "expected": {"nonempty": true}}
+{"id": "route.kind.glossary_term", "category": "route", "action": "route", "input": {"type": "glossary_term"}, "expected": {"kind": "CURATED"}}
+{"id": "route.wv.glossary_term", "category": "route", "action": "route_wv", "input": {"type": "glossary_term"}, "expected": {"nonempty": true}}
+{"id": "route.kind.convention", "category": "route", "action": "route", "input": {"type": "convention"}, "expected": {"kind": "CURATED"}}
+{"id": "route.wv.convention", "category": "route", "action": "route_wv", "input": {"type": "convention"}, "expected": {"nonempty": true}}
+{"id": "route.kind.governance_item", "category": "route", "action": "route", "input": {"type": "governance_item"}, "expected": {"kind": "CURATED"}}
+{"id": "route.wv.governance_item", "category": "route", "action": "route_wv", "input": {"type": "governance_item"}, "expected": {"nonempty": true}}
+{"id": "route.kind.gap", "category": "route", "action": "route", "input": {"type": "gap"}, "expected": {"kind": "OPEN_QUESTION"}}
+{"id": "route.wv.gap", "category": "route", "action": "route_wv", "input": {"type": "gap"}, "expected": {"nonempty": true}}
+{"id": "route.kind.drift", "category": "route", "action": "route", "input": {"type": "drift"}, "expected": {"kind": "LOG"}}
+{"id": "route.wv.drift", "category": "route", "action": "route_wv", "input": {"type": "drift"}, "expected": {"nonempty": true}}
+{"id": "route.kind.correction", "category": "route", "action": "route", "input": {"type": "correction"}, "expected": {"kind": "LOG"}}
+{"id": "route.wv.correction", "category": "route", "action": "route_wv", "input": {"type": "correction"}, "expected": {"nonempty": true}}
+{"id": "route.kind.lesson", "category": "route", "action": "route", "input": {"type": "lesson"}, "expected": {"kind": "LOG"}}
+{"id": "route.wv.lesson", "category": "route", "action": "route_wv", "input": {"type": "lesson"}, "expected": {"nonempty": true}}
+{"id": "route.kind.qa", "category": "route", "action": "route", "input": {"type": "qa"}, "expected": {"kind": "LOG"}}
+{"id": "route.wv.qa", "category": "route", "action": "route_wv", "input": {"type": "qa"}, "expected": {"nonempty": true}}
+{"id": "route.reject.khong_co", "category": "route", "action": "route", "input": {"type": "khong_co"}, "expected": {"reject": true}}
+{"id": "route.reject.xyz", "category": "route", "action": "route", "input": {"type": "xyz"}, "expected": {"reject": true}}
+{"id": "route.reject.FACTT", "category": "route", "action": "route", "input": {"type": "FACTT"}, "expected": {"reject": true}}
+{"id": "route.reject.drift2", "category": "route", "action": "route", "input": {"type": "drift2"}, "expected": {"reject": true}}
+{"id": "cp.real.business_glossary.yaml", "category": "check_path", "action": "check_path", "input": {"path": "business_glossary.yaml"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.capability_map.yaml", "category": "check_path", "action": "check_path", "input": {"path": "capability_map.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.dataflow_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "dataflow_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.dataset_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "dataset_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.field_dictionary.yaml", "category": "check_path", "action": "check_path", "input": {"path": "field_dictionary.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.lineage_graph.yaml", "category": "check_path", "action": "check_path", "input": {"path": "lineage_graph.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.physical_table_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "physical_table_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.workbook_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "workbook_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.archive_recommendations.md", "category": "check_path", "action": "check_path", "input": {"path": "archive_recommendations.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.CHANGELOG.md", "category": "check_path", "action": "check_path", "input": {"path": "CHANGELOG.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.CONFLICTS_AND_OPEN_QUESTIONS.md", "category": "check_path", "action": "check_path", "input": {"path": "CONFLICTS_AND_OPEN_QUESTIONS.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.governance_register.md", "category": "check_path", "action": "check_path", "input": {"path": "governance_register.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.HOW_TO_TRACE_A_FIELD.md", "category": "check_path", "action": "check_path", "input": {"path": "HOW_TO_TRACE_A_FIELD.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.IMPROVEMENTS.md", "category": "check_path", "action": "check_path", "input": {"path": "IMPROVEMENTS.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.KNOWLEDGE_INDEX.md", "category": "check_path", "action": "check_path", "input": {"path": "KNOWLEDGE_INDEX.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.LEARNING.md", "category": "check_path", "action": "check_path", "input": {"path": "LEARNING.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.live_query_recipes.md", "category": "check_path", "action": "check_path", "input": {"path": "live_query_recipes.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.OWNER_TODO.md", "category": "check_path", "action": "check_path", "input": {"path": "OWNER_TODO.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.QA_REPORT.md", "category": "check_path", "action": "check_path", "input": {"path": "QA_REPORT.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.QA_USECASES_REPORT.md", "category": "check_path", "action": "check_path", "input": {"path": "QA_USECASES_REPORT.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.QUICK_REFERENCE.md", "category": "check_path", "action": "check_path", "input": {"path": "QUICK_REFERENCE.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.source_selection_playbook.md", "category": "check_path", "action": "check_path", "input": {"path": "source_selection_playbook.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.fields/1_Invoice_v2.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/1_Invoice_v2.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/_EXAMPLES_extra.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_EXAMPLES_extra.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.fields/_FLAGSHIP_LoiNhuanGopKinhDoanh.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_FLAGSHIP_LoiNhuanGopKinhDoanh.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.fields/_INDEX.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_INDEX.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.real.fields/AOP_LINE_CF.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/AOP_LINE_CF.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Daily_Nganh_Report.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Daily_Nganh_Report.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Daily_TD_Report.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Daily_TD_Report.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/DW_CREDIT_MEMO.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/DW_CREDIT_MEMO.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/DW_X_SALE_HISTORY_Dataset.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/DW_X_SALE_HISTORY_Dataset.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Gi_v_n_m_c_ti_u.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Gi_v_n_m_c_ti_u.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Gi_v_n_t_n_kho.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Gi_v_n_t_n_kho.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_AOP_Dataset.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_AOP_Dataset.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_CKKM_TT.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_CKKM_TT.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DS_SFC_vs_Actual_v2.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DS_SFC_vs_Actual_v2.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DS_SFC_vs_MEMO_v1.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DS_SFC_vs_MEMO_v1.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DS_SFC_vs_MEMO_v2.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DS_SFC_vs_MEMO_v2.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DS_SFC_vs_MEMO_v3.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DS_SFC_vs_MEMO_v3.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DS_SFC_vs_MEMO_v4_Chuoi.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DS_SFC_vs_MEMO_v4_Chuoi.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DTF_CALC_INVOICE_MEMO.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DTF_CALC_INVOICE_MEMO.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_DTF_CALC_MIS.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_DTF_CALC_MIS.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_Invoice_Line_Header_Pro.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_Invoice_Line_Header_Pro.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_SFC_Dataset_c_AI.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_SFC_Dataset_c_AI.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/KGR_T_l_chi_ph_L_ng.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/KGR_T_l_chi_ph_L_ng.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Nganh_Report_Long.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Nganh_Report_Long.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/Nganh_Report_Long_TD.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/Nganh_Report_Long_TD.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/SALE_HIST_w_INVC.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/SALE_HIST_w_INVC.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/SPmoi_ng_v3.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/SPmoi_ng_v3.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/TD_Metrics_Wide.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/TD_Metrics_Wide.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/TD_Report_Long.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/TD_Report_Long.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/TD_Report_PNL_Bridge.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/TD_Report_PNL_Bridge.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.fields/TD_Report_PNL_Bridge_Nganh.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/TD_Report_PNL_Bridge_Nganh.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.real.learnings/log.jsonl", "category": "check_path", "action": "check_path", "input": {"path": "learnings/log.jsonl"}, "expected": {"kind": "LOG"}}
+{"id": "cp.real.learnings/pending.md", "category": "check_path", "action": "check_path", "input": {"path": "learnings/pending.md"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.fields/NewThing.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/NewThing.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.fields/AnotherDS.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/AnotherDS.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.fields/_NOTES.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_NOTES.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.fields/_DRAFT_x.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_DRAFT_x.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.dataset_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "dataset_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.dataflow_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "dataflow_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.workbook_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "workbook_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.physical_table_catalog.yaml", "category": "check_path", "action": "check_path", "input": {"path": "physical_table_catalog.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.lineage_graph.yaml", "category": "check_path", "action": "check_path", "input": {"path": "lineage_graph.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.field_dictionary.yaml", "category": "check_path", "action": "check_path", "input": {"path": "field_dictionary.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.capability_map.yaml", "category": "check_path", "action": "check_path", "input": {"path": "capability_map.yaml"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.business_glossary.yaml", "category": "check_path", "action": "check_path", "input": {"path": "business_glossary.yaml"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.governance_register.md", "category": "check_path", "action": "check_path", "input": {"path": "governance_register.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.CONVENTIONS.md", "category": "check_path", "action": "check_path", "input": {"path": "CONVENTIONS.md"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.learnings/log.jsonl", "category": "check_path", "action": "check_path", "input": {"path": "learnings/log.jsonl"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.learnings/pending.md", "category": "check_path", "action": "check_path", "input": {"path": "learnings/pending.md"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.learnings/anything.jsonl", "category": "check_path", "action": "check_path", "input": {"path": "learnings/anything.jsonl"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.random_unlisted.md", "category": "check_path", "action": "check_path", "input": {"path": "random_unlisted.md"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.weird.yaml", "category": "check_path", "action": "check_path", "input": {"path": "weird.yaml"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.notes.txt", "category": "check_path", "action": "check_path", "input": {"path": "notes.txt"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.foo/bar.md", "category": "check_path", "action": "check_path", "input": {"path": "foo/bar.md"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.QUICK_REFERENCE.md", "category": "check_path", "action": "check_path", "input": {"path": "QUICK_REFERENCE.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.KNOWLEDGE_INDEX.md", "category": "check_path", "action": "check_path", "input": {"path": "KNOWLEDGE_INDEX.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.LEARNING.md", "category": "check_path", "action": "check_path", "input": {"path": "LEARNING.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.CHANGELOG.md", "category": "check_path", "action": "check_path", "input": {"path": "CHANGELOG.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.OWNER_TODO.md", "category": "check_path", "action": "check_path", "input": {"path": "OWNER_TODO.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.HOW_TO_TRACE_A_FIELD.md", "category": "check_path", "action": "check_path", "input": {"path": "HOW_TO_TRACE_A_FIELD.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.QA_REPORT.md", "category": "check_path", "action": "check_path", "input": {"path": "QA_REPORT.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.source_selection_playbook.md", "category": "check_path", "action": "check_path", "input": {"path": "source_selection_playbook.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.live_query_recipes.md", "category": "check_path", "action": "check_path", "input": {"path": "live_query_recipes.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.archive_recommendations.md", "category": "check_path", "action": "check_path", "input": {"path": "archive_recommendations.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.CONFLICTS_AND_OPEN_QUESTIONS.md", "category": "check_path", "action": "check_path", "input": {"path": "CONFLICTS_AND_OPEN_QUESTIONS.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.IMPROVEMENTS.md", "category": "check_path", "action": "check_path", "input": {"path": "IMPROVEMENTS.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.QA_USECASES_REPORT.md", "category": "check_path", "action": "check_path", "input": {"path": "QA_USECASES_REPORT.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.fields/SomeDataset.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/SomeDataset.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.fields/_FLAGSHIP_X.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_FLAGSHIP_X.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.fields/_EXAMPLES_y.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/_EXAMPLES_y.md"}, "expected": {"kind": "CURATED"}}
+{"id": "cp.syn.fields/sub/deep.md", "category": "check_path", "action": "check_path", "input": {"path": "fields/sub/deep.md"}, "expected": {"kind": "GENERATED"}}
+{"id": "cp.syn.learnings/extra.md", "category": "check_path", "action": "check_path", "input": {"path": "learnings/extra.md"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.learnings/archive.jsonl", "category": "check_path", "action": "check_path", "input": {"path": "learnings/archive.jsonl"}, "expected": {"kind": "LOG"}}
+{"id": "cp.syn.DATAFLOW_NOTES.md", "category": "check_path", "action": "check_path", "input": {"path": "DATAFLOW_NOTES.md"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.config.json", "category": "check_path", "action": "check_path", "input": {"path": "config.json"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.setup.py", "category": "check_path", "action": "check_path", "input": {"path": "setup.py"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "cp.syn.data.csv", "category": "check_path", "action": "check_path", "input": {"path": "data.csv"}, "expected": {"kind": "UNKNOWN"}}
+{"id": "clean.dirty._PNL_HANDOFF.md", "category": "negative", "action": "clean", "input": {"path": "_PNL_HANDOFF.md"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._PNL_BUILD_STATE.md", "category": "negative", "action": "clean", "input": {"path": "_PNL_BUILD_STATE.md"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._DB01_NOTES.md", "category": "negative", "action": "clean", "input": {"path": "_DB01_NOTES.md"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._build_heatmap.js", "category": "negative", "action": "clean", "input": {"path": "_build_heatmap.js"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._combochip.txt", "category": "negative", "action": "clean", "input": {"path": "_combochip.txt"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.x.network-response", "category": "negative", "action": "clean", "input": {"path": "x.network-response"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._resp_abc", "category": "negative", "action": "clean", "input": {"path": "_resp_abc"}, "expected": {"dirty": true}}
+{"id": "clean.dirty._snap_1.txt", "category": "negative", "action": "clean", "input": {"path": "_snap_1.txt"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.a.lock", "category": "negative", "action": "clean", "input": {"path": "a.lock"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.blackboards/bb_1.json", "category": "negative", "action": "clean", "input": {"path": "blackboards/bb_1.json"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.OAC-Orchestrator/blackboards/bb_2.json", "category": "negative", "action": "clean", "input": {"path": "OAC-Orchestrator/blackboards/bb_2.json"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.raw/__pycache__/x.pyc", "category": "negative", "action": "clean", "input": {"path": "raw/__pycache__/x.pyc"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.resolver.pyc", "category": "negative", "action": "clean", "input": {"path": "resolver.pyc"}, "expected": {"dirty": true}}
+{"id": "clean.dirty.sub/__pycache__/y.pyc", "category": "negative", "action": "clean", "input": {"path": "sub/__pycache__/y.pyc"}, "expected": {"dirty": true}}
+{"id": "clean.ok.dataset_catalog.yaml", "category": "clean", "action": "clean", "input": {"path": "dataset_catalog.yaml"}, "expected": {"dirty": false}}
+{"id": "clean.ok.fields/_INDEX.md", "category": "clean", "action": "clean", "input": {"path": "fields/_INDEX.md"}, "expected": {"dirty": false}}
+{"id": "clean.ok.fields/Revenue.md", "category": "clean", "action": "clean", "input": {"path": "fields/Revenue.md"}, "expected": {"dirty": false}}
+{"id": "clean.ok.kb_lifecycle/STATUS.md", "category": "clean", "action": "clean", "input": {"path": "kb_lifecycle/STATUS.md"}, "expected": {"dirty": false}}
+{"id": "clean.ok.learnings/log.jsonl", "category": "clean", "action": "clean", "input": {"path": "learnings/log.jsonl"}, "expected": {"dirty": false}}
+{"id": "clean.ok.business_glossary.yaml", "category": "clean", "action": "clean", "input": {"path": "business_glossary.yaml"}, "expected": {"dirty": false}}
+{"id": "clean.ok..gitattributes", "category": "clean", "action": "clean", "input": {"path": ".gitattributes"}, "expected": {"dirty": false}}
+{"id": "clean.ok.README.md", "category": "clean", "action": "clean", "input": {"path": "README.md"}, "expected": {"dirty": false}}
+{"id": "clean.ok.raw/build_catalogs.py", "category": "clean", "action": "clean", "input": {"path": "raw/build_catalogs.py"}, "expected": {"dirty": false}}
+{"id": "clean.ok.kb_lifecycle/tools/kgr.py", "category": "clean", "action": "clean", "input": {"path": "kb_lifecycle/tools/kgr.py"}, "expected": {"dirty": false}}
+{"id": "gate.missing.new_dataset", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_dataset", "topic": "Chủ đề new_dataset", "content": "Nội dung new_dataset", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.new_dataset", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_dataset", "topic": "Chủ đề new_dataset", "content": "Nội dung new_dataset", "source": ""}], "id": "L1", "evidence": {"rebuild_sha": "sha"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.new_dataflow", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_dataflow", "topic": "Chủ đề new_dataflow", "content": "Nội dung new_dataflow", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.new_dataflow", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_dataflow", "topic": "Chủ đề new_dataflow", "content": "Nội dung new_dataflow", "source": ""}], "id": "L1", "evidence": {"rebuild_sha": "sha"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.new_field", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_field", "topic": "Chủ đề new_field", "content": "Nội dung new_field", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.new_field", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "new_field", "topic": "Chủ đề new_field", "content": "Nội dung new_field", "source": ""}], "id": "L1", "evidence": {"rebuild_sha": "sha"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.physical_table", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "physical_table", "topic": "Chủ đề physical_table", "content": "Nội dung physical_table", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.physical_table", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "physical_table", "topic": "Chủ đề physical_table", "content": "Nội dung physical_table", "source": ""}], "id": "L1", "evidence": {"rebuild_sha": "sha"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.fact", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "fact", "topic": "Chủ đề fact", "content": "Nội dung fact", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.fact", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "fact", "topic": "Chủ đề fact", "content": "Nội dung fact", "source": ""}], "id": "L1", "evidence": {"rebuild_sha": "sha"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.formula_correction", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "formula_correction", "topic": "Chủ đề formula_correction", "content": "Nội dung formula_correction", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.formula_correction", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "formula_correction", "topic": "Chủ đề formula_correction", "content": "Nội dung formula_correction", "source": ""}], "id": "L1", "evidence": {"live_evidence": "executePreview"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.glossary_term", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "glossary_term", "topic": "Chủ đề glossary_term", "content": "Nội dung glossary_term", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.glossary_term", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "glossary_term", "topic": "Chủ đề glossary_term", "content": "Nội dung glossary_term", "source": ""}], "id": "L1", "evidence": {"attested_by": "owner"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.convention", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "convention", "topic": "Chủ đề convention", "content": "Nội dung convention", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.convention", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "convention", "topic": "Chủ đề convention", "content": "Nội dung convention", "source": ""}], "id": "L1", "evidence": {"attested_by": "owner"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.governance_item", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "governance_item", "topic": "Chủ đề governance_item", "content": "Nội dung governance_item", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.governance_item", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "governance_item", "topic": "Chủ đề governance_item", "content": "Nội dung governance_item", "source": ""}], "id": "L1", "evidence": {"attested_by": "CFO"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.gap", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "gap", "topic": "Chủ đề gap", "content": "Nội dung gap", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.gap", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "gap", "topic": "Chủ đề gap", "content": "Nội dung gap", "source": ""}], "id": "L1", "evidence": {"attested_by": "x", "rebuild_sha": "y"}}, "expected": {"status": "rejected"}}
+{"id": "gate.missing.drift", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "drift", "topic": "Chủ đề drift", "content": "Nội dung drift", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.drift", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "drift", "topic": "Chủ đề drift", "content": "Nội dung drift", "source": ""}], "id": "L1", "evidence": {"attested_by": "x", "rebuild_sha": "y"}}, "expected": {"status": "rejected"}}
+{"id": "gate.missing.correction", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "correction", "topic": "Chủ đề correction", "content": "Nội dung correction", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.correction", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "correction", "topic": "Chủ đề correction", "content": "Nội dung correction", "source": ""}], "id": "L1", "evidence": {"provenance": "owner"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.lesson", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "lesson", "topic": "Chủ đề lesson", "content": "Nội dung lesson", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "rejected"}}
+{"id": "gate.valid.lesson", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "lesson", "topic": "Chủ đề lesson", "content": "Nội dung lesson", "source": ""}], "id": "L1", "evidence": {"incorporated_into": "CONVENTIONS.md"}}, "expected": {"status": "promoted"}}
+{"id": "gate.missing.qa", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "qa", "topic": "Chủ đề qa", "content": "Nội dung qa", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "promoted"}}
+{"id": "gate.valid.qa", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "qa", "topic": "Chủ đề qa", "content": "Nội dung qa", "source": ""}], "id": "L1", "evidence": {}}, "expected": {"status": "promoted"}}
+{"id": "gate.gov.auto", "category": "negative", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "governance_item", "topic": "Chủ đề governance_item", "content": "Nội dung governance_item", "source": ""}], "id": "L1", "evidence": {"attested_by": "CFO", "via": "auto"}}, "expected": {"status": "rejected"}}
+{"id": "gate.gov.2agent", "category": "negative", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "governance_item", "topic": "Chủ đề governance_item", "content": "Nội dung governance_item", "source": ""}], "id": "L1", "evidence": {"attested_by": "CFO", "via": "second-agent"}}, "expected": {"status": "rejected"}}
+{"id": "gate.correction.src_user", "category": "gate", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "correction", "topic": "Chủ đề correction", "content": "Nội dung correction", "source": "user"}], "id": "L1", "evidence": {}}, "expected": {"status": "promoted"}}
+{"id": "gate.contradiction.block", "category": "negative", "action": "gate", "input": {"seed": [{"id": "L1", "ts": "t", "type": "glossary_term", "topic": "Doanh thu", "content": "A", "status": "promoted"}, {"id": "L2", "ts": "t", "type": "glossary_term", "topic": "Doanh thu", "content": "B"}], "id": "L2", "evidence": {"attested_by": "owner"}}, "expected": {"status": "rejected"}}
+{"id": "dedup.exact", "category": "negative", "action": "dedup", "input": {"seed": [{"id": "L1", "ts": "t", "type": "lesson", "topic": "T", "content": "C", "status": "promoted"}], "add": {"type": "lesson", "topic": "T", "content": "C"}}, "expected": {"status": "rejected_dup"}}
+{"id": "dedup.new", "category": "learn", "action": "dedup", "input": {"seed": [{"id": "L1", "ts": "t", "type": "lesson", "topic": "T", "content": "C", "status": "promoted"}], "add": {"type": "lesson", "topic": "T2", "content": "C2"}}, "expected": {"status": "added"}}
+{"id": "supersede.ok", "category": "learn", "action": "supersede", "input": {"seed": [{"id": "L1", "ts": "t", "type": "glossary_term", "topic": "Doanh thu", "content": "A", "status": "promoted"}, {"id": "L2", "ts": "t", "type": "glossary_term", "topic": "Doanh thu", "content": "B"}], "new": "L2", "old": "L1"}, "expected": {"status": "superseded"}}
+{"id": "supersede.cross", "category": "negative", "action": "supersede", "input": {"seed": [{"id": "L1", "ts": "t", "type": "lesson", "topic": "A", "content": "x"}, {"id": "L2", "ts": "t", "type": "glossary_term", "topic": "B", "content": "y"}], "new": "L2", "old": "L1"}, "expected": {"status": "error"}}
+{"id": "guard.clean", "category": "guard", "action": "guard", "input": {"op": "clean"}, "expected": {"ok": true}}
+{"id": "guard.modified", "category": "negative", "action": "guard", "input": {"op": "tamper"}, "expected": {"ok": true}}
+{"id": "guard.new", "category": "negative", "action": "guard", "input": {"op": "new"}, "expected": {"ok": true}}
+{"id": "guard.curated_safe", "category": "guard", "action": "guard", "input": {"op": "curated"}, "expected": {"ok": true}}
+{"id": "guard.missing", "category": "negative", "action": "guard", "input": {"op": "missing"}, "expected": {"ok": true}}
+{"id": "guard.unclassified_real", "category": "guard", "action": "guard", "input": {"op": "unclassified_real"}, "expected": {"ok": true}}
+{"id": "drift.tsfilter", "category": "drift", "action": "drift", "input": {"scenario": "tsfilter"}, "expected": {"ok": true}}
+{"id": "drift.tsfilter_after", "category": "drift", "action": "drift", "input": {"scenario": "tsfilter_after"}, "expected": {"ok": true}}
+{"id": "drift.debounce_seen", "category": "drift", "action": "drift", "input": {"scenario": "debounce_seen"}, "expected": {"ok": true}}
+{"id": "drift.debounce_open", "category": "drift", "action": "drift", "input": {"scenario": "debounce_open"}, "expected": {"ok": true}}
+{"id": "drift.upsert", "category": "drift", "action": "drift", "input": {"scenario": "upsert"}, "expected": {"ok": true}}
+{"id": "drift.storm", "category": "drift", "action": "drift", "input": {"scenario": "storm"}, "expected": {"ok": true}}
+{"id": "drift.no_storm", "category": "drift", "action": "drift", "input": {"scenario": "no_storm"}, "expected": {"ok": true}}
+{"id": "drift.cooldown_suppress", "category": "drift", "action": "drift", "input": {"scenario": "cooldown_suppress"}, "expected": {"ok": true}}
+{"id": "drift.cooldown_expire", "category": "drift", "action": "drift", "input": {"scenario": "cooldown_expire"}, "expected": {"ok": true}}
+{"id": "drift.auto_resolve", "category": "drift", "action": "drift", "input": {"scenario": "auto_resolve"}, "expected": {"ok": true}}
+{"id": "drift.key_stable", "category": "drift", "action": "drift", "input": {"scenario": "key_stable"}, "expected": {"ok": true}}
+{"id": "drift.emit_only_open", "category": "drift", "action": "drift", "input": {"scenario": "emit_only_open"}, "expected": {"ok": true}}

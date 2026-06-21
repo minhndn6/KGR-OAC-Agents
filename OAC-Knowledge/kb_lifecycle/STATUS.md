@@ -4,8 +4,10 @@
 > Spec: `DESIGN_v1_FINAL.md` · Kế hoạch: `PLAN.md`. Quy trình: design→review→chốt→plan→test-first→impl→test→UAT.
 > Regression gate sau mỗi task: `PYTHONUTF8=1 python kb_lifecycle/tests/run_all.py --with-legacy` PHẢI xanh.
 
-## Trạng thái: PHASE 0–3 ✅ · NEXT = PHASE 4 UAT (≥200 offline)
-Cập nhật: 2026-06-21 (đêm, owner ngủ — chế độ tự động). **run_all --with-legacy = 14/14 ✅**
+## Trạng thái: PHASE 0–4(offline) ✅ · UAT 209 PASS · **LOOP DỪNG — chờ owner**
+Cập nhật: 2026-06-21. **run_all --with-legacy = 15/15 ✅** · UAT 209/0 FAIL/0 GAP · REPORT.md xong.
+Phần còn lại đều cần owner: G1 ký GR · G2 token (drift live + UAT ≥500) · `gh auth login` để push GitHub.
+(File Phase 4 — run_uat.py/uat_cases.jsonl/REPORT.md — đang UNCOMMITTED; sẽ commit+push 1 lần khi owner auth.)
 
 ### Đã xong
 - [x] Định hướng + Design v0 → 3 sub-agent adversarial review → chốt `DESIGN_v1_FINAL.md` (D1–D12, INV-1..6).
@@ -36,12 +38,19 @@ Cập nhật: 2026-06-21 (đêm, owner ngủ — chế độ tự động). **ru
 
 ### Ràng buộc (đừng vi phạm)
 - KHÔNG đụng/đăng nhập OAC/NSAW (chỉ đọc). KHÔNG O2. Live-probe chỉ interface+fixture tới khi owner login.
-- Backward-safe: run_all --with-legacy xanh sau mỗi task. **KHÔNG git commit** (working tree, owner review). Scratch tôi: `C:\Project\_work\kgr-governance-build`.
+- Backward-safe: run_all --with-legacy xanh sau mỗi task. Scratch tôi: `C:\Project\_work\kgr-governance-build`. **Đã chuyển MONOREPO + commit (owner duyệt đẩy GitHub)**; loop tự-động cứ để file mới uncommitted — commit/push làm ở phiên tương tác.
 
-### Gate cần owner (hỏi khi dậy)
-- G1 ký GR1–GR7 → chặn promote governance auto. · G2 login OAC cho UAT live + drift probe thật + refresh tokens.json (kênh scriptable).
-- G3 xác nhận runtime root default (`%LOCALAPPDATA%\kgr-oac`)? · G4 có muốn xóa scratch khỏi git history không (hiện chỉ `git rm --cached`).
-- **G5 (MỚI)**: đã `git rm --cached` 9 file ở Dashboard-builder (vẫn trên đĩa, untracked): `_DB01_NOTES_DRAFT.md`, `_PNL_{BLUEPRINT,BUILD_STATE,HANDOFF,HANDOFF_NEXT,NGANH_GIAO_VIEC,NGANH_PLAN}.md`, `_build_heatmap.js`, `_combochip.txt`. ⚠ `_PNL_BUILD_STATE.md` là RESUME STATE durable → owner cân nhắc dời sang `_orchestration` (cần builder-aware) hoặc re-track. Revert: `git -C Dashboard-builder add <file>`.
+### GitHub & monorepo (2026-06-21)
+- **ĐÃ GỘP MONOREPO**: xóa 4 .git con → 1 git repo ở workspace root. 2 commit (baf14da init, 447e0e6 utf-8). 201 file tracked, **secret-free** (verify HEAD). Remote `origin=https://github.com/minhndn6/KGR-OAC-Agents.git`.
+- **CHƯA push** — chờ owner `gh auth login` (gh chưa cài). Sau auth: `git push -u origin main`.
+- Tooling thành monorepo-aware: `check_clean.repos_to_scan/scan_all` (quét root repo), `qa_full` S12 hook-check (root .git/hooks), pre-commit hook gốc chạy check_clean.
+- Secrets: `.secrets/` gitignored; đã redact "Hanoi@20"→"Hanoi@**" trong log L0005. Khuyến nghị owner ĐỔI mật khẩu OAC + đặt repo Private.
+
+### Gate cần owner
+- **G1** ký GR1–GR7 (rủi ro tài chính: AOP-as-actual, thuế cứng 0.21, hằng số 247tr, whitelist 2 pháp nhân) → chặn promote governance auto. CHƯA.
+- **G2** ⚠️ token MCP VẪN hết hạn (owner refresh chưa tới `tokens.json` MCP đọc). Kênh browser OK cho live read. UAT live/≥500 + drift probe thật chờ cái này.
+- **G3** runtime root default `%LOCALAPPDATA%\kgr-oac` — owner xác nhận? · **G4** xóa scratch khỏi git history? (monorepo init mới nên history đã sạch — G4 gần như moot).
+- **G5** ✅ XONG: giữ 5 `_PNL_*` + `_DB01_*`/`_build_heatmap`/`_combochip` untracked; `_PNL_BUILD_STATE.md` đã DỜI → `_orchestration/build_state/dashboard_PNL_BUILD_STATE.md` (durable).
 
 ### Live capture & design refinements (2026-06-21, owner đã login OAC)
 - Kênh đọc live = browser same-origin fetch GET (read-only). MCP tokens.json HẾT HẠN (~33 ngày) → refresh nếu cần kênh scriptable.
@@ -55,4 +64,6 @@ Cập nhật: 2026-06-21 (đêm, owner ngủ — chế độ tự động). **ru
 - 2026-06-21: P1.4 entrypoint (workspace CLAUDE.md + kgr CLI, doctor=OK, 14/14) + P2.2 kb_route (14 type, 33/33). **run_all 10/10**. PHASE 1 hoàn tất.
 - 2026-06-21: P2.1/2.3 classify (kinds.yaml + kb_kinds, 0 unclassified) + anti-edit guard (guard_generated hash-manifest 35 file, test_guard 14/14) + kb_route check_path→kb_kinds. **run_all 11/11**. PHASE 2 hoàn tất.
 - 2026-06-21: P3.1+3.2 learn2 (content_hash/fact_key/dedup/contradiction/supersede, test 16/16) + migrate log thật (10 record, backup scratch). **run_all 12/12**.
-- 2026-06-21: P3.3 typed promote-gate (test_gate 31/31) + P3.4 drift store (test_drift 15/15, lọc 99 no-ts, debounce/storm/auto-resolve). **run_all 14/14**. PHASE 3 hoàn tất. NEXT Phase 4 UAT.
+- 2026-06-21: P3.3 typed promote-gate (test_gate 31/31) + P3.4 drift store (test_drift 15/15, lọc 99 no-ts, debounce/storm/auto-resolve). **run_all 14/14**. PHASE 3 hoàn tất.
+- 2026-06-21: GỘP MONOREPO (xóa 4 .git con, init root) + 2 commit, remote GitHub set, secret-free. G5 xong (dời BUILD_STATE). Tooling monorepo-aware. run_all 14/14. Chờ owner gh auth để push.
+- 2026-06-21: PHASE 4 UAT — `tests/uat/run_uat.py` + corpus 209 case (route/check_path/negative/gate/guard/drift), oracle độc lập. **209 PASS / 0 FAIL / 0 GAP**. run_all 15/15. REPORT.md (DoD1–9). **LOOP DỪNG**, báo cáo owner.
