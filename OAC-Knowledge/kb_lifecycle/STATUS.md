@@ -67,3 +67,4 @@ Phần còn lại đều cần owner: G1 ký GR · G2 token (drift live + UAT �
 - 2026-06-21: P3.3 typed promote-gate (test_gate 31/31) + P3.4 drift store (test_drift 15/15, lọc 99 no-ts, debounce/storm/auto-resolve). **run_all 14/14**. PHASE 3 hoàn tất.
 - 2026-06-21: GỘP MONOREPO (xóa 4 .git con, init root) + 2 commit, remote GitHub set, secret-free. G5 xong (dời BUILD_STATE). Tooling monorepo-aware. run_all 14/14. Chờ owner gh auth để push.
 - 2026-06-21: PHASE 4 UAT — `tests/uat/run_uat.py` + corpus 209 case (route/check_path/negative/gate/guard/drift), oracle độc lập. **209 PASS / 0 FAIL / 0 GAP**. run_all 15/15. REPORT.md (DoD1–9). **LOOP DỪNG**, báo cáo owner.
+- 2026-06-21: ✅ ĐÃ PUSH GitHub (origin/main=2621c05, 4 commit, 205 file, **secret-free verified**). Auth qua Git Credential Manager (creds cached). Lần sau push trực tiếp được. Chờ owner: G1 ký GR · G2 token (UAT≥500 live + drift live) · đặt repo Private + đổi mật khẩu OAC.
