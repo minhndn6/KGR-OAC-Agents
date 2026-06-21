@@ -36,7 +36,8 @@
 - **Queryability: 17/17** dataset closure (có column-detail) trả dữ liệu live (`SELECT COUNT(*)`>0).
 - **Structure: 3/3** dataset P&L core — live column count khớp field_dictionary 100%; P&L codes (a4..a24, AOP_PER/AMT) hiện diện live; `execute_logical_sql` trả dữ liệu thật (tiếng Việt đúng).
 - **Bài học (sửa L0011)**: `discover_data` LIST có thể THIẾU dataset có thật → verify existence bằng `COUNT(*)` qua XSA, không chỉ tin discover-list.
-- Giới hạn trung thực: KHÔNG transcribe đủ 477 cột (MCP trả về context + mojibake metadata → không tự-động-hoá toàn bộ được). Coverage = existence toàn bộ + structure/queryability các dataset P&L cốt lõi. Bằng chứng: `_work/kgr-governance-build/live_uat_report.json`.
+- **Column-level: 328/477 cột verify LIVE từng cái** (28 query `COUNT(col,...)` qua oac-native, 0 fail). Còn **149 cột tên tiếng Việt KHÔNG verify được từng cái** — `oac-native` transport **double-encode ký tự non-ASCII cả 2 chiều** (gửi `"Ròng"` → OAC nhận `"RÃÂ²ng"` → nonexistent); existence của 149 cột này được **corroborate** qua count-match (describe) + queryability. (Bug transport, ghi log.)
+- **TỔNG VALIDATION: 620 case** = 209 offline + 411 live (existence 63 + queryability 17 + ASCII-cột 328 + structure 3), all pass. Bằng chứng: `_work/kgr-governance-build/live_uat_report.json`.
 | DoD7 | ≥200 UAT offline | ✅ **209 PASS / 0 FAIL / 0 GAP** |
 | DoD8 | Test cũ luôn xanh (AC7) | ✅ validate_kb / qa_full / test_orchestrator |
 | DoD9 | AI lạ tự khám phá entrypoint | ✅ CLAUDE.md gốc + `kgr doctor` |

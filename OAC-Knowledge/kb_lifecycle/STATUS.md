@@ -9,7 +9,8 @@
 - existence **63/63** live (62 qua discover-list + `DTF_CALC_MIS` qua COUNT=294.294; discover-list THIẾU nó → đã SỬA L0011).
 - queryability **17/17** dataset closure (COUNT>0). structure **3/3** P&L core khớp 100% (TD_Metrics_Wide 42/42, PNL_Bridge 9/9, _Nganh 11/11).
 - **DoD6 → 🟢 có bằng chứng live.** Bài học (ghi log): discover-list có thể THIẾU → verify existence bằng `COUNT(*)` qua XSA.
-- Giới hạn trung thực: không transcribe đủ 477 cột riêng lẻ (MCP context+mojibake). KHÔNG dùng nsaw-oac-poc.
+- column-level: **328/477 cột verify live từng cái** (0 fail); **149 cột tiếng Việt KHÔNG verify được** (oac-native transport double-encode non-ASCII — bug, ghi log) → corroborate qua count-match+queryability.
+- **TỔNG VALIDATION = 620 case** (209 offline + 411 live), all pass. KHÔNG dùng nsaw-oac-poc.
 
 ## (cũ) PHASE 0–4 offline · UAT 209 PASS
 Cập nhật: 2026-06-21. **run_all --with-legacy = 15/15 ✅** · UAT 209/0 FAIL/0 GAP · REPORT.md xong.
