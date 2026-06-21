@@ -29,7 +29,13 @@
 | DoD3 | Hash/diff ổn định đa máy (INV-3) | ✅ `.gitattributes` LF (root + 4 sub) |
 | DoD4 | Repo sạch + cleanliness-test (INV-4) | ✅ monorepo, check_clean SẠCH, hook |
 | DoD5 | learn: dedup/contradiction/supersede/typed-gate (INV-5) | ✅ test_learn2 + test_gate |
-| DoD6 | Staleness FAIL ồn (INV-6) | 🟡 **MỘT PHẦN** — cơ chế drift + lọc nhiễu xong & test offline; phần **probe live định kỳ + cổng SLA "FAIL khi EXTRACT_DATE quá hạn"** CHỜ owner (G2 token/live) |
+| DoD6 | Staleness FAIL ồn (INV-6) | 🟢 **CÓ BẰNG CHỨNG LIVE** — drift sensor + lọc nhiễu (offline); LIVE UAT qua oac-native: 62/63 dataset tồn tại live, structure 3 dataset P&L khớp 100% (TD_Metrics_Wide 42/42, PNL_Bridge 9/9, _Nganh 11/11), query trả dữ liệu thật; **bắt được drift thật** `DTF_CALC_MIS` (L0011). Còn lại (tùy chọn): cổng SLA-cadence tự động |
+
+### Live UAT (2026-06-21, oac-native read-only)
+- **Existence**: 62/63 KB dataset có trên OAC live. Drift: `(KGR) DTF_CALC_MIS` (closure) KHÔNG có live → L0011 (cần sửa catalog: có thể dataflow-only/đổi tên).
+- **Structure**: 3 dataset P&L trọng yếu — live column count khớp field_dictionary 100%; P&L codes (a4..a24, AOP_PER/AMT) hiện diện live.
+- **Queryability**: `execute_logical_sql` trả dữ liệu thật (tiếng Việt đúng) → chuỗi KB→XSA→live query thông suốt.
+- Giới hạn trung thực: KHÔNG transcribe đủ 477 cột (MCP trả về context + mojibake metadata → không tự-động-hoá toàn bộ được). Coverage = existence toàn bộ + structure/queryability các dataset P&L cốt lõi. Bằng chứng: `_work/kgr-governance-build/live_uat_report.json`.
 | DoD7 | ≥200 UAT offline | ✅ **209 PASS / 0 FAIL / 0 GAP** |
 | DoD8 | Test cũ luôn xanh (AC7) | ✅ validate_kb / qa_full / test_orchestrator |
 | DoD9 | AI lạ tự khám phá entrypoint | ✅ CLAUDE.md gốc + `kgr doctor` |

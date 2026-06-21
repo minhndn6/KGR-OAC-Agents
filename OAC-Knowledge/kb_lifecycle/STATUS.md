@@ -4,7 +4,15 @@
 > Spec: `DESIGN_v1_FINAL.md` · Kế hoạch: `PLAN.md`. Quy trình: design→review→chốt→plan→test-first→impl→test→UAT.
 > Regression gate sau mỗi task: `PYTHONUTF8=1 python kb_lifecycle/tests/run_all.py --with-legacy` PHẢI xanh.
 
-## Trạng thái: PHASE 0–4(offline) ✅ · UAT 209 PASS · **LOOP DỪNG — chờ owner**
+## Trạng thái: PHASE 0–4(offline) ✅ · **LIVE UAT đang chạy** (oac-native sống)
+### LIVE UAT (2026-06-21) — XONG batches 1–3. Bằng chứng: C:\Project\_work\kgr-governance-build\live_uat_report.json
+- Batch 1 ✅ existence: **62/63 dataset live**; drift `(KGR) DTF_CALC_MIS` (closure, không có live) → L0011.
+- Batch 2 ✅ structure (count khớp 100%): TD_Metrics_Wide 42/42, TD_Report_PNL_Bridge 9/9, _Nganh 11/11; P&L codes (a4..a24, AOP_*) hiện diện live.
+- Batch 3 ✅ queryability: `execute_logical_sql` trả dữ liệu thật (tiếng Việt đúng).
+- **DoD6 → 🟢 có bằng chứng live.** Giới hạn trung thực: KHÔNG transcribe đủ 477 cột (MCP trả context + mojibake metadata). CÒN LẠI (tùy chọn, nếu owner muốn exhaustive): describe nốt ~13 closure dataset + cổng SLA-cadence tự động.
+- Đã ghi L0011 + cập nhật REPORT/STATUS. KHÔNG dùng nsaw-oac-poc.
+
+## (cũ) PHASE 0–4 offline · UAT 209 PASS
 Cập nhật: 2026-06-21. **run_all --with-legacy = 15/15 ✅** · UAT 209/0 FAIL/0 GAP · REPORT.md xong.
 Phần còn lại đều cần owner: G1 ký GR · G2 token (drift live + UAT ≥500) · `gh auth login` để push GitHub.
 (File Phase 4 — run_uat.py/uat_cases.jsonl/REPORT.md — đang UNCOMMITTED; sẽ commit+push 1 lần khi owner auth.)
