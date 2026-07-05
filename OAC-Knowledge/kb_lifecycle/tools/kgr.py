@@ -97,6 +97,117 @@ def learn_governance():
     out["ok"] = ok
     return out
 
+# ── A7: .mcp.json vs Chrome process (drift đa-instance) ──────────────────────────
+import re as _re
+
+_UDD_RE = _re.compile(r"--user-data-dir[=\s]+(\"[^\"]+\"|'[^']+'|\S+)")
+
+
+def _default_mcp_files():
+    """3 .mcp.json THẬT: root + Dashboard-builder + Dataflow-builder."""
+    try:
+        ws = RT.workspace_root(start=str(HERE))
+    except Exception:
+        ws = Path(r"C:\Project\KGR-OAC-Agents")
+    return [ws / ".mcp.json", ws / "Dashboard-builder" / ".mcp.json", ws / "Dataflow-builder" / ".mcp.json"]
+
+
+def _extract_udd(cmdline):
+    """Lấy --user-data-dir=... từ 1 CommandLine string (bỏ quote). None nếu không có."""
+    if not cmdline:
+        return None
+    m = _UDD_RE.search(str(cmdline))
+    if not m:
+        return None
+    v = m.group(1)
+    if len(v) >= 2 and v[0] in "\"'" and v[-1] == v[0]:
+        v = v[1:-1]
+    return v.rstrip("\\/").strip() or None
+
+
+def _norm_udd(p):
+    """Chuẩn hóa user-data-dir để so trùng (case-insensitive trên Windows, bỏ trailing sep)."""
+    if not p:
+        return None
+    return str(p).replace("/", "\\").rstrip("\\").lower()
+
+
+def _read_chrome_processes():
+    """Danh sách CommandLine của chrome.exe đang chạy (Windows). Fail-open → [] nếu không lấy được."""
+    ps = (r"Get-CimInstance Win32_Process -Filter \"name='chrome.exe'\" "
+          r"| Select-Object -ExpandProperty CommandLine")
+    for cmd in (["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
+                ["wmic", "process", "where", "name='chrome.exe'", "get", "CommandLine"]):
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=25)
+            if r.returncode == 0 and r.stdout:
+                lines = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
+                lines = [ln for ln in lines if ln.lower() != "commandline"]
+                if lines:
+                    return lines
+        except Exception:
+            continue
+    return []
+
+
+def mcp_chrome_check(processes=None, mcp_files=None):
+    """THUẦN/tiêm-được. Đọc các .mcp.json → map server→user-data-dir; so với Chrome process (CommandLine).
+    Báo: server nào có/thiếu process, profile nào chạy trùng (2 process cùng user-data-dir = nguy cơ SingletonLock),
+    .mcp.json nào parse lỗi. processes/mcp_files tiêm để test hermetic; default = đọc file + process THẬT.
+    """
+    files = mcp_files if mcp_files is not None else _default_mcp_files()
+    procs = processes if processes is not None else _read_chrome_processes()
+
+    servers = {}          # server -> {"user_data_dir", "norm", "source", "running"}
+    parse_errors = []
+    for f in files:
+        f = Path(f)
+        if not f.is_file():
+            continue
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except Exception as e:
+            parse_errors.append(f"{f}: {e}")
+            continue
+        for name, spec in (data.get("mcpServers") or {}).items():
+            udd = None
+            for a in (spec.get("args") or []):
+                udd = _extract_udd(a)
+                if udd:
+                    break
+            servers[name] = {"user_data_dir": udd, "norm": _norm_udd(udd),
+                             "source": str(f), "running": False}
+
+    # user-data-dir đang chạy (từ process) → đếm để bắt trùng
+    running_norm = {}     # norm_udd -> count
+    proc_udds = []
+    for cl in (procs or []):
+        u = _extract_udd(cl)
+        n = _norm_udd(u)
+        proc_udds.append({"user_data_dir": u, "norm": n})
+        if n:
+            running_norm[n] = running_norm.get(n, 0) + 1
+
+    for name, info in servers.items():
+        info["running"] = bool(info["norm"]) and running_norm.get(info["norm"], 0) >= 1
+
+    missing_process = sorted([n for n, i in servers.items() if not i["running"]])
+    # trùng profile: bất kỳ user-data-dir nào có ≥2 process (bất kể có trong .mcp.json hay không)
+    duplicate_profiles = []
+    for n, c in running_norm.items():
+        if c >= 2:
+            owners = sorted([sn for sn, si in servers.items() if si["norm"] == n])
+            duplicate_profiles.append({"user_data_dir": n, "process_count": c, "servers": owners})
+
+    return {
+        "servers": servers,
+        "missing_process": missing_process,
+        "duplicate_profiles": duplicate_profiles,
+        "parse_errors": parse_errors,
+        "process_count": len(proc_udds),
+    }
+
+
 def cmd_where():
     print(json.dumps(RT.where(), ensure_ascii=False, indent=2)); return 0
 
@@ -143,8 +254,15 @@ def cmd_doctor():
     except Exception as e:
         lg = {"is_shim": False, "shim": f"error: {e}", "installed_copy": "n/a", "ok": False}
     rep["learn_governance"] = lg
+    try:
+        mc = mcp_chrome_check()   # đọc .mcp.json + Chrome process thật; fail-open bên trong
+    except Exception as e:
+        mc = {"error": str(e), "parse_errors": []}
+    rep["mcp_chrome"] = mc
+    # THÔNG TIN/cảnh báo: KHÔNG tự lật STATUS trừ khi .mcp.json PARSE LỖI (drift cấu hình thật).
+    mcp_ok = not (mc.get("parse_errors") or [])
     ok = bool(rep.get("kb_root_ok") and rep.get("repos_clean")
-              and not rep.get("physical_scratch") and lg.get("ok"))
+              and not rep.get("physical_scratch") and lg.get("ok") and mcp_ok)
     rep["STATUS"] = "OK" if ok else "ATTENTION"
     print(json.dumps(rep, ensure_ascii=False, indent=2))
     return 0 if ok else 1

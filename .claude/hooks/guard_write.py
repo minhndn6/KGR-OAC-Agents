@@ -41,6 +41,33 @@ def _deny(reason):
     sys.exit(0)
 
 
+def _hint_paths():
+    """Đường ghi đúng THẬT (qua kgr_runtime) để nhét vào additionalContext; fail-open nếu RT lỗi."""
+    try:
+        import kgr_runtime as RT
+        return str(RT.work_dir("<repo>")), str(RT.scratch("ten.ext"))
+    except Exception:
+        return (r"C:\Project\_kgr-state\work\<repo>\ (kgr_runtime.work_dir)",
+                r"%LOCALAPPDATA%\kgr-oac\runtime\... (kgr_runtime.scratch)")
+
+
+def _context(target, err):
+    """Fail-open KHÔNG im lặng: THÔNG TIN cho model (non-blocking) — KHÔNG set permissionDecision.
+    additionalContext là field hợp lệ của PreToolUse hook; bản Claude Code không hỗ trợ sẽ bỏ qua field lạ → an toàn.
+    """
+    work, scr = _hint_paths()
+    msg = (f"[guard_write] Không đánh giá được path {target!r} vì {err}. "
+           f"Hãy TỰ kiểm ghi đúng chỗ: scratch/state ra NGOÀI cây project — "
+           f"kgr_runtime.work_dir('<repo>') → {work} (giữ lại được) "
+           f"hoặc kgr_runtime.scratch('ten.ext') → {scr} (xóa được). "
+           f"KHÔNG ghi _work/ / _PNL_* / dump / file GENERATED trong cây (INV-4).")
+    print(json.dumps({"hookSpecificOutput": {
+        "hookEventName": "PreToolUse",
+        "additionalContext": msg,
+    }}, ensure_ascii=True))
+    sys.exit(0)   # non-blocking: KHÔNG permissionDecision → không auto-allow, chỉ inject context
+
+
 def main():
     try:
         data = json.load(sys.stdin)
@@ -58,7 +85,7 @@ def main():
         verdict, reason = H.classify(target, ws, rules, generated_abs)
     except Exception as e:
         _log(f"[fail-open] {target!r}: {e!r}")
-        _allow(); return
+        _context(target, repr(e)); return   # fail-open KHÔNG im lặng: THÔNG TIN (non-blocking), KHÔNG auto-allow
     if verdict in ("deny_junk", "deny_generated"):
         _deny(reason)
     else:
