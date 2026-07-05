@@ -20,12 +20,13 @@ Usage:
 import sys, os, json, time, re, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # OAC-Orchestrator/
-_WS = os.path.dirname(ROOT)  # workspace root (chứa _orchestration)
-# D9: durable resume state KHÔNG nằm trong repo (hygiene) và KHÔNG ở %LOCALAPPDATA% (wipe = mất recover).
-# Đặt ở <workspace>/_orchestration/blackboards: out-of-repo NHƯNG trong phạm vi backup dự án.
-# Giữ BB_DIR là biến global (test_orchestrator.py reassign được); override qua env.
+_WS = os.path.dirname(ROOT)  # workspace root
+# D9: durable resume state NGOÀI cây repo (agent không crawl → đỡ token) và KHÔNG ở %LOCALAPPDATA% (wipe = mất recover).
+# Đặt ở <workspace>.parent/_kgr-state/orchestration/blackboards: SIBLING project (ngoài crawl) NHƯNG trong backup.
+# Giữ BB_DIR là biến global (test_orchestrator.py reassign được); override qua env KGR_BB_DIR/KGR_ORCH_DIR/KGR_STATE_ROOT.
+_STATE = os.environ.get("KGR_STATE_ROOT") or os.path.join(os.path.dirname(_WS), "_kgr-state")
 BB_DIR = os.environ.get("KGR_BB_DIR") or os.path.join(
-    os.environ.get("KGR_ORCH_DIR") or os.path.join(_WS, "_orchestration"), "blackboards")
+    os.environ.get("KGR_ORCH_DIR") or os.path.join(_STATE, "orchestration"), "blackboards")
 TEMPLATE = os.path.join(ROOT, "blackboard.template.json")
 STEP_STATES = ("pending", "running", "ok", "fail", "skipped", "interrupted")
 MAX_ATTEMPTS = 3   # failure_policy.retry.max_attempts — enforce ở code, không chỉ trên giấy

@@ -9,9 +9,10 @@ Usage:
 """
 import sys, os, json, time, re
 
-# Lock dir đi theo workspace (chứa state runtime, gitignored) — tự-định-vị từ vị trí file, override bằng KGR_LOCK_DIR.
+# Lock dir NGOÀI cây project (_kgr-state sibling; ngoài crawl, trong backup) — tự-định-vị, override KGR_LOCK_DIR/KGR_STATE_ROOT.
 _WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # OAC-Orchestrator -> workspace
-LOCK_DIR = os.environ.get("KGR_LOCK_DIR") or os.path.join(_WS, "_orchestration", "locks")
+_STATE = os.environ.get("KGR_STATE_ROOT") or os.path.join(os.path.dirname(_WS), "_kgr-state")
+LOCK_DIR = os.environ.get("KGR_LOCK_DIR") or os.path.join(_STATE, "orchestration", "locks")
 DEFAULT_TTL = 1800  # 30'
 
 def slug(a): return re.sub(r'[^0-9A-Za-z._-]+', '_', a).strip('_')[:120]

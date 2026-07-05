@@ -59,18 +59,63 @@ def scan_all(rules=None):
             out.append((p.name, f, pat))
     return out
 
+# ── physical scan (INV-4) — bắt scratch nằm RÁC trong cây DÙ bị .gitignore ─────
+# Lỗ hổng cũ: scan() chỉ thấy git-TRACKED → scratch gitignored (vd Dashboard-builder/_PNL_*.md,
+# _pivot_*.png) vô hình với gate → báo "SẠCH" giả. scan_physical quét file VẬT LÝ ngoài các
+# vùng scratch/product hợp lệ. Scratch hợp lệ phải nằm trong <repo>/_work/ (xem CONVENTIONS.md).
+SCRATCH_OK_DIRS = {"_work", "_archived", ".git", ".claude", ".secrets", "__pycache__",
+                   "node_modules", "raw", "learnings", "_oac_extract", "_orchestration"}
+SCRATCH_EXT = (".png", ".jpg", ".jpeg", ".gif", ".json", ".txt", ".js", ".csv",
+               ".html", ".network-response", ".lock")
+
+def scan_physical(repo, rules=None):
+    rules = rules or load_rules()
+    repo = Path(repo); out = []
+    for dp, dirs, files in os.walk(repo):
+        rel = Path(dp).relative_to(repo); parts = rel.parts
+        if any(p in SCRATCH_OK_DIRS for p in parts):
+            dirs[:] = []; continue
+        dirs[:] = [d for d in dirs if d not in SCRATCH_OK_DIRS]
+        for fn in files:
+            relpath = (str(rel / fn) if parts else fn).replace("\\", "/")
+            pat = violation(relpath, rules)                       # named scratch (deny_glob) ở mọi nơi
+            if pat is None and fn.startswith("_") and fn.lower().endswith(SCRATCH_EXT):
+                pat = "_*scratch (ảnh/dump/response) ngoài _work/"
+            if pat:
+                out.append((relpath, pat))
+    return out
+
+def scan_all_physical(rules=None):
+    rules = rules or load_rules()
+    out = []
+    for p in repos_to_scan():
+        for f, pat in scan_physical(p, rules):
+            out.append((p.name, f, pat))
+    return out
+
 def main():
     targets = repos_to_scan()
     if not targets:
         print("check_clean: KHÔNG có git repo nào (chưa init?)."); return 0
+    strict = "--strict" in sys.argv
     v = scan_all()
+    phys = scan_all_physical()
     for label, f, pat in v:
-        print(f"  DIRTY {label}/{f}   (match {pat})")
+        print(f"  DIRTY       {label}/{f}   (match {pat})")
+    for label, f, pat in phys:
+        print(f"  SCRATCH-RÁC {label}/{f}   (match {pat})")
+    rc = 0
     if v:
         print(f"\ncheck_clean: {len(v)} file scratch/state bị TRACK -> BẨN. Gỡ: git rm --cached + .gitignore scoped.")
-        return 1
-    print(f"check_clean: SẠCH (quét {len(targets)} repo: {[p.name for p in targets]}).")
-    return 0
+        rc = 1
+    if phys:
+        tail = "" if strict else "  [WARN — thêm --strict để fail gate]"
+        print(f"\ncheck_clean: {len(phys)} file scratch nằm RÁC trong cây (ngoài _work/). "
+              f"Chuyển vào <repo>/_work/ hoặc dùng kgr_runtime.scratch().{tail}")
+        if strict: rc = 1
+    if not v and not phys:
+        print(f"check_clean: SẠCH (quét {len(targets)} repo: {[p.name for p in targets]}).")
+    return rc
 
 if __name__ == "__main__":
     sys.exit(main())

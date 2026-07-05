@@ -4,13 +4,27 @@
 > OAC-Orchestrator, Dashboard-builder, Dataflow-builder). Cơ chế chi tiết: `OAC-Knowledge/kb_lifecycle/`.
 > Kiểm tra nhanh sức khỏe: `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor`.
 
-## 1. KHÔNG ghi rác vào repo (hygiene — INV-4)
-- **TUYỆT ĐỐI KHÔNG** tạo file scratch/handoff/state trong cây 4 repo (vd `_PNL_*.md`, dump, screenshot, blackboard).
-- Lấy đường ghi hợp lệ bằng API, đừng tự đoán:
-  - Scratch tạm (xóa được): `kgr_runtime.scratch("ten.ext")` → `%LOCALAPPDATA%\kgr-oac\runtime\…` (ngoài repo, ngoài backup).
-  - State bền (resume/blackboard/lock): `kgr_runtime.blackboards_dir()/locks_dir()` → `<workspace>\_orchestration\…` (ngoài repo NHƯNG trong backup).
-  - `from kb_lifecycle.tools import kgr_runtime` hoặc chạy `python OAC-Knowledge/kb_lifecycle/tools/kgr.py where`.
-- Cleanliness gate: `python OAC-Knowledge/kb_lifecycle/tools/check_clean.py` (FAIL nếu lỡ track scratch).
+## 1. KHÔNG ghi rác vào cây project — MỌI scratch/state ra NGOÀI (hygiene — INV-4)
+> Vì sao: file tạm nằm trong cây → agent (Read/Glob/Explore) crawl vào đọc → **đốt token**. Nên scratch/state
+> nằm ở `C:\Project\_kgr-state\` (sibling, ngoài crawl NHƯNG trong backup) hoặc `%LOCALAPPDATA%` (xóa được).
+- **TUYỆT ĐỐI KHÔNG** tạo file scratch/handoff/state trong cây project (vd `_PNL_*.md`, dump, screenshot, blackboard, `_work/`, `_orchestration/`).
+- Lấy đường ghi hợp lệ bằng API, đừng tự đoán (`python OAC-Knowledge/kb_lifecycle/tools/kgr.py where`):
+
+  | Loại | Gọi API | Vị trí (NGOÀI cây) | Backup |
+  |---|---|---|---|
+  | Scratch "giữ lại được" (thay `<repo>/_work/`) | `kgr_runtime.work_dir("<repo>")` | `C:\Project\_kgr-state\work\<repo>\` | ✅ |
+  | State bền (resume/blackboard/lock) | `kgr_runtime.blackboards_dir()/locks_dir()` | `C:\Project\_kgr-state\orchestration\…` | ✅ |
+  | Scratch tạm (xóa được) | `kgr_runtime.scratch("ten.ext")` | `%LOCALAPPDATA%\kgr-oac\runtime\…` | ❌ |
+
+  `from kb_lifecycle.tools import kgr_runtime` (hoặc thêm `OAC-Knowledge/kb_lifecycle/tools` vào `sys.path`).
+  *(Ngoại lệ: `OAC-Knowledge/_work/staging/` giữ trong cây làm input pipeline rebuild — gitignored + đã chặn crawl.)*
+- **ĐÃ TỰ ĐỘNG ÉP (không còn dựa trí nhớ):**
+  1. **PreToolUse guard** (`.claude/hooks/guard_write.py`) — DENY ngay khi Write/Edit vào file GENERATED hoặc path scratch trong cây; gợi ý `work_dir()`/`scratch()`.
+  2. **Stop gate** (`.claude/hooks/gate_clean.py`) — chặn kết thúc session nếu còn scratch trong cây.
+  3. **Git pre-commit** (`.githooks/pre-commit`, bật bằng `kgr.py setup`) — chặn commit nếu tree bẨN.
+  4. **deny-Read** (`.claude/settings.json`) — agent không crawl được `_work/`/state → đỡ token.
+  5. **Retention:** `python OAC-Knowledge/kb_lifecycle/tools/kgr.py gc --apply` — dọn tmp/dump cũ, archive blackboard >30 ngày.
+- Tự kiểm khi cần: `python OAC-Knowledge/kb_lifecycle/tools/check_clean.py --strict` (0 = sạch). `kgr.py doctor` báo `physical_scratch`.
 
 ## 2. Ghi TRI THỨC mới vào đâu? Hỏi router, đừng đoán (anti-rot — INV-2)
 - `python OAC-Knowledge/kb_lifecycle/tools/kb_route.py classify --type <loại>` → trả đích + cách ghi + validation bắt buộc.

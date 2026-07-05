@@ -16,3 +16,8 @@
 - Thực thi trên OAC (dựng/sửa viz, verify số, persist) → đọc `OAC_DASHBOARD_MASTERY.md` (skill `oac-dashboard-builder`).
 - Tạo dataset gộp/join → `C:\Project\KGR-OAC-Agents\Dataflow-builder\OAC_DATAFLOW_MASTERY.md`.
 - Viết tài liệu & giao tiếp bằng tiếng Việt. Dừng ở gate trình user duyệt plan/blueprint trước khi build. ADD-only trên workbook production.
+
+## Hygiene — KHÔNG ghi rác file (INV-4)
+- **MỌI file tạm/scratch** (screenshot `.png`, dump model `.json`, `*.network-response`, snapshot, blueprint/handoff `_*.md`) → ghi RA NGOÀI cây: `kgr_runtime.work_dir("Dashboard-builder")` (giữ lại được) hoặc `kgr_runtime.scratch("ten")` (xóa được). **KHÔNG tạo `_work/` hay `_PNL_*.md` trong repo** — PreToolUse guard sẽ DENY.
+- MCP `chrome-dashboard` chỉ ghi được trong workspace-root của nó (`Dashboard-builder/`) → ghi xong **chuyển ngay ra `kgr_runtime.work_dir("Dashboard-builder")`**. Cần dùng lại ở pipeline rebuild → copy sang `OAC-Knowledge/_work/staging/` (ngoại lệ input, giữ trong cây).
+- Đã tự động ép (guard + Stop gate + deny-Read; xem CLAUDE.md gốc §1). Tự kiểm khi cần: `python OAC-Knowledge/kb_lifecycle/tools/check_clean.py --strict`. Tra đích: `kgr.py where`.

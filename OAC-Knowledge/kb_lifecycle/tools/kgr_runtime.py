@@ -2,19 +2,22 @@
 # -*- coding: utf-8 -*-
 """kgr_runtime — phân vùng đường ghi cho MỌI agent (D9/D10/INV-4). API thay cho "nhắc nhở".
 
-Hai lớp tách bạch:
-  • DURABLE (resume state: blackboards/locks) → <workspace>/_orchestration/  — out-of-repo NHƯNG trong backup dự án.
-  • EPHEMERAL (scratch/extracts/dumps)        → %LOCALAPPDATA%/kgr-oac/runtime — ngoài repo, ngoài backup, xóa tùy ý.
+MỌI đường ghi-tạm/state nằm NGOÀI cây project (để agent không crawl vào → đỡ đốt token). Hai lớp:
+  • DURABLE (blackboards/locks/build_state + scratch "giữ lại được") → <state_root>/ = <workspace>/../_kgr-state/
+    — SIBLING của project root: NGOÀI tầm crawl NHƯNG vẫn trong vùng backup dự án (C:\\Project\\…).
+        orchestration/  (blackboards, locks, build_state, resume)   ·   work/<repo>/  (thay <repo>/_work/)
+  • EPHEMERAL (scratch/extracts/dumps thuần) → %LOCALAPPDATA%/kgr-oac/runtime — ngoài repo, ngoài backup, xóa tùy ý.
 
 Hợp đồng = env var (KHÔNG truyền qua session/MCP nên DEFAULT phải đúng khi zero-env):
-  KGR_WORKSPACE, KGR_ORCH_DIR (durable), KGR_RUNTIME_DIR / LOCALAPPDATA (ephemeral).
-Self-locating: workspace = thư mục chứa cả OAC-Knowledge + OAC-Orchestrator (đi lên từ __file__).
+  KGR_WORKSPACE, KGR_STATE_ROOT / KGR_ORCH_DIR / KGR_WORK_DIR (durable), KGR_RUNTIME_DIR / LOCALAPPDATA (ephemeral).
+Self-locating: workspace = thư mục chứa cả OAC-Knowledge + OAC-Orchestrator (đi lên từ __file__); state_root = workspace.parent/_kgr-state.
 Bản này là CANONICAL (OAC-Knowledge); repo khác dùng bản sao ĐÔNG CỨNG cùng nội dung (đừng sửa lệch).
 """
 import os, re
 from pathlib import Path
 
 _SENTINELS = ("OAC-Knowledge", "OAC-Orchestrator")
+_STATE_DIRNAME = "_kgr-state"
 
 def _env(env):
     return os.environ if env is None else env
@@ -32,18 +35,31 @@ def workspace_root(env=None, start=None):
             pass
     raise RuntimeError("Không tìm thấy workspace root (dir chứa OAC-Knowledge + OAC-Orchestrator). Đặt KGR_WORKSPACE.")
 
-# ── DURABLE (in-backup) ──────────────────────────────────────────────
+# ── DURABLE (in-backup, NGOÀI cây project) ───────────────────────────
+def state_root(env=None, start=None):
+    """Gốc state bền, SIBLING của workspace (ngoài crawl, trong backup). Zero-env deterministic."""
+    e = _env(env)
+    if e.get("KGR_STATE_ROOT"):
+        return Path(e["KGR_STATE_ROOT"])
+    return workspace_root(e, start).parent / _STATE_DIRNAME
+
 def orch_dir(env=None, start=None):
     e = _env(env)
     if e.get("KGR_ORCH_DIR"):
         return Path(e["KGR_ORCH_DIR"])
-    return workspace_root(e, start) / "_orchestration"
+    return state_root(e, start) / "orchestration"
 
 def blackboards_dir(env=None, start=None):
     return orch_dir(env, start) / "blackboards"
 
 def locks_dir(env=None, start=None):
     return orch_dir(env, start) / "locks"
+
+def work_dir(repo=None, env=None, start=None):
+    """Scratch 'giữ lại được' NGOÀI cây (thay <repo>/_work/). repo=None -> gốc work/."""
+    e = _env(env)
+    base = Path(e["KGR_WORK_DIR"]) if e.get("KGR_WORK_DIR") else state_root(e, start) / "work"
+    return base / _slug(repo) if repo else base
 
 # ── EPHEMERAL (ngoài backup) ─────────────────────────────────────────
 def runtime_dir(env=None):
@@ -83,10 +99,13 @@ def atomic_write(path, data, encoding="utf-8"):
 def where(env=None, start=None):
     return {
         "workspace": str(workspace_root(env, start)),
-        "durable_orchestration": str(orch_dir(env, start)),
-        "  blackboards": str(blackboards_dir(env, start)),
-        "  locks": str(locks_dir(env, start)),
-        "ephemeral_runtime": str(runtime_dir(env)),
+        "state_root (durable, NGOÀI cây, in-backup)": str(state_root(env, start)),
+        "  durable_orchestration": str(orch_dir(env, start)),
+        "    blackboards": str(blackboards_dir(env, start)),
+        "    locks": str(locks_dir(env, start)),
+        "  work (thay <repo>/_work/)": str(work_dir(env=env, start=start)),
+        "    work(example repo)": str(work_dir("Dashboard-builder", env, start)),
+        "ephemeral_runtime (ngoài backup, xóa được)": str(runtime_dir(env)),
         "  scratch(example)": str(scratch_dir("example", env)),
         "  extracts": str(extracts_dir(env)),
     }

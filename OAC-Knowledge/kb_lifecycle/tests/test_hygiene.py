@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""TDD P1.2 — durable state ra khỏi repo, vào <WS>/_orchestration (in-backup), KHÔNG vào %LOCALAPPDATA% (D9/INV-4).
-Chạy: PYTHONUTF8=1 python kb_lifecycle/tests/test_hygiene.py"""
+"""TDD P1.2 — durable state ra NGOÀI cây project (sibling _kgr-state/orchestration; ngoài crawl, in-backup),
+KHÔNG vào %LOCALAPPDATA% (D9/INV-4). Chạy: PYTHONUTF8=1 python kb_lifecycle/tests/test_hygiene.py"""
 import os, sys, importlib.util
 from pathlib import Path
 
@@ -26,13 +26,13 @@ def load(envpatch=None):
         os.environ.clear(); os.environ.update(old)
 
 def main():
-    print("== default BB_DIR ngoài repo, trong _orchestration ==")
+    print("== default BB_DIR NGOÀI cây project, trong _kgr-state/orchestration ==")
     m = load()
     bbd = str(m.BB_DIR)
-    chk("_orchestration" in bbd and bbd.endswith(os.path.join("_orchestration", "blackboards")),
-        f"BB_DIR -> _orchestration/blackboards ({bbd})")
-    chk(os.path.join("OAC-Orchestrator", "blackboards") not in bbd,
-        "BB_DIR KHÔNG nằm trong cây repo OAC-Orchestrator")
+    chk("_kgr-state" in bbd and bbd.endswith(os.path.join("orchestration", "blackboards")),
+        f"BB_DIR -> _kgr-state/orchestration/blackboards ({bbd})")
+    chk(str(WS) not in bbd, "BB_DIR NGOÀI cây workspace (sibling _kgr-state; agent không crawl)")
+    chk(os.path.dirname(str(WS)) in bbd, "BB_DIR vẫn trong vùng backup (cùng parent C:\\Project)")
     la = os.environ.get("LOCALAPPDATA", "")
     chk(not (la and bbd.startswith(la)), "BB_DIR KHÔNG nằm dưới %LOCALAPPDATA% (durable phải backed-up)")
 

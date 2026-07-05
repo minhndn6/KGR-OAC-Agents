@@ -1,0 +1,41 @@
+{
+  "$comment": "SHARED workspace settings (committed) — hygiene enforcement (INV-4). Lần đầu cần /trust. permissions.local (allowlist Bash) nằm ở settings.local.json. deny-Read chặn agent crawl vào thư mục rác/state (đốt token). hooks (guard_write/gate_clean) được thêm sau khi script tồn tại.",
+  "permissions": {
+    "deny": [
+      "Read(**/_work/**)",
+      "Read(**/.claude/worktrees/**)",
+      "Read(**/_orchestration/tmp/**)",
+      "Read(//c/Project/_kgr-state/work/**)",
+      "Read(//c/Project/_kgr-state/archived/**)",
+      "Read(//c/Project/_kgr-state/orchestration/tmp/**)",
+      "Read(C:/Project/_kgr-state/work/**)",
+      "Read(C:/Project/_kgr-state/archived/**)",
+      "Read(C:/Project/_kgr-state/orchestration/tmp/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}\\.claude\\hooks\\guard_write.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}\\.claude\\hooks\\gate_clean.py\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

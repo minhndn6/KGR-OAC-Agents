@@ -8,9 +8,12 @@
 tokens.json
 **/tokens.json
 
-# Local config workspace-ROOT (có thể chứa token/MCP creds).
-# CHỈ root /.claude/ — KHÔNG đụng .claude/skills của builder (đó là sản phẩm!).
-/.claude/
+# Local config workspace-ROOT: settings.local.json (allowlist/creds riêng máy) + worktrees → ignore.
+# settings.json + hooks/ ĐƯỢC track (enforcement hygiene INV-4, chia sẻ theo repo). .claude/skills builder KHÔNG đụng.
+# (Creds vẫn an toàn: *.env / tokens.json / .secrets/ đã ignore ở trên.)
+/.claude/settings.local.json
+/.claude/worktrees/
+**/.claude/worktrees/
 
 # ─────────────────────────────────────────────────────────────
 # Runtime & durable state (giữ NGOÀI repo theo quy ước hygiene)

@@ -24,13 +24,13 @@ def main():
     chk(CLAUDEMD.is_file(), "C:/Project/KGR-OAC-Agents/CLAUDE.md tồn tại")
     if CLAUDEMD.is_file():
         t = CLAUDEMD.read_text(encoding="utf-8").lower()
-        for tok in ["kgr", "scratch", "kb_route", "_orchestration", "không ghi"]:
+        for tok in ["kgr", "scratch", "kb_route", "_kgr-state", "không ghi"]:
             chk(tok.lower() in t, f"CLAUDE.md nhắc '{tok}'")
 
     print("== kgr CLI ==")
     chk(KGR.is_file(), "tools/kgr.py tồn tại")
     w = run("where")
-    chk(w.returncode == 0 and "kgr-oac" in w.stdout and "_orchestration" in w.stdout, "`kgr where` in runtime + durable root")
+    chk(w.returncode == 0 and "kgr-oac" in w.stdout and "_kgr-state" in w.stdout, "`kgr where` in runtime + durable root (NGOÀI cây)")
     d = run("doctor")
     ok_json = False; rep = {}
     try: rep = json.loads(d.stdout); ok_json = True
