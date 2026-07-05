@@ -7,12 +7,12 @@
 - **Writes serialize** (tuần tự, độc quyền theo artifact): `oac-dashboard-builder` (save workbook), `oac-dataflow-builder` (save/run dataflow). KHÔNG bao giờ 2 writer cùng 1 workbook/dataflow.
 
 ## Profile-per-actor (BẮT BUỘC khi song song)
-Hiện chỉ 2 profile cho ≥3 actor → lineage live-read **đang dùng chung** `profile-dashboard` = đụng độ với writer. Cần:
+Đã có 3 profile cho 3 actor (chrome-lineage ĐÃ tạo tại ROOT `./.mcp.json` — hết cảnh lineage dùng chung `profile-dashboard`):
 | Agent | MCP server | profile |
 |---|---|---|
 | oac-dashboard-builder | chrome-dashboard | profile-dashboard |
 | oac-dataflow-builder | chrome-dataflow | profile-dataflow |
-| kgr-oac-lineage (live-read) | **chrome-lineage (TẠO MỚI)** | **profile-lineage (TẠO MỚI)** |
+| kgr-oac-lineage (live-read) | **chrome-lineage (ĐÃ tạo tại ROOT `./.mcp.json`)** | **profile-lineage (ĐÃ tạo)** |
 | (mỗi slot song song thêm → 1 profile riêng) | | |
 → Mỗi profile = 1 cookie/CSRF/_abck riêng → hết đụng "browser already running" + hết rotate token lẫn nhau.
 

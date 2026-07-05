@@ -4,8 +4,10 @@
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@latest",
-        "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow"
+        "chrome-devtools-mcp@1.5.0",
+        "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow",
+        "--screenshotFormat=webp",
+        "--screenshotMaxWidth=1400"
       ]
     }
   }

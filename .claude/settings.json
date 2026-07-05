@@ -10,7 +10,9 @@
       "Read(//c/Project/_kgr-state/orchestration/tmp/**)",
       "Read(C:/Project/_kgr-state/work/**)",
       "Read(C:/Project/_kgr-state/archived/**)",
-      "Read(C:/Project/_kgr-state/orchestration/tmp/**)"
+      "Read(C:/Project/_kgr-state/orchestration/tmp/**)",
+      "Read(**/Login Data)",
+      "Read(**/Login Data/**)"
     ]
   },
   "hooks": {

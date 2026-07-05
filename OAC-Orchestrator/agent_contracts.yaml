@@ -15,7 +15,7 @@ agents:
     inputs: {question_type: "source|trace|impact|live_number", "metric?": str, "dimension?": str, "grain?": str, "field?": str}
     outputs: "JSON theo consultation_playbook (source/trace/impact); số live kèm 'tính đến thời điểm query'"
     backends: ["nsaw-knowledge (NSAW_Claude — ngữ nghĩa bảng vật lý, CÓ THỂ STALE, OAC thắng)"]
-    exclusive_resource: "chrome-lineage/profile-lineage (ĐỀ XUẤT — chưa tạo; tạm chung profile-dashboard là RỦI RO khi song song)"
+    exclusive_resource: "chrome-lineage/profile-lineage (ĐÃ tạo tại ROOT ./.mcp.json — server chrome-lineage, profile riêng profile-lineage; không còn dùng chung profile-dashboard)"
     gate: none
     status: "ĐÃ có contract: skill/.../references/consultation_playbook.md"
 

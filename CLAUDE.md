@@ -4,6 +4,10 @@
 > OAC-Orchestrator, Dashboard-builder, Dataflow-builder). Cơ chế chi tiết: `OAC-Knowledge/kb_lifecycle/`.
 > Kiểm tra nhanh sức khỏe: `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor`.
 
+## 0. Định tuyến (main = orchestrator) — [MỀM]
+- Yêu cầu GHI (dựng/sửa dataflow/workbook) → main **KHÔNG tự thực thi**; PHẢI gọi skill con (`oac-dashboard-builder`/`oac-dashboard-designer`, `oac-dataflow-builder`) hoặc orchestrator. Main chỉ điều phối + gate.
+- (Đây là chỉ-thị mềm; cơ chế ép cứng qua artifact-gate ở sprint sau.)
+
 ## 1. KHÔNG ghi rác vào cây project — MỌI scratch/state ra NGOÀI (hygiene — INV-4)
 > Vì sao: file tạm nằm trong cây → agent (Read/Glob/Explore) crawl vào đọc → **đốt token**. Nên scratch/state
 > nằm ở `C:\Project\_kgr-state\` (sibling, ngoài crawl NHƯNG trong backup) hoặc `%LOCALAPPDATA%` (xóa được).

@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "chrome-dashboard": {
+    "chrome-lineage": {
       "command": "npx",
       "args": [
         "-y",
         "chrome-devtools-mcp@1.5.0",
-        "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard",
+        "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-lineage",
         "--screenshotFormat=webp",
         "--screenshotMaxWidth=1400"
       ]
