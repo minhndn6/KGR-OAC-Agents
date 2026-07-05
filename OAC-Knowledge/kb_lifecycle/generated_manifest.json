@@ -3,7 +3,7 @@
     "sha256": "0a7df09af0da62c072a7c24261b677fbeaf5463415a839e2542781dcb62ac9f9"
   },
   "dataflow_catalog.yaml": {
-    "sha256": "8dfaff60b814fde22e00a676984b96a8402c69c1275e95333e18ee6cf4e38026"
+    "sha256": "136139cbe853ca86b32e340648b0fb20217b39f9b8260d104dc0a7dc9c6acdc9"
   },
   "dataset_catalog.yaml": {
     "sha256": "a1db94d9a9917552f089b111dc0e1258dfd7c502b62f0cf0b0b0e94e096c14e3"
@@ -102,6 +102,6 @@
     "sha256": "7137f48b928ccacd906960aee7a83ccbd2140723e166ac66707242ca387700c4"
   },
   "workbook_catalog.yaml": {
-    "sha256": "9b491bb1fc8d4a97854e5d3e8c870ffaf40a254fa2b039dd4ce32ca3dcc8fb96"
+    "sha256": "1e2fb60ac13c63549ff034259b2384c6a44f8eda44df8590a971bc6b71f78bc4"
   }
 }

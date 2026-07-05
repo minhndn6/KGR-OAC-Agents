@@ -1313,7 +1313,7 @@ workbooks:
   (KGR) BRD.BC01_Daily_Summary:
     slug: BC01_Daily_Summary
     n_datasources: 8
-    n_datasources_used: 6
+    n_datasources_used: 7
     datasources:
     - name: AOP LINE CF
       owner: anhdk@bizin.vn
@@ -1323,7 +1323,7 @@ workbooks:
       used: true
     - name: (KGR) DTF_DAILY_KENH_CHUOI
       owner: minhndn@bizin.vn
-      used: false
+      used: true
     - name: TD_Report_Long
       owner: minhndn@bizin.vn
       used: true
@@ -1389,8 +1389,8 @@ workbooks:
             CAST(@calculation("Interger") AS CHAR)
             )
             )
-        - field: TtrngSPmi_34
-          column_id: TtrngSPmi_34
+        - field: TtrngSPmi
+          column_id: TtrngSPmi
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
           sources:
           - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
@@ -1399,6 +1399,11 @@ workbooks:
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
           sources:
           - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: LN_GOP_KD
+          column_id: LN_GOP_KD
+          expression: XSA('minhndn@bizin.vn'.'(KGR) DTF_DAILY_KENH_CHUOI')."KGR__DTF_DAILY_KENH_CHUOI"."LN_GOP_KD"
+          sources:
+          - (KGR) DTF_DAILY_KENH_CHUOI.LN_GOP_KD
         - field: CPCKKM_21
           column_id: CPCKKM_21
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"
@@ -1474,8 +1479,8 @@ workbooks:
             CAST(@calculation("Interger") AS CHAR)
             )
             )
-        - field: TtrngSPmi_34
-          column_id: TtrngSPmi_34
+        - field: TtrngSPmi
+          column_id: TtrngSPmi
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Tỷ trọng SP mới"
           sources:
           - (KGR) DTF_CALC_INVOICE_MEMO_#.Tỷ trọng SP mới
@@ -1484,6 +1489,11 @@ workbooks:
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."Doanh số thực tế"
           sources:
           - (KGR) DTF_CALC_INVOICE_MEMO_#.Doanh số thực tế
+        - field: LN_GOP_KD
+          column_id: LN_GOP_KD
+          expression: XSA('minhndn@bizin.vn'.'(KGR) DTF_DAILY_KENH_CHUOI')."KGR__DTF_DAILY_KENH_CHUOI"."LN_GOP_KD"
+          sources:
+          - (KGR) DTF_DAILY_KENH_CHUOI.LN_GOP_KD
         - field: CPCKKM_21
           column_id: CPCKKM_21
           expression: XSA('anhdk@bizin.vn'.'(KGR) DTF_CALC_INVOICE_MEMO_#')."Columns"."CP CKKM"

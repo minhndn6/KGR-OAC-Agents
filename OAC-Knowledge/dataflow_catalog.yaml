@@ -7,6 +7,7 @@ _meta:
     (xem archive_recommendations.md).
 dataflows:
   KGR_DF_TD_Metrics_bk:
+    description: 'Dựng bảng lãi lỗ (P&L) cấp Tập đoàn theo kỳ, đi từ doanh số thực tế xuống tới lợi nhuận sau thuế. Lấy doanh thu/giá vốn từ dataflow gốc, ghép kế hoạch AOP và danh mục chỉ tiêu. Xuất bảng dạng ngang (TD_Metrics_Wide) và dạng dài (TD_Report_Long).'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_TD_Metrics_bk'''
     name: KGR_DF_TD_Metrics_bk
     object_path:
@@ -501,6 +502,7 @@ dataflows:
       - name: AOP_Per_24
         expression: CASE WHEN "Metric_Code"=24 THEN null ELSE "AOP_Per" END
   (KGR) 1. DTF_CALC_INVOICE_MEMO_#:
+    description: 'Dataflow gốc tính doanh thu và giá vốn ở mức từng dòng hóa đơn. Hợp nhất hóa đơn bán hàng với chứng từ điều chỉnh giảm (credit memo) để ra doanh thu thực tế; tính giá vốn theo 3 tầng (ưu tiên giá vốn mục tiêu, thiếu thì lấy giá vốn tồn kho); trừ chiết khấu khuyến mãi (CKKM). Chỉ tính cho 2 pháp nhân ''CTCP LD Kangaroo Quốc tế'' và ''Chi nhánh HCM'', chỉ lấy giao dịch đã hạch toán, loại vụ việc ''HTL'' và khách ký gửi. Là nguồn dữ liệu cho hầu hết báo cáo doanh thu, lợi nhuận và SFC.'
     dataflow_id: '''anhdk@bizin.vn''.''(KGR) 1. DTF_CALC_INVOICE_MEMO_V2'''
     name: (KGR) 1. DTF_CALC_INVOICE_MEMO_#
     object_path:
@@ -1572,6 +1574,7 @@ dataflows:
       aggregations:
       - CUSTRECORD_SCV_TY_LE_PER_LUONG = avg(CUSTRECORD_SCV_TY_LE_PER_LUONG)
   (KGR) 5. DTF_CALC_MIS:
+    description: 'Bản tính doanh thu/giá vốn/CKKM phục vụ báo cáo quản trị, giữ thêm các chiều chuỗi, model và kỳ để xem số theo nhiều góc. Lấy cùng nguồn hóa đơn và credit memo như dataflow gốc.'
     dataflow_id: '''anhdk@bizin.vn''.''(KGR) 1. DTF_CALC_MIS'''
     name: (KGR) 5. DTF_CALC_MIS
     object_path:
@@ -2596,6 +2599,7 @@ dataflows:
       - name: Month Key
         expression: YEAR("GVMT_LINE_START_DATE") * 100 + MONTH("GVMT_LINE_START_DATE")
   DF_Nganh_Report_Long_TD:
+    description: 'Cộng số liệu các ngành thành dòng tổng toàn Tập đoàn (theo từng chỉ tiêu và từng ngày chốt số), bổ sung vào bảng lãi lỗ theo ngành.'
     dataflow_id: '''ce6fc407-89cb-4e42-9c09-dba4972e8951''.''DF_Nganh_Report_Long_TD'''
     name: DF_Nganh_Report_Long_TD
     object_path: /users/minhndn@bizin.vn
@@ -2668,6 +2672,7 @@ dataflows:
       - AOP_Amount
       - ID CLASS
   (KGR) DF_ACTUAL_AOP_EXPENSE:
+    description: 'Ghép bảng so sánh thực tế–kế hoạch với bảng chi phí thực, tạo báo cáo thực tế so với kế hoạch kèm chi phí thực ghi sổ, chi tiết theo kỳ, pháp nhân, ngành, chuỗi.'
     dataflow_id: '''d216fd48-fd32-42d9-ab97-fc2e2e9b4614''.''(KGR) DF_ACTUAL_AOP_EXPENSE'''
     name: (KGR) DF_ACTUAL_AOP_EXPENSE
     object_path: /shared/(KGR) 1.Implement/(KGR) Data Flow
@@ -2955,6 +2960,7 @@ dataflows:
       - CP Dự phòng = sum(CP Dự phòng)
       - LNTT = sum(LNTT)
   DF_TD_Report_PNL_Bridge_Nganh:
+    description: 'Giống biểu đồ thác nước lãi lỗ Tập đoàn nhưng vẽ cho từng ngành, mỗi ngành cộng dồn riêng theo ngày chốt số.'
     dataflow_id: '''b9af193b-0871-430d-aae5-bb90ecfaf792''.''DF_TD_Report_PNL_Bridge_Nganh'''
     name: DF_TD_Report_PNL_Bridge_Nganh
     object_path: /users/minhndn@bizin.vn
@@ -3150,6 +3156,7 @@ dataflows:
       - cum_after
       - AOP_LNTT
   DF_TD_Report_PNL_Bridge:
+    description: 'Chuẩn bị dữ liệu cho biểu đồ thác nước lãi lỗ Tập đoàn: mỗi kỳ gồm 14 dòng (8 bước tăng/giảm và 6 mốc cộng dồn) đi từ doanh thu đến lợi nhuận trước thuế, kèm giá trị đầu và cuối mỗi bước.'
     dataflow_id: '''250b6fb8-6a76-4416-8ebc-7694916ae7c6''.''DF_TD_Report_PNL_Bridge'''
     name: DF_TD_Report_PNL_Bridge
     object_path: /users/minhndn@bizin.vn
@@ -3329,6 +3336,7 @@ dataflows:
       - cum_after
       - AOP_LNTT
   (KGR) DF_FACT_EXPENSE:
+    description: 'Gộp chi phí thực ghi sổ (sổ cái kế toán) với bút toán ước tính về cùng một mức chi tiết, tạo bảng chi phí thực dạng ngang. Chỉ lấy các tài khoản chi phí (loại ''Expense'' và ''OthExpense''), theo kỳ, pháp nhân, ngành, kênh, chuỗi.'
     dataflow_id: '''4c645976-9f63-4a8c-91e0-1748ecd0f5dd''.''(KGR) DF_FACT_EXPENSE'''
     name: (KGR) DF_FACT_EXPENSE
     object_path: /shared/(KGR) 1.Implement/(KGR) Data Flow
@@ -3690,6 +3698,7 @@ dataflows:
       - a17_+ CP tài chính = sum(a17_+ CP tài chính)
       - a18_+ CP khác = sum(a18_+ CP khác)
   KGR_DF_TD_Metrics_v1.0:
+    description: 'Phiên bản 1.0 của bảng lãi lỗ Tập đoàn. Dựng P&L theo kỳ từ doanh số thực tế tới lợi nhuận sau thuế, lấy doanh thu/giá vốn từ dataflow gốc và ghép kế hoạch AOP; xuất bảng dạng ngang và dạng dài.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_TD_Metrics_v1.0'''
     name: KGR_DF_TD_Metrics_v1.0
     object_path: /shared/(KGR) 1.Implement/(KGR) Archived
@@ -4185,6 +4194,7 @@ dataflows:
       - name: AOP_Per_24
         expression: CASE WHEN "Metric_Code"=24 THEN null ELSE "AOP_Per" END
   (KGR) 5. DTF_CALC_MIS_v1.0:
+    description: 'Phiên bản 1.0 của dataflow MIS. Tính doanh thu, giá vốn và CKKM từ hóa đơn và credit memo, tổ chức số theo chiều chuỗi, model và kỳ phục vụ báo cáo quản trị.'
     dataflow_id: '''anhdk@bizin.vn''.''(KGR) 5. DTF_CALC_MIS_v1.0'''
     name: (KGR) 5. DTF_CALC_MIS_v1.0
     object_path: /shared/(KGR) 1.Implement/(KGR) Archived
@@ -5200,6 +5210,7 @@ dataflows:
       - name: Month Key
         expression: YEAR("GVMT_LINE_START_DATE") * 100 + MONTH("GVMT_LINE_START_DATE")
   (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0:
+    description: 'Phiên bản 1.0 của dataflow gốc tính doanh thu/giá vốn. Hợp nhất hóa đơn với credit memo để ra doanh thu thực tế, tính giá vốn 3 tầng (giá vốn mục tiêu → giá vốn tồn kho), trừ chiết khấu khuyến mãi; chỉ tính 2 pháp nhân ''CTCP LD Kangaroo Quốc tế'' và ''Chi nhánh HCM'', loại vụ việc ''HTL'' và khách ký gửi.'
     dataflow_id: '''anhdk@bizin.vn''.''(KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0'''
     name: (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     object_path: /shared/(KGR) 1.Implement/(KGR) Archived
@@ -6286,6 +6297,7 @@ dataflows:
       - POSTINGPERIOD = CUSTRECORD_SCV_PRO_DIS_PERIOD
       condition: and
   DF_TD_Report_PNL_v2:
+    description: 'Chuyển bảng lãi lỗ Tập đoàn sang dạng dài (mỗi dòng một bước, có dấu cộng/trừ, thứ tự bước và cột cộng dồn đầu/cuối) để vẽ biểu đồ.'
     dataflow_id: '''e2a77749-2452-4dda-a813-6f9c81455ceb''.''DF_TD_Report_PNL_v2'''
     name: DF_TD_Report_PNL_v2
     object_path: /users/minhndn@bizin.vn
@@ -6357,6 +6369,11 @@ dataflows:
       - cum_after
       - cum_before
   DF_TD_Report_PNL_v1:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng DF_TD_Report_PNL_v2.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''27f10916-90ed-4030-b67a-282718dfef83''.''DF_TD_Report_PNL_v1'''
     name: DF_TD_Report_PNL_v1
     object_path: /users/minhndn@bizin.vn
@@ -6414,6 +6431,11 @@ dataflows:
       - Signed_Amount
       - PL_Step
   KGR_DF_ACTUAL_AOP_MONTHLY_v3:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_ACTUAL_AOP_MONTHLY_LK.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''e3ed0f93-a5d1-4a40-bbbb-0bb81f9e46fb''.''KGR_DF_ACTUAL_AOP_MONTHLY_v3'''
     name: KGR_DF_ACTUAL_AOP_MONTHLY_v3
     object_path: /users/minhndn@bizin.vn
@@ -6791,6 +6813,7 @@ dataflows:
       - name: Hoàn thành lợi nhuận LK Chain
         expression: IFNULL("Lợi nhuận gộp kinh doanh lũy kế" / "Lợi nhuận kế hoạch lũy kế Chuỗi", 0)
   KGR_DF_ACTUAL_AOP_MONTHLY_LK:
+    description: 'Báo cáo ước tính theo tháng (doanh số, lợi nhuận gộp, lợi nhuận trước thuế) kèm lũy kế nhiều tháng và kế hoạch AOP, chi tiết theo pháp nhân, ngành, chuỗi.'
     dataflow_id: '''e3ed0f93-a5d1-4a40-bbbb-0bb81f9e46fb''.''KGR_DF_ACTUAL_AOP_MONTHLY_LK'''
     name: KGR_DF_ACTUAL_AOP_MONTHLY_LK
     object_path: /shared/(KGR) 1.Implement/(KGR) Data Flow
@@ -7148,6 +7171,7 @@ dataflows:
       - Lợi nhuận gộp kinh doanh lũy kế
       - Lợi nhuận trước thuế lũy kế
   (KGR) DF_GRAIN_ACTUAL_AOP:
+    description: 'Đưa số thực tế (từ dataflow gốc) và kế hoạch AOP về cùng mức chi tiết (kỳ, pháp nhân, ngành) để so sánh, phục vụ báo cáo tháng.'
     dataflow_id: '''anhdk@bizin.vn''.''(KGR) DF_BC02_ACTUAL_MONTH'''
     name: (KGR) DF_GRAIN_ACTUAL_AOP
     object_path:
@@ -7551,6 +7575,11 @@ dataflows:
       - Doanh số (AOP) Ngành = sum(Doanh số (AOP) Ngành)
       - LN Giao (AOP) Ngành = sum(LN Giao (AOP) Ngành)
   (KGR) DF_ACTUAL_AOP_EXPENSE_minh:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Bản thử cá nhân, thay bằng (KGR) DF_ACTUAL_AOP_EXPENSE.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''d216fd48-fd32-42d9-ab97-fc2e2e9b4614''.''(KGR) DF_ACTUAL_AOP_EXPENSE_minh'''
     name: (KGR) DF_ACTUAL_AOP_EXPENSE_minh
     object_path: /users/minhndn@bizin.vn
@@ -8001,6 +8030,11 @@ dataflows:
       filters:
       - '"Posting_Period" IN(''42'')'
   KGR_DF_AOP_v3test:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Bản thử cách tính AOP, không còn dùng.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''5b05f851-0d74-424c-a25c-2102ae03efe4''.''KGR_DF_AOP_v3test'''
     name: KGR_DF_AOP_v3test
     object_path: /users/minhndn@bizin.vn
@@ -8242,6 +8276,11 @@ dataflows:
       output_type: Create
       dataset_description: AOP fix test
   KGR_DF_ACTUAL_AOP_MONTHLY_v2:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_ACTUAL_AOP_MONTHLY_LK.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''43bcfa2f-1b16-4b03-a4ed-03e72084531b''.''KGR_DF_ACTUAL_AOP_MONTHLY_v2'''
     name: KGR_DF_ACTUAL_AOP_MONTHLY_v2
     object_path: /shared/(KGR) 1.Implement/(KGR) Data Flow
@@ -8435,6 +8474,11 @@ dataflows:
       - Lợi nhuận gộp kinh doanh lũy kế
       - Lợi nhuận trước thuế lũy kế
   KGR_DF_ACTUAL_AOP_MONTHLY_v1:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_ACTUAL_AOP_MONTHLY_LK.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''fdbc2032-e71c-48dd-b090-23f02246b614''.''KGR_DF_ACTUAL_AOP_MONTHLY_v1'''
     name: KGR_DF_ACTUAL_AOP_MONTHLY_v1
     object_path: /users/minhndn@bizin.vn
@@ -8627,6 +8671,11 @@ dataflows:
       - Lợi nhuận gộp kinh doanh lũy kế
       - Lợi nhuận trước thuế lũy kế
   KGR_DF_SANDBOX_EXPLORE:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Flow nháp khám phá dữ liệu, không có output.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''ca8113d2-5d01-497a-8411-51810f312ae9''.''KGR_DF_SANDBOX_EXPLORE'''
     name: KGR_DF_SANDBOX_EXPLORE
     object_path: /users/minhndn@bizin.vn
@@ -8644,6 +8693,7 @@ dataflows:
       input_dataset: (KGR) DTF_CALC_INVOICE_MEMO_#
       dataset_type: db
   (KGR) DF_DAILY_SC_CHAIN:
+    description: 'Tính lợi nhuận theo kênh và chuỗi ở mức ngày, từ dataflow gốc và các bảng tỷ lệ chi phí (lương; roadshow/hội nghị; chi phí khác), kết hợp bảng thời gian DIM_TIME.'
     dataflow_id: '''minhndn@bizin.vn''.''(KGR) DF_DAILY_SC_CHAIN'''
     name: (KGR) DF_DAILY_SC_CHAIN
     object_path:
@@ -8937,6 +8987,7 @@ dataflows:
       - name: ID Chain
         expression: Case When "ID Chuỗi" = 5 then Null Else "ID Chuỗi" End
   Union SALE HIST w INVC:
+    description: 'Nối lịch sử bán hàng các năm 2024–2026 với dữ liệu hóa đơn đang phát sinh (từ dataflow gốc), tạo chuỗi dữ liệu dài để phân tích xu hướng theo ngày, model và khách hàng.'
     dataflow_id: '''a56aa060-d690-462c-84b2-d03b279cbab9''.''Union SALE HIST w INVC'''
     name: Union SALE HIST w INVC
     object_path: /users/minhndn@bizin.vn
@@ -9042,6 +9093,7 @@ dataflows:
       - name: REVENUE
         expression: '"NET_AMOUNT"+"TAX"-"TAX_RETURN"'
   KGR_DF_Nganh_Metrics_v3:
+    description: 'Dựng bảng lãi lỗ theo từng ngành hàng, theo kỳ; đồng thời tạo bảng tỷ trọng sản phẩm mới. Lấy doanh thu/giá vốn từ dataflow gốc, ghép kế hoạch AOP, danh mục chỉ tiêu và bảng P&L Tập đoàn.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Nganh_Metrics_v3'''
     name: KGR_DF_Nganh_Metrics_v3
     object_path:
@@ -9610,6 +9662,7 @@ dataflows:
       - DS Đỏ Sum_ng
       - DT_SPmoi_ng
   KGR_DF_SFC_Plan_by_Kenh:
+    description: 'Lấy riêng sản lượng kế hoạch SFC theo kênh (vì số thực tế không có sẵn chiều kênh).'
     dataflow_id: '''07e1547b-2e14-4a0a-858f-3dc06c8aad49''.''KGR_DF_SFC_Plan_by_Kenh'''
     name: KGR_DF_SFC_Plan_by_Kenh
     object_path: /users/minhndn@bizin.vn
@@ -9681,6 +9734,7 @@ dataflows:
       - SL W4
       - SL W5
   KGR_DF_SFC_vs_MEMO_v2:
+    description: 'So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo ngành.'
     dataflow_id: '''e6cc022c-f1d3-4bfd-899a-f508414e85d5''.''KGR_DF_SFC_vs_MEMO_v2'''
     name: KGR_DF_SFC_vs_MEMO_v2
     object_path: /users/minhndn@bizin.vn
@@ -9787,6 +9841,7 @@ dataflows:
       - DT_Ke_Hoach
       - SL_Ke_Hoach
   KGR_DF_SFC_vs_MEMO_v4_Chuoi:
+    description: 'So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo chuỗi.'
     dataflow_id: '''e659cf70-cfe4-4143-a1b4-6e0088a2a1ad''.''KGR_DF_SFC_vs_MEMO_v4_Chuoi'''
     name: KGR_DF_SFC_vs_MEMO_v4_Chuoi
     object_path: /users/minhndn@bizin.vn
@@ -9898,6 +9953,7 @@ dataflows:
       - Doanh thu thực tế Sum
       - QUANTITY Sum
   KGR_DF_SFC_vs_Actual_v2:
+    description: 'So sánh dự báo bán hàng (SFC) với thực tế ở mức chi tiết theo ngành, nhóm sản phẩm, model, kỳ và mặt hàng. Là nền cho các bản tổng hợp SFC.'
     dataflow_id: '''f35ec90d-f3a2-4cc5-9e2d-004c6b7b7128''.''KGR_DF_SFC_vs_Actual_v2'''
     name: KGR_DF_SFC_vs_Actual_v2
     object_path: /users/minhndn@bizin.vn
@@ -10010,6 +10066,7 @@ dataflows:
       - Doanh số thực tế Sum
       - LN Gộp Sum
   KGR_DF_SFC_vs_MEMO_v3:
+    description: 'So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo ngành × nhóm sản phẩm.'
     dataflow_id: '''36c912a5-3f04-409d-9e49-2cc0f43fd0b7''.''KGR_DF_SFC_vs_MEMO_v3'''
     name: KGR_DF_SFC_vs_MEMO_v3
     object_path: /users/minhndn@bizin.vn
@@ -10134,6 +10191,7 @@ dataflows:
       - SL W4
       - SL W5
   KGR_DF_SFC_vs_MEMO_v1:
+    description: 'So sánh dự báo SFC với thực tế bán hàng, tổng hợp theo ngành × nhóm sản phẩm (bản đầy đủ nhất; lấy thực tế từ KGR_DS_SFC_vs_Actual_v2).'
     dataflow_id: '''d3bb54a8-91ee-43a1-b4bd-1c83e8057d57''.''KGR_DF_SFC_vs_MEMO_v1'''
     name: KGR_DF_SFC_vs_MEMO_v1
     object_path: /users/minhndn@bizin.vn
@@ -10368,6 +10426,11 @@ dataflows:
       - Doanh số thực tế Sum Sum Sum
       - LN Gộp Sum Sum Sum
   KGR_DF_SFC_vs_Actual:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_SFC_vs_Actual_v2.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''a26052be-3f74-4a15-a62f-6e1f646ea47d''.''KGR_DF_SFC_vs_Actual'''
     name: KGR_DF_SFC_vs_Actual
     object_path: /users/minhndn@bizin.vn
@@ -10545,6 +10608,7 @@ dataflows:
       - CP CKKM Sum
       - '%GP Ròng Sum'
   KGR_DF_Daily_Nganh_Report_m:
+    description: 'Báo cáo ngày theo từng ngành: ghép bảng lãi lỗ ngành với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Daily_Nganh_Report_m'''
     name: KGR_DF_Daily_Nganh_Report_m
     object_path:
@@ -10769,6 +10833,7 @@ dataflows:
       - IDCLASS = ID CLASS
       condition: and
   KGR_DF_Daily_TD_Report:
+    description: 'Báo cáo ngày cấp Tập đoàn: ghép bảng lãi lỗ Tập đoàn với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới, để theo dõi lũy kế so với kế hoạch.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Daily_TD_Report'''
     name: KGR_DF_Daily_TD_Report
     object_path:
@@ -10979,6 +11044,7 @@ dataflows:
       - AsOfDate = AsOfDate
       condition: and
   KGR_DF_Daily_Nganh_Report:
+    description: 'Báo cáo ngày theo từng ngành (bản trước của KGR_DF_Daily_Nganh_Report_m), cùng cách dựng: ghép bảng lãi lỗ ngành với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Daily_Nganh_Report'''
     name: KGR_DF_Daily_Nganh_Report
     object_path:
@@ -11188,6 +11254,7 @@ dataflows:
       - IDCLASS Maximum = ID CLASS
       condition: and
   KGR_DF_Group Rate As-Of_Ngành:
+    description: 'Tính tỷ lệ phân bổ theo nhóm, lũy kế đến từng ngày chốt số, theo ngành (từ dataflow gốc).'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Group Rate As-Of_Ngành1'''
     name: KGR_DF_Group Rate As-Of_Ngành
     object_path:
@@ -11300,6 +11367,7 @@ dataflows:
       - DoanhSo_Cum
       - GiaVon_Cum
   KGR_DF_Nganh_Cumulative_AsOf:
+    description: 'Tính chi phí xúc tiến bán hàng lũy kế đến từng ngày chốt số, theo ngành (từ dataflow gốc), rồi đẩy kết quả về kho dữ liệu.'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Group Rate As-Of_Ngành'''
     name: KGR_DF_Nganh_Cumulative_AsOf
     object_path:
@@ -11425,6 +11493,11 @@ dataflows:
       - a10_CP_Xuc_tien_ban_hang_AOD
       - Rate_Xuc_tien_ban_hang
   KGR_DF_Nganh_Metrics_v2:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_Nganh_Metrics_v3.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Nganh_Metrics_v2'''
     name: KGR_DF_Nganh_Metrics_v2
     object_path:
@@ -11969,6 +12042,11 @@ dataflows:
       - a23 -> a23_TĐ
       - a24 -> a24_TĐ
   KGR_DF_Nganh_Metrics:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng KGR_DF_Nganh_Metrics_v3.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Nganh_Metrics'''
     name: KGR_DF_Nganh_Metrics
     object_path:
@@ -12511,6 +12589,11 @@ dataflows:
       - a23 -> a23_TĐ
       - a24 -> a24_TĐ
   KGR_DF_Group Rate As-Of:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Thay bằng bản theo ngành (KGR_DF_Group Rate As-Of_Ngành / KGR_DF_Nganh_Cumulative_AsOf).'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''minhndn@bizin.vn''.''KGR_DF_Group Rate As-Of'''
     name: KGR_DF_Group Rate As-Of
     object_path:
@@ -12628,6 +12711,11 @@ dataflows:
       - a10_CP_Xuc_tien_ban_hang_AOD
       - Rate_Xuc_tien_ban_hang
   DTF_PRODUCT_KPI_PY:
+    status: deleted
+    deleted_by: 'owner (KGR)'
+    deleted_date: '2026-06-22'
+    delete_reason: 'Bản thử KPI sản phẩm theo năm, không có output.'
+    delete_detected_live: '2026-06-22 (vắng khỏi OAC dataflows/all)'
     dataflow_id: '''minhndn@bizin.vn''.''DTF_PRODUCT_KPI_PY'''
     name: DTF_PRODUCT_KPI_PY
     object_path:
