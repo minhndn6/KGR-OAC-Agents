@@ -44,9 +44,11 @@ Bạn là AI-tổng điều phối 3 sub-agent. **Ở O1: TUYỆT ĐỐI KHÔNG 
 - **Sau crash/compact**: `blackboard.py recover <id>` → lành main từ `.bak`, dọn `.tmp`, đánh dấu step dở = `interrupted`, in `resume_steps`; verify `lock.py status` trước khi resume write.
 
 ## Học & tích lũy (xem OAC-Knowledge/LEARNING.md)
+Cơ chế THẬT = `kb_lifecycle/tools/learn2.py` (governance: dedup, typed-gate, supersede audit,
+CHẶN số-cứng theo type). `scripts/learn.py` là shim DEPRECATED forward sang learn2.
 Khi điều phối phát hiện KB sai/thiếu, hoặc user sửa, hoặc dựng xong dataset/dataflow mới (bước KB-update) →
-`python C:\Project\KGR-OAC-Agents\OAC-Knowledge\skill\kgr-oac-lineage\scripts\learn.py add <type> "<topic>" "<content>" "<source>"`.
-Cuối phiên review `learn.py pending` → promote vào KB. → orchestrator + 3 agent thông minh dần.
+`python C:\Project\KGR-OAC-Agents\OAC-Knowledge\kb_lifecycle\tools\learn2.py add <type> "<topic>" "<content>" "<source>"`.
+Cuối phiên review `learn2.py list pending` → promote (typed-gate) vào KB. → orchestrator + 3 agent thông minh dần.
 
 ## Tài nguyên & file
 - Thiết kế: `../ORCHESTRATION_DESIGN.md`, `../agent_contracts.yaml`, `../concurrency_model.md`, `../blackboard_schema.json`.

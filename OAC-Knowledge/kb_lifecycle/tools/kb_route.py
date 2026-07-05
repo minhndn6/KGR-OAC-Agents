@@ -48,20 +48,20 @@ ROUTES = {
     "governance_item": _curated("governance_register.md", "owner/CFO KÝ + link GR; KHÔNG auto, KHÔNG second-agent",
                          "Blast radius cao (chạm P&L) → bắt buộc người ký (GR1–GR7)."),
     # ── Khác ──
-    "gap":   {"kind": "OPEN_QUESTION", "target": "CONFLICTS_AND_OPEN_QUESTIONS.md (+ learn.py add gap)",
+    "gap":   {"kind": "OPEN_QUESTION", "target": "CONFLICTS_AND_OPEN_QUESTIONS.md (+ learn2.py add gap)",
               "write_via": "open-question", "forbidden": "promote 'gap' thành fact trong KB",
               "validate": ["validate_kb.py"], "gate": "chuyển owner; KHÔNG thành fact", "note": "Gap là câu hỏi mở, không phải tri thức khẳng định."},
-    "drift": {"kind": "LOG", "target": "drift store (Phase 3) / learn.py add drift", "write_via": "drift.py upsert",
+    "drift": {"kind": "LOG", "target": "drift store (Phase 3) / learn2.py add drift", "write_via": "drift.py upsert",
               "forbidden": "append thô mỗi lần probe (gây bão)", "validate": [], "gate": "auto-ack sau ≥2 lần; incorporate qua rebuild",
               "note": "LỌC timestamp hợp lệ trước khi so (99/203 datasource thiếu ts — L0010); dedup theo drift_key."},
-    "correction": {"kind": "LOG", "target": "learnings/log.jsonl (learn.py add correction) → promote", "write_via": "learn.py",
-              "forbidden": "ghi đè fact cũ không audit", "validate": ["validate_kb.py"], "gate": "provenance người/owner; mâu thuẫn → supersede",
-              "note": "Sửa từ người có thẩm quyền; nếu trái fact cũ → supersede có audit."},
-    "lesson": {"kind": "LOG", "target": "learnings/log.jsonl (learn.py add lesson)", "write_via": "learn.py",
+    "correction": {"kind": "LOG", "target": "learnings/log.jsonl (learn2.py add correction) → promote", "write_via": "learn2.py",
+              "forbidden": "ghi đè fact cũ không audit", "validate": ["validate_kb.py"], "gate": "provenance người/owner; mâu thuẫn → supersede (learn2)",
+              "note": "Sửa từ người có thẩm quyền; nếu trái fact cũ → learn2 supersede có audit. (learn2 chặn số-cứng cho correction.)"},
+    "lesson": {"kind": "LOG", "target": "learnings/log.jsonl (learn2.py add lesson)", "write_via": "learn2.py",
               "forbidden": "coi lesson vận hành như fact cấu trúc", "validate": [], "gate": "incorporated_into pointer; second-agent OK",
-              "note": "Bài học vận hành/AI, blast radius thấp."},
-    "qa":    {"kind": "LOG", "target": "learnings/log.jsonl (learn.py add qa)", "write_via": "learn.py",
-              "forbidden": "", "validate": [], "gate": "review", "note": "Ghi nhận kết quả QA/kiểm thử."},
+              "note": "Bài học vận hành/AI, blast radius thấp. learn2 CHO PHÉP số (ví-dụ tái lập)."},
+    "qa":    {"kind": "LOG", "target": "learnings/log.jsonl (learn2.py add qa)", "write_via": "learn2.py",
+              "forbidden": "", "validate": [], "gate": "review", "note": "Ghi nhận kết quả QA/kiểm thử. learn2 CHO PHÉP số."},
 }
 
 def classify(ktype):
@@ -95,7 +95,7 @@ def check_path(path):
     if not kind or kind == "UNKNOWN":
         fb = _fallback_kind(posix)
         kind = fb if fb != "UNKNOWN" else (kind or "UNKNOWN")
-    wv = {"GENERATED": "rebuild", "CURATED": "direct-edit", "LOG": "learn.py (append-only)"}.get(kind, "?")
+    wv = {"GENERATED": "rebuild", "CURATED": "direct-edit", "LOG": "learn2.py (append-only, governance)"}.get(kind, "?")
     note = {"GENERATED": "Sinh ra; ĐỪNG sửa tay — sửa nguồn rồi rebuild (raw/REBUILD.md).",
             "CURATED": "File người viết; sửa trực tiếp + validate.",
             "LOG": "Append-only; không sửa record cũ.",

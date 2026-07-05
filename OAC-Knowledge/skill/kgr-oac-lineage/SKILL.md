@@ -47,10 +47,15 @@ Bạn hiểu sâu TOÀN BỘ tầng dữ liệu OAC của Kangaroo. Bạn vừa 
 Chạm `physical:DW_NS_*` cần ngữ nghĩa cột sâu → `C:\Project\NSAW_Claude\data_context\TABLE_CATALOG.yaml`/`QUICK_REFERENCE.md`, kèm tâm thế "có thể cũ — OAC thắng nếu lệch".
 
 ## Học & tích lũy tri thức (BẮT BUỘC — xem `LEARNING.md`)
+Cơ chế THẬT = `kb_lifecycle/tools/learn2.py` (governance: dedup content_hash, fact_key, typed
+promote-gate, supersede audit, **CHẶN số-cứng** theo type). `scripts/learn.py` là **shim
+DEPRECATED** forward sang learn2 — dùng lệnh nào cũng ra ngữ nghĩa learn2.
 Khi: phát hiện fact cấu trúc mới · **bị user/owner sửa** · gặp gap không trả lời được · rút bài học →
-`python scripts/learn.py add <fact|correction|gap|qa|lesson> "<topic>" "<content>" "<source>"`.
-Cuối phiên: `learn.py pending` → review → cập nhật file KB + CHANGELOG → `learn.py promote <id>`.
-KB lớn dần, phiên sau thông minh hơn. (KHÔNG ghi số tuyệt đối.)
+`python kb_lifecycle/tools/learn2.py add <fact|correction|gap|qa|lesson> "<topic>" "<content>" "<source>"`
+(hoặc shim `python scripts/learn.py add …`).
+Cuối phiên: `learn2.py list pending` → review → cập nhật file KB + CHANGELOG →
+`learn2.py promote <id> '<evidence-json>'` (typed-gate: cần rebuild_sha/live_evidence/attested_by…).
+KB lớn dần, phiên sau thông minh hơn. (KHÔNG ghi số tuyệt đối cho fact — learn2 chặn; lesson/qa CHO phép số ví-dụ.)
 
 ## References
 - `references/consultation_playbook.md` — khi dashboard-builder/dataflow-builder gọi: hỏi/đáp & format trả về.

@@ -31,6 +31,25 @@ def content_hash(rec):
     base = "|".join(_norm(rec.get(k)) for k in ("type", "topic", "content"))
     return hashlib.sha256(base.encode("utf-8")).hexdigest()[:16]
 
+# ── A5: nhận-biết SỐ TUYỆT ĐỐI LỚN (chống số-cứng-stale trong KB) ──
+# BẮT: %/‰ (45%, 12,3%), "N tỷ|triệu|nghìn", nghìn-phân-cách (1.234.567 / 445.043 / 12,345),
+#       ≥5 chữ số liền (987654). KHÔNG bắt: hệ-số nhỏ/tỉ-lệ (0.015, 0.30, 0,21, rate 0.25),
+#       token version/mã (v3, a10, GR7, L0006) — đó là ví-dụ-tái-lập/định-danh, không phải số-cứng.
+_HN_PERCENT = r'\d+(?:[.,]\d+)?\s*[%‰]'
+_HN_UNIT    = r'\d+(?:[.,]\d+)?\s*(?:tỷ|triệu|nghìn|ngàn|tỉ)\b'
+_HN_GROUP   = r'(?<!\d)(?:[1-9]\d{0,2}|\d{2,3})(?:[.,]\d{3})+'   # lead KHÔNG là "0" đơn -> né 0.015
+_HN_BIG     = r'\d{5,}'
+HARD_NUM_RE = re.compile('|'.join((_HN_PERCENT, _HN_UNIT, _HN_GROUP, _HN_BIG)))
+
+def has_hard_number(s):
+    """True nếu chuỗi chứa SỐ TUYỆT ĐỐI LỚN (không phải hệ-số/tỉ-lệ nhỏ hay token version)."""
+    return bool(HARD_NUM_RE.search(s or ""))
+
+# Type CẤU TRÚC (fact-như): số-cứng bị REJECT (KB không giữ số, lấy live).
+# Type VÍ-DỤ-TÁI-LẬP (lesson/qa/open-question/gap/drift): CHO PHÉP số (đó là ví dụ).
+_HARD_NUMBER_TYPES = {"fact", "formula_correction", "physical_table", "correction",
+                      "new_dataset", "new_dataflow", "new_field"}
+
 _PREFIX = {"formula_correction": "formula", "formula": "formula", "fact": "fact", "correction": "fact",
            "glossary_term": "glossary", "convention": "convention", "governance_item": "gov",
            "gap": "gap", "drift": "drift", "lesson": "lesson", "qa": "qa"}
@@ -71,8 +90,12 @@ def add(typ, topic, content, source="", conf="medium", log=None):
     for r in recs:
         if r.get("content_hash") == ch and r.get("status") in ACTIVE:
             return {"status": "rejected_dup", "existing": r["id"]}
-    if re.search(r"\d{1,3}(?:[.,]\d{3}){2,}|\b\d+\s*(?:tỷ|triệu)\b", content or ""):
-        sys.stderr.write("⚠️ content có vẻ chứa SỐ tuyệt đối — KB không lưu số (data live).\n")
+    # A5: type cấu trúc + số-cứng lớn -> REJECT (KHÔNG ghi record). Type ví-dụ-tái-lập -> cho phép.
+    if typ in _HARD_NUMBER_TYPES and has_hard_number(content):
+        m = HARD_NUM_RE.search(content or "")
+        return {"status": "rejected_hard_number", "rejected": True,
+                "reason": f"type '{typ}' KHÔNG lưu SỐ TUYỆT ĐỐI ({m.group(0)!r}) — KB giữ CÁCH tính, lấy số live. "
+                          f"Dùng type lesson/qa/open-question nếu là ví-dụ tái lập."}
     nid = f"L{len(recs) + 1:04d}"
     full = {"id": nid, "ts": _now(), "type": typ, "topic": topic, "content": content, "source": source,
             "confidence": conf, "status": "pending", "content_hash": ch, "fact_key": fact_key(probe),
