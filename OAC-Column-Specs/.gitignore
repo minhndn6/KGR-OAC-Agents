@@ -1,0 +1,15 @@
+# OAC-Column-Specs — track DELIVERABLE (FINAL/ Excel, out_md/ .md, docs/, STATE.md, glossary.json, scripts, skill);
+# ignore SCRATCH tái tạo được (snapshot def live, QA output, rulebook JSON nội bộ, skeleton trung gian).
+work/snapshots_live/
+work/qa/
+work/rulebooks/
+work/skeletons/
+
+# Python / OS scratch
+__pycache__/
+*.pyc
+*.tmp
+
+# Scratch tiền tố _ (dump/handoff tạm)
+work/_*
+_*.md

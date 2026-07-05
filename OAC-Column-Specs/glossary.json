@@ -1,0 +1,17 @@
+{
+  "terms": [
+    {"term": "Doanh số (+VAT)", "definition": "Tổng giá trị bán hàng đã bao gồm thuế GTGT (doanh số gộp)."},
+    {"term": "Doanh thu", "definition": "Doanh thu THUẦN (chưa gồm VAT) từ bán hàng, sau khi trừ trả hàng/ghi có; đã loại kênh nội bộ & giao dịch tranh chấp."},
+    {"term": "Giá vốn", "definition": "Giá vốn hàng bán (COGS): tính theo 3 lớp ưu tiên (giá vốn mục tiêu → giá vốn tồn kho → dự phòng); hàng tặng và dòng chiết khấu tính giá vốn = 0."},
+    {"term": "Lợi nhuận gộp", "definition": "= Doanh thu − Giá vốn."},
+    {"term": "CKKM", "definition": "Chi phí chiết khấu/khuyến mãi thương mại (chi cho chương trình khuyến mãi)."},
+    {"term": "AOP", "definition": "Kế hoạch năm (Annual Operating Plan) — mức mục tiêu/định mức được phân bổ cho từng chỉ tiêu. Là số KẾ HOẠCH, không phải thực tế."},
+    {"term": "Ước tính theo AOP", "definition": "Giá trị KHÔNG phải chi phí thực phát sinh, mà SUY RA từ kế hoạch AOP (tỷ lệ % trên doanh thu, hoặc phân bổ theo số ngày). Áp dụng cho nhiều dòng chi phí nằm DƯỚI 'Lợi nhuận gộp'. Khi đọc các dòng này cần hiểu là ước tính."},
+    {"term": "Xanh / Đỏ", "definition": "Phân loại sản phẩm: Xanh (nhóm ưu tiên) và Đỏ. Mỗi sản phẩm luôn thuộc đúng 1 trong 2 nhóm."},
+    {"term": "Tỷ lệ Xanh/Đỏ", "definition": "Tỷ lệ giữa doanh số sản phẩm nhóm Xanh và nhóm Đỏ."},
+    {"term": "Lũy kế (AsOfDate)", "definition": "Cộng dồn từ đầu kỳ đến NGÀY được chọn ở bộ lọc trên canvas. Đổi ngày → đổi số lũy kế."},
+    {"term": "Kênh nội bộ", "definition": "Kênh bán nội bộ trong tập đoàn — KHÔNG tính vào doanh thu/doanh số thực tế (bị loại trừ)."},
+    {"term": "%/DS", "definition": "Tỷ trọng tính theo phần trăm trên Doanh số (hoặc Doanh thu) — cho biết chỉ tiêu chiếm bao nhiêu phần trăm doanh số."}
+  ],
+  "must_define": ["Doanh thu", "Giá vốn", "Lợi nhuận gộp", "CKKM", "AOP", "Ước tính theo AOP", "Tỷ lệ Xanh/Đỏ", "Lũy kế (AsOfDate)", "Kênh nội bộ"]
+}
