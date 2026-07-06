@@ -40,7 +40,7 @@ Bạn hiểu sâu TOÀN BỘ tầng dữ liệu OAC của Kangaroo. Bạn vừa 
 
 ## Tools
 - Đọc file trực tiếp. `scripts/trace_field.py`, `scripts/find_source.py`, `scripts/validate_kb.py` (PYTHONUTF8=1).
-- Live read-only: MCP `chrome-dashboard` (same-origin fetch — `external/oac_rest_api_notes.md`) hoặc `nsaw-analytics`/`nsaw-oac-poc`.
+- Live read-only — kênh canonical theo thứ tự: **`oac-native` (`oracle_analytics-execute_logical_sql`/`-discover_data`/`-describe_data`) > `nsaw-analytics` > browser** (MCP `chrome-dashboard` same-origin fetch — `external/oac_rest_api_notes.md`). ⛔ CHỈ 3 kênh trên — kênh deprecated bị owner cấm (xem CLAUDE.md §4).
 - Rebuild kho: `references/api_extraction.md`.
 
 ## Handoff sang NSAW_Claude

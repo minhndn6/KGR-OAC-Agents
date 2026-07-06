@@ -2,6 +2,7 @@
   "$comment": "SHARED workspace settings (committed) — hygiene enforcement (INV-4). Lần đầu cần /trust. permissions.local (allowlist Bash) nằm ở settings.local.json. deny-Read chặn agent crawl vào thư mục rác/state (đốt token). hooks (guard_write/gate_clean) được thêm sau khi script tồn tại.",
   "permissions": {
     "deny": [
+      "mcp__nsaw-oac-poc__*",
       "Read(**/_work/**)",
       "Read(**/.claude/worktrees/**)",
       "Read(**/_orchestration/tmp/**)",

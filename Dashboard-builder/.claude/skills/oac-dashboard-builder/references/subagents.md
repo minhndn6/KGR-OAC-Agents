@@ -34,7 +34,7 @@ Trả: {"issues":[{"severity":"BLOCKER|MAJOR|MINOR","point":"...","fix":"..."}],
 ## 2. data-crosscheck (Phase 5) — BLIND
 - **Mục đích:** recompute độc lập đối chiếu số viz. **BLIND = không cho xem số bạn đọc từ viz** (anchor bias). Tái dùng tinh thần skill `oac-data-crosscheck`.
 - **subagent_type:** `general-purpose` · **model:** `sonnet` · effort TB.
-- **Tool:** NSAW MCP (`mcp__nsaw-analytics__get_pl_by_dimension`, `get_sfc_report`, `execute_dynamic_query`, `get_data_dictionary`); `nsaw-oac-poc` (`oac_run_logical_sql`). KHÔNG browser.
+- **Tool:** kênh canonical **oac-native > nsaw-analytics > browser**: `oac-native` (`oracle_analytics-execute_logical_sql`) cho số OAC-chuẩn; NSAW MCP (`mcp__nsaw-analytics__get_pl_by_dimension`, `get_sfc_report`, `execute_dynamic_query`, `get_data_dictionary`) cho golden ngoài pipeline. ⛔ CHỈ 3 kênh trên; kênh deprecated bị cấm (CLAUDE.md §4). KHÔNG browser.
 - **Canonical facts (đưa vào prompt, đừng để nó re-derive):** May 2026 = posting_period_id **42** (Mar=39,Apr=40). Revenue = `SUM(NVL(BASE_CREDITAMOUNT,0)-NVL(BASE_DEBITAMOUNT,0))` trên DW_NS_CUSTOMER_INVOICE_LINES_F, POSTING='T', TYPE IN(CustInvc,CustCred), Income, **exclude internal customer (Sales Channel ID=14)**. AOP keyed CUSTBODY_SCV_AOP_LOAI_BAO_CAO (Summary=2,3; Daily TĐ=5; Daily Ngành=4; **TĐ≠Σngành by design**). SFC item-level (POSTINGPERIOD+ITEM). Tỷ trọng SP mới = revenue-weighted SUM(DT SP mới)/SUM(DT thực tế) (~40% TĐ).
 - **Prompt template:**
 ```

@@ -28,6 +28,7 @@ Subagent cần dữ liệu OAC → bạn fetch trước, dán vào prompt. Việ
 ## 2. Quy trình 5 phase
 
 ### Phase 1 — DISCOVER (profile dữ liệu THẬT, đừng đoán)
+0-DATA-CONTEXT (BƯỚC-0, BẮT BUỘC — trước khi đề xuất KPI): hỏi **kgr-oac-lineage** (data-brain) + tra `OAC-Knowledge/capability_map.yaml` (metric×chiều→dataset) và `OAC-Knowledge/field_dictionary.yaml` (công thức→gốc vật lý) để **kiểm data-availability**: metric/chiều/grain định đề xuất có dataset/field support chưa? **ĐỪNG tư vấn KPI mà data không support** (hoặc ghi rõ "cần dựng dataflow mới" + route). **CAVEAT freshness:** nếu `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor` báo `freshness` STALE / catalog cũ → CẢNH BÁO độ-tươi + đề xuất refresh (rebuild) TRƯỚC khi tin lineage. Wiring này chỉ mạnh khi map tươi.
 1. Liệt kê dữ liệu trong phạm vi: dataset nào, ở đâu (OAC/NSAW/file user đưa). Đã có catalog KGR → OAC_MASTERY §13b; dataset lạ → profile mới.
 2. Profile từng nguồn: **grain** (1 dòng = gì) · dims (+ cardinality, % null) · measures (+ dấu, đơn vị) · kỳ có data · chất lượng (trùng ID, thiếu nhóm). Tools: NSAW MCP (`get_data_dictionary`, `execute_dynamic_query`) — không cần browser; OAC REST metadata/executePreview qua browser nếu cần; user đưa file → đọc trực tiếp.
 3. Dữ liệu KHÔNG reachable → hỏi user schema + xin mẫu, ghi rõ Blueprint dựa mô tả (chưa profile thật).

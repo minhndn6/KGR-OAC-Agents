@@ -208,6 +208,80 @@ def mcp_chrome_check(processes=None, mcp_files=None):
     }
 
 
+# ── R-A2: staleness gate (INV-6 fail-ồn) — tuổi catalog so now ───────────────────
+import datetime as _dt
+
+_FRESH_WARN_DAYS = 7    # >7 ngày -> WARN
+_FRESH_STALE_DAYS = 14  # >14 ngày -> STALE (góp phần STATUS=ATTENTION)
+_FRESH_CATALOGS = ("dataflow_catalog.yaml", "workbook_catalog.yaml",
+                   "dataset_catalog.yaml", "field_dictionary.yaml")
+_EXTRACTED_RE = _re.compile(r"extracted_live\s*:\s*['\"]?(\d{4}-\d{2}-\d{2})")
+
+
+def _catalog_dir():
+    """Thư mục chứa các catalog YAML = KB root."""
+    return KP.resolve_kb_root(start_file=str(HERE))
+
+
+def freshness_check(catalog_dir=None, now=None, files=None):
+    """THUẦN/tiêm-được. Đọc max(extracted_live) từ _meta các catalog → tuổi so `now`.
+    >14 ngày = STALE, >7 = WARN, else OK (INV-6: map cũ phải FAIL ồn, không im lặng).
+    catalog_dir/now/files tiêm để test hermetic; default = KB root + hôm nay + 4 catalog chuẩn.
+    """
+    cd = Path(catalog_dir) if catalog_dir is not None else None
+    if cd is None:
+        try:
+            cd = _catalog_dir()
+        except Exception as e:
+            return {"status": "UNKNOWN", "error": f"catalog_dir: {e}", "max_extracted_live": None}
+    if now is None:
+        now = _dt.date.today()
+    names = files if files is not None else _FRESH_CATALOGS
+
+    per_file = {}
+    dates = []
+    for n in names:
+        p = cd / n
+        if not p.is_file():
+            continue
+        try:
+            txt = p.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        m = _EXTRACTED_RE.search(txt)
+        if not m:
+            continue
+        ds = m.group(1)
+        per_file[n] = ds
+        try:
+            dates.append(_dt.date.fromisoformat(ds))
+        except Exception:
+            pass
+
+    if not dates:
+        return {"status": "UNKNOWN", "max_extracted_live": None, "per_file": per_file,
+                "note": "không đọc được extracted_live từ catalog nào (INV-6: nghi ngờ, cần kiểm)"}
+
+    newest = max(dates)
+    age = (now - newest).days
+    if age > _FRESH_STALE_DAYS:
+        status = "STALE"
+    elif age > _FRESH_WARN_DAYS:
+        status = "WARN"
+    else:
+        status = "OK"
+    return {
+        "status": status,
+        "max_extracted_live": newest.isoformat(),
+        "age_days": age,
+        "warn_after_days": _FRESH_WARN_DAYS,
+        "stale_after_days": _FRESH_STALE_DAYS,
+        "per_file": per_file,
+        "hint": ("map catalog CŨ — refresh (rebuild raw/REBUILD.md) TRƯỚC khi tin lineage/số"
+                 if status == "STALE" else None),
+    }
+
+
 def cmd_where():
     print(json.dumps(RT.where(), ensure_ascii=False, indent=2)); return 0
 
@@ -259,10 +333,17 @@ def cmd_doctor():
     except Exception as e:
         mc = {"error": str(e), "parse_errors": []}
     rep["mcp_chrome"] = mc
+    try:
+        fr = freshness_check()   # đọc max(extracted_live) từ catalog thật; hermetic-injectable
+    except Exception as e:
+        fr = {"status": "UNKNOWN", "error": str(e), "max_extracted_live": None}
+    rep["freshness"] = fr
     # THÔNG TIN/cảnh báo: KHÔNG tự lật STATUS trừ khi .mcp.json PARSE LỖI (drift cấu hình thật).
     mcp_ok = not (mc.get("parse_errors") or [])
+    # INV-6 fail-ồn: catalog STALE (>14 ngày) góp phần ATTENTION. WARN/OK/UNKNOWN không lật STATUS.
+    fresh_ok = fr.get("status") != "STALE"
     ok = bool(rep.get("kb_root_ok") and rep.get("repos_clean")
-              and not rep.get("physical_scratch") and lg.get("ok") and mcp_ok)
+              and not rep.get("physical_scratch") and lg.get("ok") and mcp_ok and fresh_ok)
     rep["STATUS"] = "OK" if ok else "ATTENTION"
     print(json.dumps(rep, ensure_ascii=False, indent=2))
     return 0 if ok else 1

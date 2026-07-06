@@ -9,7 +9,30 @@ _WS = os.path.dirname(_KB)
 STG = next((p for p in [os.environ.get("OAC_STAGING"), os.path.join(_KB,"_work","staging"), os.path.join(_WS,"Dashboard-builder","_oac_extract")] if p and os.path.isdir(p)), os.path.join(_KB,"_work","staging"))
 OUT = _KB
 NSAW_TC = os.environ.get("NSAW_CLAUDE_TC") or next((p for p in [os.path.join(_WS,"NSAW_Claude","data_context","TABLE_CATALOG.yaml"), os.path.join(os.path.dirname(_WS),"NSAW_Claude","data_context","TABLE_CATALOG.yaml")] if os.path.isfile(p)), os.path.join(_WS,"NSAW_Claude","data_context","TABLE_CATALOG.yaml"))
-EXTRACT_DATE = "2026-06-20"
+def _provenance_extract_date():
+    """Ngày trích = mtime provenance THẬT của staging (cặp bắt-buộc với staleness-gate ở kgr.py doctor,
+    kẻo gate đọc ngày đóng-băng). Ưu tiên env OAC_EXTRACT_DATE; else mtime mới nhất của các JSON staging cốt lõi.
+    Không xác định được mtime an toàn → fallback hằng số + TODO (KHÔNG phá build)."""
+    env = os.environ.get("OAC_EXTRACT_DATE")
+    if env:
+        return env
+    cands = ["dataflows_steps.json", "dataflows_digest.json", "physical_mapping.json",
+             os.path.join("raw", "datasets_all.json"), os.path.join("raw", "catalog_enumeration.json")]
+    mtimes = []
+    for c in cands:
+        p = os.path.join(STG, c)
+        try:
+            if os.path.isfile(p):
+                mtimes.append(os.path.getmtime(p))
+        except OSError:
+            pass
+    if mtimes:
+        return datetime.date.fromtimestamp(max(mtimes)).isoformat()
+    # TODO: staging không truy được mtime an toàn → giữ hằng số (đồng bộ tay khi rebuild).
+    #       Khi có manifest provenance ổn định thì thay hằng số này.
+    return "2026-06-20"  # TODO(provenance): fallback khi không đọc được mtime staging
+
+EXTRACT_DATE = _provenance_extract_date()
 os.makedirs(OUT, exist_ok=True)
 
 def load(p):

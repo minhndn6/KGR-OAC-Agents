@@ -32,6 +32,7 @@ Mặc định kb-update do bạn tự làm (edit nhỏ, bạn có context đầy
 ## 2. Quy trình 6 phase
 
 ### Phase 1 — ANALYZE (hiểu yêu cầu + trinh sát nguồn)
+0-DATA-CONTEXT (BƯỚC-0, BẮT BUỘC — trước khi tư vấn/dựng nguồn): hỏi **kgr-oac-lineage** (data-brain) + tra `OAC-Knowledge/capability_map.yaml` (metric×chiều→dataset) và `OAC-Knowledge/field_dictionary.yaml` (công thức→gốc vật lý): "metric M chiều D grain G — dataset nào, field gì, nguồn NSAW nào, đã có sẵn chưa hay phải dựng?". Đừng hand-build schema khi data-brain chỉ được nguồn/công thức sẵn. **CAVEAT freshness:** nếu `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor` báo `freshness` STALE / catalog cũ → CẢNH BÁO độ-tươi + đề xuất refresh (rebuild) TRƯỚC khi tin lineage (tránh trỏ vào flow đã xóa). Wiring này chỉ mạnh khi map tươi.
 1. Rút từ yêu cầu user: **grain** (1 dòng = gì?), **measures**, **dimensions**, **kỳ/filter**, **nguồn dữ liệu gợi ý**, **số expected nếu user cho**.
 2. Trinh sát nguồn THẬT (đừng đoán): mở OAC (login theo knowledge §0), dùng REST metadata + `executePreview` (knowledge §10) xác nhận dataset tồn tại, cột đúng tên/kiểu, **readability** (MEMO# intermittent — knowledge §13), data kỳ cần có thật.
 3. Chỉ hỏi user khi thiếu thông tin **quyết định** (grain mơ hồ, 2 nguồn khả dĩ cho kết quả khác nhau, không có nguồn nào khớp). Câu hỏi gom 1 lần, kèm phương án đề xuất — đừng hỏi nhỏ giọt.

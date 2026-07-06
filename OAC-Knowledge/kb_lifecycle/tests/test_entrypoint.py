@@ -38,7 +38,17 @@ def main():
     chk(ok_json, "`kgr doctor` in JSON hợp lệ")
     chk(rep.get("kb_root_ok") is True, "doctor: kb_root resolve OK (single, không split-brain)")
     chk(rep.get("repos_clean") is True, "doctor: 4 repo sạch")
-    chk(d.returncode == 0, "doctor exit 0 khi healthy")
+    # R-A2: doctor giờ có staleness-gate (INV-6). Test KHẲNG ĐỊNH GATE HOẠT ĐỘNG,
+    # KHÔNG buộc doctor luôn OK — catalog có thể STALE thật (map cũ) → ATTENTION là ĐÚNG.
+    fr = rep.get("freshness") or {}
+    chk(fr.get("status") in ("OK", "WARN", "STALE", "UNKNOWN"), "doctor: có field freshness (INV-6 staleness-gate)")
+    if fr.get("status") == "STALE":
+        # Gate không im lặng: catalog cũ >14d PHẢI lật STATUS + exit≠0.
+        chk(rep.get("STATUS") == "ATTENTION" and d.returncode != 0,
+            "doctor: catalog STALE -> STATUS=ATTENTION + exit≠0 (INV-6 fail ồn, gate hoạt động)")
+    else:
+        # Không stale + phần khác lành → doctor OK + exit 0.
+        chk(d.returncode == 0, "doctor exit 0 khi healthy (không stale)")
     s = run("setup")
     chk(s.returncode == 0 and "kb_root" in s.stdout, "`kgr setup` ghi registry (idempotent)")
     u = run("bogus_cmd")

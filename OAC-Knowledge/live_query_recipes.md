@@ -8,7 +8,7 @@
    - `POST /ui/dv/ui/api/v1/dataflows/executePreview?stepID=<OutputDataset step>` body `{steps,links,stepId,DSSDependencies}` (header `x-csrf-token` từ `GET sessioninfo`) → `flowData` (≤30 dòng) + `flowSQL`.
    - Producer flow + output step: tra `field_dictionary.yaml > datasets.<ds>.live_query_recipe`.
    - ⚠️ Preview cắt ~31 cột & ≤30 dòng → để lấy TỔNG/aggregate theo grain mong muốn thì chạy logical SQL (đường 2) hoặc đọc dataset đã materialize.
-2. **OAC logical SQL / nsaw-oac-poc** (`oac_run_logical_sql`, có thể hết token) — query subject area/dataset.
+2. **OAC logical SQL — `oac-native`** (`oracle_analytics-execute_logical_sql`, kèm `-discover_data`/`-describe_data` để biết subject-area/field) — query subject area/dataset. ⛔ KÊNH CANONICAL: **oac-native > nsaw-analytics > browser**; kênh deprecated bị owner cấm (xem CLAUDE.md §4).
 3. **nsaw-analytics MCP** (`get_pl_report`, `get_sfc_report`, `execute_dynamic_query`, `get_data_dictionary`) — báo cáo dựng sẵn; ⚠️ backend này dựa NSAW có thể lệch logic OAC (xem precedence: OAC chuẩn).
 
 → Khi OAC-knowledge được agent khác gọi và cần số hiện trạng: **tự chạy đường 1** (read-only), trả số kèm "tính đến thời điểm query".
