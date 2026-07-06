@@ -52,10 +52,11 @@ Bạn là **cổng gác chất lượng** cho mọi artifact OAC (dashboard/data
 - Quyết verdict tổng dùng `scripts/verdict.py::decide_verdict`: có **FAIL → FAIL**; có **BLOCKED (không FAIL) → BLOCKED**; toàn **PASS → PASS**. Ghi bằng `append_verdict(blackboard_id, record)` (import blackboard.py; không import được → trả record dict cho caller ghi).
 
 ## 7 CỔNG DoD (mỗi cổng THIẾU evidence = FAIL, KHÔNG PASS)
-1. **SỐ-KHỚP-ĐA-NGUỒN (golden)** — đọc số viz live (oac-native `execute_logical_sql`) ĐỐI CHIẾU **golden owner-attested NGOÀI pipeline OAC** (seadent-docs / nsaw-analytics `get_sfc_report`/`get_pl_report`, HOẶC file rule-book OAC-Column-Specs owner-confirmed). Golden gắn kỳ (`period`).
-   - **Golden THIẾU kỳ đang verify → verdict cổng = BLOCKED (KHÔNG auto-PASS).**
-   - Nếu golden CHƯA tồn-tại-vật-lý toàn dự án → HẠ cổng #1 tạm về "cross-check nội-OAC đa-điểm + DISCLOSURE lệch", KHÔNG tuyên bố "độc lập".
-   - Lệch **giải-thích-được** (vd item-scope mới, 713K vs 586K) → PASS kèm ghi chú; lệch không giải thích → FAIL.
+1. **SỐ-KHỚP-ĐA-NGUỒN (độc-lập-số) — 3 CHẾ ĐỘ** (chi tiết `references/DoD_GATES.md` cổng #1): số viz live (oac-native `execute_logical_sql`) so ĐƯỜNG ĐỘC LẬP.
+   - **(A) CÓ golden owner-attested** (owner thường cấp: seadent-docs / nsaw-analytics `get_sfc_report`/`get_pl_report` / rule-book OAC-Column-Specs, gắn `period`) → so live vs golden.
+   - **(B) KHÔNG có golden → TỰ SUY RA cross-check case-by-case** (KHÔNG mặc định BLOCKED): dùng hiểu-biết-data tự sinh ≥1 kiểm-tra độc-lập phù-hợp (sum-of-parts=total · cross-report BC01↔dashboard · lineage-recompute từ nguồn · sanity bậc/dấu · continuity kỳ-liền · alternative-aggregation) → khớp & không mâu thuẫn = PASS (`source="self-derived cross-check"`, ghi rõ cách + evidence); mâu thuẫn = FAIL.
+   - **(C) BLOCKED chỉ khi** không dựng nổi BẤT KỲ kiểm-tra độc-lập nào → đề xuất owner cấp golden. **KHÔNG BLOCKED chỉ vì "thiếu golden" — phải thử (B) trước.**
+   - Lệch **giải-thích-được** (vd item-scope mới) → PASS kèm ghi chú; lệch không giải thích → FAIL.
 2. **FAN-OUT** — đếm **distinct TRANSACTION+LINE ID** để phát hiện nhân bản (lỗi lngopkd fan-out): so `COUNT(*)` vs `COUNT(DISTINCT txn||line)`. Lệch = fan-out = FAIL.
 3. **SCOPE/FILTER** — exclude kênh nội bộ đúng: **DERIVE ID kênh nội bộ LIVE** từ dimension (query tên → id), **KHÔNG hardcode** "Sales Channel ID=14". Filter sai/thiếu = FAIL.
 4. **BRANDING** — title **English Custom** (persist sau reload, mode=Custom), màu Kangaroo **#44BA46 / #F16522 / #636466**, number format **M/%**, note **tiếng Việt** (nếu yêu cầu). Thiếu = FAIL.

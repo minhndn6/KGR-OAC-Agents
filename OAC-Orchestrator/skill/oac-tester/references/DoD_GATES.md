@@ -10,21 +10,26 @@
 
 ---
 
-## Cổng #1 — SỐ-KHỚP-ĐA-NGUỒN (golden owner-attested)
-**Mục tiêu:** số viz live == golden NGOÀI pipeline OAC (không tự-xác-nhận trong OAC).
-1. Số live từ viz (oac-native):
-   ```sql
-   SELECT "<Fact>"."<Measure>"
-   FROM   "<SubjectArea>"
-   WHERE  "<Time>"."<Period>" = '<period>'
-   ```
-2. Golden ngoài pipeline (CHỌN 1, theo cadence owner cấu hình):
-   - `nsaw-analytics get_pl_report` / `get_sfc_report` (period=`<period>`), hoặc
-   - `seadent-docs tra_cuu_so_lieu` (owner-attested), hoặc
-   - rule-book **OAC-Column-Specs** owner-confirmed cho cột đó.
-3. So sánh: |live − golden| trong ngưỡng?  →  **PASS**. Golden **thiếu kỳ** → **BLOCKED**. Lệch không giải thích → **FAIL**.
-> Nếu golden CHƯA tồn-tại-vật-lý toàn dự án → hạ cổng về "cross-check nội-OAC đa-điểm (BC01 report vs dashboard) + DISCLOSURE lệch", **KHÔNG** tuyên "độc lập".
-> **BLOCKER cấu hình (đợi owner):** golden BC01/SFC owner-attested SỐNG Ở ĐÂU (path/kênh/cadence). Ghi vào blackboard field `blockers`, KHÔNG chặn sprint.
+## Cổng #1 — SỐ-KHỚP-ĐA-NGUỒN (độc-lập-số) — 3 CHẾ ĐỘ
+**Mục tiêu:** số viz live được xác nhận bằng ĐƯỜNG/NGUỒN ĐỘC LẬP, KHÔNG tự-xác-nhận trong chính pipeline OAC của artifact.
+Số live từ viz (oac-native): `SELECT "<Fact>"."<Measure>" FROM "<SubjectArea>" WHERE "<Time>"."<Period>"='<period>'`.
+
+**(A) CÓ golden owner-attested (mặc định — owner thường cấp):** so live vs golden NGOÀI pipeline OAC — chọn 1 theo cadence owner cấu hình:
+`nsaw-analytics get_pl_report/get_sfc_report` · `seadent-docs tra_cuu_so_lieu` · rule-book **OAC-Column-Specs** owner-confirmed.
+→ |live − golden| trong ngưỡng → **PASS**; lệch giải-thích-được (item-scope/capture-basis) → **PASS**+ghi chú; lệch không giải thích → **FAIL**.
+
+**(B) KHÔNG có golden → TỰ SUY RA cross-check case-by-case (KHÔNG mặc định BLOCKED):** tester dùng HIỂU-BIẾT-DATA tự sinh ≥1 kiểm-tra-độc-lập PHÙ HỢP artifact/metric — chọn theo ngữ cảnh, ví dụ:
+- **Sum-of-parts = total:** tổng theo chiều chi tiết (Ngành/Kênh/Chuỗi) == tổng tổng-hợp.
+- **Cross-report reconciliation:** cùng metric ở báo cáo/nguồn KHÁC (BC01 report vs dashboard; DTF vs DW nguồn) có khớp.
+- **Lineage-recompute:** qua `kgr-oac-lineage` lấy công thức gốc → tự tính lại từ dataset/field nguồn (oac-native) → so viz.
+- **Sanity bậc-độ-lớn & dấu:** đúng bậc/đúng dấu nghiệp vụ (doanh thu ≥0; LN gộp ≤ doanh thu; % trong [0,1]…).
+- **Continuity kỳ-liền:** period-over-period không nhảy bất thường không-giải-thích.
+- **Alternative-aggregation-path:** tính lại con số bằng đường-tổng-hợp khác.
+→ ≥1 cross-check khớp & KHÔNG mâu thuẫn → **PASS** (`source="self-derived cross-check"`, ghi RÕ cách đã dùng + evidence + độ-mạnh); có mâu thuẫn → **FAIL**.
+
+**(C) BLOCKED chỉ khi** thật sự KHÔNG dựng nổi bất kỳ kiểm-tra-độc-lập nào (artifact quá cô lập: thiếu cả lineage lẫn báo cáo đối chiếu) → ghi lý do + đề xuất owner cấp golden. **KHÔNG BLOCKED chỉ vì "thiếu golden" — PHẢI thử (B) trước.**
+
+> Mỗi check ghi rõ **mode (A/B/C)** + cross-check đã dùng. Owner khuyến khích cấp golden (đạt chuẩn cao nhất — mode A), nhưng thiếu golden KHÔNG làm tester bó tay: nó tự đánh giá theo hiểu-biết-data (mode B).
 
 ## Cổng #2 — FAN-OUT (nhân bản dòng)
 **Mục tiêu:** phát hiện fan-out chi phí/doanh thu (lỗi lngopkd) do join đa kỳ.
