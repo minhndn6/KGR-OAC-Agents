@@ -81,6 +81,7 @@ Thứ tự nguồn đối chiếu: **(1) số expected user cho → (2) NSAW MCP
 - [ ] Số liệu khớp nguồn đối chiếu (bảng số trong báo cáo) HOẶC mọi chênh lệch được giải thích và user chấp nhận
 - [ ] Flow đã Save + Run thành công (verify qua model/dataset, không tin toast)
 - [ ] ⭐ **Flow MỞ + SỬA + RUN-UI được trong editor** (không chỉ chạy qua API/Actions) — verify thật: mở deep-link → canvas render đủ node + console sạch lỗi → bấm nút "Run Data Flow" → toast "complete". Nếu build qua REST mà chưa làm bước này = CHƯA DONE (user sẽ không bảo trì được). Xem knowledge §11.5.
+- [ ] **QA PASS (required gate)**: báo cáo cuối PHẢI trích **`verdict-record-id`** của một **verdict-record** (verdict=PASS) do **oac-tester** (gatekeeper) ghi vào blackboard sau khi build+Run. THIẾU verdict-record-id PASS → report hiện thiếu "QA PASS" (như required CI check chưa xanh) = CHƯA DONE. *Giới-hạn: gate thủng nếu builder tự-spawn-tự-nuốt-verdict — orchestrator phải là bên spawn oac-tester.*
 - [ ] Knowledge file đã cập nhật findings mới (hoặc ghi rõ "không có finding mới")
 - [ ] Báo cáo cuối đủ: số đối chiếu + lệch-plan + KB changes
 

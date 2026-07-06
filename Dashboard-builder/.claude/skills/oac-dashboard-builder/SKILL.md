@@ -83,6 +83,7 @@ Thứ tự nguồn: **(1) số expected user → (2) NSAW MCP (get_pl_by_dimensi
 - [ ] Save persisted — verify qua **projects/json** (KHÔNG tin toast một mình); shared folder dùng OK-not-Escape
 - [ ] ⭐ **Mở lại workbook (reload deep-link) thấy viz + title + note + màu CÒN NGUYÊN**
 - [ ] clevel-reviewer **✅SHIP** (không phải bạn tự cấp)
+- [ ] **QA PASS (required gate)**: báo cáo cuối PHẢI trích **`verdict-record-id`** của một **verdict-record** (verdict=PASS) do **oac-tester** (gatekeeper) ghi vào blackboard sau khi build. THIẾU verdict-record-id PASS → report hiện thiếu "QA PASS" (như required CI check chưa xanh) = CHƯA DONE. *Giới-hạn: gate thủng nếu builder tự-spawn-tự-nuốt-verdict — orchestrator phải là bên spawn oac-tester.*
 - [ ] Knowledge file cập nhật findings mới (hoặc ghi rõ "không có finding mới")
 
 ## 4. Khi nào dừng hỏi user (ngoài gate Phase 3)
