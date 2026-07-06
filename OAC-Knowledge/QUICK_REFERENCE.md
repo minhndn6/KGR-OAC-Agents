@@ -1,6 +1,6 @@
 # QUICK REFERENCE — KGR OAC Data Lineage (ĐỌC TRƯỚC TIÊN)
 
-> Bộ não tri thức về **tầng dữ liệu OAC của Kangaroo**: từ viz trên dashboard → dataset → dataflow → **bảng vật lý NSAW**. Trích **LIVE 2026-06-20** từ chính OAC (read-only). Khi cần chi tiết hơn → mở `KNOWLEDGE_INDEX.md` để biết đọc file nào.
+> Bộ não tri thức về **tầng dữ liệu OAC của Kangaroo**: từ viz trên dashboard → dataset → dataflow → **bảng vật lý NSAW**. Trích **LIVE 2026-07-06** từ chính OAC (read-only). Khi cần chi tiết hơn → mở `KNOWLEDGE_INDEX.md` để biết đọc file nào.
 
 ## File này là gì / KHÔNG là gì
 - **LÀ**: tầng ngữ nghĩa + lineage của OAC (workbook, dataset, dataflow) và bảng/cột vật lý NSAW mà chúng thực sự đọc.
@@ -30,8 +30,8 @@ Viz (chart trên canvas)                      → workbook_catalog.yaml
 ```
 Trace tự động: `skill/kgr-oac-lineage/scripts/trace_field.py "<tên field/dataset>"`.
 
-## Quy mô (verified 2026-06-20, validate PASS 0 lỗi)
-- **4** workbook · **63** dataset · **40** dataflow (+2 sequence) · **60** bảng vật lý NSAW · **1070** lineage edges.
+## Quy mô (verified 2026-07-06, validate PASS 0 lỗi)
+- **4** workbook · **67** dataset · **36** dataflow · **60** bảng vật lý NSAW · **1192** lineage edges. *(refresh ⑥ 07-06: bỏ 12 zombie df + thêm 8; sequence không đưa vào catalog theo convention.)*
 - Closure (nuôi 4 workbook): **30** dataset, **21** dataflow.
 - **20/60** bảng vật lý CHƯA có trong NSAW_Claude → NSAW_Claude thiếu/cũ (xem CONFLICTS §NSAW-gaps).
 

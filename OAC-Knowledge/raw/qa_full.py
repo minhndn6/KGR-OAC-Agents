@@ -210,7 +210,8 @@ try:
     tw("S9","9.6_count_consistency", not drift, f"{drift}")
     medge=re.search(r"\*{0,2}(\d+)\*{0,2}\s*lineage edge", qr)
     tw("S9","9.6c_edge_count", bool(medge) and int(medge.group(1))==len(LIN.get("edges",[])), f"doc={medge.group(1) if medge else None} actual={len(LIN.get('edges',[]))}")
-    t("S9","9.6b_counts_regression", len(DS)==63 and len(DF)==40 and len(PH)==60, f"{len(DS)}/{len(DF)}/{len(PH)}")
+    # snapshot counts — CẬP NHẬT khi refresh catalog (⑥ 2026-07-06: ds 63→67, df 40→36 sau khi bỏ 12 zombie + thêm 8)
+    t("S9","9.6b_counts_regression", len(DS)==67 and len(DF)==36 and len(PH)==60, f"{len(DS)}/{len(DF)}/{len(PH)}")
     term=set(LIN.get("terminal_physical_nodes",[])); badterm=[x for x in term if x.replace("physical:","") not in PH]
     t("S9","9.7_lineage_terminals", not badterm, f"{badterm[:4]}")
 except Exception: t("S9","S9_exception", False, traceback.format_exc()[-200:])

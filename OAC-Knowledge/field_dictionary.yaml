@@ -18374,6 +18374,38 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      - ID
+      - NETAMOUNT
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - Per DS (AOP)
+      - CSEG_SCV_NHOMXANHDO
+      - Chỉ tiêu (AOP)
+      - CSEG_SCV_SC
+      - Doanh số (AOP)
+      - LN Giao (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên Ngành
+      DW_NS_X_SALE_CHANNEL:
+      - CUSTRECORD_SCV_SALE_CHANEL_NS
+      - Kênh
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Chuỗi
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18384,6 +18416,21 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_TRADE_PROMOTION_HEADER:
+      - NAME
+      - CUSTRECORD_SCV_PRO_DIS_PERIOD
+      - W$_INSERT_DT
+      DW_NS_X_TRADE_PROMOTION_LINE:
+      - ID Model
+      - ID Kênh
+      - ID Chuỗi
+      - CKKM
+      - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
+      - CUSTRECORD_SCV_PRO_DIS_LINE_END_DATE
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Chuỗi
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - Model
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18394,6 +18441,11 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
+      - TRANSACTION
+      - ID
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18404,6 +18456,36 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_X_SALE_CHANNEL:
+      - Kênh
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - ID
+      DW_NS_X_SFC_LINES_CF:
+      - SL W1
+      - SL W2
+      - SL W3
+      - SL W4
+      - SL W5
+      - Doanh thu (-VAT)
+      - CSEG_SCV_PRODGROUP
+      - CSEG_SCV_MODEL
+      - CSEG_SCV_PRODCATG
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_NHOMXANHDO
+      - Quantity
+      - Giá Vốn
+      - GP ròng
+      - Lãi Gộp
+      - CKKM
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Chuỗi
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm sản phẩm
+      DW_NS_ITEM_D:
+      - ID
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18451,6 +18533,25 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_BANG_CP_LUONG:
+      - CREATED
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - EXTERNALID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - NAME
+      - RECORDID
+      - SOURCE_RECORD_ID
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      - ID
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - ID
+      - PERIODNAME
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18461,6 +18562,100 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_CUSTOMER_INVOICE_LINES_F:
+      - ID
+      - TRANDATE
+      - TRANSACTION
+      - ITEM
+      - QUANTITY
+      - BASE_REVENUE
+      - TAXLINE
+      - TYPE
+      - POSTINGPERIOD - 1
+      - SUBSIDIARY
+      - POSTINGPERIOD
+      - CUSTOMER
+      - CLASS
+      - ITEMTYPE
+      - CREATEDDATE
+      - CLOSEDATE
+      DW_NS_ACCOUNT_D:
+      - ACCTTYPE
+      - ACCTNUMBER
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - Month_No
+      - ISPOSTING
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - Is HTL
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      DW_NS_X_SALE_CHANNEL:
+      - Tên Kênh
+      - ID
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên ngành
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Tên Chuỗi
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm Kênh
+      - ID Nhóm kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - NAME
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
+      - Nhóm xanh đỏ
+      - ID XD
+      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
+      - Quy hoạch SP
+      DW_NS_X_CAM_EMPLOYEEEXTENSION:
+      - ID_employee
+      - CUSTENTITY_SCV_EMP_ASM_CODE
+      DW_NS_LOCATION_D:
+      - Location Name
+      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
+      - Sales Category
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm SP
+      DW_NS_ITEM_D:
+      - Item Name
+      - UPCCODE
+      - WEIGHTUNITS
+      DW_NS_X_CAM_CUSTOMEREXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_SC
+      - CUSTENTITY_SCV_ENTITY_CODE
+      DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
+      - ID
+      - TAX1AMT
+      - TAXCODE
+      - TAXRATE1
+      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
+      - CUSTENTITY_SCV_KH_KY_GUI
+      DW_NS_LOCATION_CF_DH:
+      - PARENT_NAME
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      - CSEG_SCV_SG_PRO
+      DW_NS_X_CAM_ITEMEXTENSION:
+      - CSEG_SCV_MODEL
+      DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
+      - NAME
+      DW_NS_CUSTOMER_D:
+      - COMPANYNAME
+      - ALTNAME
+      DW_NS_CUSTOMER_INVOICE_F:
+      - MEMO
+      DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
+      - NAME
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18471,6 +18666,21 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_AOP_HEADER_CF:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF:
+      - CLASS
+      - NETAMOUNT
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_LINE_CF:
+      - CUSTCOL_SCV_AOP_DOANH_SO
+      - CUSTCOL_SCV_AOP_CP_CKKM
+      - CUSTCOL_SCV_AOP_LN_GIAO
+      - CUSTCOL_SCV_AOP_CKKM
+      - CUSTCOL_SCV_AOP_LOI_NHUAN
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18497,6 +18707,99 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_CUSTOMER_CREDIT_LINES_F:
+      - ID
+      - TRANSACTION
+      - SUBSIDIARY
+      - CUSTOMER
+      - ITEM
+      - QUANTITY
+      - TYPE
+      - TAXLINE
+      - BASE_REVENUE
+      - POSTINGPERIOD - 1
+      - BASE_CREDITAMOUNT
+      - BASE_DEBITAMOUNT
+      - TRANDATE
+      - CLASS
+      - ITEMTYPE
+      - POSTINGPERIOD
+      - CREATEDDATE
+      - CLOSEDATE
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_ACCOUNT_D:
+      - ACCTTYPE
+      - ACCTNUMBER
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - Month_No
+      - ISPOSTING
+      DW_NS_CLASSIFICATION_D:
+      - Tên ngành
+      DW_NS_X_SALE_CHANNEL:
+      - Tên Kênh
+      - ID
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm Kênh
+      - ID Nhóm kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
+      - Nhóm xanh đỏ
+      - ID XD
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm SP
+      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
+      - Quy hoạch SP
+      DW_NS_CUSTOMER_CREDIT_F:
+      - POSTINGPERIOD
+      - MEMO
+      DW_NS_X_CAM_EMPLOYEEEXTENSION:
+      - ID_Employee
+      - CUSTENTITY_SCV_EMP_ASM_CODE
+      DW_NS_LOCATION_D:
+      - Location Name
+      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
+      - Sales Category
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
+      DW_NS_ITEM_D:
+      - Item Name
+      - UPCCODE
+      - WEIGHTUNITS
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - NAME
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Tên Chuỗi
+      DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
+      - TAX1AMT
+      - TAXRATE1
+      - TAXCODE
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      DW_NS_X_CAM_CUSTOMEREXTENSION:
+      - CSEG_SCV_SC
+      - CSEG_SCV_CHAIN
+      - CUSTENTITY_SCV_ENTITY_CODE
+      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
+      - CUSTENTITY_SCV_KH_KY_GUI
+      DW_NS_LOCATION_CF_DH:
+      - PARENT_NAME
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      DW_NS_X_CAM_ITEMEXTENSION:
+      - CSEG_SCV_MODEL
+      DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
+      - NAME
+      DW_NS_CUSTOMER_D:
+      - COMPANYNAME
+      - ALTNAME
+      DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
+      - Phân nhóm SP
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18507,6 +18810,30 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_X_SALE_HISTORY:
+      - TRANSACTION_DATE
+      - SUBSIDIARY
+      - ITEM_CODE
+      - MODEL
+      - BUSINESS_LINE_ID
+      - ITEM_CATEGORY
+      - CUSTOMER_ID
+      - CUSTOMER_NAME
+      - LOCATION_ID
+      - ASM_ID
+      - ASM_NAME
+      - QUANTITY
+      - NET_AMOUNT
+      - TAX
+      - TAX_RETURN
+      - SUBSIDIARY_ID
+      - SUBSIDIARY_NAME
+      - BUSINESS_LINE_NAME
+      - NS_CUSTOMER_ID
+      - NS_ASM_ID
+      - NS_LOCATION_ID
+      - NS_BUSINESS_LINE_ID
+      - NS_ITEM_ID
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18526,6 +18853,15 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_GIA_VON_MUC_TIEU_CT:
+      - CUSTRECORD_SCV_GVMT_LINE_END_DATE
+      - CUSTRECORD_SCV_GVMT_LINE_GVMT_SP
+      - CUSTRECORD_SCV_GVMT_LINE_MODEL
+      - CUSTRECORD_SCV_GVMT_LINE_MSP
+      - CUSTRECORD_SCV_GVMT_LINE_START_DATE
+      - ID
+      - ISINACTIVE
+      - NAME
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18536,6 +18872,17 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_GIA_VON_TON_KHO:
+      - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
+      - Next period
+      - CUSTRECORD_SCV_GVTK_ITEM_NAME_L
+      - CUSTRECORD_SCV_GVTK_PERIOD_L
+      - CUSTRECORD_SCV_GVTK_SUBSIDIARY_L
+      - CUSTRECORD_SCV_GVTK_UNITS_L
+      - CUSTRECORD_SCV_GVTK_UNIT_COST_L
+      - ID
+      - ISINACTIVE
+      - NAME
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ

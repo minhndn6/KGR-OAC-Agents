@@ -160,7 +160,8 @@ check("G1","Field hiển thị trên workbook đều tự-chứa tới physical 
 check("I1","Đủ 4 workbook, mỗi wb có canvas+viz", len(wb)==4 and all(w["canvases"] and any(cv["vizzes"] for cv in w["canvases"]) for w in wb.values()), f"{len(wb)} wb")
 miss_dossier=[dsn for dsn,r in fd.items() if r.get("type")=="dataflow_output" and not os.path.exists(os.path.join(KB,"fields",re.sub(r'[^0-9A-Za-z_]+','_',dsn).strip('_')+".md"))]
 check("I2","Mọi dataflow_output closure có dossier fields/*.md", not miss_dossier, str(miss_dossier[:3]))
-check("I3","Counts: 4 wb / 63 ds / 40 df / 60 phys", len(wb)==4 and len(ds)==63 and len(dfc)==40 and len(phys)==60, f"{len(wb)}/{len(ds)}/{len(dfc)}/{len(phys)}")
+# snapshot counts — CẬP NHẬT khi refresh catalog (⑥ 2026-07-06: live re-extract, bỏ 12 zombie df + thêm 8 → 36; ds 63→67)
+check("I3","Counts: 4 wb / 67 ds / 36 df / 60 phys", len(wb)==4 and len(ds)==67 and len(dfc)==36 and len(phys)==60, f"{len(wb)}/{len(ds)}/{len(dfc)}/{len(phys)}")
 
 # ---------- J. archive separation ----------
 arch=txt("archive_recommendations.md")
