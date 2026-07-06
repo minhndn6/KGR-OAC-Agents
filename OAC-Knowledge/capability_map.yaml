@@ -1,6 +1,6 @@
 _meta:
   purpose: 'Tra nhanh: metric/dimension nào lấy được ở dataset nào, grain nào. Dùng khi builder hỏi ''cần X theo Y lấy đâu''.'
-  extracted_live: '2026-06-20'
+  extracted_live: '2026-07-06'
   note: 'NO số. Authoritative khi trùng: OAC>NSAW; BC(báo cáo)>DB(dashboard).'
 by_dimension:
   asm:
@@ -78,6 +78,7 @@ by_dimension:
   - (KGR) DTF_CALC_INVOICE_MEMO_#
   - (KGR) DTF_CALC_MIS
   - (KGR) SFC Dataset (có AI)
+  - Daily_Nganh_Report
   - KGR_DS_SFC_vs_Actual_v2
 by_metric:
   aop (kế hoạch):
@@ -153,6 +154,7 @@ by_metric:
   - (KGR) DTF_CALC_MIS
   - Daily_TD_Report
   - KGR_DS_SFC_vs_MEMO_v1
+  - Nganh_Report_Long_#
   - SPmoi_ng_v3
 datasets:
   (KGR) DTF_CALC_INVOICE_MEMO_#:
@@ -185,6 +187,7 @@ datasets:
     - ID Nhóm kênh
     - ID XD
     - ITEM
+    - ITEMTYPE
     - Item Name
     - LINE ID
     - Model name
@@ -203,12 +206,15 @@ datasets:
     - Tên Kênh
     - Tên Ngành
     - Tên Đơn vị
+    - UPCCODE
     - Vụ việc
     measures:
     - '%GP Ròng'
     - '%LN Gộp'
     - CKKM Per
+    - CKKM theo Line (+VAT)
     - CP CKKM
+    - 'CUSTCOL_SCV_DISCOUNT_AMOUNT_01 '
     - Doanh số lũy kế
     - Doanh số quy đổi
     - Doanh số thực tế
@@ -243,7 +249,9 @@ datasets:
     - Diễn giải
     - Giá bán TB
     - Giá trả lại TB
+    - ID Chuỗi
     - ID Kênh
+    - ID Model
     - ID XD
     - ITEM
     - Item Name
@@ -253,9 +261,11 @@ datasets:
     - Model name
     - Month_No
     - Mã KH
+    - Mã Kho
     - Mã NVBH
     - Mã hàng
     - Mã tỉnh
+    - Mã Đơn Vị
     - Ngày CT
     - Ngày bắt đầu
     - Ngày kết thúc
@@ -269,6 +279,7 @@ datasets:
     - SL xuất bán
     - Sales Category
     - TK đối ứng
+    - TKĐƯ
     - TYPE
     - Thuế
     - Thuế trả lại
@@ -279,6 +290,7 @@ datasets:
     - Transaction ID
     - Transaction Type
     - Tên Chuỗi
+    - Tên KH
     - Tên Khách Hàng
     - Tên Kênh
     - Tên Ngành
@@ -296,9 +308,11 @@ datasets:
     - '%GV/DT'
     - '%LN Gộp'
     - '%TB/DT'
-    - CKKM
+    - CKKM Per
+    - CKKM Per Chuỗi
+    - CKKM Per Kênh
     - CP CKKM
-    - DISCOUNT AMOUNT 01
+    - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
     - Doanh số thực tế
     - Doanh thu SP mới
     - Doanh thu thực tế
@@ -319,7 +333,7 @@ datasets:
     - Tên CKKM
     - Tỷ trọng SP mới
     - Unit Cost
-    produced_by: (KGR) 5. DTF_CALC_MIS
+    produced_by: (KGR) 5. DTF_CALC_MIS Ver 4
     used_by_workbooks:
     - (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS
   Daily_Nganh_Report:
@@ -330,10 +344,13 @@ datasets:
     - AsOfDate_1
     - CLASS
     - DS_ConPhaiThucHien
+    - DS_DO_NG
+    - DS_XANH_NG
     - DT_SPmoi_ng
     - DT_ng
     - ID CLASS
     - IDCLASS
+    - LNGiao
     - LN_ConPhaiThucHien
     - Metric_Code
     - Metric_Name
@@ -358,13 +375,13 @@ datasets:
     - CUSTCOL_SCV_AOP_CP_CKKM Sum
     - CUSTCOL_SCV_AOP_DOANH_SO Sum
     - CUSTCOL_SCV_AOP_LN_GIAO Sum
+    - CUSTCOL_SCV_AOP_LOI_NHUAN Average
     - CUSTCOL_SCV_AOP_LOI_NHUAN Sum
     - DS Xanh Sum_ng
     - DS Đỏ Sum_ng
     - DS_AOP
     - DS_TT
     - DT_grain Sum
-    - LNGiao
     - LNGop
     - LNST
     - NETAMOUNT Sum
@@ -383,10 +400,12 @@ datasets:
     - AsOfDate
     - AsOfDate_1
     - DS_ConPhaiThucHien
+    - LNGiao
     - LN_ConPhaiThucHien
     - PERIODNAME
     - PERIODNAME_1
     - PERIODNAME_2
+    - TyTrong_SP_Moi
     measures:
     - AOP_Amount Sum
     - AOP_Amount_1 Sum
@@ -411,7 +430,6 @@ datasets:
     - DT_grain Sum
     - DT_ng Sum
     - ID CLASS Maximum
-    - LNGiao
     - LNST
     - Metric_Code Maximum
     - PhanTram_CKKM_AOP
@@ -612,6 +630,8 @@ datasets:
     measures:
     - AOP_Amount
     - Actual_Amount
+    - DT_SPmoi_ng
+    - DT_ng
     produced_by: KGR_DF_Nganh_Metrics_v3
     used_by_workbooks:
     - (KGR) BRD.BC01_Daily_Summary
@@ -709,6 +729,7 @@ datasets:
     - a1_Doanh số thực tế Sum
     - a3_Giá Vốn
     - a5_CP CKKM
+    - a6_NVKD_TD
     produced_by: KGR_DF_TD_Metrics_bk
     used_by_workbooks:
   TD_Report_Long:
@@ -863,6 +884,13 @@ datasets:
     produced_by:
     used_by_workbooks:
     - (KGR) BRD.BC01_Daily_Summary
+  CreditMemo_Line+Pro:
+    type: db_dataset
+    grain: line-level (credit-memo transaction line extension + promotion)
+    dimensions: []
+    measures: []
+    produced_by:
+    used_by_workbooks:
   DW_CREDIT_MEMO:
     type: db_dataset
     grain: line-level

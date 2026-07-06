@@ -26,7 +26,11 @@ import kb_paths as KP      # noqa: E402
 
 
 def _learn_py_repo():
-    """Đường dẫn learn.py bản trong-repo (skill/kgr-oac-lineage/scripts/learn.py)."""
+    """Đường dẫn learn.py bản trong-repo (skill/kgr-oac-lineage/scripts/learn.py).
+    Env `KGR_LEARN_PY` override đường dẫn (dùng cho TEST — để test non-shim KHÔNG mutate file thật)."""
+    ov = os.environ.get("KGR_LEARN_PY")
+    if ov and Path(ov).is_file():
+        return Path(ov)
     for anc in (HERE, *HERE.parents):
         cand = anc / "skill" / "kgr-oac-lineage" / "scripts" / "learn.py"
         if cand.is_file():
@@ -217,7 +221,8 @@ import datetime as _dt
 _FRESH_WARN_DAYS = 7    # >7 ngày -> WARN
 _FRESH_STALE_DAYS = 14  # >14 ngày -> STALE (góp phần STATUS=ATTENTION)
 _FRESH_CATALOGS = ("dataflow_catalog.yaml", "workbook_catalog.yaml",
-                   "dataset_catalog.yaml", "field_dictionary.yaml")
+                   "dataset_catalog.yaml", "field_dictionary.yaml",
+                   "capability_map.yaml")   # DERIVED từ catalog → phải tươi (builder step-0 dùng). business_glossary=CURATED nên KHÔNG gate.
 _EXTRACTED_RE = _re.compile(r"extracted_live\s*:\s*['\"]?(\d{4}-\d{2}-\d{2})")
 
 
@@ -265,22 +270,29 @@ def freshness_check(catalog_dir=None, now=None, files=None):
         return {"status": "UNKNOWN", "max_extracted_live": None, "per_file": per_file,
                 "note": "không đọc được extracted_live từ catalog nào (INV-6: nghi ngờ, cần kiểm)"}
 
+    # INV-6: staleness phải fail-ồn → tuổi tính theo catalog CŨ NHẤT (min), KHÔNG che bằng max.
+    # (1 catalog tươi KHÔNG được làm bộ khác cũ trông OK.)
+    oldest = min(dates)
     newest = max(dates)
-    age = (now - newest).days
+    age = (now - oldest).days
     if age > _FRESH_STALE_DAYS:
         status = "STALE"
     elif age > _FRESH_WARN_DAYS:
         status = "WARN"
     else:
         status = "OK"
+    # catalog cũ nhất (thủ phạm) để hint rõ
+    stale_file = min((f for f in per_file), key=lambda f: per_file[f]) if per_file else None
     return {
         "status": status,
-        "max_extracted_live": newest.isoformat(),
-        "age_days": age,
+        "oldest_extracted_live": oldest.isoformat(),
+        "max_extracted_live": newest.isoformat(),   # giữ tương thích: bản mới nhất
+        "age_days": age,                              # tuổi của catalog CŨ NHẤT (INV-6)
+        "oldest_file": stale_file,
         "warn_after_days": _FRESH_WARN_DAYS,
         "stale_after_days": _FRESH_STALE_DAYS,
         "per_file": per_file,
-        "hint": ("map catalog CŨ — refresh (rebuild raw/REBUILD.md) TRƯỚC khi tin lineage/số"
+        "hint": (f"catalog CŨ NHẤT '{stale_file}' ({oldest.isoformat()}) quá hạn — refresh (raw/REBUILD.md) TRƯỚC khi tin lineage/số"
                  if status == "STALE" else None),
     }
 

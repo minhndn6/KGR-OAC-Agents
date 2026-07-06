@@ -26,6 +26,7 @@ Mỗi file `fields/<dataset>.md` liệt kê từng cột: công thức trực ti
 - [(KGR) Tỉ lệ chi phí Lương](fields/KGR_T_l_chi_ph_L_ng.md) — db_dataset, grain: dim/lookup
 - [1. Invoice_v2](fields/1_Invoice_v2.md) — db_dataset, grain: line-level
 - [AOP LINE CF](fields/AOP_LINE_CF.md) — db_dataset, grain: dim/lookup
+- [CreditMemo_Line+Pro](fields/CreditMemo_Line_Pro.md) — db_dataset, grain: line-level (credit-memo transaction line extension + promotion)
 - [DW_CREDIT_MEMO](fields/DW_CREDIT_MEMO.md) — db_dataset, grain: line-level
 - [DW_X_SALE_HISTORY_Dataset](fields/DW_X_SALE_HISTORY_Dataset.md) — db_dataset, grain: dim/lookup
 - [Giá vốn mục tiêu](fields/Gi_v_n_m_c_ti_u.md) — db_dataset, grain: dim/lookup

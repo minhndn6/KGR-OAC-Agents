@@ -1,99 +1,102 @@
 {
   "capability_map.yaml": {
-    "sha256": "0a7df09af0da62c072a7c24261b677fbeaf5463415a839e2542781dcb62ac9f9"
+    "sha256": "edf4750f33cf9219cb7ccdf51ed712f5dd30df035d7706589e9045895d7b10fa"
   },
   "dataflow_catalog.yaml": {
     "sha256": "ab7d303364b1039a1a7684bda1e21e03db98b85b04e6b21a81f4a1ee6b8d58e7"
   },
   "dataset_catalog.yaml": {
-    "sha256": "be8033e0feda4d426a7c8dc3f2a948ed61825af4edb3c6466df46cfd8bcd698b"
+    "sha256": "9bd59cbf980ba35260416ae5dfac9e9468f499913c4d53355e849e87ccda0660"
   },
   "field_dictionary.yaml": {
     "sha256": "a63cb0b191c51547f8f1f6110b26fdd65f4f6848ba023ffd926e9cacca4ad2b8"
   },
   "fields/1_Invoice_v2.md": {
-    "sha256": "54e21e673f8eb00696d573b7ec4543447e651507bc7b3f022c77e4ef5aa90899"
+    "sha256": "d57ff3301cff03ad913ec7d2661464d8156d2e812d0c578b24e6d6fc45fbd4dc"
   },
   "fields/AOP_LINE_CF.md": {
-    "sha256": "3bc1e9aacb1350ed4fc87db7f27f83371634fea6ae0042504d0453e0a2012f8a"
+    "sha256": "338d38316bfac1738ee9e754bca7142ae32340c2f86fc203f6e44c55c533a074"
+  },
+  "fields/CreditMemo_Line_Pro.md": {
+    "sha256": "3c0b2d24034f71f3b02b94a702047c8c43a90a2bccd2b989753de47f03bda253"
   },
   "fields/DW_CREDIT_MEMO.md": {
-    "sha256": "105bb5046404ca7b0ec2149cc655e2a4f738af7923a801d95beedba0d35ec4b7"
+    "sha256": "e00425bebb32609562156aff9556dca7c9de333b1552b1adb5d664b32e60a9d4"
   },
   "fields/DW_X_SALE_HISTORY_Dataset.md": {
-    "sha256": "fa56f1592d9e80ee5cdddee49140c3f3bb1d3213c2d01c2a93adc13e61556ee6"
+    "sha256": "2cc4cf3e05ab7ca75614b7a6d7914670188963eb0c5901732c723051cdcad89c"
   },
   "fields/Daily_Nganh_Report.md": {
-    "sha256": "c926b75aacfd375d5233f15200c8ee37317dcadcbe65e0fe1a5f34c16db56339"
+    "sha256": "c5968212c52e43d2b9a5446d78a5f3cf6392e0347ca7a617a4d535d42327f1f0"
   },
   "fields/Daily_TD_Report.md": {
-    "sha256": "90a40b619e7d66dabf69a51704a8188450ffe8b6656e98c3d173e983a707a9a1"
+    "sha256": "88cfe40016776dadba94aed6f49004dbad9eda5b663c4bfa2e7049df209d235f"
   },
   "fields/Gi_v_n_m_c_ti_u.md": {
-    "sha256": "afed04f242a59eba6822263fa978770b828d2e860d08aa82b94d77e40406560d"
+    "sha256": "e3ebc2777dc6c94805b8ebdfcdf43806bfbdb74db25d6d72e30789943081d6cf"
   },
   "fields/Gi_v_n_t_n_kho.md": {
-    "sha256": "0d691349ca7f5a0f3c7c60ab04d6604c56f5cee73efab203bc4de008f2618b43"
+    "sha256": "5303c8864f02a50da7950f569c1d21ed20aa8be985f0f44675d436e1ca353b39"
   },
   "fields/KGR_AOP_Dataset.md": {
-    "sha256": "f20923e0db643d6fb2fc0ec42a1f0ce6821c85873432894a20e9e43b0418b02d"
+    "sha256": "b56820fafca3d9753e19e08c067e513bf2e36c2187b2b04653825762d7dfae0d"
   },
   "fields/KGR_CKKM_TT.md": {
-    "sha256": "cfc4912a0c8e5afe850e04aec3270d5d63f30831301bd3ec4c43d908d742f6ae"
+    "sha256": "c29539caf35f6063429c5436ec0a081d64dd5d4f7412f338ee154a8ac324ee13"
   },
   "fields/KGR_DS_SFC_vs_Actual_v2.md": {
-    "sha256": "33c050ac0dcf5c751f22760aa7fc16c151e67f288f907f8d8496b272758e4921"
+    "sha256": "12cdea44e607885dea3abafdee1e7e7ae08f3b7049fe82adba0317af7381c692"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v1.md": {
-    "sha256": "6ac015e7030720330130a95bc8972920ec0f75eb6cf3a837d6231d547772253d"
+    "sha256": "21a2085020c4d4e0e947900da6694d4d91d7a1f246ddb3c2ea89bc9e6209a8af"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v2.md": {
-    "sha256": "024395f33e8a4c31715061b43eb999c1473e9ebeb9e2f191f89271f4f4886c69"
+    "sha256": "b6ffacc9c89f109afe459ca82cdc3ed254401a978dcad69163e15a7f87f64714"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v3.md": {
-    "sha256": "e456c1232283d00c71b5bfbda4ef34bdc6d31c6e295e248e8cfde73af0b80654"
+    "sha256": "6840bd23c9d77b68a464e88365e06ac0a41573f6255ccab6abbe31edf2876738"
   },
   "fields/KGR_DS_SFC_vs_MEMO_v4_Chuoi.md": {
-    "sha256": "daaf8156cb829d7b4ef7fe448315174d5677517aa4cf8e27aa02401119cf6431"
+    "sha256": "bd02c3518d920b74f956df57a94bf64199ff78900d3ebedb5fe4e3d4a4154f3b"
   },
   "fields/KGR_DTF_CALC_INVOICE_MEMO.md": {
-    "sha256": "7b571b317eb37ff4dfdf995440d92a66db9350ea9c036e72ab6f41f46b90bad3"
+    "sha256": "bc5373da842f72aeb07f55b4da63b1513a702823b8abe904dbee7a6757566cef"
   },
   "fields/KGR_DTF_CALC_MIS.md": {
-    "sha256": "7577cdfdef4ef1a25ca0d42cdd0e131a2ab421220ea29d9f47850a3be20218c4"
+    "sha256": "abdd6e117844c6dfce3e71f4ce4ef2f5887164590f85ec9043aa4885c1ca2130"
   },
   "fields/KGR_Invoice_Line_Header_Pro.md": {
-    "sha256": "02ac2c9cded06cdebf8b49798a80fde635ac5d46d26ab44b476ba16f00c4bf42"
+    "sha256": "6ac279b68867973f17e76f4cf140e308d8ff0b6b121615787a3dfd8498f33337"
   },
   "fields/KGR_SFC_Dataset_c_AI.md": {
-    "sha256": "400fb0380fc4ef9d6ce27821e6d92c7ec1d8e7ce3d42c05897a068b7a1f87a22"
+    "sha256": "da6df5224062b952296b28d5a3c103926916a22b72041617f4ecdf8eec71a638"
   },
   "fields/KGR_T_l_chi_ph_L_ng.md": {
-    "sha256": "1122d81351072a7e95924f2a4a071674fd400369e47e6d84e4541b961b264b40"
+    "sha256": "111b47e20088d47f2df2276d2547b6e3368efec61da4b7b17913ffb1e513bccc"
   },
   "fields/Nganh_Report_Long.md": {
-    "sha256": "c29252eda0e3e5a745d1f2a43e4ab3794bc409f6042a4cade41ab3d869ba1aa3"
+    "sha256": "6da385698a6109e2d75e2227cc201f804714a82770444f02681918f03c641bf4"
   },
   "fields/Nganh_Report_Long_TD.md": {
-    "sha256": "36f12c907a58fe3eb6f06fab698a48267e89969f5153686d5211b52f9c9bef95"
+    "sha256": "cc9df1c50d7cf13600b251ae934b5efb2cb4fb08ed063dbc7020b3fe64e04857"
   },
   "fields/SALE_HIST_w_INVC.md": {
-    "sha256": "a4f47f3f12ac39dd0fec93e940989e1dd2b33bb7cf094c7184f2565fe9b3929e"
+    "sha256": "ae7351c0c0970f36aef661f7c95d9f665b33d32d50e0e84bc8569fd113c725a2"
   },
   "fields/SPmoi_ng_v3.md": {
-    "sha256": "ae4d9f954fd2ac57725b453a87bb00f56d1132197c249a64e0ffda7a3ec4a636"
+    "sha256": "7a99b9e301fec4daaeb3d1415f9dc5ce486608508a9cb0a5e17918043800be45"
   },
   "fields/TD_Metrics_Wide.md": {
-    "sha256": "1b289c3b89dfef83a2eecd375b052f115ec2f0cee11d01f712baee7f3e623f90"
+    "sha256": "f93d95fc9734ee5576f22970417ba56af3d29bd795f7e6a96997438da477dcb9"
   },
   "fields/TD_Report_Long.md": {
-    "sha256": "87cbbcf9e9f226eff01334a09838eba2e4acee75dcb966046c2567ccfe91b611"
+    "sha256": "3fdb25a38cc61b1459e23ccf81a698596d793964252e109c9cca5c2f68136751"
   },
   "fields/TD_Report_PNL_Bridge.md": {
-    "sha256": "72d725e324a88bc32012882741604cd4a2ca69d5577f90e92dcc9268778f7850"
+    "sha256": "21011417abec7ef90789d8973112150d2ef5c87f5185e41d5196d4d9dde15bf4"
   },
   "fields/TD_Report_PNL_Bridge_Nganh.md": {
-    "sha256": "0e501be5c922cf0d0f06aef555cd17777a425bc563e32cd553a7d2df577207c6"
+    "sha256": "0d5e9df96c7f01b53a452c2d6b71e6c500b31c49ca798e36ab7637d6178e42ed"
   },
   "lineage_graph.yaml": {
     "sha256": "1460ab57994fa57d838fed590729db6b9c18e65bcbfc0bf430301f63cd2c7b94"

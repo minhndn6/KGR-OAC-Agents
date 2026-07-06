@@ -7,6 +7,9 @@ Usage:
 Exits 0 if no ERRORs; exits 1 if any ERROR found.
 WARNs are printed but do not affect the exit code.
 """
+import sys as _sys
+try: _sys.stdout.reconfigure(encoding="utf-8")
+except Exception: pass
 import sys
 import os
 from pathlib import Path

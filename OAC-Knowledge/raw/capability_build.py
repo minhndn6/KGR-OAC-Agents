@@ -6,6 +6,7 @@ from collections import OrderedDict, defaultdict
 OUT=os.environ.get("OAC_KB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # raw -> OAC-Knowledge
 fd=yaml.safe_load(open(os.path.join(OUT,"field_dictionary.yaml"),encoding="utf-8"))
 dc=yaml.safe_load(open(os.path.join(OUT,"dataset_catalog.yaml"),encoding="utf-8"))["datasets"]
+_src_live=(fd.get("_meta") or {}).get("extracted_live") or "unknown"  # derive từ field_dictionary — KHÔNG hardcode (theo kịp refresh)
 
 # concept keyword maps (Vietnamese + English) on column names
 DIM_CONCEPTS={
@@ -105,7 +106,7 @@ open(os.path.join(OUT,"fields","_INDEX.md"),"w",encoding="utf-8").write("\n".joi
 
 cap=OrderedDict()
 cap["_meta"]={"purpose":"Tra nhanh: metric/dimension nào lấy được ở dataset nào, grain nào. Dùng khi builder hỏi 'cần X theo Y lấy đâu'.",
- "extracted_live":"2026-06-20","note":"NO số. Authoritative khi trùng: OAC>NSAW; BC(báo cáo)>DB(dashboard)."}
+ "extracted_live":_src_live,"note":"NO số. Authoritative khi trùng: OAC>NSAW; BC(báo cáo)>DB(dashboard)."}
 cap["by_dimension"]={k:sorted(v) for k,v in sorted(by_dim.items())}
 cap["by_metric"]={k:sorted(v) for k,v in sorted(by_met.items())}
 cap["datasets"]=cap_ds

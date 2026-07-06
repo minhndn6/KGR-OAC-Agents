@@ -11,6 +11,9 @@ R-D1 (safe): `import build_catalogs` KHÔNG còn tự-build (side-effect-free) �
     không FileNotFoundError khi provenance nằm ở raw/ gốc (không raw/raw/).
 R-D2: merge_descriptions() chèn lại mô tả nghiệp vụ CURATED từ dataflow_descriptions.yaml (rebuild GIỮ tri-thức tay).
 """
+import sys as _sys
+try: _sys.stdout.reconfigure(encoding="utf-8")
+except Exception: pass
 import json, os, glob, datetime, re, sys
 from collections import defaultdict, OrderedDict
 import yaml

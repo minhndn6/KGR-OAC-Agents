@@ -444,7 +444,7 @@ datasets:
       - SOURCE_RECORD_ID
       - W$_INSERT_DT
       - W$_UPDATE_DT
-    grain: line-level
+    grain: dim/lookup
   (KGR) DATASET BC02:
     name: (KGR) DATASET BC02
     display_name: (KGR) DATASET BC02
@@ -1374,7 +1374,7 @@ datasets:
       - Vụ việc
       - W$_INSERT_DT
       - W$_UPDATE_DT
-    grain: line-level
+    grain: dim/lookup
   (KGR) JOURNAL:
     name: (KGR) JOURNAL
     display_name: (KGR) JOURNAL
@@ -3034,7 +3034,7 @@ datasets:
       - NS_LOCATION_ID
       - NS_BUSINESS_LINE_ID
       - NS_ITEM_ID
-    grain: line-level
+    grain: dim/lookup
   EST_INVOICE:
     name: EST_INVOICE
     display_name: EST_INVOICE

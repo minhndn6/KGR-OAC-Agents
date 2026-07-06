@@ -217,25 +217,23 @@ def test_a1_doctor_attention_when_not_shim(tmp):
     print("== A1: doctor -> STATUS ATTENTION khi learn.py KHÔNG phải shim (INV-6 fail ồn) ==")
     # Sao chép cây tối thiểu? Không khả thi rẻ. Thay vào: kiểm hàm doctor logic nếu phơi được,
     # else kiểm bằng cách tạm ghi learn.py giả (KHÔNG shim) rồi khôi phục.
-    env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
-    orig_bytes = LEARN_PY.read_bytes()               # BYTE-level: khôi phục KHÔNG đổi line-ending
+    # KHÔNG mutate learn.py THẬT (tránh làm bẩn cây git nếu process bị kill giữa chừng).
+    # Ghi stub vào FILE TẠM + trỏ doctor qua env KGR_LEARN_PY (bulletproof: hard-kill cũng không đụng file tracked).
+    stub = tmp / "learn_stub.py"
+    stub.write_bytes(b"#!/usr/bin/env python3\nprint('legacy learn, no forward')\n")
+    env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "KGR_LEARN_PY": str(stub)}
+    r = subprocess.run([sys.executable, str(KGR_PY), "doctor"], env=env, capture_output=True, text=True)
+    out = r.stdout or ""
     try:
-        # ghi 1 learn.py "cũ" không có marker 'learn2'
-        LEARN_PY.write_bytes(b"#!/usr/bin/env python3\nprint('legacy learn, no forward')\n")
-        r = subprocess.run([sys.executable, str(KGR_PY), "doctor"], env=env, capture_output=True, text=True)
-        out = r.stdout or ""
-        try:
-            rep = json.loads(out)
-        except Exception:
-            chk(False, f"doctor JSON parse được (non-shim case). Got: {out[:200]!r}")
-            return
-        chk(rep.get("STATUS") == "ATTENTION",
-            "learn.py KHÔNG-shim -> doctor STATUS=ATTENTION (fail ồn)")
-        lg = rep.get("learn_governance")
-        chk(isinstance(lg, dict) and (str(lg).lower().find("shim") >= 0),
-            "learn_governance phản ánh non-shim (báo lỗi shim)")
-    finally:
-        LEARN_PY.write_bytes(orig_bytes)              # KHÔI PHỤC nguyên byte (giữ CRLF)
+        rep = json.loads(out)
+    except Exception:
+        chk(False, f"doctor JSON parse được (non-shim case). Got: {out[:200]!r}")
+        return
+    chk(rep.get("STATUS") == "ATTENTION",
+        "learn.py KHÔNG-shim -> doctor STATUS=ATTENTION (fail ồn)")
+    lg = rep.get("learn_governance")
+    chk(isinstance(lg, dict) and (str(lg).lower().find("shim") >= 0),
+        "learn_governance phản ánh non-shim (báo lỗi shim)")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

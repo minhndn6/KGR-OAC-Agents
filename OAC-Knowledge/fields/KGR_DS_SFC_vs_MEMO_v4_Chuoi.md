@@ -1,7 +1,7 @@
 # KGR_DS_SFC_vs_MEMO_v4_Chuoi
 
 - **type**: dataflow_output
-- **grain**: group: Tên Chuỗi  (heuristic: GroupBy gần Output nhất — verify qua dataflow_catalog steps)
+- **grain**: group: Tên Chuỗi  ()
 - **producer_flow**: KGR_DF_SFC_vs_MEMO_v4_Chuoi
 - **used_by_workbooks**: ['(KGR) DB01.Revenue_v1.1']
 - **physical_tables**: []
@@ -30,7 +30,7 @@
 ### Doanh thu thực tế Sum
 - formula: `sum( ... )`
 - aggregation: sum
-- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS']
+- physical_roots: ['DW_NS_CUSTOMER_CREDIT_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_CREDIT_LINES_F.CLASS', 'DW_NS_CUSTOMER_INVOICE_LINES_F.BASE_REVENUE', 'DW_NS_CUSTOMER_INVOICE_LINES_F.CLASS', 'DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_DISCOUNT_AMOUNT_01', 'DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION.CUSTCOL_SCV_DISCOUNT_AMOUNT_01']
 - filters: ['"PERIODNAME" IN(\'May 2026\')']
 - joins: ['fullouterjoin: Tên Chuỗi = Chuỗi']
 
