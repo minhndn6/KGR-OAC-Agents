@@ -1,6 +1,6 @@
 # QA_REPORT — toàn diện
 
-PASS=61 FAIL=0 WARN=1  (tổng 62)
+PASS=62 FAIL=0 WARN=0  (tổng 62)
 
 
 ## S1
@@ -57,7 +57,7 @@ PASS=61 FAIL=0 WARN=1  (tổng 62)
 
 ## S9
 - ✅ `9.1_typing_closure`
-- ⚠️ `9.2_dataflow_output` — 2 no-output (archive cand, OK): ['KGR_DF_SANDBOX_EXPLORE', 'DTF_PRODUCT_KPI_PY']
+- ✅ `9.2_dataflow_output`
 - ✅ `9.3_physical_complete`
 - ✅ `9.4_capability`
 - ✅ `9.5_glossary_codes`
