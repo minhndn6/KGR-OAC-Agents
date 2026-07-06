@@ -21,7 +21,8 @@ FIXTURE = Path(r"C:\Project\_work\kgr-governance-build\oac_freshness_2026-06-21.
 # ── ORACLE ĐỘC LẬP cho check_path (hand-code; tách khỏi kinds.yaml để bắt drift cấu hình) ──
 _O_GEN_YAML = {"dataset_catalog.yaml", "dataflow_catalog.yaml", "workbook_catalog.yaml",
                "physical_table_catalog.yaml", "lineage_graph.yaml", "field_dictionary.yaml", "capability_map.yaml"}
-_O_CURATED_TOP = {"business_glossary.yaml", "archive_recommendations.md", "HOW_TO_TRACE_A_FIELD.md",
+_O_CURATED_TOP = {"business_glossary.yaml", "dataflow_descriptions.yaml", "archive_recommendations.md",
+                  "HOW_TO_TRACE_A_FIELD.md",
                   "CONFLICTS_AND_OPEN_QUESTIONS.md", "governance_register.md", "live_query_recipes.md",
                   "KNOWLEDGE_INDEX.md", "LEARNING.md", "source_selection_playbook.md", "OWNER_TODO.md",
                   "QUICK_REFERENCE.md", "CHANGELOG.md", "QA_USECASES_REPORT.md", "IMPROVEMENTS.md", "QA_REPORT.md"}

@@ -74,7 +74,8 @@ Thứ tự nguồn đối chiếu: **(1) số expected user cho → (2) NSAW MCP
 ### Phase 6 — REPORT + cập nhật knowledge
 1. **Báo cáo cho user**: kết quả (tên flow/dataset, grain, cột), **bảng số đối chiếu** (giá trị build vs nguồn verify, % lệch), những lệch-plan khi thi công, link/deep-link mở flow.
 2. **Cập nhật knowledge file** (tự động, không cần hỏi): mọi navigation/gotcha/wall/best-practice MỚI đã verify trong phiên → edit `OAC_DATAFLOW_MASTERY.md` theo quy tắc [references/kb-update-rules.md](references/kb-update-rules.md) (đúng section, supersede thay vì trùng lặp, changelog). Liệt kê các thay đổi KB trong báo cáo cuối.
-3. Dọn file tạm `_dfx_*.txt/png` do mình tạo (trừ khi user muốn giữ).
+3. **Đối chiếu field/nguồn dùng-thật vs catalog (drift-sensor, R-G1)**: sau build, gom tập field/dataset đã DÙNG-THẬT → chạy `build_sensor.check_used_fields(used, field_dict, dataset_catalog)` (`OAC-Knowledge/kb_lifecycle/tools/build_sensor.py`). Field/dataset builder dùng mà KHÔNG có trong catalog = **map drift** (catalog cũ hoặc nguồn lạ) → **propose learn2** (dùng `learn2` để review/promote, KHÔNG tự ghi catalog). Tận dụng build để giữ-map-tươi rẻ nhất.
+4. Dọn file tạm `_dfx_*.txt/png` do mình tạo (trừ khi user muốn giữ).
 
 ## 3. Định nghĩa DONE — checklist trước khi tuyên bố hoàn thành
 - [ ] Dataset output tồn tại, đúng tên `_vN`, mở được

@@ -9,6 +9,9 @@ Usage:
   python kgr.py setup       # ghi registry kb_root + cấu hình git core.hooksPath=.githooks (shared pre-commit)
   python kgr.py gc [--apply]# retention: dọn tmp/_trash/dump cũ + archive blackboard cũ ở _kgr-state
   python kgr.py route ...   # -> kb_route.py (P2.2): "tri thức loại X ghi vào đâu"
+  python kgr.py refresh [--check|--discover|--reconcile]  # cơ chế REFRESH đọc-only:
+        # --check staleness (R-A2) · --discover oac-native discover_data LIVE · --reconcile live↔dataset_catalog
+        # (không cờ) = --check + --reconcile, in drift gọn. KHÔNG ghi OAC, KHÔNG ghi đè catalog.
 """
 import sys, os, json, subprocess, hashlib, glob
 from pathlib import Path
@@ -282,6 +285,127 @@ def freshness_check(catalog_dir=None, now=None, files=None):
     }
 
 
+# ── R-A1: reconcile live↔catalog (đọc-only) ─────────────────────────────────────
+def reconcile_datasets(live_names, catalog_names):
+    """THUẦN/tiêm-được: so tên dataset LIVE vs catalog. Trả {added, removed(zombie), matched, n_live, n_catalog}.
+      added   = có LIVE nhưng KHÔNG trong catalog (dataset mới, catalog cần bổ sung).
+      removed = có trong catalog nhưng KHÔNG còn LIVE (zombie — nguồn đã xóa/đổi tên).
+      matched = giao (khớp cả hai).
+    So theo tên chuẩn hóa (strip); giữ tên gốc trong output. KHÔNG gọi oac-native (CLI mới làm việc đó)."""
+    def norm(s): return str(s).strip()
+    live_map = {norm(x): x for x in (live_names or [])}
+    cat_map = {norm(x): x for x in (catalog_names or [])}
+    lset, cset = set(live_map), set(cat_map)
+    added = sorted(live_map[k] for k in (lset - cset))
+    removed = sorted(cat_map[k] for k in (cset - lset))
+    matched = sorted(live_map[k] for k in (lset & cset))
+    return {"added": added, "removed": removed, "matched": matched,
+            "n_live": len(lset), "n_catalog": len(cset),
+            "n_added": len(added), "n_removed": len(removed), "n_matched": len(matched)}
+
+
+def _catalog_dataset_names(catalog_dir=None):
+    """Đọc dataset_catalog.yaml -> list tên dataset (khóa 'datasets'). Thiếu/parse lỗi -> []."""
+    try:
+        import yaml
+    except Exception:
+        return []
+    cd = Path(catalog_dir) if catalog_dir is not None else None
+    if cd is None:
+        try: cd = _catalog_dir()
+        except Exception: return []
+    p = cd / "dataset_catalog.yaml"
+    if not p.is_file():
+        return []
+    try:
+        data = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return []
+    ds = data.get("datasets") or {}
+    return list(ds.keys()) if isinstance(ds, dict) else []
+
+
+def _discover_live_datasets():
+    """Gọi oac-native discover_data(datasets) LIVE (read-only) qua runtime bridge.
+    Trả (names, error). CLI-only (KHÔNG dùng trong test hermetic). Lỗi -> ([], 'thông điệp')."""
+    # Kênh oac-native chạy trong runtime MCP; khi chạy kgr.py CLI thuần KHÔNG có bridge sẵn.
+    # Cách thực dụng: gọi qua helper live_discover.py nếu có (owner wire), else báo blocker rõ.
+    here = HERE.parent
+    for cand in (here / "live_discover.py",
+                 KP.resolve_kb_root(start_file=str(HERE)) / "kb_lifecycle" / "tools" / "live_discover.py"):
+        try:
+            if cand.is_file():
+                r = subprocess.run([sys.executable, str(cand), "--datasets"],
+                                   capture_output=True, text=True, timeout=120)
+                if r.returncode == 0 and r.stdout.strip():
+                    try:
+                        data = json.loads(r.stdout)
+                        names = data.get("datasets") or data.get("names") or []
+                        if isinstance(names, list):
+                            return names, None
+                    except Exception as e:
+                        return [], f"parse live_discover output lỗi: {e}"
+                return [], f"live_discover exit {r.returncode}: {(r.stderr or r.stdout or '').strip()[:200]}"
+        except Exception as e:
+            return [], f"live_discover chạy lỗi: {e}"
+    return [], ("oac-native discover_data KHÔNG khả dụng ở CLI thuần (cần bridge live_discover.py do owner wire, "
+                "hoặc chạy discover_data trong phiên MCP). KHÔNG giả số.")
+
+
+def cmd_refresh(rest):
+    """kgr refresh — cơ chế REFRESH (đọc-only). Cờ:
+      --check     : staleness (tái dùng freshness_check R-A2).
+      --discover  : gọi oac-native discover_data LIVE -> list tên dataset (lỗi -> exit≠0, không giả).
+      --reconcile : so tên dataset LIVE vs dataset_catalog -> {added, removed(zombie), matched}.
+      (không cờ)  : --check + --reconcile, in báo cáo drift gọn.
+    df/wb enumerate cần chrome REST -> ghi TODO/partial; phần dataset làm được ngay qua oac-native."""
+    rest = rest or []
+    flags = set(a for a in rest if a.startswith("--"))
+    do_check = "--check" in flags
+    do_discover = "--discover" in flags
+    do_reconcile = "--reconcile" in flags
+    if not (do_check or do_discover or do_reconcile):
+        do_check = do_reconcile = True   # mặc định
+
+    out = {}
+    rc = 0
+
+    if do_check:
+        try:
+            out["freshness"] = freshness_check()
+        except Exception as e:
+            out["freshness"] = {"status": "UNKNOWN", "error": str(e)}
+        if out["freshness"].get("status") == "STALE":
+            rc = 1   # INV-6 fail-ồn
+
+    live_names = None
+    if do_discover or do_reconcile:
+        live_names, err = _discover_live_datasets()
+        out["discover"] = {"n_live": len(live_names or []), "error": err}
+        if do_discover:
+            out["discover"]["datasets"] = sorted(live_names or [])
+        if err:
+            # LIVE không lấy được -> báo rõ + exit≠0 (KHÔNG giả số/không im lặng)
+            rc = 1
+
+    if do_reconcile:
+        if live_names and not out.get("discover", {}).get("error"):
+            catalog_names = _catalog_dataset_names()
+            rec = reconcile_datasets(live_names, catalog_names)
+            out["reconcile"] = rec
+            if rec.get("n_added") or rec.get("n_removed"):
+                out["reconcile"]["drift"] = True
+        else:
+            out["reconcile"] = {"error": "không có danh sách LIVE (discover lỗi) -> không reconcile được",
+                                "todo": "df/wb enumerate cần chrome REST — phần dataset cần oac-native discover_data live"}
+            rc = rc or 1
+
+    out["_note"] = ("refresh đọc-only: KHÔNG ghi OAC, KHÔNG ghi đè catalog. df/wb enumerate = TODO (chrome REST). "
+                    "Rebuild reproducible-verify: python OAC-Knowledge/raw/build_catalogs.py --verify")
+    print(json.dumps(out, ensure_ascii=False, indent=2))
+    return rc
+
+
 def cmd_where():
     print(json.dumps(RT.where(), ensure_ascii=False, indent=2)); return 0
 
@@ -359,7 +483,8 @@ def main(argv):
     a = argv or ["where"]
     cmd, rest = a[0], a[1:]
     table = {"where": lambda: cmd_where(), "setup": lambda: cmd_setup(),
-             "doctor": lambda: cmd_doctor(), "gc": lambda: cmd_gc(rest), "route": lambda: cmd_route(rest)}
+             "doctor": lambda: cmd_doctor(), "gc": lambda: cmd_gc(rest), "route": lambda: cmd_route(rest),
+             "refresh": lambda: cmd_refresh(rest)}
     if cmd in table:
         return table[cmd]()
     sys.stderr.write(__doc__ + "\n")

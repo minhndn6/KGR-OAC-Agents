@@ -17,6 +17,7 @@ generated_exclude:
 
 curated:
   - "business_glossary.yaml"
+  - "dataflow_descriptions.yaml"   # R-D2 sidecar mô tả nghiệp vụ dataflow (merge lại khi rebuild)
   - "archive_recommendations.md"
   - "HOW_TO_TRACE_A_FIELD.md"
   - "CONFLICTS_AND_OPEN_QUESTIONS.md"

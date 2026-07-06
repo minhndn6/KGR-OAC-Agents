@@ -1,0 +1,94 @@
+# CURATED — dataflow_descriptions.yaml  (sidecar mô tả nghiệp vụ cho dataflow)
+#
+# ĐÂY LÀ FILE CURATED: SỬA TAY OK. Mỗi entry = <tên-dataflow HOẶC dataflow_id> -> mô tả nghiệp vụ (tiếng Việt).
+# Vì sao tồn tại: rebuild (raw/build_catalogs.py) sinh dataflow_catalog.yaml TỪ staging JSON — staging KHÔNG
+#   chứa các mô tả này (chúng được người thêm tay). Nếu để trong catalog GENERATED, rebuild sẽ XÓA MẤT.
+#   => Tách ra đây; build_catalogs.merge_descriptions() sẽ CHÈN LẠI khi rebuild (additive, giữ tri-thức).
+#
+# THÊM/SỬA mô tả: thêm 1 dòng '<tên-dataflow>: >-  <mô tả>' dưới 'descriptions:'. Khóa ưu tiên khớp theo
+#   'name' của dataflow; nếu không khớp name thì thử khớp 'dataflow_id'.
+# Validate nhanh: PYTHONUTF8=1 python -c "import yaml;yaml.safe_load(open('OAC-Knowledge/dataflow_descriptions.yaml',encoding='utf-8'))"
+
+descriptions:
+  KGR_DF_TD_Metrics_bk: >-
+    Dựng bảng lãi lỗ (P&L) cấp Tập đoàn theo kỳ, đi từ doanh số thực tế xuống tới lợi nhuận sau thuế. Lấy doanh
+    thu/giá vốn từ dataflow gốc, ghép kế hoạch AOP và danh mục chỉ tiêu. Xuất bảng dạng ngang (TD_Metrics_Wide)
+    và dạng dài (TD_Report_Long).
+  (KGR) 1. DTF_CALC_INVOICE_MEMO_#: >-
+    Dataflow gốc tính doanh thu và giá vốn ở mức từng dòng hóa đơn. Hợp nhất hóa đơn bán hàng với chứng từ điều
+    chỉnh giảm (credit memo) để ra doanh thu thực tế; tính giá vốn theo 3 tầng (ưu tiên giá vốn mục tiêu, thiếu
+    thì lấy giá vốn tồn kho); trừ chiết khấu khuyến mãi (CKKM). Chỉ tính cho 2 pháp nhân 'CTCP LD Kangaroo Quốc
+    tế' và 'Chi nhánh HCM', chỉ lấy giao dịch đã hạch toán, loại vụ việc 'HTL' và khách ký gửi. Là nguồn dữ liệu
+    cho hầu hết báo cáo doanh thu, lợi nhuận và SFC.
+  (KGR) 5. DTF_CALC_MIS: >-
+    Bản tính doanh thu/giá vốn/CKKM phục vụ báo cáo quản trị, giữ thêm các chiều chuỗi, model và kỳ để xem số theo
+    nhiều góc. Lấy cùng nguồn hóa đơn và credit memo như dataflow gốc.
+  DF_Nganh_Report_Long_TD: >-
+    Cộng số liệu các ngành thành dòng tổng toàn Tập đoàn (theo từng chỉ tiêu và từng ngày chốt số), bổ sung vào
+    bảng lãi lỗ theo ngành.
+  (KGR) DF_ACTUAL_AOP_EXPENSE: >-
+    Ghép bảng so sánh thực tế–kế hoạch với bảng chi phí thực, tạo báo cáo thực tế so với kế hoạch kèm chi phí thực
+    ghi sổ, chi tiết theo kỳ, pháp nhân, ngành, chuỗi.
+  DF_TD_Report_PNL_Bridge_Nganh: >-
+    Giống biểu đồ thác nước lãi lỗ Tập đoàn nhưng vẽ cho từng ngành, mỗi ngành cộng dồn riêng theo ngày chốt số.
+  DF_TD_Report_PNL_Bridge: >-
+    Chuẩn bị dữ liệu cho biểu đồ thác nước lãi lỗ Tập đoàn: mỗi kỳ gồm 14 dòng (8 bước tăng/giảm và 6 mốc cộng dồn)
+    đi từ doanh thu đến lợi nhuận trước thuế, kèm giá trị đầu và cuối mỗi bước.
+  (KGR) DF_FACT_EXPENSE: >-
+    Gộp chi phí thực ghi sổ (sổ cái kế toán) với bút toán ước tính về cùng một mức chi tiết, tạo bảng chi phí thực
+    dạng ngang. Chỉ lấy các tài khoản chi phí (loại 'Expense' và 'OthExpense'), theo kỳ, pháp nhân, ngành, kênh,
+    chuỗi.
+  KGR_DF_TD_Metrics_v1.0: >-
+    Phiên bản 1.0 của bảng lãi lỗ Tập đoàn. Dựng P&L theo kỳ từ doanh số thực tế tới lợi nhuận sau thuế, lấy doanh
+    thu/giá vốn từ dataflow gốc và ghép kế hoạch AOP; xuất bảng dạng ngang và dạng dài.
+  (KGR) 5. DTF_CALC_MIS_v1.0: >-
+    Phiên bản 1.0 của dataflow MIS. Tính doanh thu, giá vốn và CKKM từ hóa đơn và credit memo, tổ chức số theo chiều
+    chuỗi, model và kỳ phục vụ báo cáo quản trị.
+  (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0: >-
+    Phiên bản 1.0 của dataflow gốc tính doanh thu/giá vốn. Hợp nhất hóa đơn với credit memo để ra doanh thu thực
+    tế, tính giá vốn 3 tầng (giá vốn mục tiêu → giá vốn tồn kho), trừ chiết khấu khuyến mãi; chỉ tính 2 pháp nhân
+    'CTCP LD Kangaroo Quốc tế' và 'Chi nhánh HCM', loại vụ việc 'HTL' và khách ký gửi.
+  DF_TD_Report_PNL_v2: >-
+    Chuyển bảng lãi lỗ Tập đoàn sang dạng dài (mỗi dòng một bước, có dấu cộng/trừ, thứ tự bước và cột cộng dồn đầu/cuối)
+    để vẽ biểu đồ.
+  KGR_DF_ACTUAL_AOP_MONTHLY_LK: >-
+    Báo cáo ước tính theo tháng (doanh số, lợi nhuận gộp, lợi nhuận trước thuế) kèm lũy kế nhiều tháng và kế hoạch
+    AOP, chi tiết theo pháp nhân, ngành, chuỗi.
+  (KGR) DF_GRAIN_ACTUAL_AOP: >-
+    Đưa số thực tế (từ dataflow gốc) và kế hoạch AOP về cùng mức chi tiết (kỳ, pháp nhân, ngành) để so sánh, phục
+    vụ báo cáo tháng.
+  (KGR) DF_DAILY_SC_CHAIN: >-
+    Tính lợi nhuận theo kênh và chuỗi ở mức ngày, từ dataflow gốc và các bảng tỷ lệ chi phí (lương; roadshow/hội
+    nghị; chi phí khác), kết hợp bảng thời gian DIM_TIME.
+  Union SALE HIST w INVC: >-
+    Nối lịch sử bán hàng các năm 2024–2026 với dữ liệu hóa đơn đang phát sinh (từ dataflow gốc), tạo chuỗi dữ liệu
+    dài để phân tích xu hướng theo ngày, model và khách hàng.
+  KGR_DF_Nganh_Metrics_v3: >-
+    Dựng bảng lãi lỗ theo từng ngành hàng, theo kỳ; đồng thời tạo bảng tỷ trọng sản phẩm mới. Lấy doanh thu/giá
+    vốn từ dataflow gốc, ghép kế hoạch AOP, danh mục chỉ tiêu và bảng P&L Tập đoàn.
+  KGR_DF_SFC_Plan_by_Kenh: Lấy riêng sản lượng kế hoạch SFC theo kênh (vì số thực tế không có sẵn chiều kênh).
+  KGR_DF_SFC_vs_MEMO_v2: >-
+    So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo ngành.
+  KGR_DF_SFC_vs_MEMO_v4_Chuoi: >-
+    So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo chuỗi.
+  KGR_DF_SFC_vs_Actual_v2: >-
+    So sánh dự báo bán hàng (SFC) với thực tế ở mức chi tiết theo ngành, nhóm sản phẩm, model, kỳ và mặt hàng. Là
+    nền cho các bản tổng hợp SFC.
+  KGR_DF_SFC_vs_MEMO_v3: >-
+    So sánh dự báo SFC với thực tế bán hàng (lấy thực tế từ dataflow gốc), tổng hợp theo ngành × nhóm sản phẩm.
+  KGR_DF_SFC_vs_MEMO_v1: >-
+    So sánh dự báo SFC với thực tế bán hàng, tổng hợp theo ngành × nhóm sản phẩm (bản đầy đủ nhất; lấy thực tế từ
+    KGR_DS_SFC_vs_Actual_v2).
+  KGR_DF_Daily_Nganh_Report_m: >-
+    Báo cáo ngày theo từng ngành: ghép bảng lãi lỗ ngành với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới.
+  KGR_DF_Daily_TD_Report: >-
+    Báo cáo ngày cấp Tập đoàn: ghép bảng lãi lỗ Tập đoàn với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới, để
+    theo dõi lũy kế so với kế hoạch.
+  KGR_DF_Daily_Nganh_Report: >-
+    Báo cáo ngày theo từng ngành (bản trước của KGR_DF_Daily_Nganh_Report_m), cùng cách dựng: ghép bảng lãi lỗ ngành
+    với kế hoạch AOP theo ngày và tỷ trọng sản phẩm mới.
+  KGR_DF_Group Rate As-Of_Ngành: Tính tỷ lệ phân bổ theo nhóm, lũy kế đến từng ngày chốt số, theo ngành (từ dataflow
+    gốc).
+  KGR_DF_Nganh_Cumulative_AsOf: >-
+    Tính chi phí xúc tiến bán hàng lũy kế đến từng ngày chốt số, theo ngành (từ dataflow gốc), rồi đẩy kết quả về
+    kho dữ liệu.
