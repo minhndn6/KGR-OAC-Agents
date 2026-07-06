@@ -1,7 +1,7 @@
 _meta:
   purpose: 'Edge list traversable: workbook->dataset->dataflow->dataset(upstream)->physical. Dùng trace_field.py.'
-  extracted_live: '2026-06-20'
-  n_edges: 1070
+  extracted_live: '2026-07-06'
+  n_edges: 1192
   node_types:
   - workbook:<slug>/<columnID>
   - dataset:<name>[/<col>]
@@ -54,6 +54,7 @@ terminal_physical_nodes:
 - physical:DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
 - physical:DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST
 - physical:DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING
+- physical:DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK
 - physical:DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY
 - physical:DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1
 - physical:DW_NS_X_GIA_VON_MUC_TIEU_CT
@@ -62,7 +63,6 @@ terminal_physical_nodes:
 - physical:DW_NS_X_LIST_SALE_CHANEL_NS
 - physical:DW_NS_X_SALE_CHANNEL
 - physical:DW_NS_X_SFC_LINES_CF
-- physical:DW_NS_X_SFC_TRANSACTION_HEADERS_1
 - physical:DW_NS_X_TRADE_PROMOTION_HEADER
 - physical:DW_NS_X_TRADE_PROMOTION_LINE
 - physical:DW_NS_X_TY_LE_CP_KHAC
@@ -1697,16 +1697,6 @@ edges:
   to: dataset:(KGR) DTF_CALC_MIS/Đơn giá (+VAT)
 - from: dataset:(KGR) DTF_CALC_MIS/Đơn giá (+VAT)
   to: dataset:(KGR) DTF_CALC_MIS
-- from: dataset:TD_Report_Long
-  to: dataflow:KGR_DF_TD_Metrics_bk
-- from: dataset:TD_Metrics_Wide
-  to: dataflow:KGR_DF_TD_Metrics_bk
-- from: dataflow:KGR_DF_TD_Metrics_bk
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:KGR_DF_TD_Metrics_bk
-  to: dataset:(KGR) AOP Dataset
-- from: dataflow:KGR_DF_TD_Metrics_bk
-  to: dataset:Metric_Dim
 - from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#
 - from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#
@@ -1723,6 +1713,168 @@ edges:
   to: dataset:(KGR) Invoice_Line+Header+Pro
 - from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#
   to: dataset:DW_CREDIT_MEMO
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#
+  to: dataset:CreditMemo_Line+Pro
+- from: dataset:Daily_Chuoi_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+- from: dataset:Daily_Kenh_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+  to: dataset:(KGR) Tỷ lệ chi phí khác
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF
+  to: dataset:AOP LINE CF
+- from: dataset:Daily_Chuoi_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+- from: dataset:Daily_Kenh_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+  to: dataset:(KGR) Tỷ lệ chi phí khác
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+  to: dataset:AOP LINE CF
+- from: dataset:Nganh_Report_Long_#
+  to: dataflow:KGR_DF_Nganh_Metrics_v3
+- from: dataset:SPmoi_ng_v3
+  to: dataflow:KGR_DF_Nganh_Metrics_v3
+- from: dataflow:KGR_DF_Nganh_Metrics_v3
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:KGR_DF_Nganh_Metrics_v3
+  to: dataset:(KGR) AOP Dataset
+- from: dataflow:KGR_DF_Nganh_Metrics_v3
+  to: dataset:Metric_Dim
+- from: dataflow:KGR_DF_Nganh_Metrics_v3
+  to: dataset:TD_Metrics_Wide
+- from: dataset:TD_Report_Long
+  to: dataflow:KGR_DF_TD_Metrics_bk
+- from: dataset:TD_Metrics_Wide
+  to: dataflow:KGR_DF_TD_Metrics_bk
+- from: dataflow:KGR_DF_TD_Metrics_bk
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:KGR_DF_TD_Metrics_bk
+  to: dataset:(KGR) AOP Dataset
+- from: dataflow:KGR_DF_TD_Metrics_bk
+  to: dataset:Metric_Dim
+- from: dataset:Daily_Chuoi_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+- from: dataset:Daily_Kenh_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+  to: dataset:(KGR) Tỷ lệ chi phí khác
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+  to: dataset:AOP LINE CF
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+  to: dataset:DIM_TIME
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+  to: dataset:(KGR) Tỷ lệ chi phí khác
+- from: dataset:Daily_Chuoi_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+- from: dataset:Daily_Kenh_Report
+  to: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+  to: dataset:(KGR) Tỷ lệ chi phí khác
+- from: dataflow:(KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+  to: dataset:AOP LINE CF
+- from: dataset:Daily_Nganh_Report
+  to: dataflow:KGR_DF_Daily_Nganh_Report_m
+- from: dataflow:KGR_DF_Daily_Nganh_Report_m
+  to: dataset:Nganh_Report_Long_#
+- from: dataflow:KGR_DF_Daily_Nganh_Report_m
+  to: dataset:AOP LINE CF
+- from: dataflow:KGR_DF_Daily_Nganh_Report_m
+  to: dataset:SPmoi_ng_v3
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:Giá vốn mục tiêu
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:Giá vốn tồn kho
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:DW_CREDIT_MEMO
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:(KGR) CKKM TT
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 4
+  to: dataset:DW_CREDIT_MEMO
+- from: dataset:Daily_TD_Report
+  to: dataflow:KGR_DF_Daily_TD_Report
+- from: dataflow:KGR_DF_Daily_TD_Report
+  to: dataset:TD_Report_Long
+- from: dataflow:KGR_DF_Daily_TD_Report
+  to: dataset:AOP LINE CF
+- from: dataflow:KGR_DF_Daily_TD_Report
+  to: dataset:SPmoi_ng_v3
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:Giá vốn mục tiêu
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:Giá vốn tồn kho
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:(KGR) CKKM TT
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:DW_CREDIT_MEMO
+- from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+  to: dataset:CreditMemo_Line+Pro
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:Giá vốn mục tiêu
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:Giá vốn tồn kho
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:DW_CREDIT_MEMO
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:(KGR) CKKM TT
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS Ver 2
+  to: dataset:DW_CREDIT_MEMO
 - from: dataset:(KGR) DTF_CALC_MIS
   to: dataflow:(KGR) 5. DTF_CALC_MIS
 - from: dataflow:(KGR) 5. DTF_CALC_MIS
@@ -1737,16 +1889,6 @@ edges:
   to: dataset:1. Invoice_v2
 - from: dataflow:(KGR) 5. DTF_CALC_MIS
   to: dataset:(KGR) Invoice_Line+Header+Pro
-- from: dataset:Nganh_Report_Long_TD
-  to: dataflow:DF_Nganh_Report_Long_TD
-- from: dataflow:DF_Nganh_Report_Long_TD
-  to: dataset:Nganh_Report_Long_#
-- from: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-  to: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
-- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
-  to: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
-- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
-  to: dataset:(KGR) DTF_FACT_EXPENSE
 - from: dataset:TD_Report_PNL_Bridge_Nganh
   to: dataflow:DF_TD_Report_PNL_Bridge_Nganh
 - from: dataflow:DF_TD_Report_PNL_Bridge_Nganh
@@ -1757,42 +1899,16 @@ edges:
   to: dataset:TD_Report_Long
 - from: dataflow:DF_TD_Report_PNL_Bridge
   to: dataset:Nganh_Report_Long_#
-- from: dataset:(KGR) DTF_FACT_EXPENSE
-  to: dataflow:(KGR) DF_FACT_EXPENSE
-- from: dataflow:(KGR) DF_FACT_EXPENSE
-  to: dataset:(KGR) JOURNAL
-- from: dataflow:(KGR) DF_FACT_EXPENSE
-  to: dataset:(KGR) BTUT
-- from: dataflow:(KGR) DF_FACT_EXPENSE
-  to: dataset:(KGR) EXP_MAPPING_CHI_TIEU_AOP
-- from: dataset:KGR_DS_ACTUAL_AOP_MONTHLY_v2
-  to: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_LK
-- from: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_LK
-  to: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-- from: dataset:TD_Report_Long
-  to: dataflow:KGR_DF_TD_Metrics_v1.0
-- from: dataset:TD_Metrics_Wide
-  to: dataflow:KGR_DF_TD_Metrics_v1.0
-- from: dataflow:KGR_DF_TD_Metrics_v1.0
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:KGR_DF_TD_Metrics_v1.0
+- from: dataset:Nganh_Report_Long_TD
+  to: dataflow:DF_Nganh_Report_Long_TD
+- from: dataflow:DF_Nganh_Report_Long_TD
+  to: dataset:Nganh_Report_Long_#
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
+- from: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
   to: dataset:(KGR) AOP Dataset
-- from: dataflow:KGR_DF_TD_Metrics_v1.0
-  to: dataset:Metric_Dim
-- from: dataset:(KGR) DTF_CALC_MIS
-  to: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:Giá vốn mục tiêu
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:Giá vốn tồn kho
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:(KGR) CKKM TT
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:DW_CREDIT_MEMO
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:1. Invoice_v2
-- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
-  to: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
 - from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
 - from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
@@ -1809,74 +1925,74 @@ edges:
   to: dataset:(KGR) Invoice_Line+Header+Pro
 - from: dataflow:(KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
   to: dataset:DW_CREDIT_MEMO
-- from: dataset:TD_Report_PNL_v2
-  to: dataflow:DF_TD_Report_PNL_v2
-- from: dataflow:DF_TD_Report_PNL_v2
-  to: dataset:TD_Report_Long
-- from: dataset:TD_Report_PNL_v1
-  to: dataflow:DF_TD_Report_PNL_v1
-- from: dataflow:DF_TD_Report_PNL_v1
-  to: dataset:TD_Report_Long
-- from: dataset:KGR_DS_ACTUAL_AOP_MONTHLY_v2
-  to: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v3
-- from: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v3
-  to: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
-  to: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
-- from: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:Giá vốn mục tiêu
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:Giá vốn tồn kho
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:(KGR) CKKM TT
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:DW_CREDIT_MEMO
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:1. Invoice_v2
+- from: dataflow:(KGR) 5. DTF_CALC_MIS_v1.0
+  to: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataset:TD_Report_Long
+  to: dataflow:KGR_DF_TD_Metrics_v1.0
+- from: dataset:TD_Metrics_Wide
+  to: dataflow:KGR_DF_TD_Metrics_v1.0
+- from: dataflow:KGR_DF_TD_Metrics_v1.0
+  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
+- from: dataflow:KGR_DF_TD_Metrics_v1.0
   to: dataset:(KGR) AOP Dataset
-- from: dataflow:(KGR) DF_GRAIN_ACTUAL_AOP
+- from: dataflow:KGR_DF_TD_Metrics_v1.0
+  to: dataset:Metric_Dim
+- from: dataset:Nganh_Report_Long_#
+  to: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+- from: dataset:SPmoi_ng_v3
+  to: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+- from: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
   to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-  to: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE_minh
-- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE_minh
-  to: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
-- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE_minh
-  to: dataset:(KGR) DTF_FACT_EXPENSE
-- from: dataset:KGR_DS_AOP_v3test
-  to: dataflow:KGR_DF_AOP_v3test
-- from: dataflow:KGR_DF_AOP_v3test
-  to: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
+- from: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+  to: dataset:(KGR) AOP Dataset
+- from: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+  to: dataset:Metric_Dim
+- from: dataflow:KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+  to: dataset:TD_Metrics_Wide
 - from: dataset:KGR_DS_ACTUAL_AOP_MONTHLY_v2
-  to: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v2
-- from: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v2
+  to: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_LK
+- from: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_LK
   to: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-- from: dataset:KGR_DS_ACTUAL_AOP_MONTHLY_v1
-  to: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v1
-- from: dataflow:KGR_DF_ACTUAL_AOP_MONTHLY_v1
-  to: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
-- from: dataflow:KGR_DF_SANDBOX_EXPLORE
+- from: dataset:(KGR) DTF_ACTUAL_AOP_EXPENSE
+  to: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
+- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
+  to: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+- from: dataflow:(KGR) DF_ACTUAL_AOP_EXPENSE
+  to: dataset:(KGR) DTF_FACT_EXPENSE
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: dataflow:(KGR) DF_FACT_EXPENSE
+- from: dataflow:(KGR) DF_FACT_EXPENSE
+  to: dataset:(KGR) JOURNAL
+- from: dataflow:(KGR) DF_FACT_EXPENSE
+  to: dataset:(KGR) BTUT
+- from: dataflow:(KGR) DF_FACT_EXPENSE
+  to: dataset:(KGR) EXP_MAPPING_CHI_TIEU_AOP
+- from: dataset:KGR_DTF_Nganh_Cumulative_AsOf
+  to: dataflow:KGR_DF_Group Rate As-Of_Ngành
+- from: dataflow:KGR_DF_Group Rate As-Of_Ngành
   to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
-  to: dataflow:(KGR) DF_DAILY_SC_CHAIN
-- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
-  to: dataset:DIM_TIME
-- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
+- from: dataset:KGR_DTF_CHI_PHI_XUC_TIEN
+  to: dataflow:KGR_DF_Nganh_Cumulative_AsOf
+- from: dataflow:KGR_DF_Nganh_Cumulative_AsOf
   to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
-  to: dataset:(KGR) Tỉ lệ chi phí Lương
-- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
-  to: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
-- from: dataflow:(KGR) DF_DAILY_SC_CHAIN
-  to: dataset:(KGR) Tỷ lệ chi phí khác
 - from: dataset:SALE HIST w INVC
   to: dataflow:Union SALE HIST w INVC
 - from: dataflow:Union SALE HIST w INVC
   to: dataset:DW_X_SALE_HISTORY_Dataset
 - from: dataflow:Union SALE HIST w INVC
   to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:Nganh_Report_Long_#
-  to: dataflow:KGR_DF_Nganh_Metrics_v3
-- from: dataset:SPmoi_ng_v3
-  to: dataflow:KGR_DF_Nganh_Metrics_v3
-- from: dataflow:KGR_DF_Nganh_Metrics_v3
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:KGR_DF_Nganh_Metrics_v3
-  to: dataset:(KGR) AOP Dataset
-- from: dataflow:KGR_DF_Nganh_Metrics_v3
-  to: dataset:Metric_Dim
-- from: dataflow:KGR_DF_Nganh_Metrics_v3
-  to: dataset:TD_Metrics_Wide
 - from: dataset:KGR_DS_SFC_Plan_by_Kenh
   to: dataflow:KGR_DF_SFC_Plan_by_Kenh
 - from: dataflow:KGR_DF_SFC_Plan_by_Kenh
@@ -1911,28 +2027,6 @@ edges:
   to: dataset:(KGR) SFC Dataset (có AI)
 - from: dataflow:KGR_DF_SFC_vs_Actual_v2
   to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:KGR_DS_SFC_vs_Actual
-  to: dataflow:KGR_DF_SFC_vs_Actual
-- from: dataflow:KGR_DF_SFC_vs_Actual
-  to: dataset:(KGR) SFC Dataset (có AI)
-- from: dataflow:KGR_DF_SFC_vs_Actual
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:Daily_Nganh_Report
-  to: dataflow:KGR_DF_Daily_Nganh_Report_m
-- from: dataflow:KGR_DF_Daily_Nganh_Report_m
-  to: dataset:Nganh_Report_Long_#
-- from: dataflow:KGR_DF_Daily_Nganh_Report_m
-  to: dataset:AOP LINE CF
-- from: dataflow:KGR_DF_Daily_Nganh_Report_m
-  to: dataset:SPmoi_ng_v3
-- from: dataset:Daily_TD_Report
-  to: dataflow:KGR_DF_Daily_TD_Report
-- from: dataflow:KGR_DF_Daily_TD_Report
-  to: dataset:TD_Report_Long
-- from: dataflow:KGR_DF_Daily_TD_Report
-  to: dataset:AOP LINE CF
-- from: dataflow:KGR_DF_Daily_TD_Report
-  to: dataset:SPmoi_ng_v3
 - from: dataset:Daily_Nganh_Report
   to: dataflow:KGR_DF_Daily_Nganh_Report
 - from: dataflow:KGR_DF_Daily_Nganh_Report
@@ -1941,271 +2035,421 @@ edges:
   to: dataset:AOP LINE CF
 - from: dataflow:KGR_DF_Daily_Nganh_Report
   to: dataset:SPmoi_ng_v3
-- from: dataset:KGR_DTF_Nganh_Cumulative_AsOf
-  to: dataflow:KGR_DF_Group Rate As-Of_Ngành
-- from: dataflow:KGR_DF_Group Rate As-Of_Ngành
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:KGR_DTF_CHI_PHI_XUC_TIEN
-  to: dataflow:KGR_DF_Nganh_Cumulative_AsOf
-- from: dataflow:KGR_DF_Nganh_Cumulative_AsOf
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataset:Nganh_Report_Long_#
-  to: dataflow:KGR_DF_Nganh_Metrics_v2
-- from: dataflow:KGR_DF_Nganh_Metrics_v2
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:KGR_DF_Nganh_Metrics_v2
-  to: dataset:(KGR) AOP Dataset
-- from: dataflow:KGR_DF_Nganh_Metrics_v2
-  to: dataset:Metric_Dim
-- from: dataflow:KGR_DF_Nganh_Metrics_v2
-  to: dataset:TD_Metrics_Wide
-- from: dataset:Nganh_Report_Long_#
-  to: dataflow:KGR_DF_Nganh_Metrics
-- from: dataflow:KGR_DF_Nganh_Metrics
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:KGR_DF_Nganh_Metrics
-  to: dataset:(KGR) AOP Dataset
-- from: dataflow:KGR_DF_Nganh_Metrics
-  to: dataset:Metric_Dim
-- from: dataflow:KGR_DF_Nganh_Metrics
-  to: dataset:TD_Metrics_Wide
-- from: dataset:KGR_DTF_CHI_PHI_XUC_TIEN
-  to: dataflow:KGR_DF_Group Rate As-Of
-- from: dataflow:KGR_DF_Group Rate As-Of
-  to: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
-- from: dataflow:DTF_PRODUCT_KPI_PY
-  to: dataset:DW_X_SALE_HISTORY_Dataset
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_AOP_HEADER_SF_1
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_AOP_HEADER_CF_1
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_AOP_LINE_SF_1
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_AOP_LINE_CF
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_SUBSIDIARY_D
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_CLASSIFICATION_D
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
-- from: dataset:(KGR) AOP Dataset
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:Giá vốn mục tiêu
+- from: dataset:TD_Report_PNL_v2
+  to: dataflow:DF_TD_Report_PNL_v2
+- from: dataflow:DF_TD_Report_PNL_v2
+  to: dataset:TD_Report_Long
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_GIA_VON_MUC_TIEU_CT
-- from: dataset:Giá vốn tồn kho
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_GIA_VON_TON_KHO
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_CUSTOMER_INVOICE_LINES_F
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_ACCOUNT_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_SUBSIDIARY_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_CLASSIFICATION_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_EMPLOYEEEXTENSION
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_LOCATION_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY
-- from: dataset:1. Invoice_v2
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_ITEM_D
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMEREXTENSION
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_LOCATION_CF_DH
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION
-- from: dataset:1. Invoice_v2
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_ITEMEXTENSION
-- from: dataset:1. Invoice_v2
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH
-- from: dataset:1. Invoice_v2
-  to: physical:DW_NS_CUSTOMER_D
-- from: dataset:1. Invoice_v2
-  to: physical:DW_NS_CUSTOMER_INVOICE_F
-- from: dataset:1. Invoice_v2
-  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE
-- from: dataset:(KGR) CKKM TT
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_TRADE_PROMOTION_HEADER
-- from: dataset:(KGR) CKKM TT
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_TRADE_PROMOTION_LINE
-- from: dataset:(KGR) CKKM TT
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:(KGR) CKKM TT
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
-- from: dataset:(KGR) Tỉ lệ chi phí Lương
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_BANG_CP_LUONG
-- from: dataset:(KGR) Tỉ lệ chi phí Lương
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:(KGR) Invoice_Line+Header+Pro
-  to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION
-- from: dataset:(KGR) Invoice_Line+Header+Pro
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
-- from: dataset:DW_CREDIT_MEMO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_CUSTOMER_CREDIT_LINES_F
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_SUBSIDIARY_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_ACCOUNT_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_CLASSIFICATION_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP
-- from: dataset:DW_CREDIT_MEMO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_CUSTOMER_CREDIT_F
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_EMPLOYEEEXTENSION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_LOCATION_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_ITEM_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:DW_CREDIT_MEMO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY
-- from: dataset:DW_CREDIT_MEMO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMEREXTENSION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_LOCATION_CF_DH
-- from: dataset:DW_CREDIT_MEMO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#
   to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_ITEMEXTENSION
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_CUSTOMER_D
-- from: dataset:DW_CREDIT_MEMO
-  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_JOURNAL_F
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_JOURNAL_LINES_F
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_SUBSIDIARY_D
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_CLASSIFICATION_D
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_ACCOUNT_D
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_X_JOURNAL_TRANS_LINE_EXT_AUGMENTATION
-- from: dataset:(KGR) JOURNAL
-  to: physical:DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_HEADER_1
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_LINE
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_SUBSIDIARY_D
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_CLASSIFICATION_D
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_LINE_EXT
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_ACCOUNT_D
-- from: dataset:(KGR) BTUT
-  to: physical:DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST
-- from: dataset:(KGR) EXP_MAPPING_CHI_TIEU_AOP
-  to: physical:DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING
-- from: dataset:DIM_TIME
-  to: physical:DW_APPS_DAY_D
-- from: dataset:(KGR) Tỷ lệ chi phí Roadshow, Hội nghị
+- from: dataset:Daily_Chuoi_Report
+  to: physical:DW_NS_X_BANG_CP_LUONG
+- from: dataset:Daily_Chuoi_Report
   to: physical:DW_NS_X_TY_LE_RSHN
-- from: dataset:(KGR) Tỷ lệ chi phí khác
-  to: physical:DW_NS_X_TY_LE_CP_KHAC
-- from: dataset:DW_X_SALE_HISTORY_Dataset
-  to: physical:DW_X_SALE_HISTORY
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_SALE_CHANNEL
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_SFC_LINES_CF
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_ITEM_D
-- from: dataset:(KGR) SFC Dataset (có AI)
-  to: physical:DW_NS_X_SFC_TRANSACTION_HEADERS_1
-- from: dataset:AOP LINE CF
+- from: dataset:Daily_Chuoi_Report
+  to: physical:DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK
+- from: dataset:Daily_Chuoi_Report
   to: physical:DW_NS_X_AOP_HEADER_CF
-- from: dataset:AOP LINE CF
+- from: dataset:Daily_Chuoi_Report
   to: physical:DW_NS_X_AOP_LINE_SF
-- from: dataset:AOP LINE CF
+- from: dataset:Daily_Chuoi_Report
   to: physical:DW_NS_ACCOUNTINGPERIOD_D
-- from: dataset:AOP LINE CF
-  to: physical:DW_NS_X_AOP_HEADER_SF
-- from: dataset:AOP LINE CF
+- from: dataset:Daily_Chuoi_Report
   to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:Daily_Chuoi_Report
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:Daily_Chuoi_Report
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:Daily_Chuoi_Report
+  to: physical:DW_NS_X_TY_LE_CP_KHAC
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_BANG_CP_LUONG
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_TY_LE_RSHN
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_AOP_HEADER_CF
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_AOP_LINE_SF
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:Daily_Kenh_Report
+  to: physical:DW_NS_X_TY_LE_CP_KHAC
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_X_AOP_HEADER_SF_1
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_X_AOP_HEADER_CF_1
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_X_AOP_LINE_SF_1
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:Nganh_Report_Long_#
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_X_AOP_HEADER_SF_1
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_X_AOP_HEADER_CF_1
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_X_AOP_LINE_SF_1
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:SPmoi_ng_v3
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_X_AOP_HEADER_SF_1
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_X_AOP_HEADER_CF_1
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_X_AOP_LINE_SF_1
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:TD_Report_Long
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_X_AOP_HEADER_SF_1
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_X_AOP_HEADER_CF_1
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_X_AOP_LINE_SF_1
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:TD_Metrics_Wide
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: physical:DW_APPS_DAY_D
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: physical:DW_NS_X_BANG_CP_LUONG
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: physical:DW_NS_X_TY_LE_RSHN
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:(KGR) DTF_DAILY_KENH_CHUOI
+  to: physical:DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK
+- from: dataset:Daily_Nganh_Report
+  to: physical:DW_NS_X_AOP_HEADER_CF
+- from: dataset:Daily_Nganh_Report
+  to: physical:DW_NS_X_AOP_LINE_SF
+- from: dataset:Daily_Nganh_Report
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:Daily_Nganh_Report
+  to: physical:DW_NS_X_AOP_HEADER_SF
+- from: dataset:Daily_Nganh_Report
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_GIA_VON_MUC_TIEU_CT
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_GIA_VON_TON_KHO
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CUSTOMER_INVOICE_LINES_F
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_ACCOUNT_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_SUBSIDIARY_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CLASSIFICATION_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_EMPLOYEEEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_LOCATION_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_ITEM_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMEREXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CUSTOMER_D
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CUSTOMER_INVOICE_F
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_LOCATION_CF_DH
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_ITEMEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_TRADE_PROMOTION_HEADER
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_TRADE_PROMOTION_LINE
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CUSTOMER_CREDIT_LINES_F
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_CUSTOMER_CREDIT_F
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION
+- from: dataset:(KGR) DTF_CALC_MIS
+  to: physical:DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY
+- from: dataset:Daily_TD_Report
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:Daily_TD_Report
+  to: physical:DW_NS_X_AOP_HEADER_SF
+- from: dataset:Daily_TD_Report
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:Daily_TD_Report
+  to: physical:DW_NS_X_AOP_HEADER_CF
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_GIA_VON_MUC_TIEU_CT
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_GIA_VON_TON_KHO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_CUSTOMER_INVOICE_LINES_F
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_ACCOUNT_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_SUBSIDIARY_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_CLASSIFICATION_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_EMPLOYEEEXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_LOCATION_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_ITEM_D
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMEREXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_LOCATION_CF_DH
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_ITEMEXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_TRADE_PROMOTION_HEADER
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_TRADE_PROMOTION_LINE
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_BANG_CP_LUONG
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_CUSTOMER_CREDIT_LINES_F
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_CUSTOMER_CREDIT_F
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION
+- from: dataset:(KGR) DTF_CALC_INVOICE_MEMO_#_V2
+  to: physical:DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_AOP_HEADER_SF_1
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_AOP_LINE_SF_1
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_SUBSIDIARY_D
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_CLASSIFICATION_D
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_AOP_LINE_CF
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:(KGR) DTF_GRAIN_ACTUAL_AOP
+  to: physical:DW_NS_X_AOP_HEADER_CF_1
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_JOURNAL_F
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_JOURNAL_LINES_F
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_SUBSIDIARY_D
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_CLASSIFICATION_D
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_LIST_SALE_CHANEL_NS
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_ACCOUNT_D
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_JOURNAL_TRANS_LINE_EXT_AUGMENTATION
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_HEADER_1
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_LINE
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_BUT_TOAN_UT_TRANS_LINE_EXT
+- from: dataset:(KGR) DTF_FACT_EXPENSE
+  to: physical:DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING
+- from: dataset:SALE HIST w INVC
+  to: physical:DW_X_SALE_HISTORY
+- from: dataset:KGR_DS_SFC_Plan_by_Kenh
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:KGR_DS_SFC_Plan_by_Kenh
+  to: physical:DW_NS_X_SALE_CHANNEL
+- from: dataset:KGR_DS_SFC_Plan_by_Kenh
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:KGR_DS_SFC_Plan_by_Kenh
+  to: physical:DW_NS_X_SFC_LINES_CF
+- from: dataset:KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN
+- from: dataset:KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  to: physical:DW_NS_X_SFC_LINES_CF
+- from: dataset:KGR_DS_SFC_vs_MEMO_v3
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:KGR_DS_SFC_vs_MEMO_v3
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP
+- from: dataset:KGR_DS_SFC_vs_MEMO_v3
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:KGR_DS_SFC_vs_MEMO_v3
+  to: physical:DW_NS_X_SFC_LINES_CF
+- from: dataset:KGR_DS_SFC_vs_MEMO_v2
+  to: physical:DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG
+- from: dataset:KGR_DS_SFC_vs_MEMO_v2
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:KGR_DS_SFC_vs_MEMO_v2
+  to: physical:DW_NS_X_SFC_LINES_CF
+- from: dataset:KGR_DS_SFC_vs_Actual_v2
+  to: physical:DW_NS_X_SFC_LINES_CF
+- from: dataset:KGR_DS_SFC_vs_Actual_v2
+  to: physical:DW_NS_ACCOUNTINGPERIOD_D
+- from: dataset:KGR_DS_SFC_vs_Actual_v2
+  to: physical:DW_NS_ITEM_D

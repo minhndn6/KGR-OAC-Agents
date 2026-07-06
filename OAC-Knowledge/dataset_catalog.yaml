@@ -1,8 +1,8 @@
 _meta:
-  purpose: 'Mọi dataset OAC: loại (dataflow_output|db_dataset|file), dataflow sinh ra, workbook/dataflow dùng, cột workbook tham chiếu, bảng vật
-    lý nguồn.'
-  extracted_live: '2026-06-20'
-  total_datasets: 63
+  purpose: 'Mọi dataset OAC: loại (dataflow_output|db_dataset|file), dataflow sinh ra, workbook/dataflow dùng, cột workbook
+    tham chiếu, bảng vật lý nguồn.'
+  extracted_live: '2026-07-06'
+  total_datasets: 67
   type_legend:
     dataflow_output: output của 1 dataflow
     db_dataset: dataset nối DB (dwcs) — có thể là 1 bảng hoặc builder join nhiều bảng
@@ -12,53 +12,18 @@ datasets:
     name: (KGR) AOP Dataset
     display_name: (KGR) DW_AOP
     owner: viethl@bizin.vn
-    description: Dataset (KGR) AOP chứa dữ liệu kế hoạch doanh thu và sản lượng AOP (Annual Operating Plan), được xây dựng phục vụ cho nhu cầu
-      phân tích, theo dõi và so sánh hiệu quả kinh doanh.
+    description: Dataset (KGR) AOP chứa dữ liệu kế hoạch doanh thu và sản lượng AOP (Annual Operating Plan), được xây dựng
+      phục vụ cho nhu cầu phân tích, theo dõi và so sánh hiệu quả kinh doanh.
     type: db_dataset
     used_by_dataflows:
     - (KGR) DF_GRAIN_ACTUAL_AOP
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     in_closure: true
-    physical_tables:
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - PERIODNAME
-      DW_NS_X_AOP_HEADER_SF_1:
-      - POSTINGPERIOD
-      DW_NS_X_AOP_HEADER_CF_1:
-      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
-      DW_NS_X_AOP_LINE_SF_1:
-      - SUBSIDIARY
-      - CLASS
-      - ID
-      - NETAMOUNT
-      DW_NS_X_AOP_LINE_CF:
-      - CSEG_SCV_CHAIN
-      - Per DS (AOP)
-      - CSEG_SCV_NHOMXANHDO
-      - Chỉ tiêu (AOP)
-      - CSEG_SCV_SC
-      - Doanh số (AOP)
-      - LN Giao (AOP)
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
-      - Ngành hàng
-      DW_NS_SUBSIDIARY_D:
-      - Tên Đơn vị
-      DW_NS_CLASSIFICATION_D:
-      - Tên Ngành
-      DW_NS_X_SALE_CHANNEL:
-      - CUSTRECORD_SCV_SALE_CHANEL_NS
-      - Kênh
-      DW_NS_X_LIST_SALE_CHANEL_NS:
-      - Nhóm kênh
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Chuỗi
     data_last_modified: '2026-05-25'
     folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) AOP Dataset'
-    grain: dim/lookup
   (KGR) BTUT:
     name: (KGR) BTUT
     display_name: (KGR) BTUT
@@ -67,41 +32,6 @@ datasets:
     used_by_dataflows:
     - (KGR) DF_FACT_EXPENSE
     in_closure: false
-    physical_tables:
-      DW_NS_X_BUT_TOAN_UT_TRANS_HEADER_1:
-      - POSTINGPERIOD
-      - VOIDED
-      - VOID
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - PERIODNAME
-      DW_NS_X_BUT_TOAN_UT_TRANS_LINE:
-      - SUBSIDIARY
-      - CLASS
-      - NETAMOUNT
-      - DEPARTMENT
-      - W$_UPDATE_DT
-      - TRANSACTION
-      DW_NS_SUBSIDIARY_D:
-      - Tên Đơn vị
-      DW_NS_CLASSIFICATION_D:
-      - Tên Ngành
-      DW_NS_X_LIST_SALE_CHANEL_NS:
-      - ID Nhóm kênh
-      - Nhóm kênh
-      DW_NS_X_BUT_TOAN_UT_TRANS_LINE_EXT:
-      - CSEG_SCV_SC
-      - CSEG_SCV_CHAIN
-      - CSEG_SCV_EXP_LIST
-      - CSEG_SCV_EXP_TYPE
-      DW_NS_X_SALE_CHANNEL:
-      - Tên Kênh
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Tên Chuỗi
-      DW_NS_ACCOUNT_D:
-      - ACCTTYPE
-      - ACCTNUMBER
-      DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST:
-      - CUSTRECORD_SCV_EXPENSE_GROUP_EXP
     data_last_modified: '2026-06-09'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) BTUT
   (KGR) Bút toán ƯT-ĐC:
@@ -116,34 +46,21 @@ datasets:
     name: (KGR) CKKM TT
     display_name: (KGR) CKKM TT
     owner: viethl@bizin.vn
-    description: Dataset (KGR) CKKM TT chứa dữ liệu về các khoản chiết khấu thương mại, giá trị chương trình khuyến mại và giảm giá thực tế đã
-      áp dụng cho các đơn hàng/hóa đơn, được xây dựng phục vụ cho nhu cầu phân tích  và xác định chính xác chỉ tiêu doanh thu
+    description: Dataset (KGR) CKKM TT chứa dữ liệu về các khoản chiết khấu thương mại, giá trị chương trình khuyến mại và
+      giảm giá thực tế đã áp dụng cho các đơn hàng/hóa đơn, được xây dựng phục vụ cho nhu cầu phân tích  và xác định chính
+      xác chỉ tiêu doanh thu
     type: db_dataset
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     in_closure: true
-    physical_tables:
-      DW_NS_X_TRADE_PROMOTION_HEADER:
-      - NAME
-      - CUSTRECORD_SCV_PRO_DIS_PERIOD
-      - W$_INSERT_DT
-      DW_NS_X_TRADE_PROMOTION_LINE:
-      - ID Model
-      - ID Kênh
-      - ID Chuỗi
-      - CKKM
-      - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
-      - CUSTRECORD_SCV_PRO_DIS_LINE_END_DATE
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Chuỗi
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
-      - Model
-    data_last_modified: '2026-06-17'
+    data_last_modified: '2026-06-23'
     folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) CKKM TT'
-    grain: dim/lookup
   (KGR) DATASET BC02:
     name: (KGR) DATASET BC02
     display_name: (KGR) DATASET BC02
@@ -159,13 +76,8 @@ datasets:
     type: dataflow_output
     produced_by_dataflows:
     - (KGR) DF_ACTUAL_AOP_EXPENSE
-    - (KGR) DF_ACTUAL_AOP_EXPENSE_minh
     used_by_dataflows:
     - KGR_DF_ACTUAL_AOP_MONTHLY_LK
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v1
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v2
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v3
-    - KGR_DF_AOP_v3test
     in_closure: false
     data_last_modified: '2026-06-18'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_ACTUAL_AOP_EXPENSE
@@ -173,9 +85,9 @@ datasets:
     name: (KGR) DTF_CALC_INVOICE_MEMO_#
     display_name: (KGR) DTF_CALC_INVOICE_MEMO_#
     owner: anhdk@bizin.vn
-    description: 'Tính toán DSTT, DSTT VAT, COGS, Trừ MEMO
-
-      Grain dến invoice line id'
+    description: |-
+      Tính toán DSTT, DSTT VAT, COGS, Trừ MEMO
+      Grain dến invoice line id
     type: dataflow_output
     produced_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
@@ -186,15 +98,15 @@ datasets:
     - (KGR) DB02.Expense_v1.1
     used_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - (KGR) DF_GRAIN_ACTUAL_AOP
-    - KGR_DF_Group Rate As-Of
     - KGR_DF_Group Rate As-Of_Ngành
     - KGR_DF_Nganh_Cumulative_AsOf
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
-    - KGR_DF_SANDBOX_EXPLORE
-    - KGR_DF_SFC_vs_Actual
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_SFC_vs_Actual_v2
     - KGR_DF_SFC_vs_MEMO_v1
     - KGR_DF_SFC_vs_MEMO_v2
@@ -204,6 +116,166 @@ datasets:
     - KGR_DF_TD_Metrics_v1.0
     - Union SALE HIST w INVC
     in_closure: true
+    physical_tables:
+      DW_NS_X_GIA_VON_MUC_TIEU_CT:
+      - CUSTRECORD_SCV_GVMT_LINE_END_DATE
+      - CUSTRECORD_SCV_GVMT_LINE_GVMT_SP
+      - CUSTRECORD_SCV_GVMT_LINE_MODEL
+      - CUSTRECORD_SCV_GVMT_LINE_MSP
+      - CUSTRECORD_SCV_GVMT_LINE_START_DATE
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_GIA_VON_TON_KHO:
+      - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
+      - Next period
+      - CUSTRECORD_SCV_GVTK_ITEM_NAME_L
+      - CUSTRECORD_SCV_GVTK_PERIOD_L
+      - CUSTRECORD_SCV_GVTK_SUBSIDIARY_L
+      - CUSTRECORD_SCV_GVTK_UNITS_L
+      - CUSTRECORD_SCV_GVTK_UNIT_COST_L
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_CUSTOMER_INVOICE_LINES_F:
+      - ID
+      - TRANDATE
+      - TRANSACTION
+      - ITEM
+      - QUANTITY
+      - BASE_REVENUE
+      - TAXLINE
+      - TYPE
+      - POSTINGPERIOD - 1
+      - SUBSIDIARY
+      - POSTINGPERIOD
+      - CUSTOMER
+      - CLASS
+      - ITEMTYPE
+      DW_NS_ACCOUNT_D:
+      - ACCTTYPE
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - Month_No
+      - ISPOSTING
+      - ID
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - TRANSACTION
+      - ID
+      DW_NS_X_SALE_CHANNEL:
+      - Tên Kênh
+      - ID
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên ngành
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Tên Chuỗi
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm Kênh
+      - ID Nhóm kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - NAME
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
+      - Nhóm xanh đỏ
+      - ID XD
+      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
+      - Quy hoạch SP
+      DW_NS_X_CAM_EMPLOYEEEXTENSION:
+      - ID_employee
+      - ID_Employee
+      DW_NS_LOCATION_D:
+      - Location Name
+      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
+      - Sales Category
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm SP
+      DW_NS_ITEM_D:
+      - Item Name
+      - UPCCODE
+      DW_NS_X_CAM_CUSTOMEREXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_SC
+      DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
+      - ID
+      - TAX1AMT
+      - TAXCODE
+      - TAXRATE1
+      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
+      - CUSTENTITY_SCV_KH_KY_GUI
+      DW_NS_LOCATION_CF_DH:
+      - PARENT_NAME
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      DW_NS_X_CAM_ITEMEXTENSION:
+      - CSEG_SCV_MODEL
+      DW_NS_X_TRADE_PROMOTION_HEADER:
+      - NAME
+      - CUSTRECORD_SCV_PRO_DIS_PERIOD
+      - W$_INSERT_DT
+      DW_NS_X_TRADE_PROMOTION_LINE:
+      - CUSTRECORD_SCV_PRO_DIS_LINE_DISCOUNT
+      - CUSTRECORD_SCV_PRO_DIS_LINE_KENH_CHUOI
+      - CUSTRECORD_SCV_PRO_DIS_LINE_MODEL
+      - CUSTRECORD_SCV_PRO_DIS_LINE_SALES_CHAN
+      - ID Model
+      - ID Kênh
+      - ID Chuỗi
+      - CKKM
+      DW_NS_X_BANG_CP_LUONG:
+      - CREATED
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - EXTERNALID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - NAME
+      - RECORDID
+      - SOURCE_RECORD_ID
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      - ID
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
+      - NAME
+      DW_NS_CUSTOMER_CREDIT_LINES_F:
+      - ID
+      - TRANSACTION
+      - SUBSIDIARY
+      - CUSTOMER
+      - ITEM
+      - QUANTITY
+      - TYPE
+      - TAXLINE
+      - BASE_REVENUE
+      - POSTINGPERIOD - 1
+      - BASE_CREDITAMOUNT
+      - BASE_DEBITAMOUNT
+      - TRANDATE
+      - CLASS
+      - ITEMTYPE
+      DW_NS_CUSTOMER_CREDIT_F:
+      - POSTINGPERIOD
+      DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
+      - TAX1AMT
+      - TAXRATE1
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - ID
+      - TRANSACTION
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
     columns_used_by_workbooks:
     - '%GP Ròng'
     - '%LN Gộp'
@@ -229,34 +301,352 @@ datasets:
     - Tên Ngành
     - Tên Đơn vị
     - Tỷ trọng SP mới
-    data_last_modified: '2026-06-20'
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_CALC_INVOICE_MEMO_#
-    grain: Grain dến invoice line id
   (KGR) DTF_CALC_INVOICE_MEMO_#_V2:
     name: (KGR) DTF_CALC_INVOICE_MEMO_#_V2
     display_name: (KGR) DTF_CALC_INVOICE_MEMO_#_V2
     owner: anhdk@bizin.vn
-    description: 'Tính toán DSTT, DSTT VAT, COGS, Trừ MEMO
-
-      Grain dến invoice line id'
-    type: parquet
+    description: |-
+      Tính toán DSTT, DSTT VAT, COGS, Trừ MEMO
+      Grain dến invoice line id
+    type: dataflow_output
+    produced_by_dataflows:
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     in_closure: false
-    data_last_modified: '2026-06-20'
+    physical_tables:
+      DW_NS_X_GIA_VON_MUC_TIEU_CT:
+      - CUSTRECORD_SCV_GVMT_LINE_END_DATE
+      - CUSTRECORD_SCV_GVMT_LINE_GVMT_SP
+      - CUSTRECORD_SCV_GVMT_LINE_MODEL
+      - CUSTRECORD_SCV_GVMT_LINE_MSP
+      - CUSTRECORD_SCV_GVMT_LINE_START_DATE
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_GIA_VON_TON_KHO:
+      - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
+      - Next period
+      - CUSTRECORD_SCV_GVTK_ITEM_NAME_L
+      - CUSTRECORD_SCV_GVTK_PERIOD_L
+      - CUSTRECORD_SCV_GVTK_SUBSIDIARY_L
+      - CUSTRECORD_SCV_GVTK_UNITS_L
+      - CUSTRECORD_SCV_GVTK_UNIT_COST_L
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_CUSTOMER_INVOICE_LINES_F:
+      - ID
+      - TRANDATE
+      - TRANSACTION
+      - ITEM
+      - QUANTITY
+      - BASE_REVENUE
+      - TAXLINE
+      - TYPE
+      - POSTINGPERIOD - 1
+      - SUBSIDIARY
+      - POSTINGPERIOD
+      - CUSTOMER
+      - CLASS
+      - ITEMTYPE
+      DW_NS_ACCOUNT_D:
+      - ACCTTYPE
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - Month_No
+      - ISPOSTING
+      - ID
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - TRANSACTION
+      - ID
+      DW_NS_X_SALE_CHANNEL:
+      - Tên Kênh
+      - ID
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên ngành
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Tên Chuỗi
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm Kênh
+      - ID Nhóm kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - NAME
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
+      - Nhóm xanh đỏ
+      - ID XD
+      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
+      - Quy hoạch SP
+      DW_NS_X_CAM_EMPLOYEEEXTENSION:
+      - ID_employee
+      - ID_Employee
+      DW_NS_LOCATION_D:
+      - Location Name
+      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
+      - Sales Category
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm SP
+      DW_NS_ITEM_D:
+      - Item Name
+      DW_NS_X_CAM_CUSTOMEREXTENSION:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_SC
+      DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
+      - ID
+      - TAX1AMT
+      - TAXCODE
+      - TAXRATE1
+      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
+      - CUSTENTITY_SCV_KH_KY_GUI
+      DW_NS_LOCATION_CF_DH:
+      - PARENT_NAME
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      DW_NS_X_CAM_ITEMEXTENSION:
+      - CSEG_SCV_MODEL
+      DW_NS_X_TRADE_PROMOTION_HEADER:
+      - NAME
+      - CUSTRECORD_SCV_PRO_DIS_PERIOD
+      - W$_INSERT_DT
+      DW_NS_X_TRADE_PROMOTION_LINE:
+      - CUSTRECORD_SCV_PRO_DIS_LINE_DISCOUNT
+      - CUSTRECORD_SCV_PRO_DIS_LINE_KENH_CHUOI
+      - CUSTRECORD_SCV_PRO_DIS_LINE_MODEL
+      - CUSTRECORD_SCV_PRO_DIS_LINE_SALES_CHAN
+      DW_NS_X_BANG_CP_LUONG:
+      - CREATED
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - EXTERNALID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - NAME
+      - RECORDID
+      - SOURCE_RECORD_ID
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
+      - NAME
+      DW_NS_CUSTOMER_CREDIT_LINES_F:
+      - ID
+      - TRANSACTION
+      - SUBSIDIARY
+      - CUSTOMER
+      - ITEM
+      - QUANTITY
+      - TYPE
+      - TAXLINE
+      - BASE_REVENUE
+      - POSTINGPERIOD - 1
+      - BASE_CREDITAMOUNT
+      - BASE_DEBITAMOUNT
+      - TRANDATE
+      - CLASS
+      - ITEMTYPE
+      DW_NS_CUSTOMER_CREDIT_F:
+      - POSTINGPERIOD
+      DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
+      - TAX1AMT
+      - TAXRATE1
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - ID
+      - TRANSACTION
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+    data_last_modified: '2026-06-24'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_CALC_INVOICE_MEMO_#_V2
   (KGR) DTF_CALC_MIS:
     name: (KGR) DTF_CALC_MIS
     display_name: (KGR) DTF_CALC_MIS
     owner: anhdk@bizin.vn
-    description: 'Tính toán DSTT, DSTT VAT, COGS, của Invoice và Credit Memo
-
-      Grain dến invoice line id'
+    description: |-
+      Tính toán DSTT, DSTT VAT, COGS, của Invoice và Credit Memo
+      Grain dến invoice line id
     type: dataflow_output
     produced_by_dataflows:
+    - (KGR) 5. DTF_CALC_MIS Ver 4
+    - (KGR) 5. DTF_CALC_MIS Ver 2
     - (KGR) 5. DTF_CALC_MIS
     - (KGR) 5. DTF_CALC_MIS_v1.0
     used_by_workbooks:
     - (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS
     in_closure: true
+    physical_tables:
+      DW_NS_X_GIA_VON_MUC_TIEU_CT:
+      - CUSTRECORD_SCV_GVMT_LINE_END_DATE
+      - CUSTRECORD_SCV_GVMT_LINE_GVMT_SP
+      - CUSTRECORD_SCV_GVMT_LINE_MODEL
+      - CUSTRECORD_SCV_GVMT_LINE_MSP
+      - CUSTRECORD_SCV_GVMT_LINE_START_DATE
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_GIA_VON_TON_KHO:
+      - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
+      - Next period
+      - CUSTRECORD_SCV_GVTK_ITEM_NAME_L
+      - CUSTRECORD_SCV_GVTK_PERIOD_L
+      - CUSTRECORD_SCV_GVTK_SUBSIDIARY_L
+      - CUSTRECORD_SCV_GVTK_UNITS_L
+      - CUSTRECORD_SCV_GVTK_UNIT_COST_L
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_CUSTOMER_INVOICE_LINES_F:
+      - ID
+      - TRANSACTION
+      - TRANDATE
+      - ITEM
+      - QUANTITY
+      - BASE_REVENUE
+      - TAXLINE
+      - TYPE
+      - POSTINGPERIOD - 1
+      - SUBSIDIARY
+      - POSTINGPERIOD
+      - CUSTOMER
+      - CREATEDDATE
+      - CLOSEDATE
+      DW_NS_ACCOUNT_D:
+      - ACCTTYPE
+      - ACCTNUMBER
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      - Month_No
+      - ISPOSTING
+      DW_NS_X_SALE_CHANNEL:
+      - Tên Kênh
+      - ID
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      - Mã Đơn Vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên ngành
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Tên Chuỗi
+      - Chuỗi
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm Kênh
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - NAME
+      - Model
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
+      - Nhóm xanh đỏ
+      - ID XD
+      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
+      - Quy hoạch SP
+      DW_NS_X_CAM_EMPLOYEEEXTENSION:
+      - ID_employee
+      - CUSTENTITY_SCV_EMP_ASM_CODE
+      - ID_Employee
+      DW_NS_LOCATION_D:
+      - Location Name
+      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
+      - Sales Category
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm SP
+      DW_NS_ITEM_D:
+      - Item Name
+      - UPCCODE
+      - WEIGHTUNITS
+      - ITEMTYPE
+      DW_NS_X_CAM_CUSTOMEREXTENSION:
+      - CUSTENTITY_SCV_ENTITY_CODE
+      - CSEG_SCV_SC
+      - CUSTENTITY_SCV_LEGAL_NAME
+      - CSEG_SCV_CHAIN
+      DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
+      - NAME
+      DW_NS_CUSTOMER_D:
+      - COMPANYNAME
+      - ALTNAME
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - Is HTL
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - CSEG_SCV_SC
+      - TRANSACTION
+      - ID
+      DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
+      - CSEG_SCV_SG_PRO
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      DW_NS_CUSTOMER_INVOICE_F:
+      - MEMO
+      DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
+      - TAX1AMT
+      - TAXCODE
+      - TAXRATE1
+      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
+      - CUSTENTITY_SCV_KH_KY_GUI
+      DW_NS_LOCATION_CF_DH:
+      - PARENT_NAME
+      DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
+      - Phân nhóm SP
+      - NAME
+      DW_NS_X_CAM_ITEMEXTENSION:
+      - CSEG_SCV_MODEL
+      DW_NS_X_TRADE_PROMOTION_HEADER:
+      - NAME
+      - CUSTRECORD_SCV_PRO_DIS_PERIOD
+      - W$_INSERT_DT
+      DW_NS_X_TRADE_PROMOTION_LINE:
+      - CUSTRECORD_SCV_PRO_DIS_LINE_DISCOUNT
+      - CUSTRECORD_SCV_PRO_DIS_LINE_KENH_CHUOI
+      - CUSTRECORD_SCV_PRO_DIS_LINE_MODEL
+      - CUSTRECORD_SCV_PRO_DIS_LINE_SALES_CHAN
+      - CKKM
+      - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
+      - CUSTRECORD_SCV_PRO_DIS_LINE_END_DATE
+      DW_NS_CUSTOMER_CREDIT_LINES_F:
+      - ID
+      - TRANSACTION
+      - SUBSIDIARY
+      - CUSTOMER
+      - ITEM
+      - QUANTITY
+      - TAXLINE
+      - TYPE
+      - POSTINGPERIOD
+      - BASE_REVENUE
+      - POSTINGPERIOD - 1
+      - BASE_CREDITAMOUNT
+      - BASE_DEBITAMOUNT
+      - TRANDATE
+      - CREATEDDATE
+      - CLOSEDATE
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - Vụ việc
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      DW_NS_CUSTOMER_CREDIT_F:
+      - MEMO
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
+      - CUSTBODY_SCV_TRANS_SCT_FAST
+      DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
+      - TAXCODE
+      - TAXRATE1
+      - TAX1AMT
     columns_used_by_workbooks:
     - '%GP Ròng'
     - '%GV/DT'
@@ -324,8 +714,7 @@ datasets:
     - Đơn Giá (-VAT)
     - Đơn giá (+VAT)
     - Địa chỉ KH
-    data_last_modified: '2026-06-19'
-    grain: Grain dến invoice line id
+    data_last_modified: '2026-07-06'
   (KGR) DTF_CALC_SFC Thực tế:
     name: (KGR) DTF_CALC_SFC Thực tế
     display_name: (KGR) DTF_CALC_SFC Thực tế
@@ -344,7 +733,36 @@ datasets:
     produced_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
     in_closure: false
-    data_last_modified: '2026-06-20'
+    physical_tables:
+      DW_APPS_DAY_D:
+      - CALENDAR_DATE
+      DW_NS_X_BANG_CP_LUONG:
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_TY_LE_RSHN:
+      - CUSTRECORD_SCV_RSHN_KENH
+      - CUSTRECORD_SCV_RSHN_PER
+      - CUSTRECORD_SCV_TY_LE_RSHN_CHAIN
+      - CUSTRECORD_SCV_TY_LE_RSHN_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_RSHN_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - ID
+      DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK:
+      - CUSTRECORD_SCV_TY_LE_CTTK_KENH
+      - CUSTRECORD_SCV_TY_LE_CTTK_CHUOI
+      - CUSTRECORD_SCV_TY_LE_CTTK_PER
+      - CUSTRECORD_SCV_TY_LE_CTTK_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_CTTK_TU_NGAY
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_DAILY_KENH_CHUOI
   (KGR) DTF_DAILY_TAP_DOAN:
     name: (KGR) DTF_DAILY_TAP_DOAN
@@ -365,112 +783,6 @@ datasets:
     - (KGR) DF_FACT_EXPENSE
     used_by_dataflows:
     - (KGR) DF_ACTUAL_AOP_EXPENSE
-    - (KGR) DF_ACTUAL_AOP_EXPENSE_minh
-    in_closure: false
-    data_last_modified: '2026-06-18'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_FACT_EXPENSE
-  (KGR) DTF_FACT_EXPENSE_DETAIL:
-    name: (KGR) DTF_FACT_EXPENSE_DETAIL
-    display_name: (KGR) DTF_FACT_EXPENSE_DETAIL
-    owner: 4c645976-9f63-4a8c-91e0-1748ecd0f5dd
-    description: Union Journal vs Bút toán ước tính cùng 1 grain, chứa chi phí wide detail
-    type: parquet
-    in_closure: false
-    data_last_modified: '2026-06-18'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_FACT_EXPENSE_DETAIL
-  (KGR) DTF_GRAIN_ACTUAL_AOP:
-    name: (KGR) DTF_GRAIN_ACTUAL_AOP
-    display_name: (KGR) DTF_GRAIN_ACTUAL_AOP
-    owner: anhdk@bizin.vn
-    description: Actual vs Aop cùng 1 Grain, phục vụ báo cáo Tháng
-    type: dataflow_output
-    produced_by_dataflows:
-    - (KGR) DF_GRAIN_ACTUAL_AOP
-    used_by_dataflows:
-    - (KGR) DF_ACTUAL_AOP_EXPENSE
-    - (KGR) DF_ACTUAL_AOP_EXPENSE_minh
-    in_closure: false
-    data_last_modified: '2026-06-18'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_GRAIN_ACTUAL_AOP
-  (KGR) DW_CAM_EMPLOYEE:
-    name: (KGR) DW_CAM_EMPLOYEE
-    display_name: (KGR) DW_CAM_EMPLOYEE
-    owner: minhndn@bizin.vn
-    type: db_dataset
-    in_closure: false
-    data_last_modified: '2026-05-24'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) DW_CAM_EMPLOYEE'
-  (KGR) DW_JOURNAL:
-    name: (KGR) DW_JOURNAL
-    display_name: (KGR) DW_JOURNAL
-    owner: viethl@bizin.vn
-    description: Dataset (KGR) Invoice chứa dữ liệu hóa đơn tài chính, doanh thu thực tế và sản lượng tiêu thụ thực thi, được xây dựng phục vụ
-      cho nhu cầu phân tích, theo dõi tiến độ doanh thu và so sánh hiệu quả kinh doanh thực tế so với kế hoạch.
-    type: db_dataset
-    in_closure: false
-    data_last_modified: '2026-06-05'
-    folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) DW_JOURNAL'
-  (KGR) DW_NS_CUSTOMER_D:
-    name: (KGR) DW_NS_CUSTOMER_D
-    display_name: (KGR) DW_NS_CUSTOMER_D_GEO_LOCATION
-    owner: minhndn@bizin.vn
-    type: datamodel
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - COMPANYNAME
-    - geo_ten_moi
-    - geo_ten_tinh
-    data_last_modified: '2026-06-01'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) DW_NS_CUSTOMER_D'
-  (KGR) EXP_MAPPING_CHI_TIEU_AOP:
-    name: (KGR) EXP_MAPPING_CHI_TIEU_AOP
-    display_name: (KGR) EXP_MAPPING_CHI_TIEU_AOP
-    owner: 9dc5d571-8e43-4b52-8457-ac98c33a8537
-    description: Join Exp mapping vs chỉ tiêu AOP
-    type: db_dataset
-    used_by_dataflows:
-    - (KGR) DF_FACT_EXPENSE
-    in_closure: false
-    physical_tables:
-      DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING:
-      - CUSTRECORD_SCV_EXP_MAP_EXP_GROUP
-      - CUSTRECORD_SCV_EXP_MAP_EXP_LIST
-      - CUSTRECORD_SCV_EXP_MAP_EXP_TYPE
-      - CUSTRECORD_SCV_EXP_MAP_DEP
-      - CUSTRECORD_SCV_EX_MAP_CHI_TIEU_AOP
-    data_last_modified: '2026-06-10'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) EXP_MAPPING_CHI_TIEU_AOP
-  (KGR) Invoice_Line+Header+Pro:
-    name: (KGR) Invoice_Line+Header+Pro
-    display_name: (KGR) Invoice_Line+Pro
-    owner: viethl@bizin.vn
-    description: Dataset (KGR) Invoice_Line+Pro giúp xác định các Vụ việc liên quan đến Invoice Line, sau đó liên kết với các Dataflow hoặc Dataset
-      khác để tạo thành bảng thông tin hoàn chỉnh phục vụ báo cáo
-    type: db_dataset
-    used_by_dataflows:
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
-    - (KGR) 5. DTF_CALC_MIS
-    - (KGR) 5. DTF_CALC_MIS_v1.0
-    in_closure: true
-    physical_tables:
-      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
-      - TRANSACTION
-      - ID
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
-      - Vụ việc
-    data_last_modified: '2026-05-29'
-    folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) Invoice_Line+Header+Pro'
-    grain: dim/lookup
-  (KGR) JOURNAL:
-    name: (KGR) JOURNAL
-    display_name: (KGR) JOURNAL
-    owner: 808d8c2b-f4ac-4307-a53d-1fea0606170c
-    type: db_dataset
-    used_by_dataflows:
-    - (KGR) DF_FACT_EXPENSE
     in_closure: false
     physical_tables:
       DW_NS_JOURNAL_F:
@@ -503,58 +815,157 @@ datasets:
       - CSEG_SCV_SC
       DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST:
       - CUSTRECORD_SCV_EXPENSE_GROUP_EXP
+      DW_NS_X_BUT_TOAN_UT_TRANS_HEADER_1:
+      - POSTINGPERIOD
+      - VOIDED
+      - VOID
+      DW_NS_X_BUT_TOAN_UT_TRANS_LINE:
+      - SUBSIDIARY
+      - CLASS
+      - NETAMOUNT
+      - DEPARTMENT
+      - W$_UPDATE_DT
+      - TRANSACTION
+      DW_NS_X_BUT_TOAN_UT_TRANS_LINE_EXT:
+      - CSEG_SCV_SC
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_EXP_LIST
+      - CSEG_SCV_EXP_TYPE
+      DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING:
+      - CUSTRECORD_SCV_EXP_MAP_EXP_GROUP
+      - CUSTRECORD_SCV_EXP_MAP_EXP_LIST
+      - CUSTRECORD_SCV_EXP_MAP_EXP_TYPE
+      - CUSTRECORD_SCV_EXP_MAP_DEP
+      - CUSTRECORD_SCV_EX_MAP_CHI_TIEU_AOP
+    data_last_modified: '2026-06-18'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_FACT_EXPENSE
+  (KGR) DTF_GRAIN_ACTUAL_AOP:
+    name: (KGR) DTF_GRAIN_ACTUAL_AOP
+    display_name: (KGR) DTF_GRAIN_ACTUAL_AOP
+    owner: anhdk@bizin.vn
+    description: Actual vs Aop cùng 1 Grain, phục vụ báo cáo Tháng
+    type: dataflow_output
+    produced_by_dataflows:
+    - (KGR) DF_GRAIN_ACTUAL_AOP
+    used_by_dataflows:
+    - (KGR) DF_ACTUAL_AOP_EXPENSE
+    in_closure: false
+    physical_tables:
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      DW_NS_SUBSIDIARY_D:
+      - Tên Đơn vị
+      DW_NS_CLASSIFICATION_D:
+      - Tên Ngành
+      DW_NS_X_SALE_CHANNEL:
+      - CUSTRECORD_SCV_SALE_CHANEL_NS
+      - Kênh
+      DW_NS_X_LIST_SALE_CHANEL_NS:
+      - Nhóm kênh
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_SC
+      - CSEG_SCV_CHAIN
+      - Doanh số (AOP)
+      - LN Giao (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Chuỗi
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+    data_last_modified: '2026-06-22'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) DTF_GRAIN_ACTUAL_AOP
+  (KGR) DW_CAM_EMPLOYEE:
+    name: (KGR) DW_CAM_EMPLOYEE
+    display_name: (KGR) DW_CAM_EMPLOYEE
+    owner: minhndn@bizin.vn
+    type: db_dataset
+    in_closure: false
+    data_last_modified: '2026-05-24'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) DW_CAM_EMPLOYEE'
+  (KGR) DW_JOURNAL:
+    name: (KGR) DW_JOURNAL
+    display_name: (KGR) DW_JOURNAL
+    owner: viethl@bizin.vn
+    description: Dataset (KGR) Invoice chứa dữ liệu hóa đơn tài chính, doanh thu thực tế và sản lượng tiêu thụ thực thi, được
+      xây dựng phục vụ cho nhu cầu phân tích, theo dõi tiến độ doanh thu và so sánh hiệu quả kinh doanh thực tế so với kế
+      hoạch.
+    type: db_dataset
+    in_closure: false
+    data_last_modified: '2026-06-05'
+    folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) DW_JOURNAL'
+  (KGR) DW_NS_CUSTOMER_D:
+    name: (KGR) DW_NS_CUSTOMER_D
+    display_name: (KGR) DW_NS_CUSTOMER_D_GEO_LOCATION
+    owner: minhndn@bizin.vn
+    type: datamodel
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    in_closure: true
+    columns_used_by_workbooks:
+    - COMPANYNAME
+    - geo_ten_moi
+    - geo_ten_tinh
+    data_last_modified: '2026-06-01'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) DW_NS_CUSTOMER_D'
+  (KGR) EXP_MAPPING_CHI_TIEU_AOP:
+    name: (KGR) EXP_MAPPING_CHI_TIEU_AOP
+    display_name: (KGR) EXP_MAPPING_CHI_TIEU_AOP
+    owner: 9dc5d571-8e43-4b52-8457-ac98c33a8537
+    description: Join Exp mapping vs chỉ tiêu AOP
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) DF_FACT_EXPENSE
+    in_closure: false
+    data_last_modified: '2026-06-10'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) EXP_MAPPING_CHI_TIEU_AOP
+  (KGR) Invoice_Line+Header+Pro:
+    name: (KGR) Invoice_Line+Header+Pro
+    display_name: (KGR) Invoice_Line+Pro
+    owner: viethl@bizin.vn
+    description: Dataset (KGR) Invoice_Line+Pro giúp xác định các Vụ việc liên quan đến Invoice Line, sau đó liên kết với
+      các Dataflow hoặc Dataset khác để tạo thành bảng thông tin hoàn chỉnh phục vụ báo cáo
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
+    - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
+    - (KGR) 5. DTF_CALC_MIS_v1.0
+    in_closure: true
+    data_last_modified: '2026-05-29'
+    folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) Invoice_Line+Header+Pro'
+  (KGR) JOURNAL:
+    name: (KGR) JOURNAL
+    display_name: (KGR) JOURNAL
+    owner: 808d8c2b-f4ac-4307-a53d-1fea0606170c
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) DF_FACT_EXPENSE
+    in_closure: false
     data_last_modified: '2026-06-10'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/(KGR) JOURNAL
   (KGR) SFC Dataset (có AI):
     name: (KGR) SFC Dataset (có AI)
     display_name: (KGR) DW_SFC
     owner: viethl@bizin.vn
-    description: Dataset (KGR) SFC chứa dữ liệu dự báo doanh số, sản lượng và xu hướng doanh thu biến động theo chu kỳ, được xây dựng phục vụ
-      cho nhu cầu phân tích, cập nhật kịch bản kinh doanh.
+    description: Dataset (KGR) SFC chứa dữ liệu dự báo doanh số, sản lượng và xu hướng doanh thu biến động theo chu kỳ, được
+      xây dựng phục vụ cho nhu cầu phân tích, cập nhật kịch bản kinh doanh.
     type: db_dataset
     used_by_workbooks:
     - (KGR) BRD.BC03-04-05_SFC ước tính_SFC thực tế_ MIS
     used_by_dataflows:
     - KGR_DF_SFC_Plan_by_Kenh
-    - KGR_DF_SFC_vs_Actual
     - KGR_DF_SFC_vs_Actual_v2
     - KGR_DF_SFC_vs_MEMO_v2
     - KGR_DF_SFC_vs_MEMO_v3
     - KGR_DF_SFC_vs_MEMO_v4_Chuoi
     in_closure: true
-    physical_tables:
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
-      - Ngành hàng
-      DW_NS_X_SALE_CHANNEL:
-      - Kênh
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - PERIODNAME
-      - ID
-      DW_NS_X_SFC_LINES_CF:
-      - SL W1
-      - SL W2
-      - SL W3
-      - SL W4
-      - SL W5
-      - Doanh thu (-VAT)
-      - CSEG_SCV_PRODGROUP
-      - CSEG_SCV_MODEL
-      - CSEG_SCV_PRODCATG
-      - CSEG_SCV_CHAIN
-      - CSEG_SCV_NHOMXANHDO
-      - Quantity
-      - Giá Vốn
-      - GP ròng
-      - Lãi Gộp
-      - CKKM
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Chuỗi
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
-      - Nhóm sản phẩm
-      DW_NS_ITEM_D:
-      - ID
-      DW_NS_X_SFC_TRANSACTION_HEADERS_1:
-      - POSTINGPERIOD
     columns_used_by_workbooks:
     - CKKM
     - CP CKKM
@@ -592,9 +1003,8 @@ datasets:
     - UPCCODE
     - Unit Cost
     - VAT
-    data_last_modified: '2026-05-27'
+    data_last_modified: '2026-07-03'
     folder_path: /@default/{datasets}'viethl@bizin.vn'.'(KGR) SFC Dataset (có AI)'
-    grain: dim/lookup
   (KGR) Tỉ lệ chi phí Lương:
     name: (KGR) Tỉ lệ chi phí Lương
     display_name: (KGR) Tỉ lệ chi phí Lương
@@ -602,51 +1012,29 @@ datasets:
     type: db_dataset
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     in_closure: true
-    physical_tables:
-      DW_NS_X_BANG_CP_LUONG:
-      - CREATED
-      - CUSTRECORD_SCV_TY_LE_CHAIN
-      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
-      - CUSTRECORD_SCV_TY_LE_KENH
-      - CUSTRECORD_SCV_TY_LE_PER_LUONG
-      - CUSTRECORD_SCV_TY_LE_TU_NGAY
-      - EXTERNALID
-      - ISINACTIVE
-      - LASTMODIFIED
-      - NAME
-      - RECORDID
-      - SOURCE_RECORD_ID
-      - W$_INSERT_DT
-      - W$_UPDATE_DT
-      - ID
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - ID
-      - PERIODNAME
     data_last_modified: '2026-06-20'
     folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) Tỉ lệ chi phí Lương'
-    grain: dim/lookup
   (KGR) Tỷ lệ chi phí khác:
     name: (KGR) Tỷ lệ chi phí khác
-    display_name: (KGR) Tỷ lệ chi phí khác
+    display_name: (KGR) Tỷ lệ chi phí CTTK
     owner: minhndn@bizin.vn
     type: db_dataset
     used_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     in_closure: false
-    physical_tables:
-      DW_NS_X_TY_LE_CP_KHAC:
-      - CUSTRECORD_SCV_TY_LE_KHAC
-      - CUSTRECORD_SCV_TY_LE_KHAC_CHUOI
-      - CUSTRECORD_SCV_TY_LE_KHAC_KENH
-      - CUSTRECORD_SCV_TY_LE_KHAC_PER
-      - CUSTRECORD_SCV_TY_LE_KHAC_TU_NGAY
-      - ID
-      - ISINACTIVE
-      - NAME
-    data_last_modified: '2026-06-20'
+    data_last_modified: '2026-06-30'
     folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) Tỷ lệ chi phí khác'
   (KGR) Tỷ lệ chi phí Roadshow, Hội nghị:
     name: (KGR) Tỷ lệ chi phí Roadshow, Hội nghị
@@ -655,130 +1043,32 @@ datasets:
     type: db_dataset
     used_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     in_closure: false
-    physical_tables:
-      DW_NS_X_TY_LE_RSHN:
-      - CUSTRECORD_SCV_RSHN_KENH
-      - CUSTRECORD_SCV_RSHN_PER
-      - CUSTRECORD_SCV_TY_LE_RSHN_CHAIN
-      - CUSTRECORD_SCV_TY_LE_RSHN_DEN_NGAY
-      - CUSTRECORD_SCV_TY_LE_RSHN_TU_NGAY
-      - ID
-      - ISINACTIVE
-      - NAME
     data_last_modified: '2026-06-20'
     folder_path: /@default/{datasets}'minhndn@bizin.vn'.'(KGR) Tỷ lệ chi phí Roadshow, Hội nghị'
   1. Invoice_v2:
     name: 1. Invoice_v2
     display_name: (KGR) DW_INVOICE
     owner: anhdk@bizin.vn
-    description: Dataset (KGR) Invoice chứa dữ liệu hóa đơn tài chính, doanh thu thực tế và sản lượng tiêu thụ thực thi, được xây dựng phục vụ
-      cho nhu cầu phân tích, theo dõi tiến độ doanh thu và so sánh hiệu quả kinh doanh thực tế so với kế hoạch.
+    description: Dataset (KGR) Invoice chứa dữ liệu hóa đơn tài chính, doanh thu thực tế và sản lượng tiêu thụ thực thi, được
+      xây dựng phục vụ cho nhu cầu phân tích, theo dõi tiến độ doanh thu và so sánh hiệu quả kinh doanh thực tế so với kế
+      hoạch.
     type: db_dataset
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     in_closure: true
-    physical_tables:
-      DW_NS_CUSTOMER_INVOICE_LINES_F:
-      - ID
-      - TRANDATE
-      - TRANSACTION
-      - ITEM
-      - QUANTITY
-      - BASE_REVENUE
-      - TAXLINE
-      - TYPE
-      - POSTINGPERIOD - 1
-      - SUBSIDIARY
-      - POSTINGPERIOD
-      - CUSTOMER
-      - CLASS
-      - ITEMTYPE
-      - CREATEDDATE
-      - CLOSEDATE
-      DW_NS_ACCOUNT_D:
-      - ACCTTYPE
-      - ACCTNUMBER
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - PERIODNAME
-      - Month_No
-      - ISPOSTING
-      DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
-      - CSEG_SCV_CHAIN
-      - CSEG_SCV_NHOMXANHDO
-      - CSEG_SCV_SC
-      - CUSTCOL_SCV_LINE_ISFREEGIFT
-      - CUSTCOL_SCV_TRANS_MA_CKKM
-      - CUSTCOL_SCV_TRANS_TEN_CKKM
-      - Is HTL
-      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
-      DW_NS_X_SALE_CHANNEL:
-      - Tên Kênh
-      - ID
-      DW_NS_SUBSIDIARY_D:
-      - Tên Đơn vị
-      DW_NS_CLASSIFICATION_D:
-      - Tên ngành
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Tên Chuỗi
-      DW_NS_X_LIST_SALE_CHANEL_NS:
-      - Nhóm Kênh
-      - ID Nhóm kênh
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
-      - NAME
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
-      - Nhóm xanh đỏ
-      - ID XD
-      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
-      - Quy hoạch SP
-      DW_NS_X_CAM_EMPLOYEEEXTENSION:
-      - ID_employee
-      - CUSTENTITY_SCV_EMP_ASM_CODE
-      DW_NS_LOCATION_D:
-      - Location Name
-      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
-      - Sales Category
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
-      - Vụ việc
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
-      - Nhóm SP
-      DW_NS_ITEM_D:
-      - Item Name
-      - UPCCODE
-      - WEIGHTUNITS
-      DW_NS_X_CAM_CUSTOMEREXTENSION:
-      - CSEG_SCV_CHAIN
-      - CSEG_SCV_SC
-      - CUSTENTITY_SCV_ENTITY_CODE
-      DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
-      - ID
-      - TAX1AMT
-      - TAXCODE
-      - TAXRATE1
-      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
-      - CUSTENTITY_SCV_KH_KY_GUI
-      DW_NS_LOCATION_CF_DH:
-      - PARENT_NAME
-      DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
-      - CUSTBODY_SCV_TRANS_SCT_FAST
-      - CSEG_SCV_SG_PRO
-      DW_NS_X_CAM_ITEMEXTENSION:
-      - CSEG_SCV_MODEL
-      DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
-      - NAME
-      DW_NS_CUSTOMER_D:
-      - COMPANYNAME
-      - ALTNAME
-      DW_NS_CUSTOMER_INVOICE_F:
-      - MEMO
-      DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
-      - NAME
-    data_last_modified: '2026-06-08'
+    data_last_modified: '2026-07-06'
     folder_path: /@default/{datasets}'anhdk@bizin.vn'.'1. Invoice_v2'
-    grain: line-level
   Account Period:
     name: Account Period
     display_name: Account Period
@@ -796,9 +1086,176 @@ datasets:
     used_by_workbooks:
     - (KGR) BRD.BC01_Daily_Summary
     used_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     - KGR_DF_Daily_TD_Report
+    in_closure: true
+    columns_used_by_workbooks:
+    - CUSTCOL_SCV_AOP_CKKM
+    - CUSTCOL_SCV_AOP_CP_CKKM
+    - CUSTCOL_SCV_AOP_DOANH_SO
+    - CUSTCOL_SCV_AOP_LN_GIAO
+    - CUSTCOL_SCV_AOP_LOI_NHUAN
+    data_last_modified: '2026-05-27'
+    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'AOP LINE CF'
+  CreditMemo_Line+Pro:
+    name: CreditMemo_Line+Pro
+    display_name: CreditMemo_Line+Pro
+    owner: 5670a302-c2e7-44b1-8d5c-8799f8801460
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+    in_closure: true
+    data_last_modified: '2026-06-23'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/CreditMemo_Line+Pro
+  Daily_Chuoi_Report:
+    name: Daily_Chuoi_Report
+    display_name: Daily_Chuoi_Report
+    owner: minhndn@bizin.vn
+    type: dataflow_output
+    produced_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+    in_closure: false
+    physical_tables:
+      DW_NS_X_BANG_CP_LUONG:
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_TY_LE_RSHN:
+      - CUSTRECORD_SCV_RSHN_KENH
+      - CUSTRECORD_SCV_RSHN_PER
+      - CUSTRECORD_SCV_TY_LE_RSHN_CHAIN
+      - CUSTRECORD_SCV_TY_LE_RSHN_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_RSHN_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK:
+      - CUSTRECORD_SCV_TY_LE_CTTK_CHUOI
+      - CUSTRECORD_SCV_TY_LE_CTTK_KENH
+      - CUSTRECORD_SCV_TY_LE_CTTK_PER
+      - CUSTRECORD_SCV_TY_LE_CTTK_TU_NGAY
+      - CUSTRECORD_SCV_TY_LE_CTTK_DEN_NGAY
+      DW_NS_X_AOP_HEADER_CF:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF:
+      - CLASS
+      - SUBSIDIARY
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_AOP_DOANH_SO
+      - CUSTCOL_SCV_AOP_CP_CKKM
+      - CUSTCOL_SCV_AOP_LN_GIAO
+      - CUSTCOL_SCV_AOP_CKKM
+      - CUSTCOL_SCV_AOP_LOI_NHUAN
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - NAME
+      DW_NS_X_SALE_CHANNEL:
+      - NAME
+      DW_NS_X_TY_LE_CP_KHAC:
+      - CUSTRECORD_SCV_TY_LE_KHAC
+      - CUSTRECORD_SCV_TY_LE_KHAC_CHUOI
+      - CUSTRECORD_SCV_TY_LE_KHAC_KENH
+      - CUSTRECORD_SCV_TY_LE_KHAC_PER
+      - CUSTRECORD_SCV_TY_LE_KHAC_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/Daily_Chuoi_Report
+  Daily_Kenh_Report:
+    name: Daily_Kenh_Report
+    display_name: Daily_Kenh_Report
+    owner: minhndn@bizin.vn
+    type: dataflow_output
+    produced_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
+    in_closure: false
+    physical_tables:
+      DW_NS_X_BANG_CP_LUONG:
+      - CUSTRECORD_SCV_TY_LE_CHAIN
+      - CUSTRECORD_SCV_TY_LE_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_KENH
+      - CUSTRECORD_SCV_TY_LE_PER_LUONG
+      - CUSTRECORD_SCV_TY_LE_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_TY_LE_RSHN:
+      - CUSTRECORD_SCV_RSHN_KENH
+      - CUSTRECORD_SCV_RSHN_PER
+      - CUSTRECORD_SCV_TY_LE_RSHN_CHAIN
+      - CUSTRECORD_SCV_TY_LE_RSHN_DEN_NGAY
+      - CUSTRECORD_SCV_TY_LE_RSHN_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+      DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK:
+      - CUSTRECORD_SCV_TY_LE_CTTK_CHUOI
+      - CUSTRECORD_SCV_TY_LE_CTTK_KENH
+      - CUSTRECORD_SCV_TY_LE_CTTK_PER
+      - CUSTRECORD_SCV_TY_LE_CTTK_TU_NGAY
+      - CUSTRECORD_SCV_TY_LE_CTTK_DEN_NGAY
+      DW_NS_X_AOP_HEADER_CF:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF:
+      - CLASS
+      - SUBSIDIARY
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_SC
+      - CUSTCOL_SCV_AOP_DOANH_SO
+      - CUSTCOL_SCV_AOP_CP_CKKM
+      - CUSTCOL_SCV_AOP_LN_GIAO
+      - CUSTCOL_SCV_AOP_CKKM
+      - CUSTCOL_SCV_AOP_LOI_NHUAN
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - NAME
+      DW_NS_X_SALE_CHANNEL:
+      - NAME
+      DW_NS_X_TY_LE_CP_KHAC:
+      - CUSTRECORD_SCV_TY_LE_KHAC
+      - CUSTRECORD_SCV_TY_LE_KHAC_CHUOI
+      - CUSTRECORD_SCV_TY_LE_KHAC_KENH
+      - CUSTRECORD_SCV_TY_LE_KHAC_PER
+      - CUSTRECORD_SCV_TY_LE_KHAC_TU_NGAY
+      - ID
+      - ISINACTIVE
+      - NAME
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/Daily_Kenh_Report
+  Daily_Nganh_Report:
+    name: Daily_Nganh_Report
+    display_name: Daily_Nganh_Report
+    owner: minhndn@bizin.vn
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_Daily_Nganh_Report_m
+    - KGR_DF_Daily_Nganh_Report
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB01.Revenue_v1.1
     in_closure: true
     physical_tables:
       DW_NS_X_AOP_HEADER_CF:
@@ -817,27 +1274,6 @@ datasets:
       - CUSTCOL_SCV_AOP_CKKM
       - CUSTCOL_SCV_AOP_LOI_NHUAN
     columns_used_by_workbooks:
-    - CUSTCOL_SCV_AOP_CKKM
-    - CUSTCOL_SCV_AOP_CP_CKKM
-    - CUSTCOL_SCV_AOP_DOANH_SO
-    - CUSTCOL_SCV_AOP_LN_GIAO
-    - CUSTCOL_SCV_AOP_LOI_NHUAN
-    data_last_modified: '2026-05-27'
-    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'AOP LINE CF'
-    grain: dim/lookup
-  Daily_Nganh_Report:
-    name: Daily_Nganh_Report
-    display_name: Daily_Nganh_Report
-    owner: minhndn@bizin.vn
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_Daily_Nganh_Report_m
-    - KGR_DF_Daily_Nganh_Report
-    used_by_workbooks:
-    - (KGR) BRD.BC01_Daily_Summary
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
     - AOP_Amount Sum
     - Actual_Amount Sum
     - AsOfDate
@@ -855,9 +1291,16 @@ datasets:
     - TenNganh
     - TyLeXD
     - TyTrong_SP_Moi
-    data_last_modified: '2026-06-20'
+    data_last_modified: '2026-07-06'
     folder_path: /@default/{datasets}'minhndn@bizin.vn'.'Daily_Nganh_Report'
-    grain: 'group: PERIODNAME, CLASS'
+  Daily_Nganh_Report_TEST:
+    name: Daily_Nganh_Report_TEST
+    display_name: Daily_Nganh_Report_TEST
+    owner: minhndn@bizin.vn
+    type: parquet
+    in_closure: false
+    data_last_modified: '2026-06-25'
+    folder_path: /@Catalog/users/minhndn@bizin.vn/Daily_Nganh_Report_TEST
   Daily_TD_Report:
     name: Daily_TD_Report
     display_name: Daily_TD_Report
@@ -868,6 +1311,19 @@ datasets:
     used_by_workbooks:
     - (KGR) BRD.BC01_Daily_Summary
     in_closure: true
+    physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_LINE_CF:
+      - CUSTCOL_SCV_AOP_DOANH_SO
+      - CUSTCOL_SCV_AOP_CP_CKKM
+      - CUSTCOL_SCV_AOP_LN_GIAO
+      - CUSTCOL_SCV_AOP_CKKM
+      - CUSTCOL_SCV_AOP_LOI_NHUAN
+      DW_NS_X_AOP_HEADER_CF:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
     columns_used_by_workbooks:
     - AsOfDate
     - CKKM_AOP
@@ -881,9 +1337,8 @@ datasets:
     - LN_ConPhaiThucHien
     - PhanTram_CKKM_AOP
     - PhanTram_LoiNhuan_AOP
-    data_last_modified: '2026-06-20'
+    data_last_modified: '2026-07-06'
     folder_path: /@default/{datasets}'minhndn@bizin.vn'.'Daily_TD_Report'
-    grain: 'group: PERIODNAME, AsOfDate'
   demo_ds:
     name: demo_ds
     display_name: demo_ds
@@ -900,129 +1355,34 @@ datasets:
     used_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
     in_closure: false
-    physical_tables:
-      DW_APPS_DAY_D:
-      - CALENDAR_DATE
     data_last_modified: '2026-04-03'
     folder_path: /@default/{datasets}'anhdk@bizin.vn'.'DIM_TIME'
   DW_CREDIT_MEMO:
     name: DW_CREDIT_MEMO
     display_name: (KGR) DW_CREDIT_MEMO
     owner: anhdk@bizin.vn
-    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương mại và các khoản điều
-      chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác doanh thu thuần và đối chiếu nghĩa vụ tài
-      chính của khách hàng.
+    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương
+      mại và các khoản điều chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác
+      doanh thu thuần và đối chiếu nghĩa vụ tài chính của khách hàng.
     type: db_dataset
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     in_closure: true
-    physical_tables:
-      DW_NS_CUSTOMER_CREDIT_LINES_F:
-      - ID
-      - TRANSACTION
-      - SUBSIDIARY
-      - CUSTOMER
-      - ITEM
-      - QUANTITY
-      - TYPE
-      - TAXLINE
-      - BASE_REVENUE
-      - POSTINGPERIOD - 1
-      - BASE_CREDITAMOUNT
-      - BASE_DEBITAMOUNT
-      - TRANDATE
-      - CLASS
-      - ITEMTYPE
-      - POSTINGPERIOD
-      - CREATEDDATE
-      - CLOSEDATE
-      DW_NS_SUBSIDIARY_D:
-      - Tên Đơn vị
-      DW_NS_ACCOUNT_D:
-      - ACCTTYPE
-      - ACCTNUMBER
-      DW_NS_ACCOUNTINGPERIOD_D:
-      - PERIODNAME
-      - Month_No
-      - ISPOSTING
-      DW_NS_CLASSIFICATION_D:
-      - Tên ngành
-      DW_NS_X_SALE_CHANNEL:
-      - Tên Kênh
-      - ID
-      DW_NS_X_LIST_SALE_CHANEL_NS:
-      - Nhóm Kênh
-      - ID Nhóm kênh
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
-      - Nhóm xanh đỏ
-      - ID XD
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
-      - Nhóm SP
-      DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
-      - Quy hoạch SP
-      DW_NS_CUSTOMER_CREDIT_F:
-      - POSTINGPERIOD
-      - MEMO
-      DW_NS_X_CAM_EMPLOYEEEXTENSION:
-      - ID_Employee
-      - CUSTENTITY_SCV_EMP_ASM_CODE
-      DW_NS_LOCATION_D:
-      - Location Name
-      DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
-      - Sales Category
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
-      - Vụ việc
-      DW_NS_ITEM_D:
-      - Item Name
-      - UPCCODE
-      - WEIGHTUNITS
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
-      - NAME
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Tên Chuỗi
-      DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
-      - TAX1AMT
-      - TAXRATE1
-      - TAXCODE
-      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
-      - CSEG_SCV_NHOMXANHDO
-      - CSEG_SCV_SC
-      - CUSTCOL_SCV_LINE_ISFREEGIFT
-      - CUSTCOL_SCV_TRANS_MA_CKKM
-      - CUSTCOL_SCV_TRANS_TEN_CKKM
-      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
-      DW_NS_X_CAM_CUSTOMEREXTENSION:
-      - CSEG_SCV_SC
-      - CSEG_SCV_CHAIN
-      - CUSTENTITY_SCV_ENTITY_CODE
-      DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
-      - CUSTENTITY_SCV_KH_KY_GUI
-      DW_NS_LOCATION_CF_DH:
-      - PARENT_NAME
-      DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
-      - CUSTBODY_SCV_TRANS_SCT_FAST
-      DW_NS_X_CAM_ITEMEXTENSION:
-      - CSEG_SCV_MODEL
-      DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
-      - NAME
-      DW_NS_CUSTOMER_D:
-      - COMPANYNAME
-      - ALTNAME
-      DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
-      - Phân nhóm SP
-    data_last_modified: '2026-06-19'
+    data_last_modified: '2026-06-26'
     folder_path: /@default/{datasets}'anhdk@bizin.vn'.'DW_CREDIT_MEMO'
-    grain: line-level
   DW_CREDIT_MEMO#-#e9pMlRRkHu#-#:
     name: DW_CREDIT_MEMO#-#e9pMlRRkHu#-#
     display_name: (KGR) DW_CREDIT_MEMO copy
     owner: a5519c3d-69a8-46e8-a0a1-aa15f933c082
-    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương mại và các khoản điều
-      chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác doanh thu thuần và đối chiếu nghĩa vụ tài
-      chính của khách hàng.
+    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương
+      mại và các khoản điều chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác
+      doanh thu thuần và đối chiếu nghĩa vụ tài chính của khách hàng.
     type: db_dataset
     in_closure: false
     data_last_modified: '2026-06-06'
@@ -1031,9 +1391,9 @@ datasets:
     name: DW_CREDIT_MEMO#-#L6XyWjE9eB#-#
     display_name: (KGR) DW_CREDIT_MEMO_v2
     owner: e64f3fae-a8fd-480e-b186-fc29c3375b86
-    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương mại và các khoản điều
-      chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác doanh thu thuần và đối chiếu nghĩa vụ tài
-      chính của khách hàng.
+    description: Dataset (KGR) Credit Memo chứa dữ liệu chứng từ giảm trừ công nợ, hàng bán bị trả lại, chiết khấu thương
+      mại và các khoản điều chỉnh giảm doanh thu thực tế, được xây dựng phục vụ cho nhu cầu phân tích, khấu trừ chính xác
+      doanh thu thuần và đối chiếu nghĩa vụ tài chính của khách hàng.
     type: db_dataset
     in_closure: false
     data_last_modified: '2026-06-09'
@@ -1056,8 +1416,382 @@ datasets:
     - (KGR) DB01.Revenue_v1.1
     - (KGR) DB02.Expense_v1.1
     used_by_dataflows:
-    - DTF_PRODUCT_KPI_PY
     - Union SALE HIST w INVC
+    in_closure: true
+    columns_used_by_workbooks:
+    - ASM_ID
+    - ASM_NAME
+    - CUSTOMER_ID
+    - CUSTOMER_NAME
+    - NET_AMOUNT
+    - QUANTITY
+    - SUBSIDIARY_NAME
+    - TRANSACTION_DATE
+    data_last_modified: '2026-05-23'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset'
+  EST_INVOICE:
+    name: EST_INVOICE
+    display_name: EST_INVOICE
+    owner: anhdk@bizin.vn
+    type: db_dataset
+    in_closure: false
+    data_last_modified: '2026-05-16'
+    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'EST_INVOICE'
+  Giá vốn mục tiêu:
+    name: Giá vốn mục tiêu
+    display_name: Giá vốn mục tiêu
+    owner: anhdk@bizin.vn
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
+    - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
+    - (KGR) 5. DTF_CALC_MIS_v1.0
+    in_closure: true
+    data_last_modified: '2026-05-08'
+    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'Giá vốn mục tiêu'
+  Giá vốn tồn kho:
+    name: Giá vốn tồn kho
+    display_name: Giá vốn tồn kho
+    owner: anhdk@bizin.vn
+    type: db_dataset
+    used_by_dataflows:
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
+    - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
+    - (KGR) 5. DTF_CALC_MIS_v1.0
+    in_closure: true
+    data_last_modified: '2026-05-08'
+    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'Giá vốn tồn kho'
+  KGR_DS_ACTUAL_AOP_MONTHLY_v1:
+    name: KGR_DS_ACTUAL_AOP_MONTHLY_v1
+    display_name: KGR_DS_ACTUAL_AOP_MONTHLY_v1
+    owner: minhndn@bizin.vn
+    description: Báo cáo ước tính tháng — DS/LNG/LNTT theo tháng + lũy kế(T3+T4+T5) + AOP, grain Sub/Class/SC/Chain.
+    type: parquet
+    in_closure: false
+    data_last_modified: '2026-06-11'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/KGR_DS_ACTUAL_AOP_MONTHLY_v1
+  KGR_DS_ACTUAL_AOP_MONTHLY_v2:
+    name: KGR_DS_ACTUAL_AOP_MONTHLY_v2
+    display_name: KGR_DS_ACTUAL_AOP_MONTHLY_v2
+    owner: minhndn@bizin.vn
+    description: Báo cáo ước tính tháng (clone editor-friendly của v1) — DS/LNG/LNTT theo tháng + lũy kế(T3+T4+T5) + AOP,
+      grain Sub/Class/SC/Chain.
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_ACTUAL_AOP_MONTHLY_LK
+    in_closure: false
+    data_last_modified: '2026-06-18'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/KGR_DS_ACTUAL_AOP_MONTHLY_v2
+  KGR_DS_AOP_v3test:
+    name: KGR_DS_AOP_v3test
+    display_name: KGR_DS_AOP_v3test
+    owner: minhndn@bizin.vn
+    description: AOP fix test
+    type: parquet
+    in_closure: false
+    data_last_modified: '2026-06-11'
+    folder_path: /@Catalog/users/minhndn@bizin.vn/KGR_DS_AOP_v3test
+  KGR_DS_SFC_Plan_by_Kenh:
+    name: KGR_DS_SFC_Plan_by_Kenh
+    display_name: KGR_DS_SFC_Plan_by_Kenh
+    owner: minhndn@bizin.vn
+    description: SFC Plan SL theo Kênh, May 2026 (plan-only; actual MEMO# không có grain Kênh).
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_Plan_by_Kenh
+    in_closure: false
+    physical_tables:
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_X_SALE_CHANNEL:
+      - Kênh
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_SFC_LINES_CF:
+      - SL W1
+      - SL W2
+      - SL W3
+      - SL W4
+      - SL W5
+      - Doanh thu (-VAT)
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_Plan_by_Kenh
+  KGR_DS_SFC_vs_Actual:
+    name: KGR_DS_SFC_vs_Actual
+    display_name: KGR_DS_SFC_vs_Actual
+    owner: a26052be-3f74-4a15-a62f-6e1f646ea47d
+    type: parquet
+    in_closure: false
+    data_last_modified: '2026-06-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_Actual
+  KGR_DS_SFC_vs_Actual_v2:
+    name: KGR_DS_SFC_vs_Actual_v2
+    display_name: KGR_DS_SFC_vs_Actual_v2
+    owner: f35ec90d-f3a2-4cc5-9e2d-004c6b7b7128
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_vs_Actual_v2
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    used_by_dataflows:
+    - KGR_DF_SFC_vs_MEMO_v1
+    in_closure: true
+    physical_tables:
+      DW_NS_X_SFC_LINES_CF:
+      - CSEG_SCV_PRODGROUP
+      - CSEG_SCV_MODEL
+      - CSEG_SCV_PRODCATG
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_NHOMXANHDO
+      - Quantity
+      - Doanh thu (-VAT)
+      - Giá Vốn
+      - GP ròng
+      - Lãi Gộp
+      - CKKM
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - ID
+      DW_NS_ITEM_D:
+      - ID
+    columns_used_by_workbooks:
+    - Doanh số thực tế Sum
+    - QUANTITY Sum
+    - Quantity Maximum
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_Actual_v2
+  KGR_DS_SFC_vs_MEMO_v1:
+    name: KGR_DS_SFC_vs_MEMO_v1
+    display_name: KGR_DS_SFC_vs_MEMO_v1
+    owner: d3bb54a8-91ee-43a1-b4bd-1c83e8057d57
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_vs_MEMO_v1
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    in_closure: true
+    columns_used_by_workbooks:
+    - QUANTITY Sum
+    data_last_modified: '2026-06-07'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v1
+  KGR_DS_SFC_vs_MEMO_v2:
+    name: KGR_DS_SFC_vs_MEMO_v2
+    display_name: KGR_DS_SFC_vs_MEMO_v2
+    owner: minhndn@bizin.vn
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_vs_MEMO_v2
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    in_closure: true
+    physical_tables:
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_SFC_LINES_CF:
+      - SL W1
+      - SL W2
+      - SL W3
+      - SL W4
+      - SL W5
+      - Doanh thu (-VAT)
+    columns_used_by_workbooks:
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    data_last_modified: '2026-06-07'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v2
+  KGR_DS_SFC_vs_MEMO_v3:
+    name: KGR_DS_SFC_vs_MEMO_v3
+    display_name: KGR_DS_SFC_vs_MEMO_v3
+    owner: minhndn@bizin.vn
+    description: SFC Plan vs Actual at product-group grain, May 2026.
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_vs_MEMO_v3
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    in_closure: true
+    physical_tables:
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
+      - Nhóm sản phẩm
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_SFC_LINES_CF:
+      - SL W1
+      - SL W2
+      - SL W3
+      - SL W4
+      - SL W5
+      - Doanh thu (-VAT)
+    columns_used_by_workbooks:
+    - Nhóm SP gộp
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    data_last_modified: '2026-06-24'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v3
+  KGR_DS_SFC_vs_MEMO_v4_Chuoi:
+    name: KGR_DS_SFC_vs_MEMO_v4_Chuoi
+    display_name: KGR_DS_SFC_vs_MEMO_v4_Chuoi
+    owner: minhndn@bizin.vn
+    description: SFC Plan vs Actual theo Chuỗi (chain), May 2026.
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_SFC_vs_MEMO_v4_Chuoi
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
+    in_closure: true
+    physical_tables:
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - Chuỗi
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_SFC_LINES_CF:
+      - SL W1
+      - SL W2
+      - SL W3
+      - SL W4
+      - SL W5
+      - Doanh thu (-VAT)
+    columns_used_by_workbooks:
+    - Chuỗi gộp
+    - SL_Ke_Hoach
+    - SL_Thuc_Te
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v4_Chuoi
+  KGR_DTF_CHI_PHI_XUC_TIEN:
+    name: KGR_DTF_CHI_PHI_XUC_TIEN
+    display_name: KGR_DTF_CHI_PHI_XUC_TIEN
+    owner: minhndn@bizin.vn
+    description: Dataset đẩy từ Dataflow tính Chi phí xúc tiến về DW
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_Nganh_Cumulative_AsOf
+    in_closure: false
+    data_last_modified: '2026-05-27'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'KGR_DTF_CHI_PHI_XUC_TIEN'
+  KGR_DTF_Nganh_Cumulative_AsOf:
+    name: KGR_DTF_Nganh_Cumulative_AsOf
+    display_name: KGR_DTF_Nganh_Cumulative_AsOf
+    owner: minhndn@bizin.vn
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_Group Rate As-Of_Ngành
+    in_closure: false
+    data_last_modified: '2026-05-28'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'KGR_DTF_Nganh_Cumulative_AsOf'
+  Metric_Dim:
+    name: Metric_Dim
+    display_name: Metric_Dim
+    owner: minhndn@bizin.vn
+    type: datamodel
+    used_by_dataflows:
+    - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+    - KGR_DF_TD_Metrics_bk
+    - KGR_DF_TD_Metrics_v1.0
+    in_closure: true
+    data_last_modified: '2026-05-28'
+    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'Metric_Dim'
+  New Dataset+M+Account:
+    name: New Dataset+M+Account
+    display_name: New Dataset+M+Account
+    owner: b115416e-63fd-4cb4-9de2-dd4d5b2c8fed
+    type: db_dataset
+    in_closure: false
+    data_last_modified: '2026-06-22'
+    folder_path: /@Catalog/users/minhndn@bizin.vn/New Dataset+M+Account
+  Nganh_Report_Long_#:
+    name: Nganh_Report_Long_#
+    display_name: Nganh_Report_Long_#
+    owner: minhndn@bizin.vn
+    description: Nganh_Report_Long_#
+    type: dataflow_output
+    produced_by_dataflows:
+    - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
+    used_by_workbooks:
+    - (KGR) BRD.BC01_Daily_Summary
+    - (KGR) DB02.Expense_v1.1
+    used_by_dataflows:
+    - DF_Nganh_Report_Long_TD
+    - DF_TD_Report_PNL_Bridge
+    - DF_TD_Report_PNL_Bridge_Nganh
+    - KGR_DF_Daily_Nganh_Report
+    - KGR_DF_Daily_Nganh_Report_m
+    in_closure: true
+    physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      - ID
+      - NETAMOUNT
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - Per DS (AOP)
+      - CSEG_SCV_NHOMXANHDO
+      - Chỉ tiêu (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+    file_or_other_sources:
+      Metric_Dim:
+      - "\uFEFFSort_Order"
+      - Metric_Code
+      - Metric_Name
+      - Type
+    columns_used_by_workbooks:
+    - AOP_Amount
+    - Actual_Amount
+    - AsOfDate
+    - ID CLASS
+    - Metric_Code
+    - Metric_Name
+    - "\uFEFFSort_Order"
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Archived/Nganh_Report_Long_#
+  Nganh_Report_Long_TD:
+    name: Nganh_Report_Long_TD
+    display_name: Nganh_Report_Long_TD
+    owner: minhndn@bizin.vn
+    description: Sector P&L rows (ID CLASS 1-4/5) + added Group-total rows (ID CLASS=0 = SUM over sectors per Metric_Name
+      x AsOfDate). 5 cols.
+    type: dataflow_output
+    produced_by_dataflows:
+    - DF_Nganh_Report_Long_TD
+    used_by_workbooks:
+    - (KGR) DB02.Expense_v1.1
+    in_closure: true
+    columns_used_by_workbooks:
+    - ID CLASS
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/Nganh_Report_Long_TD
+  SALE HIST w INVC:
+    name: SALE HIST w INVC
+    display_name: SALE HIST w INVC
+    owner: a56aa060-d690-462c-84b2-d03b279cbab9
+    description: Union sales history data (2024-2026) with on-going invoice data
+    type: dataflow_output
+    produced_by_dataflows:
+    - Union SALE HIST w INVC
+    used_by_workbooks:
+    - (KGR) DB01.Revenue_v1.1
     in_closure: true
     physical_tables:
       DW_X_SALE_HISTORY:
@@ -1085,323 +1819,10 @@ datasets:
       - NS_BUSINESS_LINE_ID
       - NS_ITEM_ID
     columns_used_by_workbooks:
-    - ASM_ID
-    - ASM_NAME
-    - CUSTOMER_ID
-    - CUSTOMER_NAME
-    - NET_AMOUNT
-    - QUANTITY
-    - SUBSIDIARY_NAME
-    - TRANSACTION_DATE
-    data_last_modified: '2026-05-23'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'DW_X_SALE_HISTORY_Dataset'
-    grain: dim/lookup
-  EST_INVOICE:
-    name: EST_INVOICE
-    display_name: EST_INVOICE
-    owner: anhdk@bizin.vn
-    type: db_dataset
-    in_closure: false
-    data_last_modified: '2026-05-16'
-    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'EST_INVOICE'
-  Giá vốn mục tiêu:
-    name: Giá vốn mục tiêu
-    display_name: Giá vốn mục tiêu
-    owner: anhdk@bizin.vn
-    type: db_dataset
-    used_by_dataflows:
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
-    - (KGR) 5. DTF_CALC_MIS
-    - (KGR) 5. DTF_CALC_MIS_v1.0
-    in_closure: true
-    physical_tables:
-      DW_NS_X_GIA_VON_MUC_TIEU_CT:
-      - CUSTRECORD_SCV_GVMT_LINE_END_DATE
-      - CUSTRECORD_SCV_GVMT_LINE_GVMT_SP
-      - CUSTRECORD_SCV_GVMT_LINE_MODEL
-      - CUSTRECORD_SCV_GVMT_LINE_MSP
-      - CUSTRECORD_SCV_GVMT_LINE_START_DATE
-      - ID
-      - ISINACTIVE
-      - NAME
-    data_last_modified: '2026-05-08'
-    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'Giá vốn mục tiêu'
-    grain: dim/lookup
-  Giá vốn tồn kho:
-    name: Giá vốn tồn kho
-    display_name: Giá vốn tồn kho
-    owner: anhdk@bizin.vn
-    type: db_dataset
-    used_by_dataflows:
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
-    - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
-    - (KGR) 5. DTF_CALC_MIS
-    - (KGR) 5. DTF_CALC_MIS_v1.0
-    in_closure: true
-    physical_tables:
-      DW_NS_X_GIA_VON_TON_KHO:
-      - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
-      - Next period
-      - CUSTRECORD_SCV_GVTK_ITEM_NAME_L
-      - CUSTRECORD_SCV_GVTK_PERIOD_L
-      - CUSTRECORD_SCV_GVTK_SUBSIDIARY_L
-      - CUSTRECORD_SCV_GVTK_UNITS_L
-      - CUSTRECORD_SCV_GVTK_UNIT_COST_L
-      - ID
-      - ISINACTIVE
-      - NAME
-    data_last_modified: '2026-05-08'
-    folder_path: /@default/{datasets}'anhdk@bizin.vn'.'Giá vốn tồn kho'
-    grain: dim/lookup
-  KGR_DS_ACTUAL_AOP_MONTHLY_v1:
-    name: KGR_DS_ACTUAL_AOP_MONTHLY_v1
-    display_name: KGR_DS_ACTUAL_AOP_MONTHLY_v1
-    owner: minhndn@bizin.vn
-    description: Báo cáo ước tính tháng — DS/LNG/LNTT theo tháng + lũy kế(T3+T4+T5) + AOP, grain Sub/Class/SC/Chain.
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v1
-    in_closure: false
-    data_last_modified: '2026-06-11'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/KGR_DS_ACTUAL_AOP_MONTHLY_v1
-  KGR_DS_ACTUAL_AOP_MONTHLY_v2:
-    name: KGR_DS_ACTUAL_AOP_MONTHLY_v2
-    display_name: KGR_DS_ACTUAL_AOP_MONTHLY_v2
-    owner: minhndn@bizin.vn
-    description: Báo cáo ước tính tháng (clone editor-friendly của v1) — DS/LNG/LNTT theo tháng + lũy kế(T3+T4+T5) + AOP, grain Sub/Class/SC/Chain.
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_ACTUAL_AOP_MONTHLY_LK
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v3
-    - KGR_DF_ACTUAL_AOP_MONTHLY_v2
-    in_closure: false
-    data_last_modified: '2026-06-18'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/KGR_DS_ACTUAL_AOP_MONTHLY_v2
-  KGR_DS_AOP_v3test:
-    name: KGR_DS_AOP_v3test
-    display_name: KGR_DS_AOP_v3test
-    owner: minhndn@bizin.vn
-    description: AOP fix test
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_AOP_v3test
-    in_closure: false
-    data_last_modified: '2026-06-11'
-    folder_path: /@Catalog/users/minhndn@bizin.vn/KGR_DS_AOP_v3test
-  KGR_DS_SFC_Plan_by_Kenh:
-    name: KGR_DS_SFC_Plan_by_Kenh
-    display_name: KGR_DS_SFC_Plan_by_Kenh
-    owner: minhndn@bizin.vn
-    description: SFC Plan SL theo Kênh, May 2026 (plan-only; actual MEMO# không có grain Kênh).
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_Plan_by_Kenh
-    in_closure: false
-    data_last_modified: '2026-06-07'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_Plan_by_Kenh
-  KGR_DS_SFC_vs_Actual:
-    name: KGR_DS_SFC_vs_Actual
-    display_name: KGR_DS_SFC_vs_Actual
-    owner: a26052be-3f74-4a15-a62f-6e1f646ea47d
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_Actual
-    in_closure: false
-    data_last_modified: '2026-06-06'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_Actual
-  KGR_DS_SFC_vs_Actual_v2:
-    name: KGR_DS_SFC_vs_Actual_v2
-    display_name: KGR_DS_SFC_vs_Actual_v2
-    owner: f35ec90d-f3a2-4cc5-9e2d-004c6b7b7128
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_Actual_v2
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    used_by_dataflows:
-    - KGR_DF_SFC_vs_MEMO_v1
-    in_closure: true
-    columns_used_by_workbooks:
-    - Doanh số thực tế Sum
-    - QUANTITY Sum
-    - Quantity Maximum
-    data_last_modified: '2026-06-06'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_Actual_v2
-    grain: 'group: POSTINGPERIOD, ID, CSEG_SCV_PRODCATG, CSEG_SCV_PRODGROUP, CSEG_SCV_MODEL, CSEG_SCV_CHAIN, CSEG_SCV_NHOMXANHDO'
-  KGR_DS_SFC_vs_MEMO_v1:
-    name: KGR_DS_SFC_vs_MEMO_v1
-    display_name: KGR_DS_SFC_vs_MEMO_v1
-    owner: d3bb54a8-91ee-43a1-b4bd-1c83e8057d57
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_MEMO_v1
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - QUANTITY Sum
-    data_last_modified: '2026-06-07'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v1
-    grain: 'group: Tên Ngành, Nhóm SP'
-  KGR_DS_SFC_vs_MEMO_v2:
-    name: KGR_DS_SFC_vs_MEMO_v2
-    display_name: KGR_DS_SFC_vs_MEMO_v2
-    owner: minhndn@bizin.vn
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_MEMO_v2
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - SL_Ke_Hoach
-    - SL_Thuc_Te
-    data_last_modified: '2026-06-07'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v2
-    grain: 'group: Tên Ngành'
-  KGR_DS_SFC_vs_MEMO_v3:
-    name: KGR_DS_SFC_vs_MEMO_v3
-    display_name: KGR_DS_SFC_vs_MEMO_v3
-    owner: minhndn@bizin.vn
-    description: SFC Plan vs Actual at product-group grain, May 2026.
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_MEMO_v3
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - Nhóm SP gộp
-    - SL_Ke_Hoach
-    - SL_Thuc_Te
-    data_last_modified: '2026-06-07'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v3
-    grain: 'group: Tên Ngành, Nhóm SP'
-  KGR_DS_SFC_vs_MEMO_v4_Chuoi:
-    name: KGR_DS_SFC_vs_MEMO_v4_Chuoi
-    display_name: KGR_DS_SFC_vs_MEMO_v4_Chuoi
-    owner: minhndn@bizin.vn
-    description: SFC Plan vs Actual theo Chuỗi (chain), May 2026.
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_SFC_vs_MEMO_v4_Chuoi
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - Chuỗi gộp
-    - SL_Ke_Hoach
-    - SL_Thuc_Te
-    data_last_modified: '2026-06-07'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Data Flow/KGR_DS_SFC_vs_MEMO_v4_Chuoi
-    grain: 'group: Tên Chuỗi'
-  KGR_DTF_CHI_PHI_XUC_TIEN:
-    name: KGR_DTF_CHI_PHI_XUC_TIEN
-    display_name: KGR_DTF_CHI_PHI_XUC_TIEN
-    owner: minhndn@bizin.vn
-    description: Dataset đẩy từ Dataflow tính Chi phí xúc tiến về DW
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_Nganh_Cumulative_AsOf
-    - KGR_DF_Group Rate As-Of
-    in_closure: false
-    data_last_modified: '2026-05-27'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'KGR_DTF_CHI_PHI_XUC_TIEN'
-  KGR_DTF_Nganh_Cumulative_AsOf:
-    name: KGR_DTF_Nganh_Cumulative_AsOf
-    display_name: KGR_DTF_Nganh_Cumulative_AsOf
-    owner: minhndn@bizin.vn
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_Group Rate As-Of_Ngành
-    in_closure: false
-    data_last_modified: '2026-05-28'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'KGR_DTF_Nganh_Cumulative_AsOf'
-  Metric_Dim:
-    name: Metric_Dim
-    display_name: Metric_Dim
-    owner: minhndn@bizin.vn
-    type: datamodel
-    used_by_dataflows:
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
-    - KGR_DF_Nganh_Metrics_v3
-    - KGR_DF_TD_Metrics_bk
-    - KGR_DF_TD_Metrics_v1.0
-    in_closure: true
-    file_or_other_sources:
-      Metric_Dim:
-      - "\uFEFFSort_Order"
-      - Metric_Code
-      - Metric_Name
-      - Type
-    data_last_modified: '2026-05-28'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'Metric_Dim'
-  Nganh_Report_Long_#:
-    name: Nganh_Report_Long_#
-    display_name: Nganh_Report_Long_#
-    owner: minhndn@bizin.vn
-    description: Nganh_Report_Long_#
-    type: dataflow_output
-    produced_by_dataflows:
-    - KGR_DF_Nganh_Metrics_v3
-    - KGR_DF_Nganh_Metrics_v2
-    - KGR_DF_Nganh_Metrics
-    used_by_workbooks:
-    - (KGR) BRD.BC01_Daily_Summary
-    - (KGR) DB02.Expense_v1.1
-    used_by_dataflows:
-    - DF_Nganh_Report_Long_TD
-    - DF_TD_Report_PNL_Bridge
-    - DF_TD_Report_PNL_Bridge_Nganh
-    - KGR_DF_Daily_Nganh_Report
-    - KGR_DF_Daily_Nganh_Report_m
-    in_closure: true
-    columns_used_by_workbooks:
-    - AOP_Amount
-    - Actual_Amount
-    - AsOfDate
-    - ID CLASS
-    - Metric_Code
-    - Metric_Name
-    - "\uFEFFSort_Order"
-    data_last_modified: '2026-06-20'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'Nganh_Report_Long_#'
-    grain: 'group: PERIODNAME, CLASS'
-  Nganh_Report_Long_TD:
-    name: Nganh_Report_Long_TD
-    display_name: Nganh_Report_Long_TD
-    owner: minhndn@bizin.vn
-    description: Sector P&L rows (ID CLASS 1-4/5) + added Group-total rows (ID CLASS=0 = SUM over sectors per Metric_Name x AsOfDate). 5 cols.
-    type: dataflow_output
-    produced_by_dataflows:
-    - DF_Nganh_Report_Long_TD
-    used_by_workbooks:
-    - (KGR) DB02.Expense_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
-    - ID CLASS
-    data_last_modified: '2026-06-18'
-    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/Nganh_Report_Long_TD
-    grain: 'group: Metric_Name, AsOfDate'
-  SALE HIST w INVC:
-    name: SALE HIST w INVC
-    display_name: SALE HIST w INVC
-    owner: a56aa060-d690-462c-84b2-d03b279cbab9
-    description: Union sales history data (2024-2026) with on-going invoice data
-    type: dataflow_output
-    produced_by_dataflows:
-    - Union SALE HIST w INVC
-    used_by_workbooks:
-    - (KGR) DB01.Revenue_v1.1
-    in_closure: true
-    columns_used_by_workbooks:
     - REVENUE
     - TRANSACTION_DATE
-    data_last_modified: '2026-06-19'
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/SALE HIST w INVC
-    grain: 'group: TRANDATE, SUBSIDIARY, Model name, ID CLASS, CUSTOMER, PERIODNAME, POSTINGPERIOD'
   SPmoi_ng_v3:
     name: SPmoi_ng_v3
     display_name: SPmoi_ng_v3
@@ -1409,14 +1830,39 @@ datasets:
     type: dataflow_output
     produced_by_dataflows:
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     used_by_dataflows:
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     - KGR_DF_Daily_TD_Report
     in_closure: true
-    data_last_modified: '2026-06-20'
-    folder_path: /@default/{datasets}'minhndn@bizin.vn'.'SPmoi_ng_v3'
-    grain: 'group: PERIODNAME, AsOfDate, ID CLASS'
+    physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      - ID
+      - NETAMOUNT
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - Per DS (AOP)
+      - CSEG_SCV_NHOMXANHDO
+      - Chỉ tiêu (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+    file_or_other_sources:
+      Metric_Dim:
+      - "\uFEFFSort_Order"
+      - Metric_Code
+      - Metric_Name
+      - Type
+    data_last_modified: '2026-07-06'
+    folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Archived/SPmoi_ng_v3
   TD_Metrics_Wide:
     name: TD_Metrics_Wide
     display_name: TD_Metrics_Wide
@@ -1427,13 +1873,36 @@ datasets:
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     used_by_dataflows:
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     in_closure: true
-    data_last_modified: '2026-06-20'
+    physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      - ID
+      - NETAMOUNT
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - Per DS (AOP)
+      - CSEG_SCV_NHOMXANHDO
+      - Chỉ tiêu (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+    file_or_other_sources:
+      Metric_Dim:
+      - "\uFEFFSort_Order"
+      - Metric_Code
+      - Metric_Name
+      - Type
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Archived/TD_Metrics_Wide
-    grain: 'group: PERIODNAME'
   TD_Report_Long:
     name: TD_Report_Long
     display_name: TD_Report_Long
@@ -1448,10 +1917,34 @@ datasets:
     - (KGR) DB02.Expense_v1.1
     used_by_dataflows:
     - DF_TD_Report_PNL_Bridge
-    - DF_TD_Report_PNL_v1
     - DF_TD_Report_PNL_v2
     - KGR_DF_Daily_TD_Report
     in_closure: true
+    physical_tables:
+      DW_NS_ACCOUNTINGPERIOD_D:
+      - PERIODNAME
+      DW_NS_X_AOP_HEADER_SF_1:
+      - POSTINGPERIOD
+      DW_NS_X_AOP_HEADER_CF_1:
+      - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
+      DW_NS_X_AOP_LINE_SF_1:
+      - SUBSIDIARY
+      - CLASS
+      - ID
+      - NETAMOUNT
+      DW_NS_X_AOP_LINE_CF:
+      - CSEG_SCV_CHAIN
+      - Per DS (AOP)
+      - CSEG_SCV_NHOMXANHDO
+      - Chỉ tiêu (AOP)
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
+      - Ngành hàng
+    file_or_other_sources:
+      Metric_Dim:
+      - "\uFEFFSort_Order"
+      - Metric_Code
+      - Metric_Name
+      - Type
     columns_used_by_workbooks:
     - AOP_Amount_1
     - AOP_Per
@@ -1461,14 +1954,14 @@ datasets:
     - Metric_Code
     - Metric_Name
     - "\uFEFFSort_Order"
-    data_last_modified: '2026-06-20'
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Archived/TD_Report_Long
-    grain: 'group: PERIODNAME'
   TD_Report_PNL_Bridge:
     name: TD_Report_PNL_Bridge
     display_name: TD_Report_PNL_Bridge
     owner: minhndn@bizin.vn
-    description: 'Main-steps P&L bridge: 14 rows/snapshot (8 movements + 6 subtotal anchors). cum_before/cum_after for Range Bar staircase Revenue→Pre-tax.'
+    description: 'Main-steps P&L bridge: 14 rows/snapshot (8 movements + 6 subtotal anchors). cum_before/cum_after for Range
+      Bar staircase Revenue→Pre-tax.'
     type: dataflow_output
     produced_by_dataflows:
     - DF_TD_Report_PNL_Bridge
@@ -1481,15 +1974,15 @@ datasets:
     - Bridge_Order
     - cum_after
     - cum_before
-    data_last_modified: '2026-06-18'
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/TD_Report_PNL_Bridge
-    grain: 'group: AsOfDate'
   TD_Report_PNL_Bridge_Nganh:
     name: TD_Report_PNL_Bridge_Nganh
     display_name: TD_Report_PNL_Bridge_Nganh
     owner: minhndn@bizin.vn
-    description: 'Per-NGÀNH P&L bridge: 14 rows/snapshot per ngành (8 movements + 6 subtotal anchors), running total restart per (AsOfDate, ID
-      CLASS). Columns: AsOfDate, ID CLASS, Tên Ngành, Bridge_Order, Bridge_Label, Direction, Step_Value, Magnitude, cum_before, cum_after.'
+    description: 'Per-NGÀNH P&L bridge: 14 rows/snapshot per ngành (8 movements + 6 subtotal anchors), running total restart
+      per (AsOfDate, ID CLASS). Columns: AsOfDate, ID CLASS, Tên Ngành, Bridge_Order, Bridge_Label, Direction, Step_Value,
+      Magnitude, cum_before, cum_after.'
     type: dataflow_output
     produced_by_dataflows:
     - DF_TD_Report_PNL_Bridge_Nganh
@@ -1504,17 +1997,14 @@ datasets:
     - ID CLASS
     - cum_after
     - cum_before
-    data_last_modified: '2026-06-18'
+    data_last_modified: '2026-07-06'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/TD_Report_PNL_Bridge_Nganh
-    grain: 'group: AsOfDate, ID CLASS'
   TD_Report_PNL_v1:
     name: TD_Report_PNL_v1
     display_name: TD_Report_PNL_v1
     owner: 27f10916-90ed-4030-b67a-282718dfef83
     description: P&L long-format with Signed_Amount + PL_Step
-    type: dataflow_output
-    produced_by_dataflows:
-    - DF_TD_Report_PNL_v1
+    type: parquet
     in_closure: false
     data_last_modified: '2026-06-17'
     folder_path: /@Catalog/shared/(KGR) 1.Implement/(KGR) Dataset/TD_Report_PNL_v1

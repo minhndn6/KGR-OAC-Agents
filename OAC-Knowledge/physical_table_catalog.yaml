@@ -1,7 +1,7 @@
 _meta:
   purpose: 'Tầng nền VẬT LÝ tự chứa: bảng/cột NSAW thật mà các dataflow KGR đang đọc. Trích LIVE từ định nghĩa dataflow (InputDataset.columns
     dạng "TABLE"."col").'
-  extracted_live: '2026-06-20'
+  extracted_live: '2026-07-06'
   authority: Đây là nguồn TƯƠI (đọc hôm nay). NSAW_Claude/data_context chỉ là tầng làm giàu ngữ nghĩa, có thể đã cũ (~2026-05)
     — khi mâu thuẫn, bản này THẮNG.
   verified_live_note: 'verified_live=true: đã chứng minh resolve sống qua executePreview flowSQL hôm nay. Các bảng khác: ''via_dataflow_def''
@@ -9,7 +9,7 @@ _meta:
   total_tables: 60
 physical_tables:
   DW_APPS_DAY_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CALENDAR_DATE
@@ -24,7 +24,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_ACCOUNTINGPERIOD_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ID
@@ -38,22 +38,30 @@ physical_tables:
     - (KGR) JOURNAL
     - (KGR) SFC Dataset (có AI)
     - (KGR) Tỉ lệ chi phí Lương
+    - (KGR) Tỷ lệ chi phí khác
     - 1. Invoice_v2
     - AOP LINE CF
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
+    - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     - KGR_DF_Daily_TD_Report
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_SFC_Plan_by_Kenh
     - KGR_DF_SFC_vs_Actual_v2
     - KGR_DF_SFC_vs_MEMO_v2
@@ -67,7 +75,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_ACCOUNT_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: true
     columns_in_use:
     - ACCTNUMBER
@@ -80,8 +88,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     - (KGR) DF_FACT_EXPENSE
     nsaw_claude_ref:
@@ -90,7 +101,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CLASSIFICATION_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Tên Ngành
@@ -104,8 +115,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
@@ -115,7 +129,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CUSTOMER_CREDIT_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - MEMO
@@ -125,8 +139,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_CUSTOMER_CREDIT_F
@@ -134,7 +151,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CUSTOMER_CREDIT_LINES_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - BASE_CREDITAMOUNT
@@ -160,8 +177,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_CUSTOMER_CREDIT_LINES_F
@@ -169,7 +189,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CUSTOMER_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ALTNAME
@@ -180,6 +200,8 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_CUSTOMER_D
@@ -187,7 +209,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CUSTOMER_INVOICE_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - MEMO
@@ -196,6 +218,8 @@ physical_tables:
     - 1. Invoice_v2
     used_by_dataflows:
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_CUSTOMER_INVOICE_F
@@ -203,7 +227,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_CUSTOMER_INVOICE_LINES_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: true
     columns_in_use:
     - BASE_REVENUE
@@ -227,8 +251,11 @@ physical_tables:
     - 1. Invoice_v2
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_CUSTOMER_INVOICE_LINES_F
@@ -236,24 +263,27 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_ITEM_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ID
+    - ITEMTYPE
     - Item Name
     - UPCCODE
     - WEIGHTUNITS
-    n_columns_in_use: 4
+    n_columns_in_use: 5
     used_by_datasets:
     - (KGR) SFC Dataset (có AI)
     - 1. Invoice_v2
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
-    - KGR_DF_SFC_vs_Actual
     - KGR_DF_SFC_vs_Actual_v2
     nsaw_claude_ref:
       table: DW_NS_ITEM_D
@@ -261,7 +291,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_JOURNAL_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - POSTINGPERIOD
@@ -276,7 +306,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_JOURNAL_LINES_F:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - BASE_NETAMOUNT
@@ -294,7 +324,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_LOCATION_CF_DH:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - PARENT_NAME
@@ -304,14 +334,17 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     nsaw_claude_ref:
       table: DW_NS_LOCATION_CF_DH
       documented_in_nsaw: false
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_LOCATION_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Location Name
@@ -321,8 +354,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_LOCATION_D
@@ -330,11 +366,12 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_SUBSIDIARY_D:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
+    - Mã Đơn Vị
     - Tên Đơn vị
-    n_columns_in_use: 1
+    n_columns_in_use: 2
     used_by_datasets:
     - (KGR) AOP Dataset
     - (KGR) BTUT
@@ -343,8 +380,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
@@ -354,7 +394,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_HEADER_CF:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTBODY_SCV_AOP_LOAI_BAO_CAO
@@ -362,6 +402,10 @@ physical_tables:
     used_by_datasets:
     - AOP LINE CF
     used_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     - KGR_DF_Daily_TD_Report
@@ -371,7 +415,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_HEADER_CF_1:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     base_table: DW_NS_X_AOP_HEADER_CF
     columns_in_use:
@@ -381,9 +425,8 @@ physical_tables:
     - (KGR) AOP Dataset
     used_by_dataflows:
     - (KGR) DF_GRAIN_ACTUAL_AOP
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     nsaw_claude_ref:
@@ -392,7 +435,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_HEADER_SF:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - POSTINGPERIOD
@@ -409,7 +452,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_HEADER_SF_1:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     base_table: DW_NS_X_AOP_HEADER_SF
     columns_in_use:
@@ -419,9 +462,8 @@ physical_tables:
     - (KGR) AOP Dataset
     used_by_dataflows:
     - (KGR) DF_GRAIN_ACTUAL_AOP
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     nsaw_claude_ref:
@@ -430,7 +472,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_LINE_CF:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_CHAIN
@@ -450,13 +492,16 @@ physical_tables:
     - (KGR) AOP Dataset
     - AOP LINE CF
     used_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - (KGR) DF_GRAIN_ACTUAL_AOP
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     - KGR_DF_Daily_TD_Report
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     nsaw_claude_ref:
@@ -465,15 +510,20 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_LINE_SF:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CLASS
     - NETAMOUNT
-    n_columns_in_use: 2
+    - SUBSIDIARY
+    n_columns_in_use: 3
     used_by_datasets:
     - AOP LINE CF
     used_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - KGR_DF_Daily_Nganh_Report
     - KGR_DF_Daily_Nganh_Report_m
     nsaw_claude_ref:
@@ -482,7 +532,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_AOP_LINE_SF_1:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     base_table: DW_NS_X_AOP_LINE_SF
     columns_in_use:
@@ -495,9 +545,8 @@ physical_tables:
     - (KGR) AOP Dataset
     used_by_dataflows:
     - (KGR) DF_GRAIN_ACTUAL_AOP
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_TD_Metrics_bk
     - KGR_DF_TD_Metrics_v1.0
     nsaw_claude_ref:
@@ -506,7 +555,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_BANG_CP_LUONG:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CREATED
@@ -529,15 +578,20 @@ physical_tables:
     - (KGR) Tỉ lệ chi phí Lương
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     nsaw_claude_ref:
       table: DW_NS_X_BANG_CP_LUONG
       documented_in_nsaw: false
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_BUT_TOAN_UT_TRANS_HEADER_1:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     base_table: DW_NS_X_BUT_TOAN_UT_TRANS_HEADER
     columns_in_use:
@@ -555,7 +609,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_BUT_TOAN_UT_TRANS_LINE:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CLASS
@@ -575,7 +629,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_BUT_TOAN_UT_TRANS_LINE_EXT:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_CHAIN
@@ -593,7 +647,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_NHOMXANHDO
@@ -602,13 +656,19 @@ physical_tables:
     - CUSTCOL_SCV_LINE_ISFREEGIFT
     - CUSTCOL_SCV_TRANS_MA_CKKM
     - CUSTCOL_SCV_TRANS_TEN_CKKM
-    n_columns_in_use: 6
+    - ID
+    - TRANSACTION
+    n_columns_in_use: 8
     used_by_datasets:
+    - CreditMemo_Line+Pro
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION
@@ -616,7 +676,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTBODY_SCV_TRANS_SCT_FAST
@@ -625,8 +685,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTCREDTRANSACTIONSEXTENSION
@@ -634,7 +697,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_CHAIN
@@ -653,8 +716,11 @@ physical_tables:
     - 1. Invoice_v2
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION
@@ -662,7 +728,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_SG_PRO
@@ -672,8 +738,11 @@ physical_tables:
     - 1. Invoice_v2
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTINVCTRANSACTIONSEXTENSION
@@ -681,20 +750,24 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMEREXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_CHAIN
     - CSEG_SCV_SC
     - CUSTENTITY_SCV_ENTITY_CODE
-    n_columns_in_use: 3
+    - CUSTENTITY_SCV_LEGAL_NAME
+    n_columns_in_use: 4
     used_by_datasets:
     - 1. Invoice_v2
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMEREXTENSION
@@ -702,7 +775,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - NAME
@@ -713,13 +786,15 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMLIST_SCV_PRODUCT_SOURCE
       documented_in_nsaw: true
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Quy hoạch SP
@@ -729,8 +804,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMLIST_SCV_QUY_HOACH_SP
@@ -738,7 +816,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Sales Category
@@ -748,8 +826,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMLIST_SCV_SALES_CATEGORY
@@ -757,12 +838,13 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Chuỗi
+    - NAME
     - Tên Chuỗi
-    n_columns_in_use: 2
+    n_columns_in_use: 3
     used_by_datasets:
     - (KGR) AOP Dataset
     - (KGR) BTUT
@@ -770,12 +852,20 @@ physical_tables:
     - (KGR) JOURNAL
     - (KGR) SFC Dataset (có AI)
     - 1. Invoice_v2
+    - AOP LINE CF
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
     - KGR_DF_SFC_vs_MEMO_v4_Chuoi
@@ -785,7 +875,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Model
@@ -797,8 +887,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL
@@ -806,7 +899,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ID XD
@@ -817,8 +910,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_NHOMXANHDO
@@ -826,7 +922,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Ngành hàng
@@ -835,9 +931,8 @@ physical_tables:
     - (KGR) AOP Dataset
     - (KGR) SFC Dataset (có AI)
     used_by_dataflows:
-    - KGR_DF_Nganh_Metrics
-    - KGR_DF_Nganh_Metrics_v2
     - KGR_DF_Nganh_Metrics_v3
+    - KGR_DF_Nganh_Metrics_v3_bk_2026-06-22
     - KGR_DF_SFC_Plan_by_Kenh
     - KGR_DF_SFC_vs_MEMO_v2
     - KGR_DF_SFC_vs_MEMO_v3
@@ -850,7 +945,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - Nhóm SP
@@ -862,8 +957,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     - KGR_DF_SFC_vs_MEMO_v3
     nsaw_claude_ref:
@@ -872,19 +970,24 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
+    - NAME
     - Vụ việc
-    n_columns_in_use: 1
+    n_columns_in_use: 2
     used_by_datasets:
     - (KGR) Invoice_Line+Header+Pro
     - 1. Invoice_v2
+    - CreditMemo_Line+Pro
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO
@@ -892,7 +995,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - NAME
@@ -902,6 +1005,8 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_CUSTOMRECORD_SCV_TINH
@@ -909,7 +1014,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_EMPLOYEEEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTENTITY_SCV_EMP_ASM_CODE
@@ -921,8 +1026,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CAM_EMPLOYEEEXTENSION
@@ -930,7 +1038,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CAM_ITEMEXTENSION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_MODEL
@@ -940,14 +1048,16 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     nsaw_claude_ref:
       table: DW_NS_X_CAM_ITEMEXTENSION
       documented_in_nsaw: true
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTENTITY_SCV_KH_KY_GUI
@@ -957,8 +1067,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CUSTOMER_EXTENSION_AUGMENTATION
@@ -966,7 +1079,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CUSTOMRECORD_CSEG_SCV_EXP_LIST:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_EXPENSE_GROUP_EXP
@@ -982,7 +1095,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CUSTOMRECORD_SCV_EXP_MAPPING:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_EXP_MAP_DEP
@@ -1000,8 +1113,30 @@ physical_tables:
       documented_in_nsaw: false
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
+  DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK:
+    extracted_live: '2026-07-06'
+    verified_live: via_dataflow_def
+    columns_in_use:
+    - CUSTRECORD_SCV_TY_LE_CTTK_CHUOI
+    - CUSTRECORD_SCV_TY_LE_CTTK_DEN_NGAY
+    - CUSTRECORD_SCV_TY_LE_CTTK_KENH
+    - CUSTRECORD_SCV_TY_LE_CTTK_PER
+    - CUSTRECORD_SCV_TY_LE_CTTK_TU_NGAY
+    n_columns_in_use: 5
+    used_by_datasets:
+    - (KGR) Tỷ lệ chi phí khác
+    used_by_dataflows:
+    - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    nsaw_claude_ref:
+      table: DW_NS_X_CUSTOMRECORD_SCV_TY_LE_CP_CT_TK
+      documented_in_nsaw: false
+      ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
+      freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - TAX1AMT
@@ -1012,8 +1147,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CUST_CREDIT_LINES_SUPPLEMENTARY
@@ -1021,7 +1159,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY_1:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     base_table: DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY
     columns_in_use:
@@ -1034,8 +1172,11 @@ physical_tables:
     - 1. Invoice_v2
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_CUST_INVOICE_LINES_SUPPLEMENTARY
@@ -1043,7 +1184,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_GIA_VON_MUC_TIEU_CT:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_GVMT_LINE_END_DATE
@@ -1059,8 +1200,11 @@ physical_tables:
     - Giá vốn mục tiêu
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_GIA_VON_MUC_TIEU_CT
@@ -1068,7 +1212,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_GIA_VON_TON_KHO:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_GVTK_ITEM_CODE_L
@@ -1086,8 +1230,11 @@ physical_tables:
     - Giá vốn tồn kho
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_GIA_VON_TON_KHO
@@ -1095,7 +1242,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_JOURNAL_TRANS_LINE_EXT_AUGMENTATION:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CSEG_SCV_CHAIN
@@ -1113,7 +1260,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_LIST_SALE_CHANEL_NS:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ID Nhóm kênh
@@ -1128,8 +1275,11 @@ physical_tables:
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
@@ -1139,26 +1289,36 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_SALE_CHANNEL:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_SALE_CHANEL_NS
     - ID
     - Kênh
+    - NAME
     - Tên Kênh
-    n_columns_in_use: 4
+    n_columns_in_use: 5
     used_by_datasets:
     - (KGR) AOP Dataset
     - (KGR) BTUT
+    - (KGR) CKKM TT
     - (KGR) JOURNAL
     - (KGR) SFC Dataset (có AI)
     - 1. Invoice_v2
+    - AOP LINE CF
     - DW_CREDIT_MEMO
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     - (KGR) DF_FACT_EXPENSE
     - (KGR) DF_GRAIN_ACTUAL_AOP
     - KGR_DF_SFC_Plan_by_Kenh
@@ -1168,7 +1328,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_SFC_LINES_CF:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CKKM
@@ -1192,7 +1352,6 @@ physical_tables:
     - (KGR) SFC Dataset (có AI)
     used_by_dataflows:
     - KGR_DF_SFC_Plan_by_Kenh
-    - KGR_DF_SFC_vs_Actual
     - KGR_DF_SFC_vs_Actual_v2
     - KGR_DF_SFC_vs_MEMO_v2
     - KGR_DF_SFC_vs_MEMO_v3
@@ -1202,24 +1361,8 @@ physical_tables:
       documented_in_nsaw: true
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
-  DW_NS_X_SFC_TRANSACTION_HEADERS_1:
-    extracted_live: '2026-06-20'
-    verified_live: via_dataflow_def
-    base_table: DW_NS_X_SFC_TRANSACTION_HEADERS
-    columns_in_use:
-    - POSTINGPERIOD
-    n_columns_in_use: 1
-    used_by_datasets:
-    - (KGR) SFC Dataset (có AI)
-    used_by_dataflows:
-    - KGR_DF_SFC_vs_Actual
-    nsaw_claude_ref:
-      table: DW_NS_X_SFC_TRANSACTION_HEADERS
-      documented_in_nsaw: true
-      ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
-      freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_TRADE_PROMOTION_HEADER:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_PRO_DIS_PERIOD
@@ -1230,8 +1373,11 @@ physical_tables:
     - (KGR) CKKM TT
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_TRADE_PROMOTION_HEADER
@@ -1239,22 +1385,29 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_TRADE_PROMOTION_LINE:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CKKM
+    - CUSTRECORD_SCV_PRO_DIS_LINE_DISCOUNT
     - CUSTRECORD_SCV_PRO_DIS_LINE_END_DATE
+    - CUSTRECORD_SCV_PRO_DIS_LINE_KENH_CHUOI
+    - CUSTRECORD_SCV_PRO_DIS_LINE_MODEL
+    - CUSTRECORD_SCV_PRO_DIS_LINE_SALES_CHAN
     - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
     - ID Chuỗi
     - ID Kênh
     - ID Model
-    n_columns_in_use: 6
+    n_columns_in_use: 10
     used_by_datasets:
     - (KGR) CKKM TT
     used_by_dataflows:
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_#
+    - (KGR) 1. DTF_CALC_INVOICE_MEMO_#_v3
     - (KGR) 1. DTF_CALC_INVOICE_MEMO_v1.0
     - (KGR) 5. DTF_CALC_MIS
+    - (KGR) 5. DTF_CALC_MIS Ver 2
+    - (KGR) 5. DTF_CALC_MIS Ver 4
     - (KGR) 5. DTF_CALC_MIS_v1.0
     nsaw_claude_ref:
       table: DW_NS_X_TRADE_PROMOTION_LINE
@@ -1262,7 +1415,7 @@ physical_tables:
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_TY_LE_CP_KHAC:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_TY_LE_KHAC
@@ -1277,14 +1430,14 @@ physical_tables:
     used_by_datasets:
     - (KGR) Tỷ lệ chi phí khác
     used_by_dataflows:
-    - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     nsaw_claude_ref:
       table: DW_NS_X_TY_LE_CP_KHAC
       documented_in_nsaw: false
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_NS_X_TY_LE_RSHN:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - CUSTRECORD_SCV_RSHN_KENH
@@ -1300,13 +1453,17 @@ physical_tables:
     - (KGR) Tỷ lệ chi phí Roadshow, Hội nghị
     used_by_dataflows:
     - (KGR) DF_DAILY_SC_CHAIN
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0107
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk0307
+    - (KGR) DF_DAILY_SC_CHAIN_ASOF_bk_2906
     nsaw_claude_ref:
       table: DW_NS_X_TY_LE_RSHN
       documented_in_nsaw: false
       ref: C:/Project/NSAW_Claude/data_context/TABLE_CATALOG.yaml
       freshness: NSAW_Claude ~2026-05; verify trước khi tin ngữ nghĩa/cột
   DW_X_SALE_HISTORY:
-    extracted_live: '2026-06-20'
+    extracted_live: '2026-07-06'
     verified_live: via_dataflow_def
     columns_in_use:
     - ASM_ID
@@ -1336,7 +1493,6 @@ physical_tables:
     used_by_datasets:
     - DW_X_SALE_HISTORY_Dataset
     used_by_dataflows:
-    - DTF_PRODUCT_KPI_PY
     - Union SALE HIST w INVC
     nsaw_claude_ref:
       table: DW_X_SALE_HISTORY
