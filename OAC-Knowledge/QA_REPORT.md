@@ -64,7 +64,7 @@ PASS=62 FAIL=0 WARN=0  (tổng 62)
 - ✅ `9.5b_glossary_src`
 - ✅ `9.6_count_consistency`
 - ✅ `9.6c_edge_count`
-- ✅ `9.6b_counts_regression`
+- ✅ `9.6b_counts_floor`
 - ✅ `9.7_lineage_terminals`
 
 ## S10
