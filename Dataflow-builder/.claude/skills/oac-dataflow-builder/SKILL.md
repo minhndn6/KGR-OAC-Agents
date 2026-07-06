@@ -85,6 +85,13 @@ Thứ tự nguồn đối chiếu: **(1) số expected user cho → (2) NSAW MCP
 - [ ] Knowledge file đã cập nhật findings mới (hoặc ghi rõ "không có finding mới")
 - [ ] Báo cáo cuối đủ: số đối chiếu + lệch-plan + KB changes
 
+## 3.5 Chính sách SỬA an toàn — EDIT vs ADD (A12, BẮT BUỘC)
+Trước khi đụng dataflow/dataset, phân loại **task-type từ HIỆN TRẠNG** (artifact đã tồn tại? diff sửa dòng có sẵn?) — **KHÔNG để builder tự-khai** (helper: `OAC-Orchestrator/skill/kgr-oac-orchestrator/scripts/edit_safety.py` → `detect_task_type`, `backup_name`).
+- **Task EDIT** (sửa/đổi/fix dataflow/dataset ĐÃ TỒN TẠI) → **KHÔNG tự ý ghi đè**:
+  - (a) **Mặc định: CẦN owner CONFIRM trước** khi sửa (confirm-gate).
+  - (b) **Chế độ AUTO** (owner đã bảo "tự sửa"): **CLONE bản gốc thành `<tên>_bk_YYYY-MM-DD`** (ISO, khớp tiền lệ live `_bk_2026-06-22`; **KHÔNG ddmmyyyy**) — bản clone là **BACKUP-only** (chỉ để rollback, đặt TRONG folder gốc, không ai sửa nó), rồi **sửa THẲNG trên bản gốc**.
+- **Task ADD** (dựng dataflow/dataset MỚI) → **KHÔNG cần clone/backup** — cứ ADD (ADD-only vốn đã an toàn).
+
 ## 4. Khi nào dừng hỏi user (ngoài gate Phase 3)
 - Thiếu quyền/credentials, account nguồn bị khóa không có workaround
 - 3 vòng verify vẫn lệch số không giải thích được

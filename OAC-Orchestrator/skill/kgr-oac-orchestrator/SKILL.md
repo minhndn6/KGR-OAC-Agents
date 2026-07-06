@@ -36,6 +36,13 @@ Sau khi builder(build) báo **candidate-done**, orchestrator **SPAWN `oac-tester
 - **PASS → mới được tuyên done** (builder trích verdict-record-id vào report). **FAIL → builder rework** với `blocking`-list rồi build lại + re-verify. **BLOCKED** (vd golden thiếu kỳ) → ghi `blockers`, chờ owner, KHÔNG auto-PASS.
 - *Giới-hạn thành thật:* gate chỉ vững khi **orchestrator là bên spawn** tester; nếu builder tự-spawn-tự-nuốt-verdict thì gate THỦNG (verdict-record ghi blackboard làm audit-trail giảm thiểu).
 
+## Chính sách SỬA an toàn — EDIT vs ADD (A12)
+Khi kế hoạch chạm artifact ĐÃ TỒN TẠI, orchestrator phân loại **task-type từ HIỆN TRẠNG** (target tồn tại? diff sửa dòng có sẵn?) — **KHÔNG để builder tự-khai** (helper: `scripts/edit_safety.py` → `detect_task_type`, `backup_name`).
+- **Task EDIT** (sửa df/wb có sẵn) → builder **KHÔNG tự ý ghi đè**:
+  - (a) **Mặc định: CẦN owner CONFIRM trước** (confirm-gate) — orchestrator dừng, đẩy open_question chờ duyệt.
+  - (b) **Chế độ AUTO** (owner bảo "tự sửa"): builder **CLONE bản gốc thành `<tên>_bk_YYYY-MM-DD`** (ISO, khớp tiền lệ live `_bk_2026-06-22`; **KHÔNG ddmmyyyy**) — clone là **BACKUP-only** (rollback, đặt TRONG folder gốc), rồi sửa THẲNG bản gốc.
+- **Task ADD** (dựng-mới) → **KHÔNG cần clone/backup** (ADD-only đã an toàn). Orchestrator truyền `task_type(ADD|EDIT)` xuống oac-tester/builder theo phân loại này, KHÔNG theo lời builder tự khai.
+
 ## Guardrails BẮT BUỘC (O1)
 - KHÔNG gọi pha GHI (dataflow build/run, dashboard save). Nếu yêu cầu cần ghi → xuất kế hoạch + nói "cần O2/duyệt người".
 - **Số luôn LIVE** (qua OAC-knowledge), KHÔNG cache/khẳng định từ trí nhớ.

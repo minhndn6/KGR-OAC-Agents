@@ -86,6 +86,13 @@ Thứ tự nguồn: **(1) số expected user → (2) NSAW MCP (get_pl_by_dimensi
 - [ ] **QA PASS (required gate)**: báo cáo cuối PHẢI trích **`verdict-record-id`** của một **verdict-record** (verdict=PASS) do **oac-tester** (gatekeeper) ghi vào blackboard sau khi build. THIẾU verdict-record-id PASS → report hiện thiếu "QA PASS" (như required CI check chưa xanh) = CHƯA DONE. *Giới-hạn: gate thủng nếu builder tự-spawn-tự-nuốt-verdict — orchestrator phải là bên spawn oac-tester.*
 - [ ] Knowledge file cập nhật findings mới (hoặc ghi rõ "không có finding mới")
 
+## 3.5 Chính sách SỬA an toàn — EDIT vs ADD (A12, BẮT BUỘC)
+Trước khi đụng workbook/viz, phân loại **task-type từ HIỆN TRẠNG** (target đã tồn tại? diff sửa dòng có sẵn?) — **KHÔNG để builder tự-khai** (helper: `OAC-Orchestrator/skill/kgr-oac-orchestrator/scripts/edit_safety.py` → `detect_task_type`, `backup_name`).
+- **Task EDIT** (sửa/đổi/fix workbook/viz ĐÃ TỒN TẠI trên production) → **KHÔNG tự ý ghi đè**:
+  - (a) **Mặc định: CẦN owner CONFIRM trước** khi sửa (confirm-gate).
+  - (b) **Chế độ AUTO** (owner đã bảo "tự sửa"): **CLONE bản gốc thành `<tên>_bk_YYYY-MM-DD`** (ISO, khớp tiền lệ live `_bk_2026-06-22`; **KHÔNG ddmmyyyy**) — bản clone là **BACKUP-only** (chỉ để rollback, đặt TRONG folder gốc, không ai sửa nó), rồi **sửa THẲNG trên bản gốc**.
+- **Task ADD** (dựng workbook/viz/canvas MỚI) → **KHÔNG cần clone/backup** — cứ ADD (ADD-only vốn đã an toàn).
+
 ## 4. Khi nào dừng hỏi user (ngoài gate Phase 3)
 - Thiếu quyền/credentials; account nguồn khoá không workaround (ORA-28000 dataset anhdk — knowledge §14)
 - 3 vòng verify vẫn lệch số không giải thích được; 2 nguồn số khác nhau không tự quyết
