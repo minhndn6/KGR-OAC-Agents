@@ -18417,20 +18417,77 @@ datasets:
     note: Dataset nối DB
     physical_tables:
       DW_NS_X_TRADE_PROMOTION_HEADER:
-      - NAME
+      - ABBREVIATION
+      - CREATED
+      - Nganh
       - CUSTRECORD_SCV_PRO_DIS_PERIOD
+      - CUSTRECORD_SCV_PRO_DIS_STATUS
+      - CUSTRECORD_SCV_PRO_DIS_SUB
+      - EXTERNALID
+      - ID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - LASTMODIFIEDBY
+      - NAME
+      - OWNER
+      - SCRIPTID
+      - SYSGEN_CUSTRECORD_SCV_PRO_DIS_SUB_NAME
+      - SOURCE_RECORD_ID
       - W$_INSERT_DT
+      - W$_UPDATE_DT
       DW_NS_X_TRADE_PROMOTION_LINE:
-      - ID Model
-      - ID Kênh
-      - ID Chuỗi
-      - CKKM
-      - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
+      - ABBREVIATION
+      - CREATED
+      - CUSTRECORD_SCV_PRO_DIS_LINE
+      - CUSTRECORD_SCV_PRO_DIS_LINE_DISCOUNT
       - CUSTRECORD_SCV_PRO_DIS_LINE_END_DATE
-      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
-      - Chuỗi
+      - CUSTRECORD_SCV_PRO_DIS_LINE_KENH_CHUOI
+      - CUSTRECORD_SCV_PRO_DIS_LINE_MODEL
+      - CUSTRECORD_SCV_PRO_DIS_LINE_SALES_CHAN
+      - CUSTRECORD_SCV_PRO_DIS_LINE_START_DATE
+      - EXTERNALID
+      - ID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - LASTMODIFIEDBY
+      - NAME
+      - OWNER
+      - SOURCE_RECORD_ID
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
       DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_MODEL:
+      - ID
+      - SOURCE_RECORD_ID
+      - LASTMODIFIED
       - Model
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
+      - ID
+      - SOURCE_RECORD_ID
+      - LASTMODIFIED
+      - Chuoi
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      DW_NS_X_SALE_CHANNEL:
+      - ABBREVIATION
+      - CREATED
+      - CUSTRECORD_SCV_SALE_CHANEL_NS
+      - CUSTRECORD_SCV_SC_CODE
+      - CUSTRECORD_SCV_SC_SUBSIDIARY
+      - EXTERNALID
+      - ID
+      - ISINACTIVE
+      - LASTMODIFIED
+      - LASTMODIFIEDBY
+      - Ten Kenh
+      - OWNER
+      - PARENT
+      - SCRIPTID
+      - SYSGEN_CUSTRECORD_SCV_SC_SUBSIDIARY_NAME
+      - SOURCE_RECORD_ID
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18442,10 +18499,41 @@ datasets:
     note: Dataset nối DB
     physical_tables:
       DW_NS_X_CAM_CUSTINVCTRANSACTIONLINEEXTENSION:
-      - TRANSACTION
       - ID
+      - TRANSACTION
+      - SOURCE_RECORD_ID
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_EXP_LIST
+      - CSEG_SCV_MODEL
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_PRODCATG
+      - CSEG_SCV_PRODGROUP
+      - CSEG_SCV_SC
+      - CSEG_SCV_SEG_REGION
+      - CSEG_SCV_SG_PRO
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_02
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_03
+      - CUSTCOL_SCV_LINE_ASM
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_LINE_PROMOTION_01
+      - CUSTCOL_SCV_LINE_PROMOTION_02
+      - CUSTCOL_SCV_LINE_PROMOTION_03
+      - CUSTCOL_SCV_PROMOTION_RATE_01
+      - CUSTCOL_SCV_PROMOTION_RATE_02
+      - CUSTCOL_SCV_PROMOTION_RATE_03
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - LINELASTMODIFIEDDATE
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
       DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - ID
+      - SOURCE_RECORD_ID
+      - LASTMODIFIED
       - Vụ việc
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
@@ -18697,11 +18785,47 @@ datasets:
     type: db_dataset
     note: Dataset nối DB
     physical_tables:
+      DW_NS_X_CAM_CUSTCREDTRANSACTIONLINEEXTENSION:
+      - ID
+      - TRANSACTION
+      - SOURCE_RECORD_ID
+      - CSEG_SCV_CHAIN
+      - CSEG_SCV_EXP_LIST
+      - CSEG_SCV_MODEL
+      - CSEG_SCV_NHOMXANHDO
+      - CSEG_SCV_PRODCATG
+      - CSEG_SCV_PRODGROUP
+      - CSEG_SCV_SC
+      - CSEG_SCV_SEG_REGION
+      - CSEG_SCV_SG_PRO
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_01
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_02
+      - CUSTCOL_SCV_DISCOUNT_AMOUNT_03
+      - CUSTCOL_SCV_LINE_ASM
+      - CUSTCOL_SCV_LINE_ISFREEGIFT
+      - CUSTCOL_SCV_LINE_PROMOTION_01
+      - CUSTCOL_SCV_LINE_PROMOTION_02
+      - CUSTCOL_SCV_LINE_PROMOTION_03
+      - CUSTCOL_SCV_PROMOTION_RATE_01
+      - CUSTCOL_SCV_PROMOTION_RATE_02
+      - CUSTCOL_SCV_PROMOTION_RATE_03
+      - CUSTCOL_SCV_TRANS_MA_CKKM
+      - CUSTCOL_SCV_TRANS_TEN_CKKM
+      - LINELASTMODIFIEDDATE
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
+      DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_SG_PRO:
+      - ID
+      - SOURCE_RECORD_ID
+      - LASTMODIFIED
+      - NAME
+      - W$_INSERT_DT
+      - W$_UPDATE_DT
     internal_joins_filters: 'Join-key & WHERE NỘI BỘ của dataset KHÔNG lộ qua API trên instance này (executePreview đọc cache
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
       việc) nằm ở DATAFLOW tiêu thụ — xem field_dictionary cột tương ứng. confidence: join=medium.'
-    grain: dim/lookup
+    grain: line-level (credit-memo transaction line extension + promotion)
     live_query_recipe: executePreview đọc 'CreditMemo_Line+Pro'
   DW_CREDIT_MEMO:
     type: db_dataset
