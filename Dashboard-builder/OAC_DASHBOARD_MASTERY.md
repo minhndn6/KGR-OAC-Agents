@@ -239,7 +239,7 @@ Tool Chrome DevTools MCP: `navigate_page · list_pages · select_page · new_pag
 
 ## 11. NOTE TIẾNG VIỆT (chi tiết — xem cơ chế ở §4.2)
 
-- **Quy ước nội dung note** (mỗi viz 1 ô): (1) viz cho thấy gì → (2) hàm ý kinh doanh → (3) điểm đắt giá → (4) liên kết viz lân cận. 2–4 câu, tiếng Việt, kỳ "Tháng 5/2026 (period 42)". Prefix tên chart để map khi nhiều note.
+- **Quy ước nội dung note** (mỗi viz 1 ô): (1) viz cho thấy gì → (2) hàm ý kinh doanh → (3) điểm đắt giá → (4) liên kết viz lân cận. 2–4 câu, tiếng Việt, ghi kỳ dạng "Tháng 5/2026" (chữ, KHÔNG nhúng mã POSTINGPERIOD cứng — kỳ đổi là lỗi thời). Prefix tên chart để map khi nhiều note.
 - **Flow 4 call:** MCP-click "Add Note" toolbar → script-click menuitem "Add Note" → `type_text` VN → `press_key Escape`. Save persist.
 - Định vị: `drag(note StaticText uid, chart container uid)`. Toggle "Hide/Show Notes".
 
@@ -274,7 +274,7 @@ Tool Chrome DevTools MCP: `navigate_page · list_pages · select_page · new_pag
   - ⚠️ Sửa text note tại chỗ qua DOM (mở editor + gõ) VẪN REVERT (wall #A còn đúng — OAC dựng lại từ model); **model-save là cách đúng để sửa note**. Đặt note đúng-chart pixel-perfect vẫn nên kéo tay (note đặt ban đầu bằng mắt; px→% không có công thức sạch) — model-save để de-stack + đưa về đúng vùng, user nudge tinh.
 - ⭐ **Đọc SỐ THẬT của viz (cho VERIFY):** `list_network_requests({resourceTypes:["xhr","fetch"]})` → tìm POST **`/ui/dv/ui/api/v2/data/executeOrPoll`** mới nhất của viz/canvas → `get_network_request(reqid, responseFilePath=<file>)` → **Read FILE** (đừng inline — dump cookie).
   - Request body = `saw:report` XML (criteria + columns formula `XSA(...)."Columns"."col"` + dataModel edges). Header có `x-csrf-token` (lấy nếu cần POST tự craft).
-  - Response (✅ verified 2026-06-11): `report.views[viewKey][dmKey].edges[]` — edge category có `ed[0].s[]` = giá trị dim (`a`=label, `s`=index); edge measure `ed[0].s[]` = tên measure. **`data[]` = mảng per-CATEGORY (đúng thứ tự edge category); mỗi phần tử = mảng per-measure `{id, r:"<số THẬT>"}`** (`r`=giá trị, rỗng `""`=null). `keys`=[colID...]. Tổng = cộng `r` qua category. (vd combo SFC: data[4]=Water → SL_Thuc_Te r="498204", SL_Ke_Hoach r="313894".) Chính xác hơn đọc SVG.
+  - Response (✅ verified 2026-06-11): `report.views[viewKey][dmKey].edges[]` — edge category có `ed[0].s[]` = giá trị dim (`a`=label, `s`=index); edge measure `ed[0].s[]` = tên measure. **`data[]` = mảng per-CATEGORY (đúng thứ tự edge category); mỗi phần tử = mảng per-measure `{id, r:"<số THẬT>"}`** (`r`=giá trị, rỗng `""`=null). `keys`=[colID...]. Tổng = cộng `r` qua category. (vd combo SFC: data[i]=Water → mỗi measure có `r="<số THẬT>"` cho SL_Thuc_Te / SL_Ke_Hoach — đọc live, KHÔNG chép số kỳ cũ.) Chính xác hơn đọc SVG.
 - **Reload Data (workbook nhận cột mới của dataset do dataflow re-run):** workbook KHÔNG thấy qua Refresh/Replace/reopen → catalog → phải-chuột tile dataset → **"Reload Data"** → reopen workbook.
 - **Add Dataset vào workbook:** Data mode → "Add Dataset" → dialog → double-click dataset (profiling 30–60s, đừng tưởng hang; multi-select KHÔNG bền qua đổi search → add từng cái). Save ngay.
 - **Blend (Data Diagram):** Data mode → tab "Data Diagram" → badge số trên connector = số cặp match → double-click badge → dialog "Blend Data" (NAME↔Tên Chuỗi...) Add/Delete Match/OK.
@@ -283,24 +283,24 @@ Tool Chrome DevTools MCP: `navigate_page · list_pages · select_page · new_pag
 
 ## 13b. ⭐ DỮ LIỆU KGR — SỐ THAM CHIẾU · DATASET/GRAIN · CHẨN ĐOÁN SỐ SAI (tự chứa)
 
-> Kiến thức môi trường để VERIFY viz (KHÔNG phải task của dashboard cụ thể nào). Số tham chiếu kỳ **May 2026 = 📌 POSTINGPERIOD 42** (Mar=39, Apr=40); cập nhật khi kỳ đổi. Khi user giao 1 dashboard cụ thể, đọc state thật qua projects/json (§13) — đừng giả định.
+> Kiến thức môi trường để VERIFY viz (KHÔNG phải task của dashboard cụ thể nào). Kỳ chuẩn hiện dùng = **May 2026** (POSTINGPERIOD tra động, vd Mar/Apr/May là 3 kỳ liền); khi kỳ đổi thì **mọi số phải LẤY LIVE lại**, KHÔNG tái dùng số kỳ cũ. Khi user giao 1 dashboard cụ thể, đọc state thật qua projects/json (§13) + số live qua executeOrPoll/NSAW — đừng giả định, đừng "verify kỳ mới bằng số kỳ cũ".
 
-**📌 GOLDEN NUMBERS (May 2026, nguồn NSAW/golden — đối chiếu khi verify):**
-- **Doanh số thực tế:** NSAW **342,8 tỷ** (342,817,830,186); dashboard MEMO# hiện ~351,3 tỷ (+2,5%, scope rộng hơn). **Quy đổi:** NSAW 364,2 tỷ (dash 373,8 tỷ).
-- **Theo ngành:** Water **223.668M (64%)** · Home **88.716M (25%)** · Cold & Hygen **38.831M (11%)**.
-- **Green/Đỏ (Xanh/Đỏ):** 66%/34% (NSAW 65,57%). **%GP Ròng ~25–27%** (gross ~**38,7%**, **CKKM ~13,5%** ăn ~1/3 lãi gộp). SP mới ~**28%** (revenue-weighted ~40% TĐ theo crosscheck def).
-- **Branch:** VU1/Hà Nội **192,9 tỷ (~55%)** · HCM **158,4 tỷ (~45%)**.
-- **SFC Plan (sản lượng, DW_SFC, single-period 42):** Water **313.894** · Home **124.655** · Cold **6.494** = 📌 **445.043**. Plan REV ex-VAT ≈213 tỷ.
-- **SFC Actual (MEMO#, = −SUM(QUANTITY)):** Water 498.204 · Home 199.062 · Cold 11.741 · Khác 3.759 · Sanitary 496 = 📌 **713.262** (~**160%**: Water 159% / Home 160% / Cold 181%).
-- **SFC Actual (golden scope, get_sfc_report p42):** ≈**586.292** (item-scope khác; 713K = MỌI SKU). ⚠️ KHÔNG có MEMO# column-filter nào ra 586K — chênh 713K vs 586K = **item-scope, KHÔNG phải bug** (giải thích được, đừng "sửa").
-- ⚠️ **SFC DOANH THU KHÔNG TIN** (76% dòng giá=0) → chỉ dùng SẢN LƯỢNG cho SFC.
+**📌 SỐ THAM CHIẾU = CÔNG THỨC + NGUỒN + "LẤY LIVE" (owner cấm lưu số tuyệt đối vào KB — số kỳ cũ đóng-băng gây wall ảo). Khi verify: chạy công thức trên kỳ đang xét, đừng chép số dưới đây (đã bỏ số).**
+- **Doanh số thực tế (kỳ):** `SUM("Doanh số thực tế")` trên `(KGR) DTF_CALC_INVOICE_MEMO_#` lọc `PERIODNAME=<kỳ>`; đối chiếu NSAW `SUM(BASE_CR−BASE_DB)` (crosscheck agent, exclude SC=14). ⚠️ Scope MEMO# rộng hơn NSAW (chênh vài % do def) — LẤY LIVE cả hai rồi so, đừng gán số cứng. **Quy đổi** = doanh số × hệ số quy đổi (tra live).
+- **Theo ngành (mix %):** `SUM("Doanh số thực tế") GROUP BY "Tên Ngành"` (Water/Home/Cold & Hygen) → tự tính tỷ trọng; LẤY LIVE (mix đổi theo kỳ).
+- **Green/Đỏ (Xanh/Đỏ) %:** `SUM("DS Xanh")/SUM("Doanh số thực tế")` vs phần Đỏ. **%GP Ròng** = cột `"%GP Ròng"` (đã = %LN Gộp − CKKM Per). Watch-item cấu trúc: **gross > net vì CKKM bào mòn ~1/3 lãi gộp** (mô tả THIẾT KẾ — giữ; con số % LẤY LIVE). **SP mới %** = `SUM("Doanh thu SP mới")/SUM("Doanh thu thực tế")`.
+- **Branch (Đơn vị) %:** `SUM("Doanh số thực tế") GROUP BY CASE Tên Đơn vị LIKE '%HCM%' THEN HCM ELSE VU1` → tỷ trọng VU1/HCM; LẤY LIVE.
+- **SFC Plan (sản lượng, DW_SFC, single-period):** `Plan QTY = SUM(SL W1..SL W5) GROUP BY Ngành hàng` trên `DW_SFC` lọc `PERIODNAME=<kỳ>` (Water/Home/Cold); tổng plan qty = tổng 3 ngành. Plan REV ex-VAT = `SUM("Doanh thu (-VAT)")` cùng filter. **get_sfc_report(period=<p>)** cho golden. (số LẤY LIVE.)
+- **SFC Actual (MEMO# scope):** `SL_Thuc_Te = 0 − SUM("QUANTITY")` (QUANTITY âm — invoice sign; đã net credit, KHÔNG ABS) trên `(KGR) DTF_CALC_INVOICE_MEMO_#` lọc 1 kỳ, GROUP BY Ngành. Achievement = actual/plan (LẤY LIVE).
+- ⭐ **GOTCHA THIẾT KẾ (giữ — KHÔNG phải số):** Actual MEMO# = **MỌI SKU** (item-scope rộng); golden `get_sfc_report` = **chỉ item trong SFC plan scope** (`qty_count_flag=1`). Chênh **item-scope, KHÔNG phải bug** — KHÔNG có MEMO# column-filter nào khớp golden scope; đừng "sửa". Nếu dùng MEMO# → nhãn "Tổng SL hóa đơn (mọi SKU)", đừng gọi "% đạt KH SFC".
+- ⚠️ **SFC DOANH THU KHÔNG TIN** (phần lớn dòng giá=0) → chỉ dùng SẢN LƯỢNG cho SFC.
 
 **📌 DATASET & GRAIN (cột để thả shelf):**
 - **`(KGR) DTF_CALC_INVOICE_MEMO_#`** (actual, May 2026; owner **anhdk@bizin.vn**; cột UNQUALIFIED, ~64 cột): dims `"Tên Ngành"` · `"Nhóm SP"` · `"Model name"` · `"Tên Chuỗi"` (BIGC/DMX/MM/Caophong/FPT/VHC/Nguyenkim/Thongnhat). measures `"QUANTITY"` (**ÂM** — invoice sign; actual qty = −SUM) · `"Doanh thu thực tế"`/`"Doanh số thực tế"` (VND) · `"GP %"` · `"%GP Ròng"` (decimal → format Percent!). keys `"ITEM"`,`"ID CLASS"`,`"PERIODNAME"`,`"POSTINGPERIOD"`,`"TYPE"`(CustInvc/CustCred),`"CUSTCOL_SCV_LINE_ISFREEGIFT"`. Canvas dùng: Overview/PROD/CHAIN/CHANNEL/BRANCH.
   - ⚠️ **MEMO# KHÔNG có grain KÊNH** ("Nhóm Kênh"/"Tên Kênh" NULL → 1 bucket) → Plan-vs-Actual theo Kênh KHÔNG làm được (actual N/A). CÓ grain Chuỗi (~24–76% doanh thu chưa gắn chuỗi → bucket "Khác", Exclude khỏi viz).
   - ⚠️ Readability **INTERMITTENT** (ORA-00942 / ORA-28000 anhdk khoá là TRANSIENT) → validate-first; ORA-28000 chặn viz query live dataset mới-add (§14).
 - **`KGR_DS_SFC_vs_MEMO_v2`** (đã gộp sẵn, owner minhndn, **đọc ổn định**; grain Tên Ngành): `Tên Ngành`/`Ngành hàng`, `SL_Thuc_Te` (actual qty, dương), `SL_Ke_Hoach` (plan qty), `DT_Ke_Hoach`, `SL W1..W5`, `QUANTITY Sum`, `Doanh thu thực tế Sum`. = dataset chuẩn cho **combo SFC plan-vs-actual** (sandbox + có thể add vào DB01). (v3 thêm grain Nhóm SP.)
-- **`DW_SFC`** (datamodel, owner **viethl@bizin.vn**, cột QUALIFIED): Ngành `"DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG"."Ngành hàng"`; Nhóm SP `"DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP"."Nhóm sản phẩm"`; Plan qty = SUM(`SL W1..W5`) (KHÔNG có cột tháng); Kênh `"DW_NS_X_SALE_CHANNEL"."Kênh"` (8 kênh=445.043); Period `"DW_NS_ACCOUNTINGPERIOD_D"."PERIODNAME"`.
+- **`DW_SFC`** (datamodel, owner **viethl@bizin.vn**, cột QUALIFIED): Ngành `"DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODCATG"."Ngành hàng"`; Nhóm SP `"DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_PRODGROUP"."Nhóm sản phẩm"`; Plan qty = SUM(`SL W1..W5`) (KHÔNG có cột tháng); Kênh `"DW_NS_X_SALE_CHANNEL"."Kênh"` (8 kênh — tổng plan qty theo Kênh = tổng theo Ngành, LẤY LIVE); Period `"DW_NS_ACCOUNTINGPERIOD_D"."PERIODNAME"`.
 - **ASM/CUSTOMER** → `DW_X_SALE_HISTORY` (all-history, TRANSACTION_DATE — KHÔNG filter PERIODNAME, tag "All-Time"). **AOP** → `Daily_*_Report` + `DW_AOP`/`AOP_UPDATE`.
 - **NSAW cross-check (crosscheck agent):** Revenue = `SUM(NVL(BASE_CREDITAMOUNT,0)−NVL(BASE_DEBITAMOUNT,0))` trên DW_NS_CUSTOMER_INVOICE_LINES_F, POSTING='T', TYPE IN(CustInvc,CustCred), Income, **exclude internal SC ID=14**. AOP keyed CUSTBODY_SCV_AOP_LOAI_BAO_CAO (Summary=2,3; Daily TĐ=5; Daily Ngành=4; ⚠️ **TĐ(LOAI 5) ≠ Σngành(LOAI 4)** by design, đừng coi là bug).
 

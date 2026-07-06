@@ -22,12 +22,13 @@ Trình GỌN — user duyệt được trong 2 phút đọc. Chi tiết kỹ thu
 | 1 | Plan vs Actual | **Combo** | Cat(X)=Tên Ngành; Values(Y)=SL_Thuc_Te[Bar], SL_Ke_Hoach[Line] | actual #44BA46, plan #636466 | "SFC Plan vs Actual Quantity by Industry (May 2026)" | units, DP0, no-M | "...vượt KH..." |
 | 2 | Cơ cấu + biên | Treemap | Boxes=Nhóm SP; Box Size=Revenue; Color=%GP Ròng | scale red→green | "..." | M / % | "..." |
 
-## Verify plan (Phase 5 sẽ kiểm thế nào)
-| Số cần khớp | Giá trị expected | Nguồn đối chiếu |
+## Verify plan (Phase 5 sẽ kiểm thế nào) — CÔNG THỨC + NGUỒN, LẤY LIVE (KHÔNG hardcode số kỳ)
+| Số cần khớp | Công thức + nguồn (lấy live khi verify) | Đối chiếu |
 |---|---|---|
-| Tổng SL_Ke_Hoach | 445,043 (Water 313,894/Home 124,655/Cold 6,494) | NSAW get_sfc_report p42 / golden |
-| Tổng SL_Thuc_Te | 713,262 | executeOrPoll viz / NSAW |
-+ Sanity: không mâu thuẫn viz khác, baseline 0, ratio không vỡ, dấu số đúng, persist projects/json.
+| Tổng SL_Ke_Hoach | `SUM(SL W1..SL W5) by Ngành` trên DW_SFC, `PERIODNAME=<kỳ>` (Water/Home/Cold) | NSAW `get_sfc_report(period=<p>)` / golden |
+| Tổng SL_Thuc_Te | `0 − SUM("QUANTITY")` trên (KGR) DTF_CALC_INVOICE_MEMO_# lọc 1 kỳ, by Ngành | executeOrPoll viz / NSAW |
+| Achievement | SL_Thuc_Te / SL_Ke_Hoach (per Ngành + tổng) | tính từ 2 số trên (live) |
++ Sanity: không mâu thuẫn viz khác, baseline 0, ratio không vỡ, dấu số đúng, persist projects/json. **KHÔNG chép số tuyệt đối kỳ cũ vào plan — verify kỳ mới bằng số kỳ cũ = wall ảo.**
 
 ## Rủi ro & phòng ngừa
 - <vd: MEMO# readability intermittent → validate-first; Chuỗi có bucket "Khác" ~24-76% → Exclude tại viz level>

@@ -212,7 +212,7 @@ async () => { for(let i=0;i<10;i++){ if([...document.querySelectorAll('g.joint-c
 - Nhiều cột = **tablist dọc** (mỗi cột 1 tab "New Column1"…); nút **"Column"** thêm tab.
 - Mỗi cột: **Name text input** + **Expression** (contenteditable) + **Validate** + **Apply**. Bên phải = cây hàm (§8).
 - ⚠️⚠️ Apply TỪNG cột; chưa Apply mà chuyển tab → MẤT (§5.1).
-- ⚠️⚠️⚠️ **BẪY NULL-PROPAGATION (verified 2026-06-11, bug thật trong `(KGR) DF_ACTUAL_AOP_EXPENSE`).** Trong SQL/OAC, **bất kỳ phép `+`/`-`/`*` nào có MỘT toán hạng NULL → CẢ biểu thức = NULL**. Nếu bọc **một** `IFNULL(toàn-biểu-thức, 0)` quanh chuỗi nhiều cột (vd `IFNULL("LN Gộp" - "a5" - "a6" - "a7" - "a8", 0)`), thì ở mọi dòng có **bất kỳ** cột nào NULL → cả dòng → NULL → IFNULL biến thành **0** = **XÓA SẠCH đóng góp của dòng đó** (không phải +0 vô hại — nó nuốt mất các giá trị âm/dương lớn). Cực kỳ hay xảy ra **sau outer-join** (cột bên không-khớp = NULL ở ~nửa số dòng). Triệu chứng: cộng thêm 1 cột nhỏ (mà cột đó sparse/NULL) làm tổng **nhảy/đổi dấu vô lý**; hoặc tổng nhỏ hơn nhiều lần kỳ vọng (vd LNG KD 28.7B thay vì 337.9B vì ~382 dòng doanh-thu-thuần có chi phí=NULL bị về 0). **CHẨN ĐOÁN:** executePreview thêm nhánh `AddColumns(diag = CASE WHEN "col" IS NULL THEN 1 ELSE 0 END, k=1) → GroupBy(k) SUM` để đếm NULL từng cột + so SUM(công-thức-cũ) vs SUM(công-thức-guarded). **SỬA = bọc `IFNULL(...,0)` quanh TỪNG cột:** `IFNULL("LN Gộp",0) - IFNULL("a5",0) - IFNULL("a6",0) - …`. Lỗi lan theo chuỗi (LNG KD→XTBH→NV→QLVH→LNTT) nên phải sửa MỌI node, không chỉ node phát hiện.
+- ⚠️⚠️⚠️ **BẪY NULL-PROPAGATION (verified 2026-06-11, bug thật trong `(KGR) DF_ACTUAL_AOP_EXPENSE`).** Trong SQL/OAC, **bất kỳ phép `+`/`-`/`*` nào có MỘT toán hạng NULL → CẢ biểu thức = NULL**. Nếu bọc **một** `IFNULL(toàn-biểu-thức, 0)` quanh chuỗi nhiều cột (vd `IFNULL("LN Gộp" - "a5" - "a6" - "a7" - "a8", 0)`), thì ở mọi dòng có **bất kỳ** cột nào NULL → cả dòng → NULL → IFNULL biến thành **0** = **XÓA SẠCH đóng góp của dòng đó** (không phải +0 vô hại — nó nuốt mất các giá trị âm/dương lớn). Cực kỳ hay xảy ra **sau outer-join** (cột bên không-khớp = NULL ở ~nửa số dòng). Triệu chứng: cộng thêm 1 cột nhỏ (mà cột đó sparse/NULL) làm tổng **nhảy/đổi dấu vô lý**; hoặc tổng nhỏ hơn nhiều lần kỳ vọng (vd LNG KD chỉ còn ~8% giá trị đúng vì hàng trăm dòng doanh-thu-thuần có chi phí=NULL bị về 0). **CHẨN ĐOÁN:** executePreview thêm nhánh `AddColumns(diag = CASE WHEN "col" IS NULL THEN 1 ELSE 0 END, k=1) → GroupBy(k) SUM` để đếm NULL từng cột + so SUM(công-thức-cũ) vs SUM(công-thức-guarded). **SỬA = bọc `IFNULL(...,0)` quanh TỪNG cột:** `IFNULL("LN Gộp",0) - IFNULL("a5",0) - IFNULL("a6",0) - …`. Lỗi lan theo chuỗi (LNG KD→XTBH→NV→QLVH→LNTT) nên phải sửa MỌI node, không chỉ node phát hiện.
 
 ### 7.8 Transform Column — NHÓM A
 - Link **"Select Column"** → chọn 1 cột → **Expression + Validate + Apply + cây hàm** (y Add Columns) nhưng **sửa cột TẠI CHỖ** + ô **Name** (output). Quy tắc Apply giống §5.1.
@@ -247,7 +247,7 @@ async () => { for(let i=0;i<10;i++){ if([...document.querySelectorAll('g.joint-c
 
 ### 7.18 ⭐ PATTERN: pivot kỳ→cột tháng + clone def NGUỒN (verified 2026-06-11, build KGR_DF_ACTUAL_AOP_MONTHLY_v1)
 > Bài toán hay gặp: nguồn ở grain (kỳ × entity), cần output 1 dòng/entity với cột theo tháng (T1..T12). OAC KHÔNG có node Pivot → pivot thủ công bằng **AddColumns CASE + GroupBy SUM**.
-- **Pivot 1 measure theo kỳ:** AddColumns tạo cột mỗi tháng: `IFNULL(CASE WHEN "Posting_Period"='39' THEN "LNG KD" ELSE 0 END, 0)` (period 39=T3…). Tháng không có data → expression literal `"0"`. Rồi GroupBy(entity) **SUM** các cột này → mỗi tháng gom về 1 dòng/entity. ✅ CASE so sánh **string** (`='39'`) chạy; bọc IFNULL chống NULL.
+- **Pivot 1 measure theo kỳ:** AddColumns tạo cột mỗi tháng: `IFNULL(CASE WHEN "Posting_Period"=<mã kỳ> THEN "LNG KD" ELSE 0 END, 0)` (mã POSTINGPERIOD của tháng đó, tra live — vd một tháng đầu năm). Tháng không có data → expression literal `"0"`. Rồi GroupBy(entity) **SUM** các cột này → mỗi tháng gom về 1 dòng/entity. ✅ CASE so sánh **string** (`='39'`) chạy; bọc IFNULL chống NULL.
 - ✅ **Tên cột TIẾNG VIỆT có dấu cách CHẠY trong expression** (bọc nháy kép): `"Doanh số thực tế"/"Doanh số (AOP) TĐ"`, `"DS T3"+"DS T4"`. Lỗi "ra 0" trước đó là do preview chập chờn (§10), KHÔNG phải tên cột.
 - **Cột kế hoạch/coarse-grain (AOP cấp TĐ/Ngành/Kênh/Chuỗi) lặp per-row → GroupBy đặt `max` (KHÔNG sum)** để gắn 1 giá trị/entity, chống phồng. (Chính source flow cũng dùng `max` cho 8 cột AOP.) Ở viz cũng phải MAX/AVG, đừng SUM.
 - **Lũy kế cộng vài tháng:** sau GroupBy (đã 1 dòng/entity), AddColumns: `IFNULL("Doanh số T3"+"Doanh số T4"+"Doanh số T5",0)`. KHÔNG cần self-join khi grain đã là entity. (Nếu giữ grain kỳ thì mới cần self-join entity→broadcast.)
@@ -290,7 +290,7 @@ async () => { for(let i=0;i<10;i++){ if([...document.querySelectorAll('g.joint-c
   - Body thiếu stepId → `22123 member missing (stepId)` (nghĩa là MỘT STEP thiếu `stepId`, KHÔNG phải preview target). Body nested `{definition,stepId}` → `46043 Invalid input Json`. `flowDataStatusCode:1` + chỉ "SET VARIABLE…" = 0 rows.
   - ⚠️ Preview = **30 group BẤT KỲ (chưa sort)** → muốn top-N thật phải thêm Filter sau GroupBy rồi sort client.
   - ⚠️⚠️ **executePreview GIỚI HẠN ~31 CỘT — cắt bớt cột PASSTHROUGH (không tham chiếu) (verified 2026-06-11).** Flow nhiều cột (vd 51 cột) preview chỉ trả ~28-31 cột: cột do AddColumns TẠO RA + cột được tham chiếu trong expression được giữ; cột passthrough từ InputDataset không dùng (vd DS Tn, AOP) bị RỚT khỏi preview. **ĐÂY LÀ ARTIFACT PREVIEW, KHÔNG phải lỗi def** — Run thật materialize ĐỦ mọi cột. Test passthrough bằng flow nhỏ (<31 cột) để xác nhận, rồi cứ POST-create + Run; verify trên DATASET OUTPUT (không phải preview).
-  - ⚠️⚠️ **executePreview ĐỌC NGUỒN CHẬP CHỜN khi cache nguồn đang rebuild / cold sau re-login (verified 2026-06-11).** Cùng 1 truy vấn, các lần gọi cách nhau vài giây trả tổng KHÁC nhau (lúc đủ 4 kỳ 969.62 tỷ, lúc chỉ 1 kỳ 299.63, lúc 0) — trong CÙNG 1 probe thì self-consistent. **Đừng tin 1 read; chạy lại 2-3 lần, lấy bản đầy đủ nhất.** RUN (materialized pathway) thì ỔN ĐỊNH (output đúng dù preview chập chờn) — verify trên output dataset, retry read nếu cold.
+  - ⚠️⚠️ **executePreview ĐỌC NGUỒN CHẬP CHỜN khi cache nguồn đang rebuild / cold sau re-login (verified 2026-06-11).** Cùng 1 truy vấn, các lần gọi cách nhau vài giây trả tổng KHÁC nhau (lúc đủ mọi kỳ, lúc chỉ 1 kỳ, lúc 0) — trong CÙNG 1 probe thì self-consistent. **Đừng tin 1 read; chạy lại 2-3 lần, lấy bản đầy đủ nhất.** RUN (materialized pathway) thì ỔN ĐỊNH (output đúng dù preview chập chờn) — verify trên output dataset, retry read nếu cold.
   - ⚠️ **WAF Akamai (`_abck` cookie) chặn fetch nhanh liên tiếp → HTTP 401 "Authorization Required" (HTML, không phải JSON).** Không phải lỗi token/auth. Cách gỡ: reload trang (`navigate_page` home) để browser giải challenge + refresh `_abck`, rồi giãn nhịp fetch. Token `x-csrf-token` thường KHÔNG đổi qua re-login cùng JSESSIONID.
 - **POST (TẠO MỚI — CREATE = POST, KHÔNG phải PUT):** `POST /ui/dv/ui/api/v1/dataflows?folderPath=<urlenc /@Catalog/users/EMAIL>&dataFlowName=<urlenc NAME>` body = DataGenAttributes `{"datagen-name":NAME,"display-name":NAME,"dataflow-name":NAME,"datagen-type":"DATAFLOW","definition":<def>}` → `{dataflowId:"'<server-guid>'.'NAME'", success:true, requestStatus:201}`.
   - ⚠️ `custom-attrs` PHẢI là STRING (object → 400 "Cannot deserialize String from Object") → **BỎ HẲN custom-attrs**. Chỉ gửi ~13 field DataGenAttributes; field lạ (`dataReplicator/namespace/id/created-date/success`…) → 400 "Unrecognized field" (clone từ GET phải XOÁ chúng).
@@ -383,17 +383,17 @@ async () => { for(let i=0;i<10;i++){ if([...document.querySelectorAll('g.joint-c
 
 ---
 
-## 14. SFC GOLDEN RECIPE + SỐ (May 2026 = 📌 POSTINGPERIOD 42; Mar=39, Apr=40)
+## 14. SFC GOLDEN RECIPE + CÔNG THỨC VERIFY (kỳ chuẩn = May 2026; kỳ đổi → LẤY LIVE lại)
 
-📌 **Golden numbers:**
-- **Plan QTY:** Water **313,894** · Home **124,655** · Cold & Hygen **6,494** → **TỔNG 445,043**.
-- **Plan REV ex-VAT:** Water ≈95,172M · Home ≈94,992M · Cold ≈22,579M → ≈**213B**. (Ra ≈919B = còn 4× fan-out; nghìn tỷ = cộng nhầm cột tuần.)
-- **Actual QTY (MEMO# scope, = −SUM(QUANTITY)):** Water 498,204 · Home 199,062 · Cold 11,741 · Khác 3,759 · Sanitary 496 → **TỔNG 713,262** (achievement ~160%).
-- **Actual QTY (golden SFC scope, get_sfc_report p42):** Water 459,413 · Home 115,847 · Cold 7,273 · Khác 3,759 → ≈**586,292** (achievement ~131.7%).
+📌 **CÁCH LẤY SỐ VERIFY = CÔNG THỨC + NGUỒN + "LẤY LIVE" (owner cấm lưu số tuyệt đối — số kỳ cũ đóng-băng gây "wall ảo verify kỳ mới bằng số kỳ cũ"). Chạy công thức trên kỳ đang xét; đừng chép số.**
+- **Plan QTY (by Ngành):** `SUM(SL W1..SL W5) GROUP BY Ngành hàng` trên `DW_SFC` lọc `PERIODNAME=<kỳ>` (Water / Home / Cold & Hygen); tổng = cộng 3 ngành. get_sfc_report(period=<p>) làm golden.
+- **Plan REV ex-VAT (by Ngành):** `SUM("Doanh thu (-VAT)") GROUP BY Ngành hàng` cùng filter 1 kỳ. ⚠️ **Nếu ra bội số ~4× kỳ vọng = còn fan-out** (chưa lọc 1 kỳ / cộng nhầm cột tuần) — chẩn đoán, đừng gán số.
+- **Actual QTY (MEMO# scope):** `SL_Thuc_Te = 0 − SUM("QUANTITY") GROUP BY Tên Ngành` trên `(KGR) DTF_CALC_INVOICE_MEMO_#` lọc 1 kỳ (QUANTITY âm — invoice sign; **đã net credit, KHÔNG ABS**). Achievement = actual/plan (LẤY LIVE).
+- **Actual QTY (golden SFC scope):** `get_sfc_report(period=<p>)` — item-scope hẹp hơn MEMO# (xem gotcha dưới).
 
-⭐ **KEY:** **Single-period filter (PERIODNAME='May 2026') TRIỆT fan-out.** Plan qty = plain `SUM(SL W1..SL W5)` by Ngành trên DW_SFC lọc 1 kỳ = golden CHÍNH XÁC. **KHÔNG cần MAX-then-SUM dedup** (fan-out ~4× là multi-period artifact, không phải within-period).
+⭐ **KEY (THIẾT KẾ — giữ):** **Single-period filter (PERIODNAME=1 kỳ) TRIỆT fan-out.** Plan qty = plain `SUM(SL W1..SL W5)` by Ngành trên DW_SFC lọc 1 kỳ = golden CHÍNH XÁC. **KHÔNG cần MAX-then-SUM dedup** (fan-out ~4× là multi-period artifact, KHÔNG phải within-period).
 
-⭐ **713K vs 586K = ITEM-SCOPE, KHÔNG phải filter bug (RESOLVED):** MEMO# 713K = MỌI SKU; golden 586K = chỉ item trong SFC plan scope (`qty_count_flag=1`: ITEMTYPE='Service' OR item ∈ SFC forecast, + ACCTTYPE='Income' + POSTING='T' + exclude SC=14). Home gap lớn nhất. **KHÔNG có MEMO# column filter nào ra 586K.** Actual đúng trên MEMO# = **−SUM(QUANTITY)** (đã net credit ~5K, KHÔNG ABS). Nếu dùng MEMO# phải nhãn "Tổng SL hóa đơn (mọi SKU)", KHÔNG gọi "% đạt KH SFC".
+⭐ **MEMO# vs golden SFC = ITEM-SCOPE, KHÔNG phải filter bug (THIẾT KẾ — giữ mô tả, bỏ số):** MEMO# actual = **MỌI SKU**; golden = chỉ item trong SFC plan scope (`qty_count_flag=1`: ITEMTYPE='Service' OR item ∈ SFC forecast, + ACCTTYPE='Income' + POSTING='T' + exclude SC=14). Home gap lớn nhất. **KHÔNG có MEMO# column filter nào khớp golden scope.** Actual đúng trên MEMO# = **−SUM(QUANTITY)** (đã net credit, KHÔNG ABS). Nếu dùng MEMO# phải nhãn "Tổng SL hóa đơn (mọi SKU)", KHÔNG gọi "% đạt KH SFC".
 
 **Recipe v2 (✅ DONE/RUN/VERIFIED EXACT, grain = Tên Ngành) — clone từ `v2_dataflow_full.json`:**
 ```
@@ -410,27 +410,27 @@ OUTPUT: KGR_DS_SFC_vs_MEMO_v2
 ```
 **v3 (thêm Nhóm SP grain, `v3_final_def.json`):** GroupBy thêm `Nhóm sản phẩm`(plan)/`Nhóm SP`(actual); Join 2 điều kiện (Ngành + Nhóm SP); AddColumns `IFNULL("Nhóm sản phẩm","Nhóm SP")` → "Nhóm SP gộp". Output `KGR_DS_SFC_vs_MEMO_v3`.
 
-**Lịch sử flow (độ tin):**
-- ✅ **KGR_DF_SFC_vs_MEMO_v2** = canonical (plan 445,043 / actual 713,262).
-- ⚠️ KGR_DF_SFC_vs_Actual/_v2 (plan từ DS_v2 inner-join multi-period) → fan-out ~4.17×, undercount. KHÔNG dùng chart.
-- ⚠️ KGR_DF_SFC_vs_MEMO_v1: actual EXACT 713K, plan từ DS_v2 ~198K (44%, inner-join drop unsold-planned). Chỉ tin actual side.
+**Lịch sử flow (độ tin — mô tả THIẾT KẾ, số LẤY LIVE):**
+- ✅ **KGR_DF_SFC_vs_MEMO_v2** = canonical (plan by Ngành + actual −SUM(QUANTITY); single-period). Verify số theo công thức §14 trên kỳ đang xét.
+- ⚠️ KGR_DF_SFC_vs_Actual/_v2 (plan từ DS_v2 inner-join multi-period) → **fan-out ~4× (multi-period artifact)**, undercount. KHÔNG dùng chart.
+- ⚠️ KGR_DF_SFC_vs_MEMO_v1: actual side đúng (MEMO# scope), plan từ DS_v2 bị inner-join drop unsold-planned (thiếu ~nửa) → **chỉ tin actual side.**
 - v3 (Nhóm SP), v4_Chuoi (coalesce "Chuỗi gộp"), Plan_by_Kenh (plan-only): built via POST.
-- ⚠️ `(KGR) DTF_CALC_SFC Thực tế`: May 2026 PARTIAL (~1/3: Water 155K vs golden 459K); Mar/Apr complete; cần REFRESH trước plan-vs-actual. Cột: qty=`Số lượng`(dương,SUM), `Tên ngành`, `Nhóm SP`, `PERIODNAME`.
-- ⚠️ Single combo overlay Plan+Actual **blend bất khả** (cross-dataset blend = cartesian fan-out, plan nổ ~1.55M) → pre-join bằng dataflow (recipe trên) HOẶC 2 viz riêng.
-- **DATA: SFC actual (MEMO#) KHÔNG có grain Kênh** ("Nhóm Kênh"/"Tên Kênh" NULL → 1 bucket 713,262). CÓ grain **Chuỗi** ("Tên Chuỗi": BIGC/DMX/MM/Caophong/FPT/VHC/Nguyenkim/Thongnhat). Plan DW_SFC có cả Kênh (8 kênh = 445,043) + Chuỗi. → Plan-vs-Actual theo Kênh KHÔNG làm được (actual N/A); theo Chuỗi combo đầy đủ (cả 2 bucket "ngoài chuỗi" ~76% — loại khỏi viz).
+- ⚠️ `(KGR) DTF_CALC_SFC Thực tế`: May 2026 PARTIAL (chỉ ~1/3 sản lượng so golden); Mar/Apr complete; cần REFRESH trước plan-vs-actual. Cột: qty=`Số lượng`(dương,SUM), `Tên ngành`, `Nhóm SP`, `PERIODNAME`.
+- ⚠️ Single combo overlay Plan+Actual **blend bất khả** (cross-dataset blend = cartesian fan-out, plan nổ theo bội) → pre-join bằng dataflow (recipe trên) HOẶC 2 viz riêng.
+- **DATA: SFC actual (MEMO#) KHÔNG có grain Kênh** ("Nhóm Kênh"/"Tên Kênh" NULL → 1 bucket). CÓ grain **Chuỗi** ("Tên Chuỗi": BIGC/DMX/MM/Caophong/FPT/VHC/Nguyenkim/Thongnhat). Plan DW_SFC có cả Kênh (8 kênh) + Chuỗi. → Plan-vs-Actual theo Kênh KHÔNG làm được (actual N/A); theo Chuỗi combo đầy đủ (2 bucket "ngoài chuỗi" chiếm phần lớn doanh thu — loại khỏi viz).
 - **Màu Kangaroo:** actual `#44BA46` (green bars) / plan `#636466` (gray line). Set workbook-wide qua viz Menu→Color→Manage Assignments (mỗi measure×dataset là entry riêng cùng tên → set HẾT).
 
 ---
 
 ## 15. GOTCHA KHÁC
-- 📌 **Posting period:** May 2026 = **42** (Mar=39, Apr=40); PERIODNAME↔POSTINGPERIOD 1:1.
+- 📌 **Posting period:** PERIODNAME ↔ POSTINGPERIOD 1:1 (mã kỳ = số tháng kế toán, tra LIVE cho kỳ đang xét — đừng nhớ mã cứng, kỳ đổi là lỗi thời).
 - **IDCLASS=Sum → join sai** → cột định danh dùng **Maximum**.
 - **Add Columns Tab-blur** + **thêm cột mới thay vì sửa cột cũ** khi flow đã lưu (§5.1).
 - **Formula:** đừng gõ `"COL"` literal (string) → autocomplete chọn token / XSA đầy đủ.
 - **Undo 1/call; over-undo rỗng canvas → reload** (§4.2).
 - **Save sau mỗi cụm; reload = discard unsaved.**
 - **Tên dataset/cột Save step đôi khi không persist** → kiểm sau Run.
-- **DB01 workbook (2026-06-09):** saved còn 10 canvas; Canvas 24 đúng (plan 445,043 / actual 713,262 / ~160%, gray plan line); Canvas 14 BROKEN (fan-out DS_v2 + Plan=MAX → 2.44M/40K/61%). SFC source rev mới = 342.8B.
+- **BẪY THIẾT KẾ canvas SFC (bài học, KHÔNG snapshot số):** combo SFC plan-vs-actual DÙNG dataset pre-join single-period (KGR_DS_SFC_vs_MEMO_v2) + plan=SUM(cột tuần); nếu lấy từ DS_v2 multi-period + Plan=MAX thì **fan-out** (actual nổ theo bội, plan hụt, achievement sai) — đối chiếu 2 canvas mâu thuẫn thì canvas fan-out là canvas SAI. Verify số LIVE theo §14, đừng tin số canvas cũ.
 - **NSAW/OAC API token** hết hạn ~19 ngày: OAC → Profile → Access Tokens → Refresh → Download → ghi đè `tokens.json`.
 
 ---
@@ -443,7 +443,7 @@ OUTPUT: KGR_DS_SFC_vs_MEMO_v2
 5. (Tuỳ) **Add Columns**: Name + Expression + **Apply TỪNG cột** (chưa Apply mà chuyển = mất); coalesce `IFNULL`.
 6. **Save Dataset**: tên (blur để commit) + Treat As/Default Aggregation + Save to Dataset Storage.
 7. **Save** flow → **Run** (Home→Actions→Run nếu editor hang).
-8. **VERIFY số** qua executePreview hoặc mở dataset — so golden (plan 445,043 / actual 713,262). Đừng tin toast một mình.
+8. **VERIFY số** qua executePreview hoặc mở dataset — so golden theo CÔNG THỨC §14 trên kỳ đang xét (plan = SUM(SL W1..W5) by Ngành; actual = −SUM(QUANTITY)); LẤY LIVE, đừng chép số kỳ cũ. Đừng tin toast một mình.
 
 ---
 

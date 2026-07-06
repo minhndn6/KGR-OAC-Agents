@@ -462,6 +462,12 @@ def cmd_doctor():
     except Exception as e:
         fr = {"status": "UNKNOWN", "error": str(e), "max_extracted_live": None}
     rep["freshness"] = fr
+    # R-H1: coverage data-context (trần-autonomy) — THÔNG TIN, KHÔNG lật STATUS.
+    try:
+        import coverage_report as COV
+        rep["coverage"] = COV.coverage_summary()
+    except Exception as e:
+        rep["coverage"] = {"status": "UNKNOWN", "error": str(e)}
     # THÔNG TIN/cảnh báo: KHÔNG tự lật STATUS trừ khi .mcp.json PARSE LỖI (drift cấu hình thật).
     mcp_ok = not (mc.get("parse_errors") or [])
     # INV-6 fail-ồn: catalog STALE (>14 ngày) góp phần ATTENTION. WARN/OK/UNKNOWN không lật STATUS.
