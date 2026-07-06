@@ -209,6 +209,63 @@ def a10_verdict_tests():
             appender = getattr(v, nm); break
     chk(appender is not None, "verdict.py có hàm append verdict-record (blackboard/fallback dict)")
 
+    # GHI THẬT vào blackboard: bug path 3×-dirname làm import blackboard=None -> written=False
+    # LUÔN. hasattr không bắt được; phải tạo blackboard thật + append + đọc lại qa_verdicts.
+    if appender is not None:
+        _bb = None
+        if hasattr(v, "_import_blackboard"):
+            try:
+                _bb = v._import_blackboard()
+            except Exception as e:
+                chk(False, f"_import_blackboard raise {e!r}")
+        chk(_bb is not None,
+            "verdict.py import được blackboard.py thật (path OAC-Orchestrator/scripts đúng)")
+        if _bb is not None:
+            builder = getattr(v, "build_record", None)
+            rec = None
+            if builder is not None:
+                rec = builder([{"name": "g1", "result": "PASS", "evidence": "live=golden"}],
+                              deep_link="https://oac/…/wb")
+            else:
+                rec = {
+                    "verdict": "PASS",
+                    "checks": [{"name": "g1", "result": "PASS", "evidence": "live=golden"}],
+                    "blocking": [],
+                    "deep_link": "https://oac/…/wb",
+                    "verifier_run_ts": "2026-07-06T10:00:00",
+                }
+            # blackboard.new() in id ra stdout + return None; tạo instance thật qua _write.
+            bid = None
+            if hasattr(_bb, "_write") and hasattr(_bb, "_load_tpl"):
+                import uuid as _uuid
+                try:
+                    obj = _bb._load_tpl()
+                except Exception:
+                    obj = {}
+                obj["request"] = "s4 round-trip"; obj["status"] = "active"
+                bid = "bb_test_s4_" + _uuid.uuid4().hex[:12]
+                _bb._write(bid, obj)
+            chk(bid is not None, "tạo được blackboard thật để test append")
+            if bid is not None:
+                res = appender(bid, rec)
+                chk(isinstance(res, dict) and res.get("written") is True,
+                    "append_verdict GHI THẬT vào blackboard (written=True, KHÔNG phải False)")
+                try:
+                    got = _bb._read(bid)
+                    lst = got.get("qa_verdicts", [])
+                    chk(len(lst) >= 1 and lst[-1].get("verdict") == rec["verdict"],
+                        "đọc lại blackboard: qa_verdicts có record vừa ghi")
+                except Exception as e:
+                    chk(False, f"đọc lại blackboard raise {e!r}")
+                # dọn file test (không để rác trong state dir)
+                try:
+                    _p = _bb._path(bid)
+                    for _f in (_p, _p + ".bak", _p + ".tmp"):
+                        if os.path.exists(_f):
+                            os.remove(_f)
+                except Exception:
+                    pass
+
 
 # ─────────────────────────── A11 · artifact-gate ───────────────────────────
 def a11_gate_tests():

@@ -132,9 +132,10 @@ def build_record(checks, deep_link, blocking=None, verifier_run_ts=None):
 
 def _import_blackboard():
     """Thử import blackboard.py của OAC-Orchestrator. Trả module hoặc None."""
-    # skill/oac-tester/scripts/verdict.py -> OAC-Orchestrator/scripts/blackboard.py
+    # OAC-Orchestrator/skill/oac-tester/scripts/verdict.py -> OAC-Orchestrator/scripts/blackboard.py
+    # 4× dirname: scripts -> oac-tester -> skill -> OAC-Orchestrator
     here = os.path.abspath(__file__)
-    orch = os.path.dirname(os.path.dirname(os.path.dirname(here)))  # OAC-Orchestrator/
+    orch = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(here))))  # OAC-Orchestrator/
     bb_dir = os.path.join(orch, "scripts")
     if bb_dir not in sys.path:
         sys.path.insert(0, bb_dir)
