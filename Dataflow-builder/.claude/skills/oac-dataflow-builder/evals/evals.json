@@ -5,8 +5,8 @@
       "id": 0,
       "eval_name": "sfc-plan-vs-actual-by-chain",
       "prompt": "Tôi cần 1 dataset trên OAC để vẽ chart so sánh kế hoạch SFC vs thực tế bán theo TỪNG CHUỖI (BIGC, DMX, Caophong...) cho tháng 5/2026. Mỗi dòng là 1 chuỗi, có cột số lượng kế hoạch và số lượng thực tế. Hãy phân tích và lập kế hoạch dataflow cho tôi duyệt. Lưu ý: môi trường hiện tại KHÔNG có browser — không thao tác OAC thật; phần trinh sát nguồn hãy ghi thành các check sẽ chạy, dùng knowledge có sẵn để điền thông tin nguồn/cột/số expected.",
-      "expected_output": "Bản plan đầy đủ theo template: nguồn DW_SFC (plan, cột Chuỗi + SL W1..W5) + MEMO# (actual, Tên Chuỗi + QUANTITY âm), filter single-period May 2026 TRƯỚC aggregate, full outer join theo tên chuỗi, cảnh báo bucket 'ngoài chuỗi' ~76%, verify plan có số golden 445,043/713,262, output _vN, có mục plan-reviewer",
-      "assertions": ["Plan source đúng: DW_SFC cho kế hoạch và (KGR) DTF_CALC_INVOICE_MEMO_# cho thực tế", "Plan qty tính bằng SUM các cột tuần SL W1..W5", "Filter single-period May 2026 trước aggregate/join", "Full outer join theo tên chuỗi", "Actual = -SUM(QUANTITY), không ABS", "Verify plan có 445,043 và 713,262", "Cảnh báo bucket 'ngoài chuỗi' ~76%", "Output _vN, ADD-only", "Dừng ở gate duyệt"],
+      "expected_output": "Bản plan đầy đủ theo template: nguồn DW_SFC (plan, cột Chuỗi + SL W1..W5) + MEMO# (actual, Tên Chuỗi + QUANTITY âm), filter single-period May 2026 TRƯỚC aggregate, full outer join theo tên chuỗi, cảnh báo bucket 'ngoài chuỗi' ~76%, verify plan khớp golden LẤY LIVE get_sfc_report(period=<kỳ>), output _vN, có mục plan-reviewer",
+      "assertions": ["Plan source đúng: DW_SFC cho kế hoạch và (KGR) DTF_CALC_INVOICE_MEMO_# cho thực tế", "Plan qty tính bằng SUM các cột tuần SL W1..W5", "Filter single-period May 2026 trước aggregate/join", "Full outer join theo tên chuỗi", "Actual = -SUM(QUANTITY), không ABS", "Verify plan khớp golden get_sfc_report(period=<kỳ>) — LẤY LIVE", "Cảnh báo bucket 'ngoài chuỗi' ~76%", "Output _vN, ADD-only", "Dừng ở gate duyệt"],
       "files": []
     },
     {
@@ -20,9 +20,9 @@
     {
       "id": 2,
       "eval_name": "diagnose-fanout-broken-dataset",
-      "prompt": "Dataset KGR_DS_SFC_vs_Actual_v2 đang cho số sai trên Canvas 14: actual lên tới 2.44M (đúng phải ~713K) còn plan chỉ 40K (đúng phải ~445K). Hãy chẩn đoán nguyên nhân và lập kế hoạch dataflow thay thế cho tôi duyệt. Lưu ý: môi trường hiện tại KHÔNG có browser — không thao tác OAC thật; chẩn đoán dựa trên knowledge có sẵn, phần check thực tế ghi thành danh sách sẽ chạy.",
-      "expected_output": "Chẩn đoán đúng root-cause từ knowledge: fan-out đa kỳ (multi-period 41-61 + inner join, ~4.17x) + plan dùng MAX sai; plan thay thế theo recipe v2 đã verify: single-period filter trước, SUM(SL W1..W5) cho plan, -SUM(QUANTITY) cho actual, full outer join, KHÔNG đụng dataset cũ (ADD-only _vN), verify 445,043/713,262",
-      "assertions": ["Chẩn đoán actual 2.44M = fan-out đa kỳ + inner join", "Chẩn đoán plan 40K = MAX thay vì SUM", "Plan thay thế theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer", "ADD-only, tên mới _vN", "Verify 445,043 / 713,262", "Có danh sách checks thực tế", "Dừng ở gate duyệt"],
+      "prompt": "Dataset KGR_DS_SFC_vs_Actual_v2 đang cho số sai trên Canvas 14: actual bị thổi lên bậc cao (đúng phải = golden actual) còn plan ra thấp bất thường (đúng phải = golden plan) — LẤY LIVE get_sfc_report(period=<kỳ>). Hãy chẩn đoán nguyên nhân và lập kế hoạch dataflow thay thế cho tôi duyệt. Lưu ý: môi trường hiện tại KHÔNG có browser — không thao tác OAC thật; chẩn đoán dựa trên knowledge có sẵn, phần check thực tế ghi thành danh sách sẽ chạy.",
+      "expected_output": "Chẩn đoán đúng root-cause từ knowledge: fan-out đa kỳ (kỳ 41→61 + inner join, ~4.17x) + plan dùng MAX sai; plan thay thế theo recipe v2 đã verify: single-period filter trước, SUM(SL W1..W5) cho plan, -SUM(QUANTITY) cho actual, full outer join, KHÔNG đụng dataset cũ (ADD-only _vN), verify khớp golden LẤY LIVE get_sfc_report(period=<kỳ>)",
+      "assertions": ["Chẩn đoán actual bị fan-out bậc cao = đa kỳ + inner join", "Chẩn đoán plan 40K = MAX thay vì SUM", "Plan thay thế theo recipe v2: single-period, SUM(SL W1..W5), -SUM(QUANTITY), full outer", "ADD-only, tên mới _vN", "Verify khớp golden get_sfc_report(period=<kỳ>) — LẤY LIVE", "Có danh sách checks thực tế", "Dừng ở gate duyệt"],
       "files": []
     }
   ]

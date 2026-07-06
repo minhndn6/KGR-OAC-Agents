@@ -28,10 +28,13 @@ SCANNED = [
     WS / "Dashboard-builder" / "OAC_DASHBOARD_MASTERY.md",
     WS / "Dataflow-builder" / "OAC_DATAFLOW_MASTERY.md",
     WS / "OAC-Knowledge" / "business_glossary.yaml",
-    WS / "Dashboard-builder" / ".claude" / "skills" / "oac-dashboard-builder" / "evals" / "evals.json",
-    WS / "Dashboard-builder" / ".claude" / "skills" / "oac-dashboard-designer" / "evals" / "evals.json",
-    WS / "Dashboard-builder" / ".claude" / "skills" / "oac-dashboard-builder" / "references" / "plan-template.md",
 ]
+# AUTO-DISCOVER file skill builder (evals / plan-template / subagents) dưới CẢ 2 builder —
+# glob để KHÔNG sót file mới (vd oac-dataflow-builder trước đây bị bỏ quên). (Hội đồng R1 #3.)
+for _builder in ("Dashboard-builder", "Dataflow-builder"):
+    _sk = WS / _builder / ".claude" / "skills"
+    for _pat in ("*/evals/evals.json", "*/references/plan-template.md", "*/references/subagents.md"):
+        SCANNED += sorted(_sk.glob(_pat))
 
 # ── nhãn "đã hợp lệ hoá" 1 dòng → allowlist theo DÒNG ─────────────────────────
 # Dòng có 1 trong các marker này = số đã được gắn-nhãn-kỳ / thay công thức / lấy-live → BỎ QUA.

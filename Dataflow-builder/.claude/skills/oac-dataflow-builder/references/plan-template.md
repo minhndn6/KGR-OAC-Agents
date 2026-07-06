@@ -32,8 +32,8 @@ Trình bày GỌN — user cần duyệt được trong 2 phút đọc. Chi ti�
 ## Verify plan (Phase 5 sẽ kiểm thế nào)
 | Số cần khớp | Giá trị expected | Nguồn đối chiếu |
 |---|---|---|
-| Tổng SL_Ke_Hoach | 445,043 | golden / NSAW get_sfc_report p42 |
-| Tổng SL_Thuc_Te | 713,262 | executePreview MEMO# raw |
+| Tổng SL_Ke_Hoach | <LẤY LIVE get_sfc_report(period=<kỳ>)> | golden NSAW get_sfc_report |
+| Tổng SL_Thuc_Te | <LẤY LIVE executePreview MEMO# kỳ hiện tại> | executePreview MEMO# raw |
 + Sanity: không fan-out (rows trước/sau join), không null join key, dấu số đúng.
 
 ## Rủi ro & phòng ngừa
