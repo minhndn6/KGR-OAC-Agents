@@ -4,9 +4,15 @@
 > OAC-Orchestrator, Dashboard-builder, Dataflow-builder). Cơ chế chi tiết: `OAC-Knowledge/kb_lifecycle/`.
 > Kiểm tra nhanh sức khỏe: `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor`.
 
-## 0. Định tuyến (main = orchestrator) — [MỀM]
-- Yêu cầu GHI (dựng/sửa dataflow/workbook) → main **KHÔNG tự thực thi**; PHẢI gọi skill con (`oac-dashboard-builder`/`oac-dashboard-designer`, `oac-dataflow-builder`) hoặc orchestrator. Main chỉ điều phối + gate.
-- (Đây là chỉ-thị mềm; cơ chế ép cứng qua artifact-gate ở sprint sau.)
+## 0. Định tuyến & write-authority (main = orchestrator, KHÔNG tự ghi OAC) — [ĐANG SIẾT THÀNH CƠ-CHẾ]
+- **Yêu cầu GHI OAC (dựng/sửa dataflow/workbook)** → main **KHÔNG tự thực thi bằng browser/REST**; PHẢI giao `oac-dashboard-builder`/`oac-dashboard-designer`/`oac-dataflow-builder` (hoặc orchestrator). Main chỉ **điều-phối + gate + tổng-kết**.
+- **Ngữ nghĩa CỨNG (khử nhập-nhằng — sau sự cố 2026-07-07 main tự lái browser sửa production):**
+  - Owner nói **"tự làm 100%" / "cứ làm đi"** trên việc GHI = **"điều-phối / giao builder tới 100%"** — TUYỆT ĐỐI KHÔNG = "main tự lái browser ghi production".
+  - Owner **cấp token/csrf = DUYỆT bước GHI**, KHÔNG = cho phép main tự-đóng-vai-builder. Token phải đi vào **builder**, không cư-trú/không dùng ở main.
+  - Lệnh mơ hồ ("cứ làm đi") trên việc GHI → **PHẢI reflect-back 1 câu** ("tôi sẽ giao builder X chạy…") TRƯỚC khi hành động.
+- **Luật fallback khi đường-giao bị chặn** (vd token-gate chặn): thứ tự ĐÚNG = (a) sửa cách giao → (b) leo-thang hỏi owner → (c) **DỪNG báo cáo**. **CẤM self-execute** cái ý-định vừa bị chặn (đây chính là ngòi nổ sự cố 07-07).
+- **Read vs Execute — lằn ranh CỨNG:** main được ĐỌC (oac-native read, snapshot/screenshot). Ngay khi cần **thao-tác-đổi-trạng-thái** (click editor, POST save, Run dataflow, fill form OAC) = **ĐÃ sang việc GHI → DỪNG, giao builder**. Không "đọc-dần trượt thành sửa".
+- (Cơ chế ép cứng đang triển khai: capability-removal ở `.claude/settings.json` [gỡ browser-write khỏi main] + builder out-of-process + artifact-gate. Chi tiết + root-cause: `_kgr-state/work/_review/INCIDENT_REPORT_2026-07-07.md`. Nhãn [MỀM] cũ đã gỡ.)
 
 ## 1. KHÔNG ghi rác vào cây project — MỌI scratch/state ra NGOÀI (hygiene — INV-4)
 > Vì sao: file tạm nằm trong cây → agent (Read/Glob/Explore) crawl vào đọc → **đốt token**. Nên scratch/state
