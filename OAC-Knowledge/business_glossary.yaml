@@ -96,8 +96,10 @@ core_metrics:
     confidence: cao
   aop_plan:
     aliases: ["AOP","kế hoạch","AOP_Amount","Per DS (AOP)"]
-    definition: "Kế hoạch năm (Annual Operating Plan). LOAI_BAO_CAO=1 → doanh số kế hoạch; =2 → % theo chỉ tiêu. Nguồn AOP_LINE_CF/AOP_HEADER."
+    definition: "Kế hoạch năm (Annual Operating Plan). LOAI_BAO_CAO=1 → doanh số kế hoạch (grain Sub×Ngành, bảng _SF); =2 → % chỉ tiêu + amount cấp Kênh-Chuỗi (bảng _CF). Nguồn AOP_LINE_CF/AOP_HEADER."
     authoritative_source: "(KGR) AOP Dataset → DTF_GRAIN_ACTUAL_AOP / TD_Metrics; AOP LINE CF (daily)"
+    additivity: "amount (Doanh số/LN/CKKM/Chỉ tiêu) additive CHỈ within-scenario (đã cố định 1 LOAI_BAO_CAO); Per DS (AOP) = NON-ADDITIVE (CẤM SUM). Chi tiết → aop_model."
+    grain_rule: "KHÔNG phải dim/lookup — là mixed-grain plan-fact: lọc LOAI_BAO_CAO về 1-giá-trị TRƯỚC khi SUM/join; so plan↔actual dùng DTF_GRAIN_ACTUAL_AOP; SUM(lát) ≠ Tập đoàn (đặc tính). Xem aop_model.builder_rule."
     confidence: cao
   sfc_forecast:
     aliases: ["SFC","ước tính","SL_Ke_Hoach vs SL_Thuc_Te"]
@@ -132,3 +134,40 @@ not_yet_built_in_oac:
   - "Giá vốn THỰC TẾ (GTTT) — OAC chỉ có ước tính 3-tier; actual cost chưa dựng dataset."
   - "Chi phí vận hành THỰC TẾ (a6-a18) — hiện ước tính theo AOP, chưa nối chi phí thực từ GL/JOURNAL ở mức P&L."
   - "VAT tách riêng a1 vs a2 — hiện a1 suy từ a2 ± thuế, chưa có nguồn VAT line độc lập đầy đủ."
+
+# ── Cấu trúc SÂU của AOP (mô hình kế hoạch "lai") — verify live describe_data 2026-07-06 + hội đồng 3 vai
+#    (Data-Architect/CTO/Head-of-Finance). Báo cáo đầy đủ: _kgr-state/work/_review/AOP_ANALYSIS_2026-07-06.md ──
+aop_model:
+  pattern: "Multi-Scenario / Mixed-Grain Plan (Budget) Fact — scenario+level là chiều phân biệt (Kimball)."
+  aliases_pattern: ["Two-Basis / Dual-Grain AOP","Scenario-dimension pattern","measure-multiplexing (cột đổi nghĩa tiền↔%)","non-additive allocation-driver (Per DS)"]
+  ban_chat: >-
+    1 bảng gánh 3 thứ khác bản chất: (a) nhiều GRAIN (Tập đoàn/Ngành/Kênh/Chuỗi) chồng trong 1 bảng;
+    (b) cùng cột ĐỔI NGHĨA theo loại (amount khi =1, % khi =2); (c) trộn AMOUNT additive lẫn RATE non-additive.
+    Phân biệt bằng CUSTBODY_SCV_AOP_LOAI_BAO_CAO (header) — scenario/level selector, KHÔNG phải filter thường.
+  loai_bao_cao:
+    "1_SF": "Doanh số kế hoạch phẳng. Grain = PERIOD × SUBSIDIARY × CLASS(Ngành). Bảng DW_NS_X_AOP_LINE_SF."
+    "2_CF": "% chỉ tiêu + amount cấp Kênh-Chuỗi. Grain = PERIOD × CSEG_SCV_SC(Kênh) × CSEG_SCV_CHAIN(Chuỗi). Bảng DW_NS_X_AOP_LINE_CF."
+  additivity:
+    additive_within_scenario:
+      cols: ["CUSTCOL_SCV_AOP_DOANH_SO (Doanh số)","CUSTCOL_SCV_AOP_LN_GIAO","CUSTCOL_SCV_AOP_LOI_NHUAN","CUSTCOL_SCV_AOP_CKKM","CUSTCOL_SCV_AOP_CP_CKKM","CUSTCOL_SCV_CHI_TIEU_AOP","NETAMOUNT (LINE_SF)"]
+      agg: "SUM — CHỈ đúng sau khi cố định 1 LOAI_BAO_CAO; KHÔNG cộng chéo loại, KHÔNG cộng SF+CF."
+    non_additive_rate:
+      cols: ["CUSTCOL_SCV_AOP_PER_DS (Per DS = %/doanh số)","mọi AOP_PER_A* (a6/a7/a8/a15/a16/a17...)","Pct_AOP"]
+      agg: "NONE — CẤM SUM. Tổng hợp = weighted-avg theo Doanh số HOẶC áp per-row (chi phí = DT-dòng × %) rồi mới SUM cột kết quả."
+  reconciliation: >-
+    SUM(Ngành) ≠ SUM(Kênh/Chuỗi) ≠ Tập đoàn là ĐẶC TÍNH, không phải lỗi: SF làm tròn cấp ngành; CF chỉ gán
+    một phần doanh thu cho kênh/chuỗi (phần chưa-gán = residual). Cần số Tập đoàn → lấy TRỰC TIẾP dòng tổng cấp
+    cao nhất, KHÔNG cộng chi tiết lên. Best-practice: hiển thị dòng "Chưa gán / Plug".
+  builder_rule:
+    - "R1 (GATE CỨNG): lọc LOAI_BAO_CAO về ĐÚNG 1 giá trị TRƯỚC mọi join/agg — không lọc = double-count 2 cơ sở."
+    - "R2: KHÔNG UNION/cộng SF(=1) + CF(=2) — khác grain, khác nghĩa."
+    - "R3/R4: chỉ SUM cột additive_within_scenario; CẤM SUM non_additive_rate."
+    - "R5: chống double-count total+detail — chọn 1 mức grain rồi tự roll-up, KHÔNG cộng dòng-tổng với dòng-chi-tiết."
+    - "R6: so plan↔actual → dùng output DTF_GRAIN_ACTUAL_AOP (đã conform grain), KHÔNG join AOP-line thô vào invoice-line (fan-out)."
+    - "R7: verify count-floor — COUNT-distinct khóa grain TRƯỚC/SAU join AOP; nở dòng = fan-out = DỪNG."
+  known_debt:
+    - "Số cứng nhúng dataflow: AOP_AMT_A10/A12/A18 + thuế 0.21 (xem pnl_waterfall_codes) — kỳ-cũ đông cứng, sang kỳ mới sai không báo (INV-6). Nên kéo từ nguồn AOP động."
+    - "Nhãn grain field_dictionary 2 dataset đã sửa 'dim/lookup' → mixed-grain rule (2026-07-06)."
+  disclosure: "Chi phí a6↓ suy từ Per DS/AOP_PER = ƯỚC TÍNH, không phải chi phí thực — kèm MANDATORY_DISCLOSURE."
+  best_practice_ref: "_kgr-state/work/_review/AOP_ANALYSIS_2026-07-06.md (tái cơ cấu: scenario/level dimension, tách rate khỏi amount, plug bucket, AOP_VERSION, kéo số cứng về nguồn động)."
+  confidence: "cao (live describe_data 2026-07-06 + hội đồng 3 vai)"

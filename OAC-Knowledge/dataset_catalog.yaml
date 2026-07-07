@@ -57,6 +57,8 @@ datasets:
       - Nhóm kênh
       DW_NS_X_CAM_CUSTOMRECORD_CSEG_SCV_CHAIN:
       - Chuỗi
+    grain: mixed-grain PLAN fact (KHÔNG phải dim/lookup) — lọc LOAI_BAO_CAO về 1-giá-trị TRƯỚC khi SUM/join; amount additive-within-scenario,
+      Per DS non-additive. Xem business_glossary.aop_model (builder_rule R1-R7).
   (KGR) BTUT:
     name: (KGR) BTUT
     display_name: (KGR) BTUT
@@ -1989,6 +1991,8 @@ datasets:
       - CUSTCOL_SCV_AOP_LN_GIAO
       - CUSTCOL_SCV_AOP_CKKM
       - CUSTCOL_SCV_AOP_LOI_NHUAN
+    grain: mixed-grain PLAN fact (KHÔNG phải dim/lookup) — lọc LOAI_BAO_CAO về 1-giá-trị TRƯỚC khi SUM/join; amount additive-within-scenario,
+      Per DS non-additive. Xem business_glossary.aop_model (builder_rule R1-R7).
   CreditMemo_Line+Pro:
     name: CreditMemo_Line+Pro
     display_name: CreditMemo_Line+Pro

@@ -18410,7 +18410,8 @@ datasets:
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
       việc) nằm ở DATAFLOW tiêu thụ — xem field_dictionary cột tương ứng. confidence: join=medium.'
-    grain: dim/lookup
+    grain: mixed-grain PLAN fact (KHÔNG phải dim/lookup) — lọc LOAI_BAO_CAO về 1-giá-trị TRƯỚC khi SUM/join; amount additive-within-scenario,
+      Per DS non-additive. Xem business_glossary.aop_model (builder_rule R1-R7).
     live_query_recipe: executePreview đọc '(KGR) AOP Dataset'
   (KGR) CKKM TT:
     type: db_dataset
@@ -18773,7 +18774,8 @@ datasets:
       XSA; endpoint dataset/datasets/metadata trả 500). Cột giữ qualifier bảng vật lý nên biết ĐỦ bảng+cột nguồn; quan hệ
       join theo chuẩn NetSuite (line→ACCOUNT/ITEM/PERIOD; extension→ID; segment→CSEG_*). Filter NGHIỆP VỤ quan trọng (posting/acct/subsidiary/vụ
       việc) nằm ở DATAFLOW tiêu thụ — xem field_dictionary cột tương ứng. confidence: join=medium.'
-    grain: dim/lookup
+    grain: mixed-grain PLAN fact (KHÔNG phải dim/lookup) — lọc LOAI_BAO_CAO về 1-giá-trị TRƯỚC khi SUM/join; amount additive-within-scenario,
+      Per DS non-additive. Xem business_glossary.aop_model (builder_rule R1-R7).
     live_query_recipe: executePreview đọc 'AOP LINE CF'
     columns_used_by_workbooks:
     - CUSTCOL_SCV_AOP_CKKM

@@ -199,6 +199,7 @@ async () => { for(let i=0;i<10;i++){ if([...document.querySelectorAll('g.joint-c
 - Bảng Aggregate mỗi dòng: `[cột nguồn]  [Function ▾]  [New column name]`. **Function = Sum · Average · Minimum · Maximum · Count · Count Distinct** (KHÔNG có "Group By"!). Nút **"Add Aggregate"** thêm measure.
 - Panel **"Group by"**: nút **"Add Group"** → ⚠️ tạo **row trống phantom** → click ô trống → popup cây cột chọn dim. Nhiều lần Add Group = nhiều row trống (hover→Remove). Quy trình đúng: remove dim khỏi bảng Aggregate (hover→trash) → set Function measure → Add Group từng dim.
 - 📌 **Cột định danh (ID) phải đặt Maximum, KHÔNG Sum** — Sum làm sai join/dedup (ERROR_LOG #7).
+- ⚠️⚠️ **BẪY MIXED-GRAIN khi Aggregate nguồn AOP** (`(KGR) AOP Dataset` / `AOP LINE CF` — là **mixed-grain plan-fact**, KHÔNG phải dim/lookup). TRƯỚC khi SUM: **(1) Filter `CUSTBODY_SCV_AOP_LOAI_BAO_CAO` về ĐÚNG 1 giá trị** (=1 doanh số cấp Ngành/SF; =2 %+amount cấp Kênh-Chuỗi/CF) — quên = double-count 2 cơ sở. **(2) KHÔNG SUM cột `Per DS (AOP)`/`AOP_PER_*`/`Pct_AOP`** (rate — áp per-row rồi mới SUM kết quả, hoặc weighted-avg theo doanh số). **(3) KHÔNG cộng dòng-tổng với dòng-chi-tiết** (chọn 1 mức grain rồi tự roll-up). **(4)** so plan↔actual → dùng output `DTF_GRAIN_ACTUAL_AOP` (đã conform grain), đừng join AOP-line thô vào invoice-line (fan-out). **SUM(Ngành)≠SUM(Kênh)≠Tập đoàn là ĐẶC TÍNH** (làm tròn + phần chưa gán). Chi tiết: `business_glossary.aop_model` (builder_rule R1-R7).
 - ✅ Auto-apply live (không Apply).
 
 ### 7.6 Save Dataset (OutputDataset) — node OUTPUT
