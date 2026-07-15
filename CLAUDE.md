@@ -4,15 +4,21 @@
 > OAC-Orchestrator, Dashboard-builder, Dataflow-builder). Cơ chế chi tiết: `OAC-Knowledge/kb_lifecycle/`.
 > Kiểm tra nhanh sức khỏe: `python OAC-Knowledge/kb_lifecycle/tools/kgr.py doctor`.
 
-## 0. Định tuyến & write-authority (main = orchestrator, KHÔNG tự ghi OAC) — [ĐANG SIẾT THÀNH CƠ-CHẾ]
+## 0. Định tuyến & write-authority (main = orchestrator) — [MẶC-ĐỊNH-ĐÓNG + CỬA-OVERRIDE của owner]
 - **Yêu cầu GHI OAC (dựng/sửa dataflow/workbook)** → main **KHÔNG tự thực thi bằng browser/REST**; PHẢI giao `oac-dashboard-builder`/`oac-dashboard-designer`/`oac-dataflow-builder` (hoặc orchestrator). Main chỉ **điều-phối + gate + tổng-kết**.
 - **Ngữ nghĩa CỨNG (khử nhập-nhằng — sau sự cố 2026-07-07 main tự lái browser sửa production):**
   - Owner nói **"tự làm 100%" / "cứ làm đi"** trên việc GHI = **"điều-phối / giao builder tới 100%"** — TUYỆT ĐỐI KHÔNG = "main tự lái browser ghi production".
   - Owner **cấp token/csrf = DUYỆT bước GHI**, KHÔNG = cho phép main tự-đóng-vai-builder. Token phải đi vào **builder**, không cư-trú/không dùng ở main.
   - Lệnh mơ hồ ("cứ làm đi") trên việc GHI → **PHẢI reflect-back 1 câu** ("tôi sẽ giao builder X chạy…") TRƯỚC khi hành động.
 - **Luật fallback khi đường-giao bị chặn** (vd token-gate chặn): thứ tự ĐÚNG = (a) sửa cách giao → (b) leo-thang hỏi owner → (c) **DỪNG báo cáo**. **CẤM self-execute** cái ý-định vừa bị chặn (đây chính là ngòi nổ sự cố 07-07).
-- **Read vs Execute — lằn ranh CỨNG:** main được ĐỌC (oac-native read, snapshot/screenshot). Ngay khi cần **thao-tác-đổi-trạng-thái** (click editor, POST save, Run dataflow, fill form OAC) = **ĐÃ sang việc GHI → DỪNG, giao builder**. Không "đọc-dần trượt thành sửa".
-- (Cơ chế ép cứng đang triển khai: capability-removal ở `.claude/settings.json` [gỡ browser-write khỏi main] + builder out-of-process + artifact-gate. Chi tiết + root-cause: `_kgr-state/work/_review/INCIDENT_REPORT_2026-07-07.md`. Nhãn [MỀM] cũ đã gỡ.)
+- **Read vs Execute — lằn ranh CỨNG:** main được ĐỌC (oac-native read, snapshot/screenshot). Ngay khi cần **thao-tác-đổi-trạng-thái** (click editor, POST save, Run dataflow, fill form OAC) = **ĐÃ sang việc GHI → DỪNG, giao builder** — TRỪ KHI có override hợp lệ (dưới).
+- **🔓 CỬA OVERRIDE (mặc-định-ĐÓNG; owner chủ động mở) — các luật trên là MẶC ĐỊNH an-toàn, KHÔNG phải cấm-tuyệt-đối.** Owner CÓ THỂ cho session tự thực thi thẳng (kể cả prod) khi ra lệnh **RÕ RÀNG + KHÔNG nhập-nhằng**. Tín hiệu override HỢP LỆ = **1 trong các cái CỤ THỂ** này (KHÔNG suy từ lời mơ hồ):
+  - (a) owner gõ cụm-khóa **`#GHI-THẲNG`** (owner đổi tên tùy ý) trong lệnh của việc GHI đó; HOẶC
+  - (b) owner **duyệt permission-prompt** của tool write khi nó bật lên (khi để `ask`-mode); HOẶC
+  - (c) owner **tự cấp token/csrf + nói rõ "session này tự ghi thẳng"** (chỉ đưa token KHÔNG đủ).
+  - Lệnh MƠ HỒ ("cứ làm đi", "tự làm 100%", "làm ngay") **KHÔNG** phải override → vẫn reflect-back / giao builder.
+  - Khi override HỢP LỆ: session ĐƯỢC tự thực thi ĐÚNG việc đó, NHƯNG BẮT BUỘC **backup trước → verify sau → báo cáo**; scope đúng việc owner nêu (không blanket sang việc khác / lần sau).
+- (Cơ chế ép cứng tùy-chọn: đặt tool OAC-write ở `ask`-mode trong `.claude/settings.json` [prompt hỏi mỗi lần thay vì cấm] + builder out-of-process + artifact-gate. Chi tiết + root-cause: `_kgr-state/work/_review/INCIDENT_REPORT_2026-07-07.md`. Nhãn [MỀM] cũ đã gỡ.)
 
 ## 1. KHÔNG ghi rác vào cây project — MỌI scratch/state ra NGOÀI (hygiene — INV-4)
 > Vì sao: file tạm nằm trong cây → agent (Read/Glob/Explore) crawl vào đọc → **đốt token**. Nên scratch/state
