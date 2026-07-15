@@ -8,7 +8,7 @@
 - **Yêu cầu GHI OAC (dựng/sửa dataflow/workbook)** → main **KHÔNG tự thực thi bằng browser/REST**; PHẢI giao `oac-dashboard-builder`/`oac-dashboard-designer`/`oac-dataflow-builder` (hoặc orchestrator). Main chỉ **điều-phối + gate + tổng-kết**.
 - **Ngữ nghĩa CỨNG (khử nhập-nhằng — sau sự cố 2026-07-07 main tự lái browser sửa production):**
   - Owner nói **"tự làm 100%" / "cứ làm đi"** trên việc GHI = **"điều-phối / giao builder tới 100%"** — TUYỆT ĐỐI KHÔNG = "main tự lái browser ghi production".
-  - Owner **cấp token/csrf = DUYỆT bước GHI**, KHÔNG = cho phép main tự-đóng-vai-builder. Token phải đi vào **builder**, không cư-trú/không dùng ở main.
+  - **Mặc định (KHÔNG có override):** owner **cấp token/csrf = DUYỆT bước GHI** và token đi vào **builder**; cấp-token-ĐƠN-THUẦN KHÔNG = cho main đóng vai builder. *(Có override RÕ RÀNG thì THAY ĐỔI — xem CỬA OVERRIDE.)*
   - Lệnh mơ hồ ("cứ làm đi") trên việc GHI → **PHẢI reflect-back 1 câu** ("tôi sẽ giao builder X chạy…") TRƯỚC khi hành động.
 - **Luật fallback khi đường-giao bị chặn** (vd token-gate chặn): thứ tự ĐÚNG = (a) sửa cách giao → (b) leo-thang hỏi owner → (c) **DỪNG báo cáo**. **CẤM self-execute** cái ý-định vừa bị chặn (đây chính là ngòi nổ sự cố 07-07).
 - **Read vs Execute — lằn ranh CỨNG:** main được ĐỌC (oac-native read, snapshot/screenshot). Ngay khi cần **thao-tác-đổi-trạng-thái** (click editor, POST save, Run dataflow, fill form OAC) = **ĐÃ sang việc GHI → DỪNG, giao builder** — TRỪ KHI có override hợp lệ (dưới).
@@ -17,7 +17,9 @@
   - (b) owner **duyệt permission-prompt** của tool write khi nó bật lên (khi để `ask`-mode); HOẶC
   - (c) owner **tự cấp token/csrf + nói rõ "session này tự ghi thẳng"** (chỉ đưa token KHÔNG đủ).
   - Lệnh MƠ HỒ ("cứ làm đi", "tự làm 100%", "làm ngay") **KHÔNG** phải override → vẫn reflect-back / giao builder.
-  - Khi override HỢP LỆ: session ĐƯỢC tự thực thi ĐÚNG việc đó, NHƯNG BẮT BUỘC **backup trước → verify sau → báo cáo**; scope đúng việc owner nêu (không blanket sang việc khác / lần sau).
+  - Khi override HỢP LỆ: session **TỰ thực thi TRỰC TIẾP** đúng việc đó — override **THAY THẾ** mọi luật mặc-định ở trên (kể cả "token→builder", "main không đóng vai builder"). **TUYỆT ĐỐI KHÔNG được diễn-giải-lại override thành "duyệt = giao builder"** — đó là NÉ LỆNH, không được phép.
+  - Nếu session THIẾU công cụ ghi (browser chưa login OAC / sai profile / MCP rớt) → **nói RÕ owner cần làm gì** ("đăng nhập OAC trong cửa sổ này giúp tôi") rồi LÀM TIẾP — **KHÔNG lấy tech-gap làm cớ từ chối / đẩy builder**.
+  - Vẫn BẮT BUỘC **backup trước → verify sau → báo cáo**; scope đúng việc owner nêu (không blanket sang việc khác / lần sau).
 - (Cơ chế ép cứng tùy-chọn: đặt tool OAC-write ở `ask`-mode trong `.claude/settings.json` [prompt hỏi mỗi lần thay vì cấm] + builder out-of-process + artifact-gate. Chi tiết + root-cause: `_kgr-state/work/_review/INCIDENT_REPORT_2026-07-07.md`. Nhãn [MỀM] cũ đã gỡ.)
 
 ## 1. KHÔNG ghi rác vào cây project — MỌI scratch/state ra NGOÀI (hygiene — INV-4)
