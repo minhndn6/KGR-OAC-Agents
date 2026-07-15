@@ -1,5 +1,5 @@
 {
-  "$comment": "SHARED workspace settings (committed) — hygiene enforcement (INV-4). Lần đầu cần /trust. permissions.local (allowlist Bash) nằm ở settings.local.json. deny-Read chặn agent crawl vào thư mục rác/state (đốt token). hooks (guard_write/gate_clean) được thêm sau khi script tồn tại.",
+  "$comment": "SHARED workspace settings (committed) — hygiene enforcement (INV-4). Lần đầu cần /trust. permissions.local (allowlist Bash) nằm ở settings.local.json. deny-Read chặn agent crawl vào thư mục rác/state (đốt token). hooks (guard_write/gate_clean) được thêm sau khi script tồn tại. permissions.ask = OAC-write của main (chrome-lineage click/fill/type/evaluate...) HỎI DUYỆT mỗi lần (break-glass: owner bấm Approve = mở; vắng mặt/autonomous = tự chặn an toàn). Read/nav/snapshot vẫn tự do.",
   "permissions": {
     "deny": [
       "mcp__nsaw-oac-poc__*",
@@ -14,6 +14,17 @@
       "Read(C:/Project/_kgr-state/orchestration/tmp/**)",
       "Read(**/Login Data)",
       "Read(**/Login Data/**)"
+    ],
+    "ask": [
+      "mcp__chrome-lineage__click",
+      "mcp__chrome-lineage__fill",
+      "mcp__chrome-lineage__fill_form",
+      "mcp__chrome-lineage__type_text",
+      "mcp__chrome-lineage__press_key",
+      "mcp__chrome-lineage__drag",
+      "mcp__chrome-lineage__upload_file",
+      "mcp__chrome-lineage__handle_dialog",
+      "mcp__chrome-lineage__evaluate_script"
     ]
   },
   "hooks": {
