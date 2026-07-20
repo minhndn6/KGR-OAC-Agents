@@ -57,6 +57,7 @@
 - OAC/NSAW: **CHỈ ĐỌC** (không sửa/xóa). Một tài khoản OAC dùng chung → KHÔNG tự re-login loạn (rủi ro khóa ORA-28000).
 - ⛔ **CẤM dùng MCP `nsaw-oac-poc`** (mọi `mcp__nsaw-oac-poc__*`) — deprecated, owner cấm. Đọc OAC live → dùng **`oac-native`** (`oracle_analytics-execute_logical_sql` / `-discover_data` / `-describe_data`).
 - Browser: mỗi actor một profile riêng; KHÔNG kill Chrome toàn cục.
+- **Đa-phiên (mỗi vai có 5 slot):** 1 profile chỉ 1 chủ — phiên vào sau bị khoá. Mỗi vai giờ có **5 server/profile**: `chrome-lineage[2-5]` (root) · `chrome-dashboard[2-5]` · `chrome-dataflow[2-5]`. **Luật: thử slot 1; báo "browser already running"/profile bị giữ → CHUYỂN NGAY sang slot 2, rồi 3/4/5** — KHÔNG kill Chrome, KHÔNG dừng báo owner. Profile mới cần đăng nhập OAC 1 lần (cookie sau đó bền).
 - Số liệu: KHÔNG lưu số tuyệt đối vào KB (lấy live khi cần). Trên workbook production: ADD-only.
 
 ## 5. Bất biến (INV) & quy trình

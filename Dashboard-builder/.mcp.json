@@ -9,6 +9,22 @@
         "--screenshotFormat=webp",
         "--screenshotMaxWidth=1400"
       ]
+    },
+    "chrome-dashboard2": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard2", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dashboard3": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard3", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dashboard4": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard4", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dashboard5": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dashboard5", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
     }
   }
 }

@@ -9,6 +9,22 @@
         "--screenshotFormat=webp",
         "--screenshotMaxWidth=1400"
       ]
+    },
+    "chrome-dataflow2": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow2", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dataflow3": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow3", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dataflow4": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow4", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
+    },
+    "chrome-dataflow5": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.5.0", "--user-data-dir=C:\\Users\\ADMIN\\.cache\\chrome-devtools-mcp\\profile-dataflow5", "--screenshotFormat=webp", "--screenshotMaxWidth=1400"]
     }
   }
 }
