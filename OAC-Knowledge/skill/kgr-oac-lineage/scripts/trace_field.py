@@ -23,6 +23,11 @@ except ImportError:
     print("ERROR: pyyaml not installed. Run: pip install pyyaml")
     sys.exit(1)
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------

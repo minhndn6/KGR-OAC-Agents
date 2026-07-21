@@ -126,6 +126,10 @@ def check_used_fields(used, field_dict, dataset_catalog):
 
 
 if __name__ == "__main__":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     # demo nhanh (stdin JSON: {used, field_dict, dataset_catalog})
     try:
         payload = json.load(sys.stdin)

@@ -5,6 +5,10 @@ Usage: python find_source.py "<metric keyword>" ["<dimension keyword>"]
 Đọc capability_map.yaml + dataset_catalog.yaml. KHÔNG trả số (data live)."""
 import os, sys
 from pathlib import Path
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 try: import yaml
 except ImportError: print("cần pyyaml"); sys.exit(1)
 

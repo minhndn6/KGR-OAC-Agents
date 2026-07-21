@@ -9,6 +9,11 @@ KHÔNG gọi OAC ở đây — chỉ xử lý observation đã có (live-probe l
 import sys, json, re, hashlib
 from pathlib import Path
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 HERE = Path(__file__).resolve()
 sys.path.insert(0, str(HERE.parent))
 import kgr_runtime  # noqa: E402

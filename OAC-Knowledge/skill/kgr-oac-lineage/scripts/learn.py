@@ -17,6 +17,11 @@ KHÔNG lưu số tuyệt đối (data live). Ghi CÁCH/quan hệ/bài học."""
 import os, sys
 from pathlib import Path
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 _BANNER = "[DEPRECATED] learn.py → learn2 (governance)"
 
 def _load_learn2():

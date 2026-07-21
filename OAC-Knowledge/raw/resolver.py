@@ -5,7 +5,13 @@ output column to a derivation tree bottoming out at physical DW columns,
 collecting filters/joins on the path. Resolves across dataflows.
 """
 import json, re, os
+import sys
 from collections import defaultdict
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 
 _KB = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # raw -> OAC-Knowledge
 _WS = os.path.dirname(_KB)

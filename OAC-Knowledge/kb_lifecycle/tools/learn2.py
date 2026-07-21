@@ -14,6 +14,11 @@ Usage:
 import os, sys, json, time, re, hashlib, shutil
 from pathlib import Path
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 HERE = Path(__file__).resolve()
 sys.path.insert(0, str(HERE.parent))
 import kb_paths      # noqa: E402

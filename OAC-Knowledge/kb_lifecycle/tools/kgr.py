@@ -146,7 +146,7 @@ def _read_chrome_processes():
     for cmd in (["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
                 ["wmic", "process", "where", "name='chrome.exe'", "get", "CommandLine"]):
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=25)
+            r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=25)
             if r.returncode == 0 and r.stdout:
                 lines = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
                 lines = [ln for ln in lines if ln.lower() != "commandline"]
@@ -348,7 +348,7 @@ def _discover_live_datasets():
         try:
             if cand.is_file():
                 r = subprocess.run([sys.executable, str(cand), "--datasets"],
-                                   capture_output=True, text=True, timeout=120)
+                                   capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
                 if r.returncode == 0 and r.stdout.strip():
                     try:
                         data = json.loads(r.stdout)
